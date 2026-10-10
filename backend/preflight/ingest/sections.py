@@ -58,7 +58,8 @@ def _continuation(head: Line, prev: Line, ln: Line) -> bool:
             and not prev.text.rstrip().endswith((".", ":")))
 
 
-def find_sections(doc: PdfDoc) -> list[Section]:
+def split_sections(doc: PdfDoc) -> list[tuple[Section, list[Line]]]:
+    """Sections with the body lines that belong to each one (TOC pages excluded)."""
     skip = _toc_pages(doc.lines)
     heads: list[tuple[int, int, str | None, str, int]] = []
     last_number = None
@@ -95,8 +96,8 @@ def find_sections(doc: PdfDoc) -> list[Section]:
     sections = []
     for k, (i, j, number, title, level) in enumerate(heads):
         end = heads[k + 1][0] if k + 1 < len(heads) else len(doc.lines)
-        body = doc.lines[j:end]
-        sections.append(Section(
+        body = [ln for ln in doc.lines[j:end] if ln.page not in skip]
+        sections.append((Section(
             id=f"sec_{k + 1}",
             m11_id=None,
             title=f"{number} {title}" if number else title,
@@ -104,5 +105,9 @@ def find_sections(doc: PdfDoc) -> list[Section]:
             page_start=doc.lines[i].page,
             page_end=body[-1].page if body else doc.lines[i].page,
             text="\n".join(ln.text for ln in body),
-        ))
+        ), body))
     return sections
+
+
+def find_sections(doc: PdfDoc) -> list[Section]:
+    return [s for s, _ in split_sections(doc)]

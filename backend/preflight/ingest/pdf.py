@@ -23,8 +23,29 @@ class PdfDoc:
     page_size: tuple[float, float]
 
 
+# Symbol-font glyphs that PyMuPDF returns as private-use code points (U+F000 + Symbol code).
+SYMBOLS = str.maketrans({
+    "": "+", "": "-", "": "<", "": "=", "": ">", "": "β", "": "α",
+    "": "µ", "": "≤", "": "≥", "": "±", "": "×", "": "•", "": "·",
+    "": "-", "": "→",
+})
+
+
+def clean_text(text: str) -> str:
+    return re.sub(r"\s+", " ", text.translate(SYMBOLS)).strip()
+
+
 def _is_bold(span: dict) -> bool:
     return bool(span["flags"] & 16) or "bold" in span["font"].lower()
+
+
+def _join_spans(spans: list[dict]) -> str:
+    """Join spans of one line; add a space only where there is a visible horizontal gap."""
+    out = ""
+    for prev, span in zip([None, *spans], spans, strict=False):
+        gap = prev is not None and span["bbox"][0] - prev["bbox"][2] > span["size"] * 0.15
+        out += (" " if gap else "") + span["text"]
+    return out
 
 
 def _page_rows(page: pymupdf.Page, page_no: int) -> list[Line]:
@@ -49,7 +70,7 @@ def _page_rows(page: pymupdf.Page, page_no: int) -> list[Line]:
     for _, parts in rows:
         parts.sort(key=lambda p: p[0][0])
         spans = [s for _, ss in parts for s in ss]
-        text = re.sub(r"\s+", " ", " ".join(s["text"] for s in spans)).strip()
+        text = clean_text(" ".join(_join_spans(ss) for _, ss in parts))
         main = max(spans, key=lambda s: len(s["text"].strip()))
         bbox = [min(p[0][0] for p in parts), min(p[0][1] for p in parts),
                 max(p[0][2] for p in parts), max(p[0][3] for p in parts)]
