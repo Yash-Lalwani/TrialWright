@@ -152,22 +152,30 @@ async def download_protocol(nct_id: str, dest_dir: str | None = None) -> str | N
     return None
 
 
-async def get_versions(nct_id: str) -> list[dict]:
-    """Registry version history (used by N7 case studies).
+class VersionsUnavailable(RuntimeError):
+    """The registry's record history cannot be fetched by a script (see get_versions)."""
 
-    Uses the history endpoint behind clinicaltrials.gov's record-history page.
-    Returns [] if unavailable; shape of each item is the raw `changes` entry.
+
+async def get_versions(nct_id: str) -> list[dict]:
+    """Registry version history (N7 case studies).
+
+    VERIFIED 2026-10-10: clinicaltrials.gov/api/int/ (the endpoint behind the 'Record History' tab) answers HTTP 403 to
+    every non-browser client (any user agent, headers or cookies), the public v2 API has no history route, and the
+    Wayback Machine has no snapshots. So this reads a pre-saved file, data/peers/versions/{nct}.json, and raises
+    VersionsUnavailable if there is none, instead of returning [] (which would look like 'no changes').
+    See data/peers/versions/HOWTO.txt for saving histories from a real browser session.
     """
-    url = f"https://clinicaltrials.gov/api/int/studies/{nct_id}"
     cp = CACHE_DIR / "versions" / f"{nct_id}.json"
     if cp.exists():
         return json.loads(cp.read_text())
     async with httpx.AsyncClient(timeout=60, follow_redirects=True) as c:
         await _throttle()
-        r = await c.get(url, params={"history": "true"})
-        if r.status_code != 200:
-            return []
-        data = r.json().get("history", {}).get("changes", [])
+        r = await c.get(f"https://clinicaltrials.gov/api/int/studies/{nct_id}", params={"history": "true"},
+                        headers={"Accept": "application/json"})
+    if r.status_code != 200:
+        raise VersionsUnavailable(
+            f"{nct_id}: record history returned HTTP {r.status_code}; save it from a browser into {cp}")
+    data = r.json().get("history", {}).get("changes", [])
     cp.parent.mkdir(parents=True, exist_ok=True)
     cp.write_text(json.dumps(data))
     return data

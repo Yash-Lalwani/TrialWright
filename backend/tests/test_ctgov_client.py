@@ -58,3 +58,20 @@ def test_download_rejects_non_pdf(tmp_path, monkeypatch):
     with pytest.raises(ValueError):
         asyncio.run(c.download_protocol("NCT03430063", str(tmp_path / "out")))
     assert not list((tmp_path / "out").glob("*"))
+
+
+def test_get_versions_fails_loudly_when_blocked_and_reads_a_saved_file(tmp_path, monkeypatch):
+    monkeypatch.setattr(c, "CACHE_DIR", tmp_path)
+    monkeypatch.setattr(c, "_MIN_INTERVAL", 0)
+    RealClient = httpx.AsyncClient
+
+    class Blocked(RealClient):
+        def __init__(self, *a, **k):
+            super().__init__(transport=httpx.MockTransport(lambda r: httpx.Response(403, text="403 Forbidden")))
+
+    monkeypatch.setattr(c.httpx, "AsyncClient", Blocked)
+    with pytest.raises(c.VersionsUnavailable, match="HTTP 403"):
+        asyncio.run(c.get_versions("NCT00000001"))
+    (tmp_path / "versions").mkdir()
+    (tmp_path / "versions" / "NCT00000001.json").write_text('[{"version": 1}]')
+    assert asyncio.run(c.get_versions("NCT00000001")) == [{"version": 1}]
