@@ -1,7 +1,7 @@
 # ruff: noqa: E501
 """Burden, peers, hotspots, precedent (D1 to D3, E6). Interface per CONTRACTS.md 3.4.
 
-compute_burden and burden_score are REAL (D1). find_peers, hotspots, precedent are still STUBS. By default the stubs are INERT so real runs never show invented findings:
+compute_burden and burden_score (D1) and find_peers (D2) are REAL. hotspots and precedent are still STUBS. By default the stubs are INERT so real runs never show invented findings:
 find_peers -> None (so the pipeline skips hotspots), burden_score -> 50 (A's neutral value).
 Set PREFLIGHT_BURDEN_STUBS=1 to get the CONTRACTS.md example data (for frontend demos and contract tests).
 Real implementations land H7 to H15 (compute_burden H7-11; peers, hotspots, precedent H11-15).
@@ -12,7 +12,8 @@ import os
 
 from ._graph_compat import Issue, ProtocolGraph
 from .models import BurdenReport, PeerSet, PrecedentTable
-from . import _examples, burden as _burden
+from . import _examples, peers as _peers
+from . import burden as _burden
 
 STUB = True
 NEUTRAL_BURDEN = 50.0
@@ -23,7 +24,8 @@ def _examples_on() -> bool:
 
 
 def find_peers(graph: ProtocolGraph) -> PeerSet | None:
-    return PeerSet.model_validate(_examples.PEERS) if _examples_on() else None
+    """REAL (D2): similar ClinicalTrials.gov trials with percentiles, or None when none can be found."""
+    return PeerSet.model_validate(_examples.PEERS) if _examples_on() else _peers.find(graph)
 
 
 def compute_burden(graph: ProtocolGraph, peers: PeerSet | None) -> BurdenReport:

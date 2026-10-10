@@ -88,14 +88,20 @@ async def search_studies(params: dict, limit: int = 200) -> list[dict]:
     return out[:limit]
 
 
+PEER_FIELDS = ("NCTId,BriefTitle,LeadSponsorName,Phase,EnrollmentCount,StartDate,PrimaryCompletionDate,CompletionDate,"
+               "EligibilityCriteria,MinimumAge,MaximumAge,PrimaryOutcomeMeasure,SecondaryOutcomeMeasure,ArmGroupLabel,Condition")
+
+
 async def search_peers(condition: str, phase: str | None, start_year_min: int = 2015,
-                       limit: int = 200) -> list[dict]:
+                       limit: int = 200, fields: str | None = None) -> list[dict]:
     """Peer trials: same condition/phase, DRUG or BIOLOGICAL, started >= start_year_min."""
     adv = [f"AREA[StartDate]RANGE[{start_year_min}-01-01,MAX]",
            "(AREA[InterventionType]DRUG OR AREA[InterventionType]BIOLOGICAL)"]
     if phase:
         adv.append(f"AREA[Phase]{phase}")
     params = {"query.cond": condition, "filter.advanced": " AND ".join(adv)}
+    if fields:
+        params["fields"] = fields
     return await search_studies(params, limit)
 
 
