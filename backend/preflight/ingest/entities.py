@@ -350,9 +350,16 @@ async def extract_llm(parts: list[tuple[Section, list[Line]]]) -> dict:
     catalog = "\n".join(f"ep_{i}: {e.measure} ({e.text[:100]})" for i, e in enumerate(ep_list, 1))
     stats_out = await ask(
         "extract_stats",
-        "Extract the sample size inputs (alpha as a decimal, power as a decimal, sided 1 or 2, effect size, "
-        "control rate, dropout) and every analysis method. For each analysis list the ids of the endpoints it "
-        "covers, chosen from the endpoint list. Use null when not stated.",
+        "Extract the sample size inputs and every analysis method. sample_size: the total planned number of "
+        "participants. alpha and power as decimals (2.5% -> 0.025), sided 1 or 2, dropout as a decimal. "
+        "effect_type and effect_size follow these rules: 'proportions' -> effect_size is the TREATMENT-arm "
+        "proportion and control_rate the CONTROL-arm proportion (placebo 10%, drug 34% -> control_rate 0.10, "
+        "effect_size 0.34; never the difference); 'mean_diff_sd' -> effect_size is the standardised difference "
+        "(mean difference / SD); 'hazard_ratio' -> effect_size is the HR and control_rate is the required number "
+        "of events divided by the total sample size (230 events, 330 participants -> 0.697). If the calculation is "
+        "for a single-arm trial against a fixed or historical rate, set effect_type and effect_size to null. "
+        "For each analysis list the ids of the endpoints it covers, chosen from the endpoint list. Use null when "
+        "a value is not stated.",
         stats_lines, _StatsOut, extra=f"Endpoints:\n{catalog or 'none'}\n\nStatistics text:\n")
     return _assemble(objectives_out, criteria_out, stats_out, arms_out, obj_lines, crit_lines, stats_lines)
 
