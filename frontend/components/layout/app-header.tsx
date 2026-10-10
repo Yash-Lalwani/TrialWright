@@ -3,6 +3,7 @@
 import { Database, FileCheck2, PlugZap, Unplug } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Suspense } from "react";
 
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { API_URL, USE_MOCKS } from "@/lib/api";
@@ -16,41 +17,53 @@ const NAV = [
 ];
 
 export function AppHeader() {
-  const pathname = usePathname();
   return (
-    <header className="flex h-12 shrink-0 items-center gap-6 border-b bg-card px-4">
-      <Link href="/" className="flex items-center gap-2 rounded-sm font-semibold tracking-tight text-foreground">
+    <header className="flex h-12 shrink-0 items-center gap-3 border-b bg-card px-3 sm:gap-6 sm:px-4">
+      <Link href="/" className="flex shrink-0 items-center gap-2 rounded-sm font-semibold tracking-tight whitespace-nowrap text-foreground">
         <span className="flex size-7 items-center justify-center rounded-md bg-primary text-primary-foreground">
           <FileCheck2 className="size-4" aria-hidden />
         </span>
-        <span>Pre-Flight</span>
+        <span className="hidden min-[400px]:inline">Pre-Flight</span>
         <span className="hidden text-[13px] font-normal text-muted-foreground md:inline">Protocol review</span>
       </Link>
 
-      <nav aria-label="Main" className="flex h-full items-stretch gap-1">
-        {NAV.map((item) => {
-          const active = item.match(pathname);
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              aria-current={active ? "page" : undefined}
-              className={cn(
-                "relative flex items-center px-3 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground",
-                "after:absolute after:inset-x-2 after:bottom-0 after:h-0.5 after:rounded-full",
-                active && "text-foreground after:bg-primary",
-              )}
-            >
-              {item.label}
-            </Link>
-          );
-        })}
-      </nav>
+      {/* usePathname is runtime data; Suspense keeps the header in the static shell (cacheComponents). */}
+      <Suspense fallback={<NavLinks pathname={null} />}>
+        <ActiveNavLinks />
+      </Suspense>
 
       <div className="ml-auto">
         <DataSourceIndicator />
       </div>
     </header>
+  );
+}
+
+function ActiveNavLinks() {
+  return <NavLinks pathname={usePathname()} />;
+}
+
+function NavLinks({ pathname }: { pathname: string | null }) {
+  return (
+    <nav aria-label="Main" className="flex h-full items-stretch gap-0.5 sm:gap-1">
+      {NAV.map((item) => {
+        const active = pathname !== null && item.match(pathname);
+        return (
+          <Link
+            key={item.href}
+            href={item.href}
+            aria-current={active ? "page" : undefined}
+            className={cn(
+              "relative flex items-center px-2 text-sm font-medium sm:px-3 text-muted-foreground transition-colors hover:text-foreground",
+              "after:absolute after:inset-x-2 after:bottom-0 after:h-0.5 after:rounded-full",
+              active && "text-foreground after:bg-primary",
+            )}
+          >
+            {item.label}
+          </Link>
+        );
+      })}
+    </nav>
   );
 }
 
@@ -66,7 +79,7 @@ function DataSourceIndicator() {
             className="inline-flex items-center gap-1.5 rounded-md border border-sev-minor-border bg-sev-minor-bg px-2 py-1 text-xs font-medium text-sev-minor"
           >
             <Database className="size-3.5" aria-hidden />
-            Mock data
+            <span className="sr-only sm:not-sr-only">Mock data</span>
           </span>
         </TooltipTrigger>
         <TooltipContent side="bottom" className="max-w-64">
