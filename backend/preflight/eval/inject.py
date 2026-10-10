@@ -49,11 +49,13 @@ class Ctx:
     rng: random.Random
     registry: dict | None = None
     sections: list | None = None
+    graph: object = None  # LLM-extracted ProtocolGraph of the CLEAN pdf, for injectors driven by extracted evidence spans
     used: dict[int, list[Rect]] = field(default_factory=dict)
     subs: dict[tuple[int, int], list[tuple[int, int, str]]] = field(default_factory=dict)  # (page, line idx) -> subs
     whites: dict[int, list[Rect]] = field(default_factory=dict)
     _lines: dict[int, list[dict]] = field(default_factory=dict)
     _ttf: object = None
+    touched: list = field(default_factory=list)  # [page, original line text] for every line an injection changed
 
     def lines(self, pno: int) -> list[dict]:
         """Text lines of a page (1-indexed) with spans, in reading order."""
@@ -103,6 +105,22 @@ class Ctx:
             text = text[:a] + new + text[b:]
         return text
 
+    def _band(self, ln: dict) -> Rect:
+        """A thin band through the middle of the text height. Redaction removes every glyph whose box touches the
+        rectangle, and in tightly spaced text a full-height rectangle also deletes the lines above and below."""
+        r, sp = ln["rect"], ln["spans"][0]
+        base, size = sp["origin"][1], sp["size"]
+        return Rect(r.x0 - 0.3, base - 0.45 * size, r.x1 + 0.3, base - 0.08 * size)
+
+    def _lines_under(self, pno: int, rect: Rect) -> list[dict]:
+        """Text lines of a page that mostly lie inside a rectangle."""
+        out = []
+        for ln in self.lines(pno):
+            inter = ln["rect"] & rect
+            if not inter.is_empty and inter.height >= 0.5 * ln["rect"].height:
+                out.append(ln)
+        return out
+
     def apply(self) -> None:
         """Rewrite each edited line as ONE piece of text so it extracts as a normal sentence (a redaction
         annotation's replacement text would extract as a separate block)."""
@@ -112,10 +130,15 @@ class Ctx:
             lines = self.lines(pno)
             todo = [(lines[i], self._span_texts(lines[i], subs)) for (p, i), subs in self.subs.items() if p == pno]
             for ln, _ in todo:
-                page.add_redact_annot(Rect(ln["rect"].x0 - 0.3, ln["rect"].y0 + 0.4, ln["rect"].x1 + 0.3, ln["rect"].y1 - 0.4),
-                                      fill=(1, 1, 1))
+                self.touched.append([pno, _norm_line(ln["text"])])
+                page.add_redact_annot(self._band(ln), fill=(1, 1, 1))
             for r in self.whites.get(pno, []):
-                page.add_redact_annot(Rect(r.x0 - 0.3, r.y0 + 0.4, r.x1 + 0.3, r.y1 - 0.4), fill=(1, 1, 1))
+                under = self._lines_under(pno, r)
+                for ln in under:
+                    self.touched.append([pno, _norm_line(ln["text"])])
+                    page.add_redact_annot(self._band(ln), fill=(1, 1, 1))
+                if not under:  # no text line found: fall back to the middle of the rectangle
+                    page.add_redact_annot(Rect(r.x0, r.y0 + 0.35 * r.height, r.x1, r.y0 + 0.65 * r.height), fill=(1, 1, 1))
             page.apply_redactions(images=pymupdf.PDF_REDACT_IMAGE_NONE)
             for ln, text in todo:
                 _draw_line(page, ln, text)
@@ -131,6 +154,10 @@ class Ctx:
             out.append(t)
             off += n
         return out
+
+
+def _norm_line(t: str) -> str:
+    return re.sub(r"\s+", " ", t).strip()
 
 
 FONT_CANDIDATES = {
@@ -517,12 +544,103 @@ def t15_section(ctx: Ctx):
     return Skip("T15", "no removable M11 section of at most 2 pages found")
 
 
+# --------------------------------------------------------------------------------- graph-driven types
+def _span_hit(page: int, bbox: list[float], text: str) -> Hit:
+    r = Rect(bbox)
+    return Hit(page, text, "", 0, r, 0, r)
+
+
+def _secondary_endpoint_ids(g) -> set[str]:
+    return {e for o in g.objectives if o.level == "secondary" for e in o.endpoint_ids}
+
+
+def t04_endpoint_deleted(ctx: Ctx):
+    g = ctx.graph
+    if g is None:
+        return Skip("T04", "needs the LLM-extracted objectives and endpoints (no LLM graph available)")
+    eps = {e.id: e for e in g.endpoints}
+    use = Counter(eid for o in g.objectives for eid in o.endpoint_ids)
+    for o in g.objectives:
+        if o.level != "secondary" or not o.endpoint_ids:
+            continue
+        chosen = [eps[e] for e in o.endpoint_ids if e in eps and use[e] == 1 and eps[e].span.bbox]
+        if len(chosen) != len(o.endpoint_ids) or not all(ctx.free(e.span.page, Rect(e.span.bbox)) for e in chosen):
+            continue
+        for e in chosen:
+            ctx.whiteout(e.span.page, Rect(e.span.bbox))
+        first = chosen[0]
+        h = _span_hit(first.span.page, first.span.bbox, first.span.quote)
+        err = error("T04", h, "(removed)", f"Removed the endpoint text of secondary objective '{o.text[:60]}'")
+        err["original"] = "; ".join(e.text[:60] for e in chosen)
+        err["match"] = {"pages": sorted({o.span.page, *(e.span.page for e in chosen)}), "texts": [], "titles": ["objective has no endpoint"]}
+        return err
+    return Skip("T04", "no secondary objective whose endpoints are used only by it and have a located line")
+
+
+def t05_analysis_deleted(ctx: Ctx):
+    g = ctx.graph
+    if g is None:
+        return Skip("T05", "needs the LLM-extracted endpoint analyses (no LLM graph available)")
+    sec = _secondary_endpoint_ids(g)
+    by_ep: dict[str, list[dict]] = {}
+    for a in g.stats.analyses:
+        if a.get("endpoint_id") in sec and (a.get("span") or {}).get("bbox"):
+            by_ep.setdefault(a["endpoint_id"], []).append(a)
+    for eid, items in by_ep.items():
+        rects = [(a["span"]["page"], Rect(a["span"]["bbox"])) for a in items]
+        if not all(ctx.free(p, r) for p, r in rects):
+            continue
+        for p, r in rects:
+            ctx.whiteout(p, r)
+        ep = next(e for e in g.endpoints if e.id == eid)
+        h = _span_hit(rects[0][0], list(rects[0][1]), items[0]["span"].get("quote", ""))
+        err = error("T05", h, "(removed)", f"Removed the analysis of secondary endpoint '{ep.measure}' ({len(rects)} line(s))")
+        err["original"] = "; ".join((a.get("method") or "")[:40] for a in items)
+        err["match"] = {"pages": sorted({p for p, _ in rects} | {ep.span.page}), "texts": [], "titles": ["no analysis method"]}
+        return err
+    return Skip("T05", "no secondary endpoint with a located analysis")
+
+
+def t12_contradiction(ctx: Ctx):
+    g = ctx.graph
+    if g is None:
+        return Skip("T12", "needs the LLM-extracted eligibility criteria (no LLM graph available)")
+    inc = [(c, t) for c in g.criteria if c.kind == "inclusion" for t in c.thresholds
+           if isinstance(t.get("value"), (int, float)) and t.get("test") and t.get("op") in (">=", ">", "\u2265")]
+    if not inc:
+        return Skip("T12", "no inclusion criterion with a lower-bound threshold")
+    excl = [c for c in g.criteria if c.kind == "exclusion" and c.span.bbox]
+    for c, t in inc:
+        v = float(t["value"]) * 0.8
+        v = round(v) if v >= 5 else round(v, 1)  # natural-looking value: 9 not 9.6, 1200 not 1199.9
+        new = f"{t['test'].capitalize()} at or above {v:g}{(' ' + t['unit']) if t.get('unit') else ''}."
+        for e in excl:
+            page, r = e.span.page, Rect(e.span.bbox)
+            # the exclusion line must be a single renderable text line at least as long as the new text (no overflow)
+            lines = [(i, ln) for i, ln in enumerate(ctx.lines(page)) if ln["rect"].intersects(r) and ctx.renderable(ln["text"])]
+            if len(lines) != 1 or len(lines[0][1]["text"].strip()) < len(new) * 0.8 or not ctx.free(page, lines[0][1]["rect"]):
+                continue
+            idx, ln = lines[0]
+            sp = max(ln["spans"], key=lambda x: len(x["text"]))
+            off = ln["text"].index(sp["text"])
+            h = Hit(page, ln["text"], sp["text"], off, Rect(sp["bbox"]), sp["size"], ln["rect"], idx)
+            ctx.replace(h, new + " " * max(0, len(sp["text"]) - len(new)))
+            err = error("T12", h, new, f"Exclusion criterion rewritten to contradict inclusion on {t['test']}")
+            err["match"]["pages"] = sorted({page, c.span.page})
+            return err
+    return Skip("T12", "no exclusion line that can be rewritten faithfully")
+
+
 INJECTORS = {
     "T02": t02_timepoint, "T06": t06_age, "T07": t07_dose, "T08": t08_sample_size, "T09": t09_power,
     "T10": t10_ratio, "T11": t11_blinding, "T13": t13_lab, "T14": t14_xref, "T15": t15_section,
     "T16": t16_windows, "T17": t17_duration, "T18": t18_registry,
+    "T04": t04_endpoint_deleted, "T05": t05_analysis_deleted, "T12": t12_contradiction,
 }
-NOT_YET = ["T01", "T03", "T04", "T05", "T12"]  # need SoA cell geometry or inserted text; added in a later step
+NOT_YET = {
+    "T01": "endpoint timepoints are not extracted (timepoints_weeks is empty on the dev protocols), so the endpoint visit is unknown",
+    "T03": "needs a synthesised SoA row with matching ruling lines; not implemented",
+}
 
 
 def _sections(pdf: str):
@@ -536,16 +654,16 @@ def _sections(pdf: str):
 
 
 def inject_file(pdf: str, out_dir: str, seed: int, n_target: tuple[int, int] = (8, 12), registry: dict | None = None,
-                types: list[str] | None = None, sections: list | None = None, max_per_type: int = 1) -> dict:
+                types: list[str] | None = None, sections: list | None = None, max_per_type: int = 1, graph=None) -> dict:
     """Plant errors; write {nct}_s{seed}.pdf and its answer key JSON. Returns the key."""
     nct = Path(pdf).name.split("_")[0]
     rng = random.Random(f"{nct}:{seed}")
     doc = pymupdf.open(pdf)
-    ctx = Ctx(doc, nct, rng, registry, sections if sections is not None else _sections(pdf))
+    ctx = Ctx(doc, nct, rng, registry, sections if sections is not None else _sections(pdf), graph=graph)
     order = [t for t in (types or INJECTORS) for _ in range(max_per_type)]  # a type may repeat at a different site
     rng.shuffle(order)
     target = rng.randint(*n_target)
-    errors, skipped = [], [{"type": t, "reason": "not implemented yet"} for t in NOT_YET if not types or t in types]
+    errors, skipped = [], [{"type": t, "reason": r} for t, r in NOT_YET.items() if not types or t in types]
     for t in order:
         if len(errors) >= target:
             skipped.append({"type": t, "reason": "not sampled (target count reached)"})
@@ -565,7 +683,7 @@ def inject_file(pdf: str, out_dir: str, seed: int, n_target: tuple[int, int] = (
     stem = f"{nct}_s{seed}"
     doc.save(out / f"{stem}.pdf", garbage=3, deflate=True, no_new_id=True)
     key = {"nct_id": nct, "seed": seed, "source_pdf": Path(pdf).name, "injected_pdf": f"{stem}.pdf",
-           "target_errors": target, "errors": errors, "skipped": skipped}
+           "target_errors": target, "errors": errors, "skipped": skipped, "touched": ctx.touched}
     (out / f"{stem}.json").write_text(json.dumps(key, indent=1, ensure_ascii=False))
     return key
 
@@ -585,8 +703,9 @@ def _finalize(ctx: Ctx, e: dict) -> None:
         e["match"]["texts"] = [re.sub(r"\s+", " ", final[max(0, s0 - pad): s0 + len(e["new"]) + pad]).strip()]
 
 
-def verify_key(pdf_path: str, key: dict) -> list[str]:
-    """Re-read the injected PDF and confirm each text change is really there. Returns problems (empty = ok)."""
+def verify_key(pdf_path: str, key: dict, original: str | None = None) -> list[str]:
+    """Re-read the injected PDF and confirm (1) each text change is really there and (2) with `original` given, that
+    no OTHER line was lost: injection must not delete neighbouring text."""
     doc = pymupdf.open(pdf_path)
     problems = []
     for e in key["errors"]:
@@ -596,4 +715,16 @@ def verify_key(pdf_path: str, key: dict) -> list[str]:
         page_text = re.sub(r"\s+", " ", doc[e["page"] - 1].get_text())
         if unicodedata.normalize("NFKC", want) not in unicodedata.normalize("NFKC", page_text):
             problems.append(f"{e['error_id']} {e['type']}: '{want}' not found on page {e['page']}")
+    if original and "touched" in key:
+        orig = pymupdf.open(original)
+        touched = {(p, t) for p, t in key["touched"]}
+        for pno in sorted({p for p, _ in touched}):
+            was = [_norm_line(t) for t in _page_line_texts(orig[pno - 1])]
+            now = " ".join(_norm_line(t) for t in _page_line_texts(doc[pno - 1]))
+            lost = [t for t in was if t and (pno, t) not in touched and t not in now]
+            problems += [f"collateral loss on page {pno}: {t[:70]!r}" for t in lost]
     return problems
+
+
+def _page_line_texts(page: pymupdf.Page) -> list[str]:
+    return ["".join(s["text"] for s in ln["spans"]) for b in page.get_text("dict")["blocks"] for ln in b.get("lines", [])]

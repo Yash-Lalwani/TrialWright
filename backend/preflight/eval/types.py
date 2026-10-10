@@ -30,7 +30,7 @@ TYPES: dict[str, ErrorType] = {t.id: t for t in [
     ErrorType("T12", "Exclusion criterion contradicts an inclusion criterion", ("C8",), "eligibility", True, r"inclusion and exclusion|conflict"),
     ErrorType("T13", "Lab threshold value conflicts between mentions", ("C8",), "eligibility", True, r"unit|threshold"),
     ErrorType("T14", "Cross-reference to a nonexistent section", ("C9",), "clerical", False),
-    ErrorType("T15", "Required M11 section removed", ("B1",), "completeness", False),
+    ErrorType("T15", "Required M11 section removed", ("B1", "B3"), "completeness", False),
     ErrorType("T16", "Visit windows made to overlap", ("C6",), "visit_schedule", False, r"window|overlap"),
     ErrorType("T17", "Treatment/follow-up duration no longer adds up", ("C6",), "design", False, r"duration|add up|total"),
     ErrorType("T18", "Enrollment differs from registry record", ("C10",), "registry", False),

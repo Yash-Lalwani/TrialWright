@@ -1,0 +1,25 @@
+Saving ClinicalTrials.gov record history (needed for the retrospective case studies, N7)
+=======================================================================================
+
+Why this is manual: the endpoint behind the "Record History" tab (clinicaltrials.gov/api/int/...) returns HTTP 403 to
+scripts. A real browser session is allowed.
+
+Steps (about 2 minutes):
+ 1. Open https://clinicaltrials.gov in Chrome (any page).
+ 2. Open DevTools (Cmd+Option+J on Mac) -> Console.
+ 3. Paste the snippet below, edit the NCT list, press Enter. It downloads one JSON file per trial.
+ 4. Put the downloaded files in this folder, named NCTxxxxxxxx.json (the code looks for exactly that name).
+
+    for (const nct of ["NCT03132636"]) {
+      const r = await fetch(`/api/int/studies/${nct}?history=true`, {headers: {Accept: "application/json"}});
+      const body = await r.text();
+      console.log(nct, r.status, body.slice(0, 300));
+      const a = Object.assign(document.createElement("a"), {
+        href: URL.createObjectURL(new Blob([body], {type: "application/json"})), download: `${nct}.json`});
+      a.click();
+    }
+
+ 5. The first time, tell Person B what the console printed for ONE trial (status and the first 300 characters). The
+    response shape has not been seen by a script yet, so the parser is written against the real shape afterwards.
+
+Nothing here is personal data. These are public registry records.

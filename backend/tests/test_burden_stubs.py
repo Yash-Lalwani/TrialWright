@@ -1,11 +1,8 @@
 from preflight import burden
-from preflight.burden._graph_compat import ProtocolGraph
 from preflight.burden.models import BurdenReport, PeerSet, PrecedentTable
+from tests.test_checks import graph
 
-try:
-    G = ProtocolGraph(protocol_id="prt_t", meta={"title": "t"})
-except Exception:  # A's real graph needs more fields; stubs ignore the graph anyway
-    G = None
+G = graph()
 
 
 def test_stubs_are_inert_by_default(monkeypatch):
