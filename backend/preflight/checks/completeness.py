@@ -12,7 +12,7 @@ from preflight.ingest.m11_map import load_toc
 SPIRIT_PATH = Path(__file__).resolve().parents[3] / "data" / "standards" / "spirit2025.yaml"
 WORD_FLOOR = 40
 # Used while the M11 YAML has no 'required' flags: the items every interventional protocol needs.
-STUB_REQUIRED = {"1", "1.1", "1.3", "2", "3", "4", "4.1", "5", "5.1", "5.2", "6", "7", "8", "9", "10", "10.1", "11"}
+STUB_REQUIRED = {"1", "1.1", "1.3", "2", "3", "4", "4.1", "5", "5.2", "5.3", "6", "7", "8", "9", "10", "10.11", "11"}
 
 
 class CompletenessItem(BaseModel):
@@ -68,6 +68,27 @@ def _status(text: str, item: dict) -> tuple[str, str | None]:
     return "present", None
 
 
+def _covered(graph: ProtocolGraph, item_id: str) -> list[Section]:
+    """Sections mapped to the item or to any item below it, with their child sections."""
+    hits = [i for i, s in enumerate(graph.sections)
+            if s.m11_id == item_id or (s.m11_id or "").startswith(item_id + ".")]
+    return [s for i in hits for s in _with_children(graph.sections, i)]
+
+
+def _found_in(sections: list[Section], item: dict, by_name_only: bool) -> Section | None:
+    """First section whose text names the item (title or synonym) or, inside its parent, has all its patterns."""
+    names = [item["title"], *(item.get("synonyms") or [])]
+    name_re = "|".join(re.escape(n.lower()) for n in names if len(n) > 4)
+    patterns = [pat for _, pat in _patterns(item)]
+    for s in sections:
+        low = f"{s.title}\n{s.text}".lower()
+        if name_re and re.search(name_re, low):
+            return s
+        if not by_name_only and patterns and all(re.search(p, low, re.I) for p in patterns):
+            return s
+    return None
+
+
 def _m11_items(graph: ProtocolGraph) -> list[CompletenessItem]:
     toc = load_toc()
     has_flags = any("required" in i for i in toc)
@@ -75,22 +96,31 @@ def _m11_items(graph: ProtocolGraph) -> list[CompletenessItem]:
     for item in toc:
         if not (item.get("required") if has_flags else item["id"] in STUB_REQUIRED):
             continue
-        hits = [i for i, s in enumerate(graph.sections)
-                if s.m11_id == item["id"] or (s.m11_id or "").startswith(item["id"] + ".")]
+
+        def add(status, pages=(), note=None, item=item):
+            items.append(CompletenessItem(framework="M11", item_id=item["id"], title=item["title"], status=status,
+                                          pages=sorted(set(pages))[:20], note=note))
+
         if item["id"] == "1.3" and graph.soa and graph.soa.span:
-            items.append(CompletenessItem(framework="M11", item_id="1.3", title=item["title"], status="present",
-                                          pages=[graph.soa.span.page], note=None))
+            add("present", [graph.soa.span.page])
             continue
-        if not hits:
-            items.append(CompletenessItem(framework="M11", item_id=item["id"], title=item["title"], status="missing",
-                                          pages=[], note=None))
+        covered = _covered(graph, item["id"])
+        if covered:
+            status, note = _status("\n".join(s.text for s in covered), item)
+            add(status, [p for s in covered for p in range(s.page_start, s.page_end + 1)], note)
             continue
-        covered = [s for i in hits for s in _with_children(graph.sections, i)]
-        text = "\n".join(s.text for s in covered)
-        status, note = _status(text, item)
-        pages = sorted({p for s in covered for p in range(s.page_start, s.page_end + 1)})
-        items.append(CompletenessItem(framework="M11", item_id=item["id"], title=item["title"], status=status,
-                                      pages=pages[:20], note=note))
+        # No heading for this item: look for its content inside the nearest present ancestor (pre-M11 protocols
+        # rarely have a heading per sub-item), or by name anywhere in the document.
+        parts = item["id"].split(".")
+        scope = next((c for k in range(len(parts) - 1, 0, -1) if (c := _covered(graph, ".".join(parts[:k])))), None)
+        hit = _found_in(scope, item, by_name_only=False) if scope else None
+        hit = hit or _found_in(graph.sections, item, by_name_only=True)
+        if hit is None:
+            add("missing")
+            continue
+        status, note = _status(hit.text, item)
+        where = f"No own section; covered in {hit.title}"
+        add(status, range(hit.page_start, hit.page_end + 1), f"{where}. {note}" if note else where)
     return items
 
 
