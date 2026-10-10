@@ -25,9 +25,9 @@ def _stub_body(run_id: str, format: str) -> bytes:
                  for i in example("issues")["items"]]
         return "\n".join(rows).encode()
     if format == "report_pdf":
-        import fitz
+        import pymupdf
 
-        doc = fitz.open()
+        doc = pymupdf.open()
         doc.new_page().insert_text((72, 72), f"Stub issue report for {run_id}")
         return doc.tobytes()
     import io

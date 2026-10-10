@@ -1,4 +1,4 @@
-import fitz
+import pymupdf
 from fastapi import APIRouter, File, Form, UploadFile
 from fastapi.responses import Response
 
@@ -19,7 +19,7 @@ def list_protocols():
 
 @router.get("/protocols/{protocol_id}/pdf")
 def protocol_pdf(protocol_id: str):
-    doc = fitz.open()
+    doc = pymupdf.open()
     page = doc.new_page()
     page.insert_text((72, 72), f"Stub PDF for {protocol_id}")
     return Response(doc.tobytes(), media_type="application/pdf")
