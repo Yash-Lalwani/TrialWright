@@ -1,0 +1,7 @@
+{
+ "step": "extract_design",
+ "model": "deepseek/deepseek-v4-flash-0731",
+ "content": "{\n  \"condition\": \"stage II to IV (M0) cutaneous squamous cell carcinoma (CSCC)\",\n  \"sponsor\": \"Regeneron Pharmaceuticals, Inc.\",\n  \"arms\": [\n    {\n      \"name\": \"Cemiplimab\",\n      \"type\": \"experimental\",\n      \"dose\": \"350 mg\",\n      \"route\": \"IV\",\n      \"frequency\": \"every 3 weeks (Q3W)\",\n      \"duration_weeks\": 12\n    }\n  ]\n}",
+ "tokens_in": 3663,
+ "tokens_out": 107
+}

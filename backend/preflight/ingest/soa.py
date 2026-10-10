@@ -65,10 +65,13 @@ def _day_from_name(name: str, cycle_len: int | None) -> float | None:
         n, d = int(m.group(1)), int(m.group(2))
         return float((n - 1) * cycle_len + d) if cycle_len else None
     if m := re.search(r"\bw(\d+)\s*d(\d+)\b", low):
-        return float((int(m.group(1)) - 1) * 7 + int(m.group(2)))
+        week, day = int(m.group(1)), int(m.group(2))
+        return float(day if day > 7 else (week - 1) * 7 + day)  # 'W2 D15' is study day 15; 'W2D1' is week 2 day 1
     if m := re.search(r"\bweek\s*(\d+)", low):
         return float(int(m.group(1)) * 7 + 1)
     if m := re.search(r"\bdays?\s*(-?\d+)", low):
+        return float(m.group(1))
+    if m := re.search(r"\bd\s*(-?\d+)\b", low):
         return float(m.group(1))
     if "baseline" in low:
         return 1.0
@@ -115,7 +118,7 @@ def _parse_table(rows: list[list[str]], cycle_len: int | None) -> dict | None:
         day_text = day_row[col] if day_row and day_row[col] else name
         day = None if re.search(r"\b(after|every|post)\b", day_text, re.I) else (
             _first_number(day_text) if day_row and day_row[col] else _day_from_name(name, cycle_len))
-        wm, wp = _window(win_row[col]) if win_row else _window(name, plus_minus_only=True)
+        wm, wp = _window(win_row[col]) if win_row and win_row[col] else _window(name, plus_minus_only=True)
         visits.append((col, name, day, wm, wp))
 
     procedures = []

@@ -87,7 +87,7 @@ async def _call(step: str, system: str, user: str, temperature: float,
             resp = await client.chat.completions.create(
                 model=model(),
                 temperature=temperature,
-                max_tokens=int(os.getenv("LLM_MAX_TOKENS", "4000")),
+                max_tokens=int(os.getenv("LLM_MAX_TOKENS", "8000")),
                 messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
                 extra_body={
                     "usage": {"include": True},
@@ -101,6 +101,8 @@ async def _call(step: str, system: str, user: str, temperature: float,
         raise LLMUnavailable(f"{step}: {e}") from e
     latency = time.monotonic() - start
     content = resp.choices[0].message.content or ""
+    if resp.choices[0].finish_reason == "length":
+        raise LLMUnavailable(f"{step}: response cut off at max_tokens")  # never cache a truncated answer
     usage = resp.usage
     tokens_in, tokens_out = (usage.prompt_tokens, usage.completion_tokens) if usage else (0, 0)
     cost = float(getattr(usage, "cost", 0) or 0)
@@ -135,7 +137,10 @@ async def complete_json(step: str, system: str, user: str,
         retry_user = (f"{user}\n\nYour previous answer was invalid:\n{content}\n\n"
                       f"Validation errors:\n{e}\n\nReturn corrected JSON only.")
         content = await _call(step, system, retry_user, temperature, schema)
-        return schema.model_validate_json(_strip_fences(content))
+        try:
+            return schema.model_validate_json(_strip_fences(content))
+        except ValidationError as e2:
+            raise LLMUnavailable(f"{step}: invalid JSON after retry") from e2
 
 
 async def complete_text(step: str, system: str, user: str, temperature: float = 0.2) -> str:

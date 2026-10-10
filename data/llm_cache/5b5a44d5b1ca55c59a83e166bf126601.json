@@ -1,0 +1,7 @@
+{
+ "step": "extract_design",
+ "model": "deepseek/deepseek-v4-flash-0731",
+ "content": "{\n  \"condition\": \"selected types of advanced or metastatic cancer with or without prior PD-1\u2013blocking antibody treatment\",\n  \"sponsor\": \"Regeneron\",\n  \"arms\": [\n    {\n      \"name\": \"Vidutolimod + Cemiplimab\",\n      \"type\": \"experimental\",\n      \"dose\": \"Vidutolimod 10 mg; Cemiplimab 350 mg IV Q3W\",\n      \"route\": \"Vidutolimod: SC or IT; Cemiplimab: IV\",\n      \"frequency\": \"Vidutolimod: weekly for 7 doses, then Q3W; Cemiplimab: Q3W\",\n      \"duration_weeks\": 104\n    }\n  ]\n}",
+ "tokens_in": 3835,
+ "tokens_out": 168
+}

@@ -1,0 +1,7 @@
+{
+ "step": "extract_design",
+ "model": "deepseek/deepseek-v4-flash-0731",
+ "content": "{\n  \"condition\": \"unresectable and/or metastatic solid tumors harboring HER2 activating mutations regardless of tumor histology\",\n  \"sponsor\": null,\n  \"arms\": [\n    {\n      \"name\": \"T-DXd\",\n      \"type\": \"experimental\",\n      \"dose\": \"5.4 mg/kg\",\n      \"route\": \"IV infusion\",\n      \"frequency\": \"Day 1 of each cycle, every 3 weeks (q3w)\",\n      \"duration_weeks\": null\n    }\n  ]\n}",
+ "tokens_in": 3604,
+ "tokens_out": 115
+}

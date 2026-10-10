@@ -1,0 +1,7 @@
+{
+ "step": "extract_design",
+ "model": "deepseek/deepseek-v4-flash-0731",
+ "content": "{\n  \"condition\": \"recurrent/metastatic HPV16 cervical cancer who have experienced disease progression after first line chemotherapy\",\n  \"sponsor\": \"Regeneron Pharmaceuticals, Inc.\",\n  \"arms\": [\n    {\n      \"name\": \"Cemiplimab + ISA101b\",\n      \"type\": \"experimental\",\n      \"dose\": \"Cemiplimab 350 mg; ISA101b 100 \u03bcg/peptide\",\n      \"route\": \"Cemiplimab: IV; ISA101b: SC\",\n      \"frequency\": \"Cemiplimab: Q3W; ISA101b: on days 1, 29, and 50\",\n      \"duration_weeks\": null\n    }\n  ]\n}",
+ "tokens_in": 3909,
+ "tokens_out": 155
+}
