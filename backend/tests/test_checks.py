@@ -119,7 +119,8 @@ def test_c9_broken_xref_and_undefined_abbreviation():
     secs = [Section(id=f"s{n}", m11_id=None, title=f"{n} Title", level=1, page_start=n, page_end=n,
                     text="Assess ORR. ORR again. ORR thrice.") for n in range(1, 9)]
     xrefs = [{"text": "see Section 15", "target": "Section 15", "span": span(3).model_dump()},
-             {"text": "see Section 4.2", "target": "Section 4.2", "span": span(3).model_dump()}]
+             {"text": "see Section 4.2", "target": "Section 4.2", "span": span(3).model_dump()},
+             {"text": "in Section E", "target": "Section E", "span": span(3).model_dump()}]
     out = run("C9", graph(sections=secs, xrefs=xrefs, abbreviations={"defined": {}, "used": ["ORR"]}))
     titles = [i.title for i in out]
     assert "Cross-reference to Section 15, which does not exist" in titles

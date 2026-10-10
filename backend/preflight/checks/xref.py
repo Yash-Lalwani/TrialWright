@@ -10,7 +10,7 @@ MAX_ABBR_ISSUES = 15
 def _beyond_outline(target: str, numbers: set[str]) -> bool:
     """True when the section cannot exist: its parent is missing, or it is past the parent's last child.
     Missing headings in the middle of a detected range are not flagged (heading detection can miss them)."""
-    if target in numbers:
+    if target in numbers or not re.fullmatch(r"\d+(\.\d+)*", target):
         return False
     parts = target.split(".")
     parent = ".".join(parts[:-1])

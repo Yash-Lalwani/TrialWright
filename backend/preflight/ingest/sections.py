@@ -10,11 +10,19 @@ DOT_LEADER = re.compile(r"(\.\s*){4,}\d+\s*$|\s\d{1,3}$")
 
 
 def _toc_pages(lines: list[Line]) -> set[int]:
-    per_page: dict[int, int] = {}
+    """Pages of the table of contents: dot leaders, or many number-ended lines under a 'contents' heading.
+    (Synopsis tables also have many lines ending in numbers, so that alone is not enough.)"""
+    leaders, numbered, contents = {}, {}, set()
     for ln in lines:
-        if DOT_LEADER.search(ln.text):
-            per_page[ln.page] = per_page.get(ln.page, 0) + 1
-    return {p for p, n in per_page.items() if n >= 5}
+        if re.search(r"(\.\s*){4,}\d+\s*$|…\s*\d+\s*$", ln.text):
+            leaders[ln.page] = leaders.get(ln.page, 0) + 1
+        elif DOT_LEADER.search(ln.text):
+            numbered[ln.page] = numbered.get(ln.page, 0) + 1
+        if re.search(r"\b(table of )?contents\b|list of (tables|figures)", ln.text, re.I):
+            contents.add(ln.page)
+    pages = {p for p, n in leaders.items() if n >= 5}
+    pages |= {p for p, n in numbered.items() if n >= 8 and (p in contents or p - 1 in pages)}
+    return pages
 
 
 def _heading(ln: Line, body_size: float) -> tuple[str | None, str, int] | None:
