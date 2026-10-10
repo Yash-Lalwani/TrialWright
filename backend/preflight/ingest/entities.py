@@ -62,7 +62,8 @@ def extract_numbers(lines: list[Line]) -> list[NumberFact]:
     for ln in lines:
         t = ln.text
         low = t.lower()
-        if re.search(r"\bage\b|\baged\b|years of age|years old", low):
+        if re.search(r"\bage\b|\baged\b|years of age|years old", low) and not re.search(
+                r"amenorrh|menopaus|childbearing|female|women|median|mean age", low):
             if m := AGE_RANGE.search(t):
                 add("age_min", float(m.group(1)), "years", ln)
                 add("age_max", float(m.group(2)), "years", ln)

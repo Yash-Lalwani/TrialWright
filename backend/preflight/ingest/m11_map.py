@@ -90,6 +90,8 @@ def _score(title: str, item: dict) -> tuple[float, float]:
 
 
 def match(section: Section, toc: list[dict]) -> str | None:
+    if re.match(r"^section\s+\d", section.title, re.I):
+        return None  # entries in an amendment's summary of changes, not real headings
     title = _clean(section.title)
     if not title:
         return None

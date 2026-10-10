@@ -88,8 +88,16 @@ def _strip_running_text(lines: list[Line], n_pages: int, page_height: float) -> 
         return line.bbox[1] < 72 or line.bbox[3] > page_height - 72
 
     counts = Counter(key(ln) for ln in lines if in_band(ln))
-    repeated = {k for k, c in counts.items() if c >= max(3, n_pages * 0.3)}
-    return [ln for ln in lines if not (in_band(ln) and key(ln) in repeated)]
+    repeated = {k for k, c in counts.items() if c >= 3}
+    kept, seen = [], set()
+    for ln in lines:
+        if in_band(ln) and key(ln) in repeated:
+            # A heading styled line (e.g. 'Appendix 3 ...') is kept the first time it appears.
+            if not ((ln.bold or ln.size >= 12) and ln.text not in seen):
+                continue
+            seen.add(ln.text)
+        kept.append(ln)
+    return kept
 
 
 def read_pdf(path: str) -> PdfDoc:

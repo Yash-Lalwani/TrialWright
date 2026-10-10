@@ -4,7 +4,8 @@ from preflight.graph.models import Section
 from preflight.ingest.pdf import Line, PdfDoc
 
 NUMBERED = re.compile(r"^((?:\d{1,2}\.)*\d{1,2})\.?\s+([A-Z][^\n]{1,150})$")
-APPENDIX = re.compile(r"^(appendix\s+[A-Z0-9]+)[\s:.\-–]+(.{2,150})$", re.I)
+APPENDIX_SUB = re.compile(r"^(A\d{1,2}[–-]\d{1,2}(?:\.\d+)*)\s+(.{2,150})$")
+APPENDIX = re.compile(r"^(appendix\s+[A-Z0-9]{1,3})(?:[\s:.\-–]+(.{2,150}))?$", re.I)
 DOT_LEADER = re.compile(r"(\.\s*){4,}\d+\s*$|\s\d{1,3}$")
 
 
@@ -18,7 +19,8 @@ def _toc_pages(lines: list[Line]) -> set[int]:
 
 def _heading(ln: Line, body_size: float) -> tuple[str | None, str, int] | None:
     """Return (number, title, level) if this line looks like a section heading."""
-    if DOT_LEADER.search(ln.text) or len(ln.text) > 160:
+    bare_appendix = re.fullmatch(r"appendix\s+\w{1,3}", ln.text, re.I)
+    if (DOT_LEADER.search(ln.text) and not bare_appendix) or len(ln.text) > 160:
         return None
     styled = ln.bold or ln.size > body_size + 0.5
     if not styled:
@@ -29,7 +31,9 @@ def _heading(ln: Line, body_size: float) -> tuple[str | None, str, int] | None:
             return None
         return number, title.strip(), number.count(".") + 1
     if m := APPENDIX.match(ln.text):
-        return m.group(1).title(), m.group(2).strip(), 1
+        return m.group(1).title(), (m.group(2) or "").strip(), 1
+    if m := APPENDIX_SUB.match(ln.text):
+        return m.group(1), m.group(2).strip().title() if m.group(2).isupper() else m.group(2).strip(), 2
     if ln.text.isupper() and 3 <= len(ln.text) <= 80 and ln.size >= body_size and re.search(r"[A-Z]{3}", ln.text):
         return None, ln.text.title(), 1
     return None
@@ -63,6 +67,7 @@ def split_sections(doc: PdfDoc) -> list[tuple[Section, list[Line]]]:
     skip = _toc_pages(doc.lines)
     heads: list[tuple[int, int, str | None, str, int]] = []
     last_number = None
+    seen: set[tuple] = set()
     i = 0
     while i < len(doc.lines):
         ln = doc.lines[i]
@@ -70,7 +75,7 @@ def split_sections(doc: PdfDoc) -> list[tuple[Section, list[Line]]]:
             i += 1
             continue
         number, title, level = h
-        if number and not number.lower().startswith("appendix"):
+        if number and number[0].isdigit():
             if not _is_next(last_number, number):
                 i += 1
                 continue
@@ -78,8 +83,12 @@ def split_sections(doc: PdfDoc) -> list[tuple[Section, list[Line]]]:
         j = i + 1
         while j < len(doc.lines) and j - i <= 4 and _continuation(ln, doc.lines[j - 1], doc.lines[j]):
             extra = doc.lines[j].text
-            title += " " + (extra.title() if number is None else extra)
+            title = f"{title} {extra.title() if number is None else extra}".strip()
             j += 1
+        if (number, title) in seen:
+            i = j  # running heading repeated at the top of each page
+            continue
+        seen.add((number, title))
         heads.append((i, j, number, title, level))
         i = j
 
@@ -100,7 +109,7 @@ def split_sections(doc: PdfDoc) -> list[tuple[Section, list[Line]]]:
         sections.append((Section(
             id=f"sec_{k + 1}",
             m11_id=None,
-            title=f"{number} {title}" if number else title,
+            title=f"{number} {title}".strip() if number else title,
             level=level,
             page_start=doc.lines[i].page,
             page_end=body[-1].page if body else doc.lines[i].page,
