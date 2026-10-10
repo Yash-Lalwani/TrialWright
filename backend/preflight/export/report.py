@@ -54,7 +54,7 @@ def to_pdf(title: str, run: dict, issues: list[dict]) -> bytes:
         write(f"{i['check_id']} · {i['category']} · {i['source']} · page {i['page'] or '-'} · {i['section'] or ''} · "
               f"status {i['status']}", 8.5, gap=2)
         if i["quote"]:
-            write(f"“{i['quote']}”", 8.5, gap=2)
+            write(f'"{i["quote"]}"', 8.5, gap=2)  # base-14 fonts have no curly quotes
         write(f"Why: {i['explanation']}" + (f" ({i['standard_ref']})" if i["standard_ref"] else ""), 9, gap=2)
         if i["fix"]:
             write(f"Fix: {i['fix']}", 9, gap=10)
