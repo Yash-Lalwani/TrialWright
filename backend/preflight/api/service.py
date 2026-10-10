@@ -88,7 +88,7 @@ async def execute(run_id: str) -> None:
 
     try:
         graph = await ingest_file(path, nct_id=nct_id, use_llm=mode == "full", progress=progress)
-        result = await check_graph(graph, mode, progress=progress)
+        result = await check_graph(graph, mode, progress=progress, pdf_path=path)
         suffix = run_id.split("_", 1)[1][:6]
         with session() as s:
             for issue in result.issues:
@@ -102,6 +102,7 @@ async def execute(run_id: str) -> None:
             protocol.nct_id = graph.meta.nct_id or protocol.nct_id
             cost = s.exec(select(func.sum(LLMCall.cost_usd)).where(LLMCall.run_id == run_id)).one() or 0.0
             run.score, run.completeness = result.score.model_dump(), result.completeness.model_dump()
+            run.verifier = result.verifier
             run.status, run.finished_at = "complete", now()
             run.duration_s, run.llm_cost_usd = round(time.monotonic() - start, 1), round(float(cost), 4)
             s.add_all([run, protocol])
