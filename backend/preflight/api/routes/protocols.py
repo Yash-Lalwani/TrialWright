@@ -1,6 +1,8 @@
-import fitz
+from pathlib import Path
+
+import pymupdf
 from fastapi import APIRouter, File, Form, UploadFile
-from fastapi.responses import Response
+from fastapi.responses import FileResponse, Response
 
 from preflight.api.stubs import example
 
@@ -17,9 +19,15 @@ def list_protocols():
     return example("protocols_list")
 
 
+CORPUS = Path(__file__).resolve().parents[4] / "data" / "corpus"
+
+
 @router.get("/protocols/{protocol_id}/pdf")
 def protocol_pdf(protocol_id: str):
-    doc = fitz.open()
+    demo = sorted(CORPUS.glob("*.pdf"))
+    if demo:
+        return FileResponse(demo[0], media_type="application/pdf")
+    doc = pymupdf.open()
     page = doc.new_page()
     page.insert_text((72, 72), f"Stub PDF for {protocol_id}")
     return Response(doc.tobytes(), media_type="application/pdf")
