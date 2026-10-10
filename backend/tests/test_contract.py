@@ -119,9 +119,10 @@ def test_diff_between_runs(run):
 
 def test_exports_and_errors(run):
     client, _, run_id, _ = run
-    for fmt in ["usdm", "docx", "report_pdf", "report_csv"]:
+    for fmt, magic in [("usdm", b"{"), ("docx", b"PK"), ("report_pdf", b"%PDF"), ("report_csv", b"id,")]:
         r = client.get(f"/api/runs/{run_id}/export?format={fmt}")
         assert r.status_code == 200 and "attachment" in r.headers["content-disposition"]
+        assert r.content.startswith(magic), fmt
     r = client.get("/api/runs/run_missing")
     assert r.status_code == 404 and r.json() == {"error": {"code": "not_found", "message": "Run run_missing not found"}}
     r = client.post("/api/protocols", files={"file": ("x.txt", b"hello", "text/plain")})
