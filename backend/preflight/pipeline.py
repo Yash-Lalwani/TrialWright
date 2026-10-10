@@ -103,7 +103,7 @@ async def ingest_file(path: str, nct_id: str | None = None, use_llm: bool = True
         stats=llm.get("stats") or Stats(sample_size=None, alpha=None, sided=None, power=None, effect_size=None,
                                         effect_type=None, control_rate=None, dropout=None, analyses=[]),
         numbers=numbers,
-        xrefs=entities.extract_xrefs(lines),
+        xrefs=entities.extract_xrefs([ln for _, body in parts for ln in body]),
         abbreviations=entities.extract_abbreviations(doc, sections),
     )
 

@@ -1,4 +1,5 @@
 import importlib
+import logging
 import pkgutil
 from dataclasses import dataclass, field
 from collections.abc import Callable
@@ -25,6 +26,7 @@ class CheckSpec:
 
 
 CHECKS: dict[str, CheckSpec] = {}
+log = logging.getLogger(__name__)
 
 
 def check(id: str, category: str, amendment_category: str, standard_ref: str, severity: str):
@@ -70,7 +72,11 @@ def discover() -> dict[str, CheckSpec]:
 
 
 def run_checks(graph: ProtocolGraph, ctx: CheckContext) -> list[Issue]:
+    """Run every registered check; a check that crashes is logged and skipped so the run still completes."""
     issues = []
     for spec in discover().values():
-        issues.extend(spec.fn(graph, ctx))
+        try:
+            issues.extend(spec.fn(graph, ctx))
+        except Exception:
+            log.exception("Check %s failed", spec.id)
     return issues
