@@ -10,8 +10,32 @@ def serve(host: str = "0.0.0.0", port: int = 8000, reload: bool = False):
 
 
 @app.command()
-def check(path: str):
-    typer.echo(f"check not implemented yet: {path}")
+def check(
+    path: str,
+    nct_id: str = typer.Option(None, help="ClinicalTrials.gov id, if known"),
+    dump_graph: bool = typer.Option(False, "--dump-graph", help="Print the Protocol Graph as JSON"),
+    rules_only: bool = typer.Option(False, "--rules-only", help="No LLM calls"),
+):
+    import asyncio
+    import time
+
+    from preflight.pipeline import ingest_file
+
+    start = time.monotonic()
+    graph = asyncio.run(ingest_file(path, nct_id=nct_id, use_llm=not rules_only))
+    if dump_graph:
+        typer.echo(graph.model_dump_json(indent=2))
+        return
+    m = graph.meta
+    typer.echo(f"{graph.protocol_id}  {m.title[:90]}")
+    typer.echo(f"  phase={m.phase} masking={m.masking} allocation={m.allocation} ratio={m.ratio} "
+               f"arms={m.n_arms} ages={graph.min_age}-{graph.max_age} nct={m.nct_id}")
+    mapped = sum(1 for s in graph.sections if s.m11_id)
+    typer.echo(f"  sections={len(graph.sections)} (m11 mapped {mapped}) numbers={len(graph.numbers)} "
+               f"xrefs={len(graph.xrefs)} abbreviations defined={len(graph.abbreviations['defined'])}")
+    typer.echo(f"  objectives={len(graph.objectives)} endpoints={len(graph.endpoints)} criteria={len(graph.criteria)} "
+               f"arms={len(graph.arms)} sample_size={graph.stats.sample_size}")
+    typer.echo(f"  {time.monotonic() - start:.1f}s")
 
 
 @app.command("mock-issues")
