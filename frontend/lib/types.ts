@@ -62,11 +62,12 @@ export interface Health {
 
 // ---------- 4.2 Protocols ----------
 
+// The backend returns null for title/pages when it cannot read them (e.g. a JSON upload).
 export interface Protocol {
   protocol_id: string;
   filename: string;
-  title: string;
-  pages: number;
+  title: string | null;
+  pages: number | null;
   nct_id: string | null;
   phase: string | null;
   condition: string | null;
@@ -163,7 +164,8 @@ export interface IssueCounts {
 export interface Run {
   run_id: string;
   protocol_id: string;
-  version_label: string;
+  /** Optional when the run is started (A's RunIn), so null is possible. */
+  version_label: string | null;
   mode: RunMode;
   status: RunStatus;
   started_at: string;

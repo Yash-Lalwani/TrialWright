@@ -51,7 +51,7 @@ export function CompletenessPanel({ runId, onGoToPage }: { runId: string; onGoTo
             <span
               key={s}
               className={cn(s === "present" ? "bg-status-present" : s === "thin" ? "bg-status-thin" : "bg-status-missing")}
-              style={{ width: `${(summary[s] / summary.required) * 100}%` }}
+              style={{ width: `${summary.required ? (summary[s] / summary.required) * 100 : 0}%` }}
             />
           ))}
         </div>

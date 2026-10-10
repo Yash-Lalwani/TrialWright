@@ -10,7 +10,7 @@ export default function RunPage({ params }: PageProps<"/runs/[id]">) {
   return (
     <Suspense fallback={<WorkspaceSkeleton />}>
       {params.then(({ id }) => (
-        <Workspace runId={id} />
+        <Workspace key={id} runId={id} />
       ))}
     </Suspense>
   );

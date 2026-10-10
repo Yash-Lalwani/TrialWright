@@ -5,7 +5,7 @@ import Link from "next/link";
 
 import { EmptyState, ErrorState } from "@/components/common/states";
 import { Skeleton } from "@/components/ui/skeleton";
-import { formatDateTime, formatPhase } from "@/lib/presentation";
+import { formatDateTime, formatPhase, protocolName } from "@/lib/presentation";
 import { useProtocols } from "@/lib/queries";
 import type { LatestRun } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -54,9 +54,10 @@ export function RecentProtocols() {
               {data.items.map((p) => (
                 <tr key={p.protocol_id} className="border-b transition-colors duration-150 last:border-0 hover:bg-muted/50">
                   <td className="max-w-md px-5 py-2.5">
-                    <div className="truncate font-medium" title={p.title}>{p.title}</div>
+                    <div className="truncate font-medium" title={protocolName(p, p.protocol_id)}>{protocolName(p, p.protocol_id)}</div>
                     <div className="truncate text-xs text-muted-foreground">
-                      {p.filename} · {p.pages} pages · {formatPhase(p.phase)}
+                      {p.filename}
+                      {p.pages != null ? ` · ${p.pages} pages` : ""} · {formatPhase(p.phase)}
                       {p.condition ? ` · ${p.condition}` : ""}
                     </div>
                   </td>

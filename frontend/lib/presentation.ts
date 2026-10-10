@@ -13,6 +13,7 @@ import {
 
 import type {
   AmendmentCategory,
+  Protocol,
   Category,
   CompletenessStatus,
   DraftStep,
@@ -173,3 +174,7 @@ export function formatPhase(phase: string | null): string {
   const numbers = phase.match(/\d/g);
   return numbers ? `Phase ${numbers.join("/")}` : phase;
 }
+
+/** Display name for a protocol: its title, else its filename, else the given fallback (usually an id). */
+export const protocolName = (p: Pick<Protocol, "title" | "filename"> | undefined, fallback: string) =>
+  p?.title || p?.filename || fallback;

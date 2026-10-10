@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ApiError, protocolPdfUrl, subscribeRunEvents } from "@/lib/api";
-import { formatDateTime, formatDuration, formatUsd, MODE_LABEL, SEVERITY_META } from "@/lib/presentation";
+import { formatDateTime, formatDuration, formatUsd, MODE_LABEL, protocolName, SEVERITY_META } from "@/lib/presentation";
 import { keys, useIssues, useProtocols, useRun } from "@/lib/queries";
 import type { Issue, ProgressEvent, ProtocolListItem, Run, RunStep, Where } from "@/lib/types";
 
@@ -61,7 +61,8 @@ export function Workspace({ runId }: { runId: string }) {
   const protocol = protocols.data?.items.find((p) => p.protocol_id === run.data.protocol_id);
 
   if (run.data.status === "failed") return <FailedRun run={run.data} protocol={protocol} />;
-  if (run.data.status !== "complete" || !run.data.score) return <LiveRun run={run.data} protocol={protocol} />;
+  // A complete run without a score still opens the review (the header omits the score card).
+  if (run.data.status !== "complete") return <LiveRun run={run.data} protocol={protocol} />;
   return <ReviewWorkspace run={run.data} protocol={protocol} />;
 }
 
@@ -132,6 +133,7 @@ function ReviewWorkspace({ run, protocol }: { run: Run; protocol: ProtocolListIt
         sideLabel="review panel"
         main={
           <PdfViewer
+            key={protocolPdfUrl(run.protocol_id)}
             file={protocolPdfUrl(run.protocol_id)}
             highlights={highlights}
             focus={focus}
@@ -243,12 +245,16 @@ function WorkspaceHeader({ run, protocol }: { run: Run; protocol: ProtocolListIt
           <ChevronRight className="size-3" aria-hidden />
           <span className="truncate font-mono">{protocol?.nct_id ?? run.protocol_id}</span>
         </nav>
-        <h1 className="mt-1 truncate text-base leading-6 font-semibold" title={protocol?.title}>
-          {protocol?.title ?? run.protocol_id}
+        <h1 className="mt-1 truncate text-base leading-6 font-semibold" title={protocolName(protocol, run.protocol_id)}>
+          {protocolName(protocol, run.protocol_id)}
         </h1>
         <p className="mt-0.5 flex flex-wrap items-center gap-x-2 text-xs text-muted-foreground">
-          <span>Version {run.version_label}</span>
-          <span aria-hidden>·</span>
+          {run.version_label && (
+            <>
+              <span>Version {run.version_label}</span>
+              <span aria-hidden>·</span>
+            </>
+          )}
           <span className="inline-flex items-center gap-1">
             {run.mode === "rules_only" && <Lock className="size-3" aria-hidden />}
             {MODE_LABEL[run.mode]}
@@ -295,7 +301,7 @@ function LiveRun({ run, protocol }: { run: Run; protocol: ProtocolListItem | und
   return (
     <div className="mx-auto max-w-xl space-y-4 p-6">
       <div>
-        <h1 className="text-base font-semibold">{protocol?.title ?? run.protocol_id}</h1>
+        <h1 className="text-base font-semibold">{protocolName(protocol, run.protocol_id)}</h1>
         <p className="text-sm text-muted-foreground">Review in progress · {MODE_LABEL[run.mode]}</p>
       </div>
       <div className="rounded-lg border bg-card p-4">
@@ -312,7 +318,7 @@ function FailedRun({ run, protocol }: { run: Run; protocol: ProtocolListItem | u
       <div className="rounded-lg border bg-card">
         <EmptyState icon={CircleX} title="This review did not complete">
           <p>
-            {protocol?.title ?? run.protocol_id} · {MODE_LABEL[run.mode]} · started {formatDateTime(run.started_at)}
+            {protocolName(protocol, run.protocol_id)} · {MODE_LABEL[run.mode]} · started {formatDateTime(run.started_at)}
           </p>
           <p className="mt-2">No score or issues were produced. Upload the protocol again to start a new review.</p>
           <Button asChild variant="outline" size="sm" className="mt-3">
