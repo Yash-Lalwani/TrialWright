@@ -76,19 +76,28 @@ async def cached_run(runner: Runner, path: str, config: str, nct_id: str, refres
     res = await runner(path, config, nct_id)
     out = {"issues": res[0], "seconds": round(res[1], 2), "llm_cost_usd": round(res[2], 4),
            "facts": res[3] if len(res) > 3 else None}
+    if config == "full" and extracted_with_llm(out) is not True:
+        return out  # never cache a degraded 'full' run: adding an API key later must not reuse it
     cp.parent.mkdir(parents=True, exist_ok=True)
     cp.write_text(json.dumps(out))
     return out
 
 
+def extracted_with_llm(run: dict) -> bool | None:
+    """Did the LLM extraction step actually run? (objectives/endpoints/criteria exist only if it did.) None = unknown."""
+    c = (run.get("facts") or {}).get("counts")
+    return None if c is None else bool(c["objectives"] + c["endpoints"] + c["criteria"])
+
+
 async def bench(split: str, config: str = "rules_only", seeds: list[int] | None = None, runner: Runner | None = None,
-                refresh: bool = False, corpus_dir: Path | None = None, only: list[str] | None = None) -> dict:
+                refresh: bool = False, corpus_dir: Path | None = None, only: list[str] | None = None,
+                allow_partial: bool = False) -> dict:
     require_llm_for(config) if runner is None else None
     runner = runner or default_runner
     seeds = seeds or [1]
     corpus = corpus_dir or client.CORPUS_DIR
     rows = [r for r in read_manifest(corpus / "manifest.csv") if r["split"] == split and (not only or r["nct_id"] in only)]
-    scored, per_protocol, clean_runs, secs, costs = [], [], [], [], []
+    scored, per_protocol, clean_runs, secs, costs, llm_ok = [], [], [], [], [], []
     for row in rows:
         nct = row["nct_id"]
         pdf = corpus / f"{nct}_protocol.pdf"
@@ -96,6 +105,7 @@ async def bench(split: str, config: str = "rules_only", seeds: list[int] | None 
             raise FileNotFoundError(f"{pdf} missing; run fetch_corpus first")
         clean = await cached_run(runner, str(pdf), config, nct, refresh)
         clean_runs.append(clean["issues"])
+        llm_ok.append(extracted_with_llm(clean))
         secs.append(clean["seconds"])
         costs.append(clean["llm_cost_usd"])
         try:
@@ -108,6 +118,7 @@ async def bench(split: str, config: str = "rules_only", seeds: list[int] | None 
             if bad:
                 raise RuntimeError(f"injection did not land as recorded: {bad}")
             run = await cached_run(runner, str(BENCH_DIR / key["injected_pdf"]), config, nct, refresh)
+            llm_ok.append(extracted_with_llm(run))
             s = metrics.score_run(key["errors"], run["issues"], clean["issues"], run.get("facts"))
             scored.append(s)
             secs.append(run["seconds"])
@@ -117,6 +128,12 @@ async def bench(split: str, config: str = "rules_only", seeds: list[int] | None 
                                  "missed": [{"type": e["type"], "description": e["description"], "page": e["page"],
                                              "line": e.get("new_line"), "why": s.diagnosis.get(e["error_id"])}
                                             for e in s.fn]})
+    if config == "full":
+        n_ok = sum(1 for x in llm_ok if x)
+        if n_ok < len(llm_ok) and not allow_partial:
+            raise LLMUnavailable(f"config 'full' but only {n_ok} of {len(llm_ok)} runs produced LLM extraction (cache misses or "
+                                 "no key): those runs silently fell back to rules-only. Set OPENROUTER_API_KEY with LLM_MODE=record "
+                                 "to record them, or pass --allow-partial to accept a mixed result.")
     agg = metrics.aggregate(scored)
     measurable = {t for t, spec in TYPES.items() if config == "full" or not spec.needs_llm}
     for r in agg["by_type"]:
@@ -128,6 +145,7 @@ async def bench(split: str, config: str = "rules_only", seeds: list[int] | None 
         "generated_at": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "set": split, "config": config, "seeds": seeds,
         "llm_enabled": config == "full",
+        "llm_extraction": {"runs": len(llm_ok), "with_extraction": sum(1 for x in llm_ok if x)},
         "test_set": {"protocols": len(rows), **agg["test_set"]},
         "overall": agg["overall"],
         "overall_measurable": {**metrics.prf(m_tp, m_fp, m_fn), "n_errors": m_tp + m_fn,

@@ -63,10 +63,12 @@ def bench(split: str = typer.Option("dev", "--set", help="dev or test"),
           seeds: int = typer.Option(1, help="number of seeds (1..N)"),
           quick: bool = typer.Option(False, help="one seed; for CI"),
           refresh: bool = typer.Option(False, help="ignore cached pipeline runs"),
+          allow_partial: bool = typer.Option(False, help="full config: accept runs that fell back to rules-only"),
           write: bool = typer.Option(True, help="write data/bench/results/*.json")) -> None:
     """Score the pipeline on injected errors (EVALUATION.md section 4)."""
     try:
-        res = asyncio.run(bench_mod.bench(split, config, seeds=list(range(1, 2 if quick else seeds + 1)), refresh=refresh))
+        res = asyncio.run(bench_mod.bench(split, config, seeds=list(range(1, 2 if quick else seeds + 1)), refresh=refresh,
+                                          allow_partial=allow_partial))
     except bench_mod.LLMUnavailable as e:
         typer.echo(f"error: {e}", err=True)
         raise typer.Exit(2) from e

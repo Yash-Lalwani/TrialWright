@@ -98,3 +98,21 @@ def test_results_written_and_runs_cached(env):
     path = bench.write_results(asyncio.run(bench.bench("dev", "rules_only", runner=empty_runner, corpus_dir=env)))
     assert json.loads(path.read_text())["config"] == "rules_only"
     shutil.rmtree(env)
+
+
+def _runner_with_counts(n_endpoints):
+    async def run(path, config, nct):
+        return [], 1.0, 0.0, {"numbers": [], "xrefs": [], "windows": [], "counts": {"objectives": n_endpoints,
+                                                                                    "endpoints": n_endpoints, "criteria": 0}}
+    return run
+
+
+def test_full_config_rejects_runs_that_silently_fell_back_to_rules_only(env, monkeypatch):
+    monkeypatch.setattr(bench, "require_llm_for", lambda c: None)
+    import pytest as _p
+    with _p.raises(bench.LLMUnavailable, match="silently fell back"):
+        asyncio.run(bench.bench("dev", "full", runner=_runner_with_counts(0), corpus_dir=env))
+    ok = asyncio.run(bench.bench("dev", "full", runner=_runner_with_counts(2), corpus_dir=env))
+    assert ok["llm_extraction"]["runs"] == ok["llm_extraction"]["with_extraction"] > 0
+    part = asyncio.run(bench.bench("dev", "full", runner=_runner_with_counts(0), corpus_dir=env, allow_partial=True, refresh=True))
+    assert part["llm_extraction"]["with_extraction"] == 0
