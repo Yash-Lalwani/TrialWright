@@ -63,3 +63,13 @@ def test_skips_are_recorded_with_a_reason(tmp_path):
 
 def test_every_injector_type_is_in_the_taxonomy():
     assert set(inject.INJECTORS) | set(inject.NOT_YET) == set(TYPES)
+
+
+def test_a_repeated_type_never_changes_every_mention(tmp_path):
+    """Two mentions of the same value: after injecting twice one original must remain, or no inconsistency exists."""
+    key = run(tmp_path, ["T08"], seed=3)
+    key2 = inject.inject_file(str(tmp_path / "NCT00000001_protocol.pdf"), str(tmp_path / "rep"), 3, n_target=(12, 12),
+                              types=["T08"], sections=[], max_per_type=3)
+    text = pymupdf.open(str(tmp_path / "rep" / key2["injected_pdf"]))[0].get_text()
+    assert len(key["errors"]) == 1 and len(key2["errors"]) == 1
+    assert "100 subjects" in text  # an untouched original mention is still there

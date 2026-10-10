@@ -1,0 +1,54 @@
+# Procedure burden assumptions for Pre-Flight D1. VERSION 2026-10-10.
+# EVERY row is source=assumption: order-of-magnitude placeholders written by Person B, NOT measured or cited site costs.
+# Replace with sponsor or site data before any dollar figure is quoted. Burden SCORES use percentiles vs peers, so only relative size matters.
+# match_keywords: '|'-separated lowercase substrings; the LONGEST keyword found in a procedure name wins (tolerates footnote letters glued on by PDF extraction).
+# invasive = needle beyond routine venipuncture, biopsy, puncture, or infusion. patient_minutes include procedure + any dedicated waiting; travel is in 'clinic visit overhead'.
+# cost_usd = approximate cost per occurrence to the sponsor, excluding study drug. site_minutes = staff time.
+normalized_name,match_keywords,category,patient_minutes,site_minutes,cost_usd,invasive,source,basis
+clinic visit overhead,__visit__,visit,90,20,150,false,assumption,"travel, check-in and waiting per in-person visit; applied once per in-person visit, not matched by name"
+informed consent,informed consent|consent|counseling|counselling|education|skin protection|instruction,admin,45,60,150,false,assumption,consent discussion plus signature
+eligibility review,eligibility|inclusion/exclusion|inclusion exclusion,admin,0,45,100,false,assumption,site-only chart review
+randomization,randomization|randomisation|enrollment,admin,5,10,20,false,assumption,IRT call or login
+demographics,demographics,admin,5,10,20,false,assumption,short form
+medical history,medical history|disease history|melanoma history|cancer history|prior cancer treatment|prior therapy|prior medication|history of|substance|smoking|alcohol,admin,15,25,50,false,assumption,structured history interview
+concomitant medications,concomitant|prior and concomitant|anticancer therapies|other therapies|con meds|con-meds,admin,5,10,20,false,assumption,medication review at each visit
+adverse event monitoring,adverse event|ae monitoring|safety follow,admin,5,10,20,false,assumption,AE questions and recording
+physical examination,physical exam,clinical,15,20,60,false,assumption,complete or symptom-directed exam
+vital signs,vital sign|blood pressure|heart rate|temperature|weight|height|physical measurement|vital assess|vitals,clinical,5,8,15,false,assumption,"BP, HR, temperature, weight"
+performance status,ecog|performance status|karnofsky,clinical,3,5,15,false,assumption,clinician-rated scale
+12-lead ECG,ecg|electrocardiogram|12 lead,clinical,15,15,45,false,assumption,resting 12-lead with read
+echocardiogram or MUGA,echocardiogram|muga|lvef,imaging,45,45,400,false,assumption,cardiac imaging
+hematology,hematology|haematology|cbc|complete blood count,lab,10,12,25,false,assumption,typical venipuncture + processing time; cost is an order-of-magnitude placeholder
+serum chemistry,chemistry|metabolic panel|liver function|renal function,lab,10,12,30,false,assumption,typical venipuncture + processing time; cost is an order-of-magnitude placeholder
+clinical laboratory panel,clinical laboratory|laboratory test|safety laboratory|lab test|laboratory assessment,lab,12,15,60,false,assumption,hematology + chemistry + urinalysis bundle
+urinalysis,urinalysis|urine,lab,5,6,15,false,assumption,dipstick plus lab
+coagulation,coagulation|inr|aptt,lab,10,10,30,false,assumption,typical venipuncture + processing time; cost is an order-of-magnitude placeholder
+thyroid function,thyroid|tsh,lab,10,10,35,false,assumption,typical venipuncture + processing time; cost is an order-of-magnitude placeholder
+autoimmune panel,autoimmune,lab,10,10,80,false,assumption,typical venipuncture + processing time; cost is an order-of-magnitude placeholder
+pregnancy or hormone test,pregnancy|hcg|follicle stimulating,lab,5,6,25,false,assumption,urine or serum
+serology,hepatitis|hiv|serolog,lab,10,10,60,false,assumption,typical venipuncture + processing time; cost is an order-of-magnitude placeholder
+glucose or HbA1c,glucose|hba1c|a1c,lab,10,8,20,false,assumption,typical venipuncture + processing time; cost is an order-of-magnitude placeholder
+lipid panel,lipid|ldl|cholesterol,lab,10,8,25,false,assumption,typical venipuncture + processing time; cost is an order-of-magnitude placeholder
+tumor marker,tumor marker|ca-125|psa,lab,10,8,45,false,assumption,typical venipuncture + processing time; cost is an order-of-magnitude placeholder
+pharmacokinetic sampling,pharmacokinetic|pk sampl|pk sample|drug concentration,lab,15,20,120,false,assumption,"timed draws, often with extra handling and shipping"
+immunogenicity sampling,immunogenicity|anti-drug antibod|anti drug antibod,lab,10,12,100,false,assumption,ADA sample with shipping
+biomarker sampling,biomarker|cytokine|complement|correlative|exploratory blood|exploratory sampl,lab,10,15,150,false,assumption,research blood draw with processing and shipping
+genetic sampling,pharmacogenomic|genetic|dna sample,lab,10,10,150,false,assumption,one-time research sample
+tumor biopsy,biopsy,procedure,60,90,1500,true,assumption,"core or punch biopsy, includes recovery"
+bone marrow biopsy,bone marrow,procedure,90,120,1800,true,assumption,aspirate and biopsy
+lumbar puncture,lumbar puncture|csf,procedure,90,90,1500,true,assumption,includes recovery
+CT scan,ct scan|ct imaging|radiographic imaging|disease assessment|tumor imaging|tumor assessment|recist|ct/mri|chest ct|abdominal ct,imaging,45,30,600,false,assumption,contrast CT with read
+MRI,mri|cns imaging|brain imaging,imaging,60,30,900,false,assumption,MRI with read
+PET scan,pet scan|pet/ct|fdg,imaging,120,45,2200,false,assumption,includes uptake time
+X-ray,x-ray|xray|chest radiograph,imaging,15,10,120,false,assumption,plain film
+ultrasound,ultrasound|sonograph,imaging,30,20,200,false,assumption,focused or complete
+photographic imaging,photograph,imaging,10,15,50,false,assumption,standardized photos
+IV infusion of study drug,infusion|iv administration|intravenous|docetaxel|chemotherapy|carboplatin|paclitaxel|cisplatin|pembrolizumab|nivolumab,treatment,60,60,300,true,assumption,"cannulation, infusion and observation; drug cost excluded"
+injection of study drug,injection|subcutaneous|intratumoral|intralesional|study drug administration|administration of study|study drug admin,treatment,20,30,150,true,assumption,SC or intralesional; drug cost excluded
+dispense study drug,dispens|drug accountability|study medication|oral administration,treatment,5,10,20,false,assumption,pharmacy or site dispensing and accountability
+questionnaires,questionnaire|patient reported|patient-reported|qol|quality of life|eq-5d|diary|pro measure|pain assessment|bpi|nrs|pgic|numeric rating|patient assessment|global impression,pro,20,10,30,false,assumption,typical PRO battery
+skin severity scores,easi|iga|scorad|body surface|bsa|skin assessment|pruritus|morphology|anatomical area,clinical,15,15,60,false,assumption,clinician-rated dermatology scores
+spirometry,spirometry|pulmonary function|fev1,clinical,30,30,100,false,assumption,with coaching
+ophthalmologic exam,ophthalm|eye exam|slit lamp,clinical,30,30,150,false,assumption,specialist exam
+telephone follow-up,phone call|telephone|follow-up call|survival follow,followup,10,15,40,false,assumption,scheduled call
+patch testing,patch test,clinical,30,25,90,false,assumption,application and 2 readings; per application

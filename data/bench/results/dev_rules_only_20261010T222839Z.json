@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-10T22:16:09Z",
+ "generated_at": "2026-10-10T22:28:39Z",
  "set": "dev",
  "config": "rules_only",
  "seeds": [
@@ -8,18 +8,18 @@
  "llm_enabled": false,
  "test_set": {
   "protocols": 3,
-  "injected_errors": 23
+  "injected_errors": 27
  },
  "overall": {
-  "recall": 0.174,
-  "precision": 0.571,
-  "f1": 0.267
+  "recall": 0.333,
+  "precision": 0.9,
+  "f1": 0.486
  },
  "overall_measurable": {
-  "recall": 0.25,
-  "precision": 0.571,
-  "f1": 0.348,
-  "n_errors": 16,
+  "recall": 0.45,
+  "precision": 0.9,
+  "f1": 0.6,
+  "n_errors": 20,
   "note": "only error types this config can detect (rules_only cannot see types that need LLM extraction)"
  },
  "by_type": [
@@ -51,8 +51,8 @@
    "type": "T08",
    "name": "Sample size changed in one place",
    "n": 3,
-   "found": 1,
-   "recall": 0.333,
+   "found": 0,
+   "recall": 0.0,
    "measurable": true
   },
   {
@@ -75,8 +75,8 @@
    "type": "T11",
    "name": "Blinding / unblinding text removed",
    "n": 1,
-   "found": 0,
-   "recall": 0.0,
+   "found": 1,
+   "recall": 1.0,
    "measurable": true
   },
   {
@@ -91,8 +91,16 @@
    "type": "T14",
    "name": "Cross-reference to a nonexistent section",
    "n": 3,
-   "found": 1,
-   "recall": 0.333,
+   "found": 2,
+   "recall": 0.667,
+   "measurable": true
+  },
+  {
+   "type": "T15",
+   "name": "Required M11 section removed",
+   "n": 3,
+   "found": 3,
+   "recall": 1.0,
    "measurable": true
   },
   {
@@ -110,18 +118,31 @@
    "found": 0,
    "recall": 0.0,
    "measurable": true
+  },
+  {
+   "type": "T18",
+   "name": "Enrollment differs from registry record",
+   "n": 1,
+   "found": 1,
+   "recall": 1.0,
+   "measurable": true
   }
  ],
  "by_category": [
   {
    "amendment_category": "clerical",
    "n": 3,
-   "recall": 0.333
+   "recall": 0.667
+  },
+  {
+   "amendment_category": "completeness",
+   "n": 3,
+   "recall": 1.0
   },
   {
    "amendment_category": "design",
    "n": 4,
-   "recall": 0.25
+   "recall": 0.5
   },
   {
    "amendment_category": "eligibility",
@@ -139,9 +160,14 @@
    "recall": 0.0
   },
   {
+   "amendment_category": "registry",
+   "n": 1,
+   "recall": 1.0
+  },
+  {
    "amendment_category": "statistics",
    "n": 6,
-   "recall": 0.167
+   "recall": 0.0
   },
   {
    "amendment_category": "visit_schedule",
@@ -149,13 +175,19 @@
    "recall": 0.0
   }
  ],
- "false_alarms_per_clean_protocol": 59.33,
+ "false_alarms_per_clean_protocol": 59.67,
+ "clean_flags_by_check": {
+  "B1:major": 56.0,
+  "B2:major": 3.0,
+  "C10:major": 0.3,
+  "C4:major": 0.3
+ },
  "per_protocol": [
   {
    "nct_id": "NCT04303780",
    "seed": 1,
-   "injected": 8,
-   "tp": 2,
+   "injected": 9,
+   "tp": 3,
    "fn": 6,
    "fp": 0,
    "skipped": [
@@ -180,16 +212,12 @@
      "reason": "not implemented yet"
     },
     {
-     "type": "T15",
-     "reason": "no removable M11 section of at most 2 pages found"
-    },
-    {
      "type": "T06",
      "reason": "minimum age is stated only once, so a change cannot create an inconsistency"
     },
     {
      "type": "T18",
-     "reason": "age mentions overlap other injections"
+     "reason": "protocol age mentions do not all equal the registry value 18"
     },
     {
      "type": "T11",
@@ -205,36 +233,42 @@
      "type": "T07",
      "description": "Dose 960 changed to 1200 in one place only",
      "page": 17,
-     "why": "expected check fired elsewhere: p14 Randomization ratio disagrees across sections: 2:1 vs 1:1"
+     "line": "administered to a subject. AMG 510 will be dispensed at 1200 mg once daily (QD) orally",
+     "why": "expected check fired elsewhere: p14 Randomization ratio disagrees across sections: 2:1 (extracted, but the check did not flag it)"
     },
     {
      "type": "T17",
      "description": "Duration 3 changed to 9 in one place; total no longer adds up",
      "page": 17,
-     "why": "no C6 flag at all"
+     "line": "be at approximately 9 months after PFS primary analysis. The analysis of ORR will be",
+     "why": "injected value was NOT extracted by ingest (pipeline gap)"
     },
     {
      "type": "T08",
      "description": "Sample size 330 changed to 396 in one place only",
      "page": 17,
-     "why": "expected check fired elsewhere: p14 Randomization ratio disagrees across sections: 2:1 vs 1:1"
+     "line": "Approximately 396 subjects with locally advanced unresectable or metastatic NSCLC",
+     "why": "injected value was NOT extracted by ingest (pipeline gap)"
     },
     {
      "type": "T09",
      "description": "Stated power changed 90% -> 80% everywhere, so N is no longer reproducible",
      "page": 19,
+     "line": "mutation. A total of 230 PFS events are required to provide at least 80% power to",
      "why": "no C7 flag at all (needs LLM extraction)"
     },
     {
      "type": "T02",
      "description": "Endpoint timepoint 12 -> 14 in one place only",
      "page": 13,
-     "why": "expected check fired elsewhere: p14 Randomization ratio disagrees across sections: 2:1 vs 1:1"
+     "line": "Change from baseline to Week 14 in PRO endpoints between AMG 510 and docetaxel, for",
+     "why": "expected check fired elsewhere: p14 Randomization ratio disagrees across sections: 2:1"
     },
     {
      "type": "T13",
      "description": "Lab threshold 500 changed to 1000 in one place only",
      "page": 71,
+     "line": "Neutrophils < 1000 cells/mm3 for",
      "why": "no C8 flag at all (needs LLM extraction)"
     }
    ]
@@ -242,10 +276,10 @@
   {
    "nct_id": "NCT04417894",
    "seed": 1,
-   "injected": 8,
-   "tp": 0,
-   "fn": 8,
-   "fp": 1,
+   "injected": 9,
+   "tp": 2,
+   "fn": 7,
+   "fp": 0,
    "skipped": [
     {
      "type": "T01",
@@ -276,10 +310,6 @@
      "reason": "no row of at least 3 visit windows found"
     },
     {
-     "type": "T15",
-     "reason": "no removable M11 section of at most 2 pages found"
-    },
-    {
      "type": "T18",
      "reason": "protocol age mentions do not all equal the registry value 12"
     },
@@ -293,59 +323,60 @@
      "type": "T13",
      "description": "Lab threshold 3 changed to 6 in one place only",
      "page": 24,
+     "line": "to ALT or AST >6 times ULN.",
      "why": "no C8 flag at all (needs LLM extraction)"
     },
     {
      "type": "T08",
      "description": "Sample size 130 changed to 156 in one place only",
      "page": 27,
-     "why": "no C4 flag at all"
+     "line": "Approximately 156 patients (65 patients per arm) will be enrolled at",
+     "why": "injected value was NOT extracted by ingest (pipeline gap)"
     },
     {
      "type": "T14",
-     "description": "Reference to Section 7.2.1 changed to nonexistent Section 99.2.1",
-     "page": 10,
-     "why": "expected check fired but the same flag already exists in the clean run"
-    },
-    {
-     "type": "T11",
-     "description": "Removed 13 lines about unblinding / randomisation codes",
+     "description": "Reference to Section 11.5 changed to nonexistent Section 99.5",
      "page": 13,
-     "why": "expected check fired elsewhere: pNone Double-blind trial has no unblinding procedure"
+     "line": "already exists in Section 99.5.",
+     "why": "injected value was NOT extracted by ingest (pipeline gap)"
     },
     {
      "type": "T09",
      "description": "Stated power changed 85% -> 95% everywhere, so N is no longer reproducible",
      "page": 29,
+     "line": "treatment arm). This sample size will yield >95% power to detect a",
      "why": "no C7 flag at all (needs LLM extraction)"
     },
     {
      "type": "T10",
      "description": "Ratio 1:1 changed to 2:1 in one place only",
      "page": 26,
-     "why": "no C4 flag at all"
+     "line": "Patients who meet the eligibility criteria will be randomized (2:1) to",
+     "why": "injected value was NOT extracted by ingest (pipeline gap)"
     },
     {
      "type": "T06",
      "description": "Minimum age changed 18 -> 21 in one place only",
      "page": 20,
-     "why": "no C4 flag at all"
+     "line": "prior to the screening visit for patients \u226521 years old and",
+     "why": "injected value was NOT extracted by ingest (pipeline gap)"
     },
     {
      "type": "T07",
      "description": "Dose 600 changed to 750 in one place only",
      "page": 27,
-     "why": "no C4 flag at all"
+     "line": "In adults: dupilumab 300 mg, after a loading dose of 750 mg on",
+     "why": "injected value was NOT extracted by ingest (pipeline gap)"
     }
    ]
   },
   {
    "nct_id": "NCT04698187",
    "seed": 1,
-   "injected": 7,
-   "tp": 2,
+   "injected": 9,
+   "tp": 4,
    "fn": 5,
-   "fp": 2,
+   "fp": 1,
    "skipped": [
     {
      "type": "T01",
@@ -380,16 +411,8 @@
      "reason": "no endpoint timepoint repeated across sections"
     },
     {
-     "type": "T18",
-     "reason": "age mentions overlap other injections"
-    },
-    {
      "type": "T10",
      "reason": "no randomisation ratio is stated twice"
-    },
-    {
-     "type": "T15",
-     "reason": "no removable M11 section of at most 2 pages found"
     }
    ],
    "missed": [
@@ -397,37 +420,42 @@
      "type": "T07",
      "description": "Dose 360 changed to 450 in one place only",
      "page": 10,
-     "why": "expected check fired elsewhere: p80 Sample size disagrees across sections: 100.0 vs 120.0; p39 Minimum age disagrees across sections: 18.0 years vs 21.0 ye"
+     "line": "Subjects will receive nivolumab 450 mg IV over 30 minutes at W1D1 and Q3W thereafter until the",
+     "why": "expected check fired elsewhere: p47 Minimum age disagrees across sections: 29.0 years  (extracted, but the check did not flag it)"
     },
     {
-     "type": "T14",
-     "description": "Reference to Section 4.3.2 changed to nonexistent Section 99.3.2",
-     "page": 8,
-     "why": "expected check fired but the same flag already exists in the clean run"
+     "type": "T08",
+     "description": "Sample size 100 changed to 120 in one place only",
+     "page": 11,
+     "line": "The study will enroll approximately 120 subjects. A subject is enrolled in the study when they have",
+     "why": "expected check fired elsewhere: p47 Minimum age disagrees across sections: 29.0 years  (extracted, but the check did not flag it)"
     },
     {
      "type": "T13",
      "description": "Lab threshold 1500 changed to 3000 in one place only",
      "page": 7,
+     "line": "neutrophil count \u2265 3000/mm3",
      "why": "no C8 flag at all (needs LLM extraction)"
     },
     {
      "type": "T16",
      "description": "Visit windows widened to +/-9 days on three adjacent visits",
      "page": 13,
-     "why": "no C6 flag at all"
+     "line": "\u00b1 9d",
+     "why": "injected value was NOT extracted by ingest (pipeline gap)"
     },
     {
      "type": "T09",
      "description": "Stated power changed 90% -> 80% everywhere, so N is no longer reproducible",
      "page": 11,
+     "line": "A sample size of 69 subjects achieves at least 80% power to detect a difference of 13% using a",
      "why": "no C7 flag at all (needs LLM extraction)"
     }
    ]
   }
  ],
  "speed_cost": {
-  "median_seconds": 3.44,
+  "median_seconds": 3.57,
   "median_usd": 0.0
  },
  "ablation": null,

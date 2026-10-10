@@ -242,6 +242,16 @@ def _early(hits: list[Hit], limit: int = 20) -> list[Hit]:
     return [h for h in hits if h.page <= limit]
 
 
+def _choose_keeping_one(ctx: Ctx, same: list[Hit]) -> Hit | None:
+    """Pick one mention of a repeated value to change, but only if at least one OTHER mention stays unchanged;
+    otherwise changing every mention would make the document consistent again and plant no error."""
+    free = [h for h in same if ctx.free(h.page, h.rect)]
+    if len(free) < 2:
+        return None
+    early = [h for h in free if h.page <= 20] or free
+    return min(early, key=lambda h: (h.page, h.rect.y0))
+
+
 def _choose(ctx: Ctx, hits: list[Hit]) -> Hit | None:
     free = [h for h in hits if ctx.free(h.page, h.rect)]
     return min(free, key=lambda h: (h.page, h.rect.y0)) if free else None
@@ -262,7 +272,7 @@ def t06_age(ctx: Ctx):
         return Skip("T06", "minimum age is stated only once, so a change cannot create an inconsistency")
     v = vals.most_common(1)[0][0]
     same = [h for h in hits if h.token == v]
-    h = _choose(ctx, _early(same) or same)
+    h = _choose_keeping_one(ctx, same)
     if not h:
         return Skip("T06", "no free age mention")
     new = str(int(v) + 3)
@@ -282,7 +292,7 @@ def t07_dose(ctx: Ctx):
         return Skip("T07", "no dose value is repeated at least 3 times")
     v = common[0][0][0]
     same = [h for h in hits if h.token == v]
-    h = _choose(ctx, _early(same) or same)
+    h = _choose_keeping_one(ctx, same)
     if not h:
         return Skip("T07", "no free dose mention")
     new = str(int(float(v) * 1.25)) if float(v).is_integer() else f"{float(v) * 1.25:.1f}"
@@ -298,7 +308,7 @@ def t08_sample_size(ctx: Ctx):
         return Skip("T08", "sample size is stated only once")
     v = vals.most_common(1)[0][0]
     same = [h for h in hits if h.token == v]
-    h = _choose(ctx, _early(same) or same)
+    h = _choose_keeping_one(ctx, same)
     if not h:
         return Skip("T08", "no free sample-size mention")
     new = str(int(v) + max(10, int(v) // 5))
@@ -313,7 +323,7 @@ def t10_ratio(ctx: Ctx):
         return Skip("T10", "no randomisation ratio is stated twice")
     v = vals.most_common(1)[0][0]
     same = [h for h in hits if h.token == v]
-    h = _choose(ctx, _early(same) or same)
+    h = _choose_keeping_one(ctx, same)
     if not h:
         return Skip("T10", "no free ratio mention")
     new = "2:1" if v == "1:1" else "1:1"
@@ -463,24 +473,36 @@ def t11_blinding(ctx: Ctx):
 REMOVABLE = ["10.11", "11.4", "10.9", "11.10", "11.6", "7.3", "4.3", "11.12", "11.5", "5.6", "11.8"]
 
 
+def _norm(t: str) -> str:
+    return re.sub(r"\W+", " ", t).lower().strip()
+
+
+def _heading_at(lines: list, sec, k0: int = 0) -> int | None:
+    """Index of a section heading's first line; headings may be split over two lines ('5.1.1.' / 'Study Stopping Rules')."""
+    want = _norm(re.sub(r"^[\d.]+\s*", "", sec.title))[:30]
+    for k in range(k0, len(lines)):
+        p, ln = lines[k]
+        if p == sec.page_start and want and want in _norm(ln["text"]):
+            return k - 1 if k > k0 and re.fullmatch(r"[\d.\s]+", lines[k - 1][1]["text"]) else k
+    return None
+
+
 def t15_section(ctx: Ctx):
     if ctx.sections is None:
         return Skip("T15", "section map unavailable")
     secs = ctx.sections
     for mid in REMOVABLE:
         for i, s in enumerate(secs):
-            if s.m11_id != mid or len(s.text.split()) < 30 or s.page_end - s.page_start > 1:
+            if s.m11_id != mid or len(s.text.split()) < 30 or s.page_end - s.page_start > 2:
                 continue
             nxt = next((n for n in secs[i + 1:] if n.level <= s.level), None)
             lines = [(p, ln) for p in range(s.page_start, s.page_end + 1) for ln in ctx.lines(p)]
-            norm = lambda t: re.sub(r"\W+", " ", t).lower().strip()  # noqa: E731
-            start = next((k for k, (p, ln) in enumerate(lines) if p == s.page_start and norm(s.title)[:30] in norm(ln["text"])), None)
+            start = _heading_at(lines, s)
             if start is None:
                 continue
             end = len(lines)
             if nxt and nxt.page_start <= s.page_end:
-                end = next((k for k, (p, ln) in enumerate(lines) if k > start and p == nxt.page_start
-                            and norm(nxt.title)[:30] in norm(ln["text"])), len(lines))
+                end = _heading_at(lines, nxt, start + 1) or len(lines)
             span = [(p, ln) for p, ln in lines[start:end] if ctx.free(p, ln["rect"])]
             if len(span) < 2:
                 continue
@@ -514,13 +536,13 @@ def _sections(pdf: str):
 
 
 def inject_file(pdf: str, out_dir: str, seed: int, n_target: tuple[int, int] = (8, 12), registry: dict | None = None,
-                types: list[str] | None = None, sections: list | None = None) -> dict:
+                types: list[str] | None = None, sections: list | None = None, max_per_type: int = 1) -> dict:
     """Plant errors; write {nct}_s{seed}.pdf and its answer key JSON. Returns the key."""
     nct = Path(pdf).name.split("_")[0]
     rng = random.Random(f"{nct}:{seed}")
     doc = pymupdf.open(pdf)
     ctx = Ctx(doc, nct, rng, registry, sections if sections is not None else _sections(pdf))
-    order = list(types or INJECTORS)
+    order = [t for t in (types or INJECTORS) for _ in range(max_per_type)]  # a type may repeat at a different site
     rng.shuffle(order)
     target = rng.randint(*n_target)
     errors, skipped = [], [{"type": t, "reason": "not implemented yet"} for t in NOT_YET if not types or t in types]
@@ -530,7 +552,8 @@ def inject_file(pdf: str, out_dir: str, seed: int, n_target: tuple[int, int] = (
             continue
         res = INJECTORS[t](ctx)
         if isinstance(res, Skip):
-            skipped.append({"type": res.type, "reason": res.reason})
+            if not any(x["type"] == t and x["reason"] == res.reason for x in skipped):
+                skipped.append({"type": res.type, "reason": res.reason})
         else:
             res["error_id"] = f"{nct}-s{seed}-{len(errors) + 1:02d}"
             errors.append(res)

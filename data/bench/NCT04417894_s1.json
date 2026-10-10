@@ -200,6 +200,38 @@
    "error_id": "NCT04417894-s1-06"
   },
   {
+   "type": "T15",
+   "name": "Required M11 section removed",
+   "page": 85,
+   "bbox": [
+    72.0,
+    70.3,
+    103.9,
+    89.7
+   ],
+   "original": "11.2 Justification of Sample Size",
+   "new": "(removed)",
+   "context": "11.2.",
+   "new_line": "(removed)11.2.",
+   "description": "Removed M11 10.11 11.2 Justification of Sample Size (12 lines)",
+   "expected_checks": [
+    "B1"
+   ],
+   "amendment_category": "completeness",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     85
+    ],
+    "texts": [],
+    "titles": [
+     "M11 10.11 "
+    ]
+   },
+   "m11_id": "10.11",
+   "error_id": "NCT04417894-s1-07"
+  },
+  {
    "type": "T06",
    "name": "Age range changed in one place",
    "page": 20,
@@ -228,7 +260,7 @@
      "for patients ≥21 years old and"
     ]
    },
-   "error_id": "NCT04417894-s1-07"
+   "error_id": "NCT04417894-s1-08"
   },
   {
    "type": "T07",
@@ -261,7 +293,7 @@
      "ading dose of 750 mg on"
     ]
    },
-   "error_id": "NCT04417894-s1-08"
+   "error_id": "NCT04417894-s1-09"
   }
  ],
  "skipped": [
@@ -292,10 +324,6 @@
   {
    "type": "T16",
    "reason": "no row of at least 3 visit windows found"
-  },
-  {
-   "type": "T15",
-   "reason": "no removable M11 section of at most 2 pages found"
   },
   {
    "type": "T18",

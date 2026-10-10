@@ -6,6 +6,39 @@
  "target_errors": 10,
  "errors": [
   {
+   "type": "T15",
+   "name": "Required M11 section removed",
+   "page": 103,
+   "bbox": [
+    108.0,
+    287.3,
+    126.3,
+    303.1
+   ],
+   "original": "9.2 Sample Size Determination",
+   "new": "(removed)",
+   "context": "9.2",
+   "new_line": "(removed)9.2",
+   "description": "Removed M11 10.11 9.2 Sample Size Determination (45 lines)",
+   "expected_checks": [
+    "B1"
+   ],
+   "amendment_category": "completeness",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     103,
+     104
+    ],
+    "texts": [],
+    "titles": [
+     "M11 10.11 "
+    ]
+   },
+   "m11_id": "10.11",
+   "error_id": "NCT04303780-s1-01"
+  },
+  {
    "type": "T07",
    "name": "Dose changed in one place",
    "page": 17,
@@ -38,7 +71,7 @@
      "dispensed at 1200 mg once daily"
     ]
    },
-   "error_id": "NCT04303780-s1-01"
+   "error_id": "NCT04303780-s1-02"
   },
   {
    "type": "T17",
@@ -70,7 +103,7 @@
      "approximately 9 months after"
     ]
    },
-   "error_id": "NCT04303780-s1-02"
+   "error_id": "NCT04303780-s1-03"
   },
   {
    "type": "T14",
@@ -100,7 +133,7 @@
      "See Section 99.1.6 and"
     ]
    },
-   "error_id": "NCT04303780-s1-03"
+   "error_id": "NCT04303780-s1-04"
   },
   {
    "type": "T08",
@@ -134,7 +167,7 @@
      "Approximately 396 subjects with"
     ]
    },
-   "error_id": "NCT04303780-s1-04"
+   "error_id": "NCT04303780-s1-05"
   },
   {
    "type": "T10",
@@ -170,7 +203,7 @@
      "nd randomized 2:1 to receive ei"
     ]
    },
-   "error_id": "NCT04303780-s1-05"
+   "error_id": "NCT04303780-s1-06"
   },
   {
    "type": "T09",
@@ -195,14 +228,13 @@
    "match": {
     "pages": [
      19,
-     20,
-     103
+     20
     ],
     "texts": [
      "vide at least 80% power to"
     ]
    },
-   "error_id": "NCT04303780-s1-06"
+   "error_id": "NCT04303780-s1-07"
   },
   {
    "type": "T02",
@@ -233,7 +265,7 @@
      "eline to Week 14 in PRO endpoi"
     ]
    },
-   "error_id": "NCT04303780-s1-07"
+   "error_id": "NCT04303780-s1-08"
   },
   {
    "type": "T13",
@@ -263,7 +295,7 @@
      "Neutrophils < 1000 cells/mm3 for"
     ]
    },
-   "error_id": "NCT04303780-s1-08"
+   "error_id": "NCT04303780-s1-09"
   }
  ],
  "skipped": [
@@ -286,10 +318,6 @@
   {
    "type": "T12",
    "reason": "not implemented yet"
-  },
-  {
-   "type": "T15",
-   "reason": "no removable M11 section of at most 2 pages found"
   },
   {
    "type": "T06",

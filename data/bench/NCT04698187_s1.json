@@ -252,6 +252,38 @@
     ]
    },
    "error_id": "NCT04698187-s1-08"
+  },
+  {
+   "type": "T15",
+   "name": "Required M11 section removed",
+   "page": 80,
+   "bbox": [
+    72.0,
+    227.9,
+    96.7,
+    247.9
+   ],
+   "original": "9.1 Sample Size Calculation",
+   "new": "(removed)",
+   "context": "9.1.",
+   "new_line": "(removed)9.1.",
+   "description": "Removed M11 10.11 9.1 Sample Size Calculation (12 lines)",
+   "expected_checks": [
+    "B1"
+   ],
+   "amendment_category": "completeness",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     80
+    ],
+    "texts": [],
+    "titles": [
+     "M11 10.11 "
+    ]
+   },
+   "m11_id": "10.11",
+   "error_id": "NCT04698187-s1-09"
   }
  ],
  "skipped": [
@@ -290,10 +322,6 @@
   {
    "type": "T10",
    "reason": "no randomisation ratio is stated twice"
-  },
-  {
-   "type": "T15",
-   "reason": "no removable M11 section of at most 2 pages found"
   }
  ]
 }
