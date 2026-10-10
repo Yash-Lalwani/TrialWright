@@ -57,9 +57,10 @@ async def test_extract_llm_assembles_graph_parts(monkeypatch):
                 "level": "primary", "text": "Compare PFS", "quote": "compare PFS",
                 "endpoints": [{"text": "PFS per RECIST 1.1", "measure": "PFS", "timepoints_weeks": [24],
                                "quote": "PFS per RECIST"}]}]},
-            "extract_criteria": {"criteria": [{"kind": "inclusion", "text": "ANC >= 1.5", "quote": "ANC",
-                                               "thresholds": [{"test": "ANC", "op": ">=", "value": 1.5,
-                                                               "unit": "10^9/L"}]}]},
+            "extract_inclusion": {"criteria": [{"kind": "inclusion", "text": "ANC >= 1.5", "quote": "ANC",
+                                                "thresholds": [{"test": "ANC", "op": ">=", "value": 1.5,
+                                                                "unit": "10^9/L"}]}]},
+            "extract_exclusion": {"criteria": []},
             "extract_stats": {"sample_size": 300, "alpha": 0.05, "power": 0.8,
                               "analyses": [{"endpoint_ids": ["ep_1"], "method": "Log-rank", "quote": "log-rank"}]},
             "extract_design": {"condition": "NSCLC", "arms": [{"name": "A", "type": "experimental", "dose": None,
@@ -72,6 +73,7 @@ async def test_extract_llm_assembles_graph_parts(monkeypatch):
     sec = lambda m11, page: Section(id=m11, m11_id=m11, title=m11, level=1, page_start=page, page_end=page, text="x")  # noqa: E731
     parts = [(sec("3", 5), [line("The primary objective is to compare PFS per RECIST 1.1", 5)]),
              (sec("5.2", 9), [line("ANC ≥ 1.5 × 10^9/L", 9)]),
+             (sec("5.3", 10), [line("Prior therapy with a RET inhibitor", 10)]),
              (sec("10", 20), [line("PFS will be compared using a stratified log-rank test", 20)]),
              (sec("4.1", 3), [line("Arm A receives drug", 3)])]
     out = await entities.extract_llm(parts)

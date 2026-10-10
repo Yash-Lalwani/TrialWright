@@ -1,0 +1,7 @@
+{
+ "step": "extract_stats",
+ "model": "deepseek/deepseek-v4-flash-0731",
+ "content": "{\n  \"sample_size\": 130,\n  \"alpha\": 0.05,\n  \"sided\": 2,\n  \"power\": 0.85,\n  \"effect_size\": 0.24,\n  \"effect_type\": \"proportions\",\n  \"control_rate\": 0.10,\n  \"dropout\": 0.10,\n  \"analyses\": [\n    {\n      \"endpoint_ids\": [\"ep_1\"],\n      \"method\": \"Cochran-Mantel-Haenszel (CMH) test\",\n      \"quote\": \"The primary endpoint of proportion of patients achieving an IGA score of 0 or 1 on hand and foot at week 16 will be analyzed using the Cochran-Mantel-Haenszel (CMH) test\"\n    },\n    {\n      \"endpoint_ids\": [\"ep_2\", \"ep_3\", \"ep_10\", \"ep_12\", \"ep_13\", \"ep_14\", \"ep_21\", \"ep_22\"],\n      \"method\": \"Cochran-Mantel-Haenszel (CMH) test\",\n      \"quote\": \"Secondary efficacy endpoints that measure binary responses (eg, improvement of weekly average of daily peak Pruritus NRS \u22654 from baseline to week 16) will be analyzed in the same fashion as the primary analysis.\"\n    },\n    {\n      \"endpoint_ids\": [\"ep_4\", \"ep_5\", \"ep_6\", \"ep_7\", \"ep_8\", \"ep_9\", \"ep_11\", \"ep_15\", \"ep_16\", \"ep_20\"],\n      \"method\": \"ANCOVA\",\n      \"quote\": \"Continuous secondary efficacy endpoints (eg, percent change mTLSS for hand/foot lesions from baseline to week 16) will be analyzed using an analysis of covariance (ANCOVA) model\"\n    }\n  ]\n}",
+ "tokens_in": 4415,
+ "tokens_out": 404
+}

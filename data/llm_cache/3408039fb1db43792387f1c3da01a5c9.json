@@ -1,0 +1,7 @@
+{
+ "step": "extract_stats",
+ "model": "deepseek/deepseek-v4-flash-0731",
+ "content": "{\n  \"sample_size\": null,\n  \"alpha\": 0.05,\n  \"sided\": null,\n  \"power\": null,\n  \"effect_size\": null,\n  \"effect_type\": null,\n  \"control_rate\": null,\n  \"dropout\": null,\n  \"analyses\": [\n    {\n      \"endpoint_ids\": [\"ep_1\"],\n      \"method\": \"ANCOVA with multiple imputation\",\n      \"quote\": \"Continuous endpoints will be analyzed using the multiple imputation (MI) method with analysis of covariance (ANCOVA) model, which includes treatment group, stratification variable (moderate [IGA=3] vs. severe [IGA=4] AD) and relevant baseline value as covariates.\"\n    },\n    {\n      \"endpoint_ids\": [\"ep_2\", \"ep_3\", \"ep_4\", \"ep_5\", \"ep_6\", \"ep_7\"],\n      \"method\": \"Cochran-Mantel-Haenszel test\",\n      \"quote\": \"The categorical endpoints will be analyzed using a Cochran-Mantel-Haenszel test stratified by baseline disease severity stratum.\"\n    }\n  ]\n}",
+ "tokens_in": 2545,
+ "tokens_out": 247
+}

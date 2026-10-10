@@ -1,0 +1,7 @@
+{
+ "step": "extract_soa",
+ "model": "deepseek/deepseek-v4-flash-0731",
+ "content": "{\"visits\": [{\"visit_id\": \"v1\", \"study_day\": null}, {\"visit_id\": \"v2\", \"study_day\": null}, {\"visit_id\": \"v3\", \"study_day\": 1}, {\"visit_id\": \"v4\", \"study_day\": 15}, {\"visit_id\": \"v5\", \"study_day\": 29}, {\"visit_id\": \"v6\", \"study_day\": 43}, {\"visit_id\": \"v7\", \"study_day\": 57}, {\"visit_id\": \"v8\", \"study_day\": 71}, {\"visit_id\": \"v9\", \"study_day\": 85}, {\"visit_id\": \"v10\", \"study_day\": 99}, {\"visit_id\": \"v11\", \"study_day\": 113}, {\"visit_id\": \"v12\", \"study_day\": 141}, {\"visit_id\": \"v13\", \"study_day\": 169}, {\"visit_id\": \"v14\", \"study_day\": 197}, {\"visit_id\": \"v15\", \"study_day\": 225}, {\"visit_id\": \"v16\", \"study_day\": 253}, {\"visit_id\": \"v17\", \"study_day\": null}, {\"visit_id\": \"v18\", \"study_day\": null}]}",
+ "tokens_in": 1017,
+ "tokens_out": 273
+}

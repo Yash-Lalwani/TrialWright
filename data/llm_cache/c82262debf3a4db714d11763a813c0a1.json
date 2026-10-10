@@ -1,0 +1,7 @@
+{
+ "step": "extract_soa",
+ "model": "deepseek/deepseek-v4-flash-0731",
+ "content": "{\n  \"visits\": [\n    {\"visit_id\": \"v1\", \"study_day\": null},\n    {\"visit_id\": \"v2\", \"study_day\": 1},\n    {\"visit_id\": \"v3\", \"study_day\": 1},\n    {\"visit_id\": \"v4\", \"study_day\": 1},\n    {\"visit_id\": \"v5\", \"study_day\": 22},\n    {\"visit_id\": \"v6\", \"study_day\": 43},\n    {\"visit_id\": \"v7\", \"study_day\": null},\n    {\"visit_id\": \"v8\", \"study_day\": null},\n    {\"visit_id\": \"v9\", \"study_day\": null}\n  ]\n}",
+ "tokens_in": 932,
+ "tokens_out": 151
+}

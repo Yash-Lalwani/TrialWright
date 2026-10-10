@@ -1,0 +1,7 @@
+{
+ "step": "extract_stats",
+ "model": "deepseek/deepseek-v4-flash-0731",
+ "content": "{\n  \"sample_size\": 330,\n  \"alpha\": 0.025,\n  \"sided\": 1,\n  \"power\": 0.9,\n  \"effect_size\": 0.65,\n  \"effect_type\": \"hazard_ratio\",\n  \"control_rate\": null,\n  \"dropout\": 0.1,\n  \"analyses\": [\n    {\n      \"endpoint_ids\": [\"ep_1\"],\n      \"method\": \"log-rank test\",\n      \"quote\": \"The PA of PFS will occur when approximately 230 PFS events have been observed.\"\n    },\n    {\n      \"endpoint_ids\": [\"ep_1\"],\n      \"method\": \"O'Brien-Fleming alpha spending function\",\n      \"quote\": \"The monitoring boundary for early stopping for efficacy will be based on an O\u2019Brien-Fleming type alpha spending function for multiplicity adjustment.\"\n    },\n    {\n      \"endpoint_ids\": [\"ep_2\"],\n      \"method\": \"log-rank test\",\n      \"quote\": \"The OS primary analysis will occur when at least 198 OS events (~60% maturity) have been observed\"\n    },\n    {\n      \"endpoint_ids\": [\"ep_3\"],\n      \"method\": \"odds ratio test\",\n      \"quote\": \"H02: odds ratio of ORR between AMG 510 arm and docetaxel arm = 1 versus H12: odds ratio of ORR between AMG 510 arm and docetaxel arm \u2260 1\"\n    },\n    {\n      \"endpoint_ids\": [\"ep_4\", \"ep_5\"],\n      \"method\": \"Holm's procedure\",\n      \"quote\": \"If all 6 hypotheses listed above are rejected, the next 2 PRO endpoints will be tested using the Holm\u2019s procedure\"\n    }\n  ]\n}",
+ "tokens_in": 4481,
+ "tokens_out": 378
+}

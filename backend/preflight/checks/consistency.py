@@ -24,12 +24,31 @@ ADMIN = re.compile(
     r"dispens|administ|infusion|dosing|study drug|treatment|compliance|diary|subsequent|survival|contact", re.I)
 
 
+GENERIC = {"proportion", "patients", "participants", "subjects", "percent", "percentage", "change", "baseline",
+           "score", "scores", "reduction", "point", "week", "weeks", "rate", "number", "with", "from", "total", "mean",
+           "time", "least", "achieving", "improvement", "days", "month", "months", "level", "levels"}
+
+
+def _tokens(text: str) -> set[str]:
+    """Distinctive tokens: acronyms (IGA, NRS, mTLSS) and longer non-generic words."""
+    out = set()
+    for w in re.findall(r"[A-Za-z][A-Za-z0-9\-]+", text):
+        low = w.lower()
+        if low in GENERIC:
+            continue
+        if sum(c.isupper() for c in w) >= 2 or len(low) >= 5:
+            out.add(low)
+            out |= {part for part in low.split("-") if len(part) >= 4 and part not in GENERIC and not part.isdigit()}
+    return out
+
+
 def _procedures_for(endpoint: Endpoint, graph: ProtocolGraph) -> set[str]:
     measure = f"{endpoint.measure} {endpoint.text}".lower()
+    wanted = _tokens(f"{endpoint.measure} {endpoint.text}")
     ids = set()
     for p in graph.soa.procedures:
         name = p.normalized_name
-        if fuzz.partial_ratio(endpoint.measure.lower(), name) >= 85:
+        if fuzz.partial_ratio(endpoint.measure.lower(), name) >= 85 or wanted & _tokens(p.name):
             ids.add(p.id)
         for m_pat, p_pat in MEASURE_PROCEDURES.items():
             if re.search(m_pat, measure) and re.search(p_pat, name):
@@ -160,9 +179,13 @@ def objective_endpoint_analysis(graph: ProtocolGraph, ctx: CheckContext):
         return issues
     primary = {eid for o in graph.objectives if o.level == "primary" for eid in o.endpoint_ids}
     secondary = {eid for o in graph.objectives if o.level == "secondary" for eid in o.endpoint_ids}
+    stats_text = " ".join(s.text for s in graph.sections if (s.m11_id or "").split(".")[0] == "10").lower()
     for ep in graph.endpoints:
         if ep.analysis_ids or ep.id not in primary | secondary:
             continue
+        named = _tokens(f"{ep.measure} {ep.text}")
+        if named and any(re.search(rf"\b{re.escape(t)}\b", stats_text) for t in named):
+            continue  # the statistics chapter discusses this endpoint even if the LLM did not link an analysis
         safety = bool(SAFETY.search(f"{ep.measure} {ep.text}"))
         issues.append(issue(
             "C3", f"Endpoint '{ep.measure}' has no analysis method in the statistics section", where(graph, ep.span),

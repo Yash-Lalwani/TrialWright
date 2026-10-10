@@ -112,11 +112,13 @@ def _m11_items(graph: ProtocolGraph) -> list[CompletenessItem]:
             add(status, [p for s in covered for p in range(s.page_start, s.page_end + 1)], note)
             continue
         parts = item["id"].split(".")
-        if len(parts) <= 2:
-            add("missing")  # chapters and sections need their own heading
-            continue
-        # Sub-items rarely have their own heading in pre-M11 protocols: look for the content inside the parent.
         scope = next((c for k in range(len(parts) - 1, 0, -1) if (c := _covered(graph, ".".join(parts[:k])))), None)
+        # Chapters and sections need their own heading, unless the chapter is one undivided block (e.g. objectives
+        # in a single table). Sub-items rarely have headings in pre-M11 protocols, so their content is searched.
+        undivided = scope is not None and len(scope) == 1
+        if len(parts) == 1 or (len(parts) == 2 and not undivided):
+            add("missing")
+            continue
         hit = _found_in(scope, item, by_name_only=False) if scope else None
         if hit is None:
             add("missing")

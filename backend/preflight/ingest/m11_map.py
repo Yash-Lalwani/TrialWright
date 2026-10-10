@@ -1,3 +1,4 @@
+import os
 import re
 from pathlib import Path
 
@@ -158,7 +159,8 @@ async def map_sections(sections: list[Section], use_llm: bool = True) -> list[Se
             chapter = m11.split(".")[0] if m11 else None
         mapped.append(sec.model_copy(update={"m11_id": m11}))
     leftovers = [s for s in mapped if s.m11_id is None and s.level <= 2 and s.text][:MAX_LEFTOVERS]
-    if use_llm and leftovers:
+    # Off by default: the LLM maps leftovers differently run to run, which made completeness unstable on the bench.
+    if use_llm and leftovers and os.getenv("M11_LLM_MAP", "false") == "true":
         mapped = await _llm_map(mapped, leftovers, toc)
     return mapped
 

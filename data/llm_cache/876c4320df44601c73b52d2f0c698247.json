@@ -1,0 +1,7 @@
+{
+ "step": "extract_design",
+ "model": "deepseek/deepseek-v4-flash-0731",
+ "content": "{\n  \"condition\": \"moderate-to-severe atopic hand and foot dermatitis\",\n  \"sponsor\": \"Regeneron Pharmaceuticals, Inc.\",\n  \"arms\": [\n    {\n      \"name\": \"Dupilumab\",\n      \"type\": \"experimental\",\n      \"dose\": \"In adults: dupilumab 300 mg, after a loading dose of 600 mg on day 1, irrespective of body weight; In adolescents: Body weight \u226560 kg, dupilumab 300 mg, after a loading dose of 600 mg on day 1, body weight <60 kg, dupilumab 200 mg, after a loading dose of 400 mg on day 1\",\n      \"route\": \"subcutaneously (SC)\",\n      \"frequency\": \"every 2 weeks (Q2W)\",\n      \"duration_weeks\": 16\n    },\n    {\n      \"name\": \"Placebo\",\n      \"type\": \"placebo\",\n      \"dose\": \"Matching placebo\",\n      \"route\": \"subcutaneously (SC)\",\n      \"frequency\": \"every 2 weeks (Q2W)\",\n      \"duration_weeks\": 16\n    }\n  ]\n}",
+ "tokens_in": 3666,
+ "tokens_out": 252
+}

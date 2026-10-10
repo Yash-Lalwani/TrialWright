@@ -325,20 +325,26 @@ async def extract_llm(parts: list[tuple[Section, list[Line]]]) -> dict:
             return None
         return await complete_json(step, f"{system} {QUOTE_RULE}", extra + _text(lines), schema)
 
-    objectives_out, criteria_out, arms_out = await asyncio.gather(
+    objectives_out, inclusion_out, exclusion_out, arms_out = await asyncio.gather(
         ask("extract_objectives",
             "Extract every trial objective and its endpoints. Convert endpoint timepoints to study weeks "
             "(Day 1 = week 0, 'Cycle 3 Day 1' of 3-week cycles = week 6, 6 months = 26 weeks).",
             obj_lines, _ObjectivesOut),
-        ask("extract_criteria",
-            "Extract every inclusion and exclusion criterion. For lab or numeric limits give thresholds "
-            "like {test: 'ANC', op: '>=', value: 1.5, unit: '10^9/L'}.",
-            crit_lines, _CriteriaOut),
+        ask("extract_inclusion",
+            "Extract every inclusion criterion (kind 'inclusion'). For lab or numeric limits give thresholds "
+            "like {test: 'ANC', op: '>=', value: 1.5, unit: '10^9/L'}. Keep each text under 300 characters.",
+            effective_parts(parts, ("5.2",)), _CriteriaOut),
+        ask("extract_exclusion",
+            "Extract every exclusion criterion (kind 'exclusion'). For lab or numeric limits give thresholds "
+            "like {test: 'ANC', op: '<', value: 1.5, unit: '10^9/L'}. Keep each text under 300 characters.",
+            effective_parts(parts, ("5.3",)), _CriteriaOut),
         ask("extract_design",
             "Extract the condition studied, the sponsor and the treatment arms (name, type such as "
             "experimental/active comparator/placebo, dose, route, frequency, duration in weeks).",
             design_lines, _ArmsOut),
     )
+    criteria_out = _CriteriaOut(criteria=[*(inclusion_out.criteria if inclusion_out else []),
+                                          *(exclusion_out.criteria if exclusion_out else [])])
     # Endpoint ids are assigned in this order by _assemble; the stats call links analyses to them.
     ep_list = [e for o in (objectives_out.objectives if objectives_out else []) for e in o.endpoints]
     catalog = "\n".join(f"ep_{i}: {e.measure} ({e.text[:100]})" for i, e in enumerate(ep_list, 1))

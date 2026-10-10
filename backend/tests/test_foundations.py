@@ -49,3 +49,13 @@ async def test_replay_hits_cache_and_misses_raise(tmp_path, monkeypatch):
               {"content": '```json\n{"value": 3}\n```', "tokens_in": 1, "tokens_out": 1})
     assert (await client.complete_json("t", "sys", "user", Answer)).value == 3
     assert client._client is None
+
+
+async def test_invalid_json_after_retry_degrades(tmp_path, monkeypatch):
+    monkeypatch.setattr(cache, "CACHE_DIR", tmp_path)
+    monkeypatch.setenv("LLM_MODE", "replay")
+    system = client.json_system("sys", Answer)
+    cache.put(cache.key(client.model(), system, "user", "Answer"), {"content": '{"value": ', "tokens_in": 1,
+                                                                    "tokens_out": 1})
+    with pytest.raises(client.LLMUnavailable):
+        await client.complete_json("t", "sys", "user", Answer)
