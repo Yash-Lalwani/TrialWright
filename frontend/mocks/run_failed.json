@@ -1,0 +1,13 @@
+{
+  "run_id": "run_a802",
+  "protocol_id": "prt_9c47",
+  "version_label": "v1",
+  "mode": "rules_only",
+  "status": "failed",
+  "started_at": "2026-10-10T21:41:02Z",
+  "finished_at": "2026-10-10T21:41:31Z",
+  "duration_s": 29.0,
+  "llm_cost_usd": 0,
+  "score": null,
+  "counts": null
+}

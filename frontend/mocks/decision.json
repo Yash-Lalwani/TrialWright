@@ -1,0 +1,1 @@
+{"issue_id": "iss_01", "status": "accepted", "audit_id": "aud_77", "score": {"overall": 68, "completeness": 81, "consistency": 59, "burden": 58, "amendment_risk": 70, "weights": {"completeness": 0.25, "consistency": 0.35, "burden": 0.20, "amendment_risk": 0.20}}}

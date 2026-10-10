@@ -1,0 +1,171 @@
+{
+  "draft_id": "drf_11",
+  "status": "complete",
+  "brief": {
+    "condition": "Non-small cell lung cancer",
+    "phase": "PHASE2",
+    "intervention": "Drug X 350 mg IV Q3W",
+    "comparator": "Docetaxel",
+    "primary_question": "Does Drug X improve ORR vs docetaxel?",
+    "population": "Adults with previously treated advanced NSCLC",
+    "duration_weeks": 52,
+    "alpha": 0.05,
+    "power": 0.8,
+    "expected_effect": {
+      "type": "proportions",
+      "control": 0.12,
+      "treatment": 0.27
+    },
+    "dropout": 0.1
+  },
+  "precedent": {
+    "this_protocol": {
+      "primary_endpoint": "ORR per RECIST 1.1",
+      "primary_timeframe": "Week 24",
+      "key_eligibility": [
+        "ECOG 0",
+        "Age 18-75"
+      ],
+      "enrollment": 420,
+      "n_visits": 18
+    },
+    "rows": [
+      {
+        "nct_id": "NCT00000001",
+        "title": "Study of Drug Y in NSCLC",
+        "sponsor": "Sponsor Co",
+        "phase": "PHASE3",
+        "similarity": 0.82,
+        "primary_endpoint": "PFS per RECIST 1.1",
+        "primary_timeframe": "Up to 36 months",
+        "key_eligibility": [
+          "ECOG 0-1",
+          "Age 18+"
+        ],
+        "enrollment": 610,
+        "n_visits": 14
+      }
+    ]
+  },
+  "sample_size": {
+    "n_total": 210,
+    "n_per_arm": 105,
+    "method": "Two-proportion z-test, two-sided",
+    "inputs": {
+      "alpha": 0.05,
+      "power": 0.8,
+      "control": 0.12,
+      "treatment": 0.27,
+      "dropout": 0.1
+    }
+  },
+  "sections": [
+    {
+      "m11_id": "3",
+      "title": "Trial Objectives and Associated Estimands",
+      "markdown": "### 3.1 Primary Objective\nTo compare objective response rate (ORR) per RECIST 1.1 between Drug X and docetaxel in adults with previously treated advanced NSCLC.\n\n### 3.2 Primary Estimand\n- Population: randomized participants\n- Variable: best overall response by Week 24\n- Intercurrent events: new anticancer therapy handled with a while-on-treatment strategy\n- Summary measure: difference in ORR",
+      "citations": [
+        "NCT00000001",
+        "NCT00000002"
+      ]
+    }
+  ],
+  "burden": {
+    "per_patient": {
+      "visits": 18,
+      "procedures_total": 214,
+      "invasive": 6,
+      "patient_hours": 61.5,
+      "site_hours": 88,
+      "cost_usd": 18400
+    },
+    "by_visit": [
+      {
+        "visit": "Screening",
+        "study_day": -28,
+        "patient_minutes": 240,
+        "site_minutes": 310,
+        "procedures": [
+          "Informed consent",
+          "CT/MRI",
+          "Hematology",
+          "Chemistry",
+          "ECG"
+        ]
+      },
+      {
+        "visit": "C1D1",
+        "study_day": 1,
+        "patient_minutes": 300,
+        "site_minutes": 360,
+        "procedures": [
+          "Vitals",
+          "PK sample",
+          "Infusion"
+        ]
+      }
+    ],
+    "orphan_procedures": [
+      {
+        "name": "Exploratory skin biopsy",
+        "occurrences": 3,
+        "patient_minutes": 135,
+        "cost_usd": 2100
+      }
+    ],
+    "peer_percentiles": {
+      "patient_hours": 82,
+      "procedures_total": 77,
+      "visits": 64,
+      "n_peers_with_soa": 24
+    },
+    "assumptions": {
+      "file": "data/assumptions/procedure_costs.csv",
+      "version": "2026-10-11"
+    }
+  },
+  "self_check": {
+    "score": {
+      "overall": 84,
+      "completeness": 88,
+      "consistency": 85,
+      "burden": 72,
+      "amendment_risk": 90,
+      "weights": {
+        "completeness": 0.25,
+        "consistency": 0.35,
+        "burden": 0.2,
+        "amendment_risk": 0.2
+      }
+    },
+    "issues": [
+      {
+        "id": "iss_d01",
+        "check_id": "C3",
+        "source": "rule",
+        "category": "completeness",
+        "severity": "minor",
+        "title": "Secondary endpoint duration of response has no analysis",
+        "where": {
+          "section": "3.3 Secondary Objectives",
+          "page": null,
+          "bbox": null,
+          "quote": "To evaluate duration of response"
+        },
+        "related": [],
+        "why": {
+          "explanation": "The draft lists duration of response as a secondary objective but Section 10 has no analysis for it.",
+          "standard_ref": "ICH M11 3, 10",
+          "amendment_category": "statistics"
+        },
+        "fix": {
+          "suggestion": "Add a descriptive Kaplan-Meier analysis of duration of response.",
+          "patch": null
+        },
+        "confidence": 0.9,
+        "verified": true,
+        "status": "open"
+      }
+    ]
+  }
+}

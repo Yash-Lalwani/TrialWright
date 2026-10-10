@@ -1,0 +1,23 @@
+{
+  "steps": [
+    {"step": "ingest", "status": "done", "started_at": "2026-10-11T02:14:05Z", "duration_s": 4.1},
+    {"step": "map_sections", "status": "done", "started_at": "2026-10-11T02:14:09Z", "duration_s": 6.3},
+    {"step": "extract_soa", "status": "done", "started_at": "2026-10-11T02:14:20Z", "duration_s": 18.4},
+    {"step": "extract_entities", "status": "done", "started_at": "2026-10-11T02:14:38Z", "duration_s": 21.7},
+    {"step": "rules", "status": "done", "started_at": "2026-10-11T02:15:00Z", "duration_s": 1.2},
+    {"step": "reviewers", "status": "done", "started_at": "2026-10-11T02:15:01Z", "duration_s": 24.9},
+    {"step": "verify", "status": "done", "started_at": "2026-10-11T02:15:26Z", "duration_s": 2.0},
+    {"step": "burden", "status": "done", "started_at": "2026-10-11T02:15:28Z", "duration_s": 3.6},
+    {"step": "peers", "status": "done", "started_at": "2026-10-11T02:15:32Z", "duration_s": 5.8},
+    {"step": "score", "status": "done", "started_at": "2026-10-11T02:15:38Z", "duration_s": 0.4}
+  ],
+  "llm_calls": [
+    {"step": "extract_soa", "model": "deepseek/deepseek-v4-flash-20260731", "tokens_in": 9120, "tokens_out": 1430, "latency_s": 6.2, "cost_usd": 0.0019, "cache_hit": false}
+  ],
+  "verifier": {"ai_findings": 9, "dropped_ungrounded": 2, "shown": 7},
+  "audit": [
+    {"audit_id": "aud_75", "issue_id": "iss_11", "decision": "accepted", "user": "reviewer", "note": "Added Section 12.4 with medication lists", "at": "2026-10-11T02:18:12Z"},
+    {"audit_id": "aud_76", "issue_id": "iss_12", "decision": "accepted", "user": "reviewer", "note": "Added irAE to abbreviations", "at": "2026-10-11T02:18:40Z"},
+    {"audit_id": "aud_77", "issue_id": "iss_17", "decision": "rejected", "user": "reviewer", "note": "Windows after Week 12 are defined in the site manual", "at": "2026-10-11T02:20:00Z"}
+  ]
+}

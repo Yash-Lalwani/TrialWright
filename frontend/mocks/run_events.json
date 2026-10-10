@@ -1,0 +1,17 @@
+{
+  "_comment": "Mock SSE replay for GET /api/runs/{run_id}/events (CONTRACTS.md 4.3). One progress event per step, 1 s apart. In rules_only mode, reviewers and verify are replaced by skipped_message with status skipped.",
+  "progress": [
+    {"step": "ingest", "status": "done", "pct": 10, "message": "24 pages, 41 sections"},
+    {"step": "map_sections", "status": "done", "pct": 20, "message": "38 of 41 headings mapped to ICH M11"},
+    {"step": "extract_soa", "status": "done", "pct": 30, "message": "11 visits x 14 procedures"},
+    {"step": "extract_entities", "status": "done", "pct": 40, "message": "6 objectives, 18 eligibility criteria, 47 numbers"},
+    {"step": "rules", "status": "done", "pct": 50, "message": "11 rule findings"},
+    {"step": "reviewers", "status": "done", "pct": 60, "message": "4 reviewers returned 9 findings"},
+    {"step": "verify", "status": "done", "pct": 70, "message": "7 grounded, 2 dropped as ungrounded"},
+    {"step": "burden", "status": "done", "pct": 80, "message": "11 visits, 1 orphan procedure"},
+    {"step": "peers", "status": "done", "pct": 90, "message": "143 peer trials, 2 hotspots"},
+    {"step": "score", "status": "done", "pct": 100, "message": "Pre-Flight score 62"}
+  ],
+  "skipped_message": "Skipped in confidential mode (LLM disabled)",
+  "complete": {"run_id": "run_31c9"}
+}

@@ -1,0 +1,10 @@
+{
+  "per_patient": {"visits": 18, "procedures_total": 214, "invasive": 6, "patient_hours": 61.5, "site_hours": 88.0, "cost_usd": 18400},
+  "by_visit": [
+    {"visit": "Screening", "study_day": -28, "patient_minutes": 240, "site_minutes": 310, "procedures": ["Informed consent", "CT/MRI", "Hematology", "Chemistry", "ECG"]},
+    {"visit": "C1D1", "study_day": 1, "patient_minutes": 300, "site_minutes": 360, "procedures": ["Vitals", "PK sample", "Infusion"]}
+  ],
+  "orphan_procedures": [{"name": "Exploratory skin biopsy", "occurrences": 3, "patient_minutes": 135, "cost_usd": 2100}],
+  "peer_percentiles": {"patient_hours": 82, "procedures_total": 77, "visits": 64, "n_peers_with_soa": 24},
+  "assumptions": {"file": "data/assumptions/procedure_costs.csv", "version": "2026-10-11"}
+}

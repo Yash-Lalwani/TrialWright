@@ -1,0 +1,12 @@
+{
+  "_comment": "Mock SSE replay for GET /api/drafts/{draft_id}/events (CONTRACTS.md 4.11), 1 s per step.",
+  "progress": [
+    {"step": "precedent", "status": "done", "pct": 15, "message": "10 precedent trials"},
+    {"step": "sample_size", "status": "done", "pct": 30, "message": "N = 210 (105 per arm)"},
+    {"step": "draft_sections", "status": "done", "pct": 65, "message": "14 M11 sections drafted"},
+    {"step": "build_graph", "status": "done", "pct": 75, "message": "Protocol Graph built"},
+    {"step": "self_check", "status": "done", "pct": 90, "message": "2 issues"},
+    {"step": "burden", "status": "done", "pct": 100, "message": "Burden computed"}
+  ],
+  "complete": {"draft_id": "drf_11"}
+}

@@ -1,0 +1,25 @@
+{
+  "summary": {"present": 14, "thin": 4, "missing": 2, "required": 20},
+  "items": [
+    {"framework": "M11", "item_id": "1.1", "title": "Synopsis", "status": "present", "pages": [3, 4], "note": null},
+    {"framework": "M11", "item_id": "1.2", "title": "Trial Schema", "status": "thin", "pages": [4], "note": "Described in text only; no schema figure"},
+    {"framework": "M11", "item_id": "1.3", "title": "Schedule of Activities", "status": "present", "pages": [5], "note": null},
+    {"framework": "M11", "item_id": "2", "title": "Introduction", "status": "present", "pages": [6, 7], "note": null},
+    {"framework": "M11", "item_id": "2.3", "title": "Benefit/Risk Assessment", "status": "thin", "pages": [7], "note": "Known and potential risks are not listed"},
+    {"framework": "M11", "item_id": "3", "title": "Trial Objectives and Associated Estimands", "status": "thin", "pages": [8], "note": "No estimand attributes (population, intercurrent events, summary measure)"},
+    {"framework": "M11", "item_id": "4", "title": "Trial Design", "status": "present", "pages": [9], "note": null},
+    {"framework": "M11", "item_id": "5.1", "title": "Inclusion Criteria", "status": "present", "pages": [10, 11], "note": null},
+    {"framework": "M11", "item_id": "5.2", "title": "Exclusion Criteria", "status": "present", "pages": [11, 12], "note": null},
+    {"framework": "M11", "item_id": "6", "title": "Trial Intervention", "status": "present", "pages": [13, 14], "note": null},
+    {"framework": "M11", "item_id": "6.4", "title": "Concomitant Therapy", "status": "thin", "pages": [14], "note": "Medication lists are referenced to Section 12.4, which does not exist"},
+    {"framework": "M11", "item_id": "7", "title": "Participant Discontinuation and Withdrawal", "status": "present", "pages": [15], "note": null},
+    {"framework": "M11", "item_id": "8", "title": "Trial Assessments and Procedures", "status": "present", "pages": [16, 17], "note": null},
+    {"framework": "M11", "item_id": "9", "title": "Adverse Events and Serious Adverse Events", "status": "present", "pages": [18], "note": null},
+    {"framework": "M11", "item_id": "10", "title": "Statistical Considerations", "status": "present", "pages": [19, 20], "note": null},
+    {"framework": "M11", "item_id": "10.8", "title": "Interim Analyses", "status": "missing", "pages": [], "note": "No interim analysis or explicit statement that none is planned"},
+    {"framework": "M11", "item_id": "11", "title": "Trial Oversight and Other General Considerations", "status": "present", "pages": [21], "note": null},
+    {"framework": "M11", "item_id": "12", "title": "Supporting Documentation", "status": "present", "pages": [22], "note": null},
+    {"framework": "SPIRIT", "item_id": "13", "title": "Participant timeline", "status": "present", "pages": [5], "note": null},
+    {"framework": "SPIRIT", "item_id": "23", "title": "Data monitoring", "status": "missing", "pages": [], "note": null}
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "query": {"condition": "Non-small cell lung cancer", "phase": "PHASE3", "start_year_min": 2015},
+  "n": 143,
+  "metrics": [
+    {"metric": "n_inclusion_criteria", "label": "Inclusion criteria", "value": 14, "percentile": 71, "peer_median": 11, "peer_p25": 8, "peer_p75": 15, "distribution": [6, 8, 9, 11, 11, 12, 15, 19]},
+    {"metric": "n_exclusion_criteria", "label": "Exclusion criteria", "value": 31, "percentile": 88, "peer_median": 19, "peer_p25": 14, "peer_p75": 25, "distribution": [10, 14, 17, 19, 21, 25, 30]}
+  ],
+  "hotspot_issue_ids": ["iss_19", "iss_20"],
+  "trials": [{"nct_id": "NCT00000001", "title": "Study of Drug Y in NSCLC", "sponsor": "Sponsor Co", "phase": "PHASE3", "enrollment": 610, "start_date": "2019-03"}]
+}
