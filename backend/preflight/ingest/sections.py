@@ -54,6 +54,7 @@ def _continuation(head: Line, prev: Line, ln: Line) -> bool:
     return (ln.page == head.page and ln.bold == head.bold and abs(ln.size - head.size) <= 0.5
             and -3 <= ln.bbox[1] - prev.bbox[3] < head.size * 0.8
             and not NUMBERED.match(ln.text) and not DOT_LEADER.search(ln.text)
+            and not re.match(r"(table|figure)\s+\d", ln.text, re.I)
             and not prev.text.rstrip().endswith((".", ":")))
 
 
