@@ -35,6 +35,10 @@ def check(
                f"xrefs={len(graph.xrefs)} abbreviations defined={len(graph.abbreviations['defined'])}")
     typer.echo(f"  objectives={len(graph.objectives)} endpoints={len(graph.endpoints)} criteria={len(graph.criteria)} "
                f"arms={len(graph.arms)} sample_size={graph.stats.sample_size}")
+    if graph.soa:
+        dated = sum(v.study_day is not None for v in graph.soa.visits)
+        typer.echo(f"  soa: p{graph.soa.span.page} visits={len(graph.soa.visits)} ({dated} with study day) "
+                   f"procedures={len(graph.soa.procedures)}")
     typer.echo(f"  {time.monotonic() - start:.1f}s")
 
 

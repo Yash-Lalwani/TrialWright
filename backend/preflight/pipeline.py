@@ -8,6 +8,7 @@ from preflight.ingest import entities
 from preflight.ingest.m11_map import map_sections
 from preflight.ingest.pdf import read_pdf
 from preflight.ingest.sections import split_sections
+from preflight.ingest.soa import extract_soa, fill_days_with_llm
 
 log = logging.getLogger(__name__)
 
@@ -39,6 +40,7 @@ async def ingest_file(path: str, nct_id: str | None = None, use_llm: bool = True
     meta.nct_id = nct_id or meta.nct_id
     meta.ratio = _most_common([str(n.value) for n in numbers if n.kind == "ratio"])
 
+    soa = extract_soa(path, doc)
     llm = {}
     if use_llm:
         from preflight.llm.client import LLMCacheMiss
@@ -47,6 +49,12 @@ async def ingest_file(path: str, nct_id: str | None = None, use_llm: bool = True
             llm = await entities.extract_llm(parts)
         except LLMCacheMiss as e:
             log.warning("LLM extraction skipped: %s", e)
+        if soa:
+            context = "\n".join(ln.text for ln in entities.effective_parts(parts, ("1.1", "4.1")))
+            try:
+                soa = await fill_days_with_llm(soa, context)
+            except LLMCacheMiss as e:
+                log.warning("SoA day normalization skipped: %s", e)
 
     arms = llm.get("arms", [])
     n_arms = _most_common([int(n.value) for n in numbers if n.kind == "arms"])
@@ -64,7 +72,7 @@ async def ingest_file(path: str, nct_id: str | None = None, use_llm: bool = True
         min_age=min_age,
         max_age=max_age,
         arms=arms,
-        soa=None,
+        soa=soa,
         stats=llm.get("stats") or Stats(sample_size=None, alpha=None, sided=None, power=None, effect_size=None,
                                         effect_type=None, control_rate=None, dropout=None, analyses=[]),
         numbers=numbers,
