@@ -71,7 +71,7 @@ async def test_extract_llm_assembles_graph_parts(monkeypatch):
     monkeypatch.setattr("preflight.llm.client.complete_json", fake)
     sec = lambda m11, page: Section(id=m11, m11_id=m11, title=m11, level=1, page_start=page, page_end=page, text="x")  # noqa: E731
     parts = [(sec("3", 5), [line("The primary objective is to compare PFS per RECIST 1.1", 5)]),
-             (sec("5.1", 9), [line("ANC ≥ 1.5 × 10^9/L", 9)]),
+             (sec("5.2", 9), [line("ANC ≥ 1.5 × 10^9/L", 9)]),
              (sec("10", 20), [line("PFS will be compared using a stratified log-rank test", 20)]),
              (sec("4.1", 3), [line("Arm A receives drug", 3)])]
     out = await entities.extract_llm(parts)

@@ -49,6 +49,7 @@ class Ctx:
     rng: random.Random
     registry: dict | None = None
     sections: list | None = None
+    graph: object = None  # LLM-extracted ProtocolGraph of the CLEAN pdf, for injectors driven by extracted evidence spans
     used: dict[int, list[Rect]] = field(default_factory=dict)
     subs: dict[tuple[int, int], list[tuple[int, int, str]]] = field(default_factory=dict)  # (page, line idx) -> subs
     whites: dict[int, list[Rect]] = field(default_factory=dict)
@@ -517,12 +518,103 @@ def t15_section(ctx: Ctx):
     return Skip("T15", "no removable M11 section of at most 2 pages found")
 
 
+# --------------------------------------------------------------------------------- graph-driven types
+def _span_hit(page: int, bbox: list[float], text: str) -> Hit:
+    r = Rect(bbox)
+    return Hit(page, text, "", 0, r, 0, r)
+
+
+def _secondary_endpoint_ids(g) -> set[str]:
+    return {e for o in g.objectives if o.level == "secondary" for e in o.endpoint_ids}
+
+
+def t04_endpoint_deleted(ctx: Ctx):
+    g = ctx.graph
+    if g is None:
+        return Skip("T04", "needs the LLM-extracted objectives and endpoints (no LLM graph available)")
+    eps = {e.id: e for e in g.endpoints}
+    use = Counter(eid for o in g.objectives for eid in o.endpoint_ids)
+    for o in g.objectives:
+        if o.level != "secondary" or not o.endpoint_ids:
+            continue
+        chosen = [eps[e] for e in o.endpoint_ids if e in eps and use[e] == 1 and eps[e].span.bbox]
+        if len(chosen) != len(o.endpoint_ids) or not all(ctx.free(e.span.page, Rect(e.span.bbox)) for e in chosen):
+            continue
+        for e in chosen:
+            ctx.whiteout(e.span.page, Rect(e.span.bbox))
+        first = chosen[0]
+        h = _span_hit(first.span.page, first.span.bbox, first.span.quote)
+        err = error("T04", h, "(removed)", f"Removed the endpoint text of secondary objective '{o.text[:60]}'")
+        err["original"] = "; ".join(e.text[:60] for e in chosen)
+        err["match"] = {"pages": sorted({o.span.page, *(e.span.page for e in chosen)}), "texts": [], "titles": ["objective has no endpoint"]}
+        return err
+    return Skip("T04", "no secondary objective whose endpoints are used only by it and have a located line")
+
+
+def t05_analysis_deleted(ctx: Ctx):
+    g = ctx.graph
+    if g is None:
+        return Skip("T05", "needs the LLM-extracted endpoint analyses (no LLM graph available)")
+    sec = _secondary_endpoint_ids(g)
+    by_ep: dict[str, list[dict]] = {}
+    for a in g.stats.analyses:
+        if a.get("endpoint_id") in sec and (a.get("span") or {}).get("bbox"):
+            by_ep.setdefault(a["endpoint_id"], []).append(a)
+    for eid, items in by_ep.items():
+        rects = [(a["span"]["page"], Rect(a["span"]["bbox"])) for a in items]
+        if not all(ctx.free(p, r) for p, r in rects):
+            continue
+        for p, r in rects:
+            ctx.whiteout(p, r)
+        ep = next(e for e in g.endpoints if e.id == eid)
+        h = _span_hit(rects[0][0], list(rects[0][1]), items[0]["span"].get("quote", ""))
+        err = error("T05", h, "(removed)", f"Removed the analysis of secondary endpoint '{ep.measure}' ({len(rects)} line(s))")
+        err["original"] = "; ".join((a.get("method") or "")[:40] for a in items)
+        err["match"] = {"pages": sorted({p for p, _ in rects} | {ep.span.page}), "texts": [], "titles": ["no analysis method"]}
+        return err
+    return Skip("T05", "no secondary endpoint with a located analysis")
+
+
+def t12_contradiction(ctx: Ctx):
+    g = ctx.graph
+    if g is None:
+        return Skip("T12", "needs the LLM-extracted eligibility criteria (no LLM graph available)")
+    inc = [(c, t) for c in g.criteria if c.kind == "inclusion" for t in c.thresholds
+           if isinstance(t.get("value"), (int, float)) and t.get("test") and t.get("op") in (">=", ">", "\u2265")]
+    if not inc:
+        return Skip("T12", "no inclusion criterion with a lower-bound threshold")
+    excl = [c for c in g.criteria if c.kind == "exclusion" and c.span.bbox]
+    for c, t in inc:
+        v = float(t["value"]) * 0.8
+        v = round(v) if v >= 5 else round(v, 1)  # natural-looking value: 9 not 9.6, 1200 not 1199.9
+        new = f"{t['test'].capitalize()} at or above {v:g}{(' ' + t['unit']) if t.get('unit') else ''}."
+        for e in excl:
+            page, r = e.span.page, Rect(e.span.bbox)
+            # the exclusion line must be a single renderable text line at least as long as the new text (no overflow)
+            lines = [(i, ln) for i, ln in enumerate(ctx.lines(page)) if ln["rect"].intersects(r) and ctx.renderable(ln["text"])]
+            if len(lines) != 1 or len(lines[0][1]["text"].strip()) < len(new) * 0.8 or not ctx.free(page, lines[0][1]["rect"]):
+                continue
+            idx, ln = lines[0]
+            sp = max(ln["spans"], key=lambda x: len(x["text"]))
+            off = ln["text"].index(sp["text"])
+            h = Hit(page, ln["text"], sp["text"], off, Rect(sp["bbox"]), sp["size"], ln["rect"], idx)
+            ctx.replace(h, new + " " * max(0, len(sp["text"]) - len(new)))
+            err = error("T12", h, new, f"Exclusion criterion rewritten to contradict inclusion on {t['test']}")
+            err["match"]["pages"] = sorted({page, c.span.page})
+            return err
+    return Skip("T12", "no exclusion line that can be rewritten faithfully")
+
+
 INJECTORS = {
     "T02": t02_timepoint, "T06": t06_age, "T07": t07_dose, "T08": t08_sample_size, "T09": t09_power,
     "T10": t10_ratio, "T11": t11_blinding, "T13": t13_lab, "T14": t14_xref, "T15": t15_section,
     "T16": t16_windows, "T17": t17_duration, "T18": t18_registry,
+    "T04": t04_endpoint_deleted, "T05": t05_analysis_deleted, "T12": t12_contradiction,
 }
-NOT_YET = ["T01", "T03", "T04", "T05", "T12"]  # need SoA cell geometry or inserted text; added in a later step
+NOT_YET = {
+    "T01": "endpoint timepoints are not extracted (timepoints_weeks is empty on the dev protocols), so the endpoint visit is unknown",
+    "T03": "needs a synthesised SoA row with matching ruling lines; not implemented",
+}
 
 
 def _sections(pdf: str):
@@ -536,16 +628,16 @@ def _sections(pdf: str):
 
 
 def inject_file(pdf: str, out_dir: str, seed: int, n_target: tuple[int, int] = (8, 12), registry: dict | None = None,
-                types: list[str] | None = None, sections: list | None = None, max_per_type: int = 1) -> dict:
+                types: list[str] | None = None, sections: list | None = None, max_per_type: int = 1, graph=None) -> dict:
     """Plant errors; write {nct}_s{seed}.pdf and its answer key JSON. Returns the key."""
     nct = Path(pdf).name.split("_")[0]
     rng = random.Random(f"{nct}:{seed}")
     doc = pymupdf.open(pdf)
-    ctx = Ctx(doc, nct, rng, registry, sections if sections is not None else _sections(pdf))
+    ctx = Ctx(doc, nct, rng, registry, sections if sections is not None else _sections(pdf), graph=graph)
     order = [t for t in (types or INJECTORS) for _ in range(max_per_type)]  # a type may repeat at a different site
     rng.shuffle(order)
     target = rng.randint(*n_target)
-    errors, skipped = [], [{"type": t, "reason": "not implemented yet"} for t in NOT_YET if not types or t in types]
+    errors, skipped = [], [{"type": t, "reason": r} for t, r in NOT_YET.items() if not types or t in types]
     for t in order:
         if len(errors) >= target:
             skipped.append({"type": t, "reason": "not sampled (target count reached)"})

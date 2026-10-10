@@ -62,7 +62,7 @@ def test_skips_are_recorded_with_a_reason(tmp_path):
 
 
 def test_every_injector_type_is_in_the_taxonomy():
-    assert set(inject.INJECTORS) | set(inject.NOT_YET) == set(TYPES)
+    assert set(inject.INJECTORS) | set(inject.NOT_YET) == set(TYPES) and not set(inject.INJECTORS) & set(inject.NOT_YET)
 
 
 def test_a_repeated_type_never_changes_every_mention(tmp_path):

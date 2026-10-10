@@ -89,9 +89,21 @@ def extracted_with_llm(run: dict) -> bool | None:
     return None if c is None else bool(c["objectives"] + c["endpoints"] + c["criteria"])
 
 
+async def llm_graph(pdf: str, nct: str):
+    """Clean-PDF graph WITH LLM extraction (from the cache or a live/record call), for injectors that need extracted
+    evidence spans. None when the LLM is unavailable, so injection never depends on a key being present."""
+    from preflight.pipeline import ingest_file
+
+    try:
+        g = await ingest_file(pdf, nct_id=nct, use_llm=True)
+    except Exception:  # LLMUnavailable, network, ...
+        return None
+    return g if (g.objectives or g.criteria) else None
+
+
 async def bench(split: str, config: str = "rules_only", seeds: list[int] | None = None, runner: Runner | None = None,
                 refresh: bool = False, corpus_dir: Path | None = None, only: list[str] | None = None,
-                allow_partial: bool = False) -> dict:
+                allow_partial: bool = False, use_llm_graph: bool = True) -> dict:
     require_llm_for(config) if runner is None else None
     runner = runner or default_runner
     seeds = seeds or [1]
@@ -112,8 +124,9 @@ async def bench(split: str, config: str = "rules_only", seeds: list[int] | None 
             registry = await client.get_study(nct)
         except Exception:  # offline and not cached: T18 is skipped and says so
             registry = None
+        graph = await llm_graph(str(pdf), nct) if use_llm_graph and runner is default_runner else None
         for seed in seeds:
-            key = inject.inject_file(str(pdf), str(BENCH_DIR), seed, registry=registry)
+            key = inject.inject_file(str(pdf), str(BENCH_DIR), seed, registry=registry, graph=graph)
             bad = inject.verify_key(str(BENCH_DIR / key["injected_pdf"]), key)
             if bad:
                 raise RuntimeError(f"injection did not land as recorded: {bad}")
