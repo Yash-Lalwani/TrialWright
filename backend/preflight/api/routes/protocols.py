@@ -1,43 +1,98 @@
+import asyncio
+import hashlib
 from pathlib import Path
+from typing import Literal
 
-import pymupdf
-from fastapi import APIRouter, File, Form, UploadFile
-from fastapi.responses import FileResponse, Response
+from fastapi import APIRouter, File, Form, HTTPException, UploadFile
+from fastapi.responses import FileResponse
+from pydantic import BaseModel
+from sqlmodel import select
 
-from preflight.api.stubs import example
+from preflight.api import service
+from preflight.db import Protocol, Run, now, session
+from preflight.graph.models import ProtocolGraph
+from preflight.ingest.entities import extract_meta
+from preflight.ingest.pdf import read_pdf
 
 router = APIRouter(prefix="/api")
 
 
+class RunIn(BaseModel):
+    mode: Literal["full", "rules_only"] = "full"
+    version_label: str | None = None
+
+
+def _quick_meta(path: str) -> dict:
+    if path.endswith(".json"):
+        m = ProtocolGraph.model_validate_json(Path(path).read_text()).meta
+        return {"title": m.title, "pages": None, "nct_id": m.nct_id, "phase": m.phase, "condition": m.condition}
+    doc = read_pdf(path)
+    m = extract_meta(doc, [])
+    return {"title": m.title, "pages": doc.pages, "nct_id": m.nct_id, "phase": m.phase, "condition": None}
+
+
 @router.post("/protocols", status_code=201)
 async def upload_protocol(file: UploadFile = File(...), nct_id: str | None = Form(None)):
-    return example("protocol")
+    name = file.filename or "protocol.pdf"
+    ext = name.rsplit(".", 1)[-1].lower()
+    if ext not in ("pdf", "json"):
+        raise HTTPException(400, "Upload a PDF or a Protocol Graph JSON file")
+    data = await file.read()
+    if ext == "pdf" and not data.startswith(b"%PDF"):
+        raise HTTPException(400, f"{name} is not a PDF")
+    pid = "prt_" + hashlib.sha256(data).hexdigest()[:8]
+    service.UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+    path = service.UPLOAD_DIR / f"{pid}.{ext}"
+    path.write_bytes(data)
+    try:
+        meta = await asyncio.to_thread(_quick_meta, str(path))
+    except Exception as e:
+        raise HTTPException(400, f"Could not read {name}: {e}") from e
+
+    with session() as s:
+        p = s.get(Protocol, pid) or Protocol(id=pid, filename=name, path=str(path), uploaded_at=now())
+        p.filename, p.path = name, str(path)
+        p.title, p.pages, p.phase = meta["title"], meta["pages"], meta["phase"]
+        p.nct_id = nct_id or meta["nct_id"]
+        p.condition = p.condition or meta["condition"]
+        s.add(p)
+        s.commit()
+        return service.protocol_dict(p)
 
 
 @router.get("/protocols")
 def list_protocols():
-    return example("protocols_list")
-
-
-CORPUS = Path(__file__).resolve().parents[4] / "data" / "corpus"
+    with session() as s:
+        rows = s.exec(select(Protocol).order_by(Protocol.uploaded_at.desc())).all()
+        return {"items": [service.protocol_dict(p, s) for p in rows]}
 
 
 @router.get("/protocols/{protocol_id}/pdf")
 def protocol_pdf(protocol_id: str):
-    demo = sorted(CORPUS.glob("*.pdf"))
-    if demo:
-        return FileResponse(demo[0], media_type="application/pdf")
-    doc = pymupdf.open()
-    page = doc.new_page()
-    page.insert_text((72, 72), f"Stub PDF for {protocol_id}")
-    return Response(doc.tobytes(), media_type="application/pdf")
+    with session() as s:
+        p = service.get_or_404(s, Protocol, protocol_id, "Protocol")
+        if not p.path.endswith(".pdf"):
+            raise HTTPException(404, f"Protocol {protocol_id} was uploaded as JSON and has no PDF")
+        return FileResponse(p.path, media_type="application/pdf", filename=p.filename)
 
 
 @router.post("/protocols/{protocol_id}/runs", status_code=202)
-def start_run(protocol_id: str, body: dict | None = None):
-    return example("run_created")
+async def start_run(protocol_id: str, body: RunIn | None = None):
+    body = body or RunIn()
+    with session() as s:
+        service.get_or_404(s, Protocol, protocol_id, "Protocol")
+        run = Run(id=service.new_id("run"), protocol_id=protocol_id, mode=body.mode,
+                  version_label=body.version_label, status="queued", started_at=now())
+        s.add(run)
+        s.commit()
+        run_id = run.id
+    service.start(run_id)
+    return {"run_id": run_id, "status": "queued"}
 
 
 @router.get("/protocols/{protocol_id}/runs")
 def list_runs(protocol_id: str):
-    return example("runs_list")
+    with session() as s:
+        service.get_or_404(s, Protocol, protocol_id, "Protocol")
+        runs = s.exec(select(Run).where(Run.protocol_id == protocol_id).order_by(Run.started_at.desc())).all()
+        return {"items": [service.run_dict(r, s) for r in runs]}
