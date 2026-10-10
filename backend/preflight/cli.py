@@ -117,5 +117,9 @@ def llm_probe():
     typer.echo(json.dumps({"hint": "set LLM_JSON_SCHEMA=true in .env if json_schema is OK"}))
 
 
+from preflight.eval.cli import register  # noqa: E402  (B's fetch / inject / bench commands)
+
+register(app)
+
 if __name__ == "__main__":
     app()
