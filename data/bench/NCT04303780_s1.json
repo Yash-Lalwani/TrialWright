@@ -1,0 +1,339 @@
+{
+ "nct_id": "NCT04303780",
+ "seed": 1,
+ "source_pdf": "NCT04303780_protocol.pdf",
+ "injected_pdf": "NCT04303780_s1.pdf",
+ "target_errors": 10,
+ "errors": [
+  {
+   "type": "T15",
+   "name": "Required M11 section removed",
+   "page": 103,
+   "bbox": [
+    108.0,
+    287.3,
+    126.3,
+    303.1
+   ],
+   "original": "9.2 Sample Size Determination",
+   "new": "(removed)",
+   "context": "9.2",
+   "new_line": "(removed)9.2",
+   "description": "Removed M11 10.11 9.2 Sample Size Determination (45 lines)",
+   "expected_checks": [
+    "B1"
+   ],
+   "amendment_category": "completeness",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     103,
+     104
+    ],
+    "texts": [],
+    "titles": [
+     "M11 10.11 "
+    ]
+   },
+   "m11_id": "10.11",
+   "error_id": "NCT04303780-s1-01"
+  },
+  {
+   "type": "T07",
+   "name": "Dose changed in one place",
+   "page": 17,
+   "bbox": [
+    390.0,
+    505.3,
+    408.4,
+    520.4
+   ],
+   "original": "960",
+   "new": "1200",
+   "context": "administered to a subject. AMG 510 will be dispensed at 960 mg once daily (QD) orally",
+   "new_line": "administered to a subject. AMG 510 will be dispensed at 1200 mg once daily (QD) orally",
+   "description": "Dose 960 changed to 1200 in one place only",
+   "expected_checks": [
+    "C4"
+   ],
+   "amendment_category": "intervention",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     17,
+     35,
+     44,
+     57,
+     68,
+     186
+    ],
+    "texts": [
+     "dispensed at 1200 mg once daily"
+    ]
+   },
+   "error_id": "NCT04303780-s1-02"
+  },
+  {
+   "type": "T17",
+   "name": "Treatment/follow-up duration no longer adds up",
+   "page": 17,
+   "bbox": [
+    207.1,
+    165.8,
+    213.3,
+    180.8
+   ],
+   "original": "3",
+   "new": "9",
+   "context": "be at approximately 3 months after PFS primary analysis. The analysis of ORR will be",
+   "new_line": "be at approximately 9 months after PFS primary analysis. The analysis of ORR will be",
+   "description": "Duration 3 changed to 9 in one place; total no longer adds up",
+   "expected_checks": [
+    "C6"
+   ],
+   "amendment_category": "design",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     17,
+     20,
+     21
+    ],
+    "texts": [
+     "approximately 9 months after"
+    ]
+   },
+   "error_id": "NCT04303780-s1-03"
+  },
+  {
+   "type": "T14",
+   "name": "Cross-reference to a nonexistent section",
+   "page": 13,
+   "bbox": [
+    444.4,
+    679.3,
+    468.9,
+    694.4
+   ],
+   "original": "8.1.6",
+   "new": "99.1.6",
+   "context": "follow-up (SFU) period, and long-term follow-up period. See Section 8.1.6 and",
+   "new_line": "follow-up (SFU) period, and long-term follow-up period. See Section 99.1.6 and",
+   "description": "Reference to Section 8.1.6 changed to nonexistent Section 99.1.6",
+   "expected_checks": [
+    "C9"
+   ],
+   "amendment_category": "clerical",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     13
+    ],
+    "texts": [
+     "See Section 99.1.6 and"
+    ]
+   },
+   "error_id": "NCT04303780-s1-04"
+  },
+  {
+   "type": "T08",
+   "name": "Sample size changed in one place",
+   "page": 17,
+   "bbox": [
+    180.7,
+    266.2,
+    199.1,
+    281.3
+   ],
+   "original": "330",
+   "new": "396",
+   "context": "Approximately 330 subjects with locally advanced unresectable or metastatic NSCLC",
+   "new_line": "Approximately 396 subjects with locally advanced unresectable or metastatic NSCLC",
+   "description": "Sample size 330 changed to 396 in one place only",
+   "expected_checks": [
+    "C4"
+   ],
+   "amendment_category": "statistics",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     17,
+     19,
+     20,
+     55,
+     103
+    ],
+    "texts": [
+     "Approximately 396 subjects with"
+    ]
+   },
+   "error_id": "NCT04303780-s1-05"
+  },
+  {
+   "type": "T10",
+   "name": "Randomisation ratio changed in one place",
+   "page": 14,
+   "bbox": [
+    385.0,
+    89.8,
+    400.4,
+    104.9
+   ],
+   "original": "1:1",
+   "new": "2:1",
+   "context": "KRAS p.G12C mutation will be enrolled and randomized 1:1 to receive either AMG 510",
+   "new_line": "KRAS p.G12C mutation will be enrolled and randomized 2:1 to receive either AMG 510",
+   "description": "Ratio 1:1 changed to 2:1 in one place only",
+   "expected_checks": [
+    "C4"
+   ],
+   "amendment_category": "design",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     14,
+     20,
+     23,
+     52,
+     55,
+     74,
+     103
+    ],
+    "texts": [
+     "nd randomized 2:1 to receive ei"
+    ]
+   },
+   "error_id": "NCT04303780-s1-06"
+  },
+  {
+   "type": "T09",
+   "name": "Power/effect changed so N not reproducible",
+   "page": 19,
+   "bbox": [
+    439.4,
+    645.1,
+    451.7,
+    660.2
+   ],
+   "original": "90",
+   "new": "80",
+   "context": "mutation. A total of 230 PFS events are required to provide at least 90% power to",
+   "new_line": "mutation. A total of 230 PFS events are required to provide at least 80% power to",
+   "description": "Stated power changed 90% -> 80% everywhere, so N is no longer reproducible",
+   "expected_checks": [
+    "C7"
+   ],
+   "amendment_category": "statistics",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     19,
+     20
+    ],
+    "texts": [
+     "vide at least 80% power to"
+    ]
+   },
+   "error_id": "NCT04303780-s1-07"
+  },
+  {
+   "type": "T02",
+   "name": "Endpoint timepoint changed in one place",
+   "page": 13,
+   "bbox": [
+    270.8,
+    166.3,
+    281.9,
+    179.9
+   ],
+   "original": "12",
+   "new": "14",
+   "context": "Change from baseline to Week 12 in PRO endpoints between AMG 510 and docetaxel, for",
+   "new_line": "Change from baseline to Week 14 in PRO endpoints between AMG 510 and docetaxel, for",
+   "description": "Endpoint timepoint 12 -> 14 in one place only",
+   "expected_checks": [
+    "C1",
+    "C4"
+   ],
+   "amendment_category": "endpoints",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     13
+    ],
+    "texts": [
+     "eline to Week 14 in PRO endpoi"
+    ]
+   },
+   "error_id": "NCT04303780-s1-08"
+  },
+  {
+   "type": "T13",
+   "name": "Lab threshold value conflicts between mentions",
+   "page": 71,
+   "bbox": [
+    169.3,
+    234.5,
+    184.2,
+    246.8
+   ],
+   "original": "500",
+   "new": "1000",
+   "context": "Neutrophils < 500 cells/mm3 for",
+   "new_line": "Neutrophils < 1000 cells/mm3 for",
+   "description": "Lab threshold 500 changed to 1000 in one place only",
+   "expected_checks": [
+    "C8"
+   ],
+   "amendment_category": "eligibility",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     71
+    ],
+    "texts": [
+     "Neutrophils < 1000 cells/mm3 for"
+    ]
+   },
+   "error_id": "NCT04303780-s1-09"
+  }
+ ],
+ "skipped": [
+  {
+   "type": "T01",
+   "reason": "not implemented yet"
+  },
+  {
+   "type": "T03",
+   "reason": "not implemented yet"
+  },
+  {
+   "type": "T04",
+   "reason": "not implemented yet"
+  },
+  {
+   "type": "T05",
+   "reason": "not implemented yet"
+  },
+  {
+   "type": "T12",
+   "reason": "not implemented yet"
+  },
+  {
+   "type": "T06",
+   "reason": "minimum age is stated only once, so a change cannot create an inconsistency"
+  },
+  {
+   "type": "T18",
+   "reason": "protocol age mentions do not all equal the registry value 18"
+  },
+  {
+   "type": "T11",
+   "reason": "fewer than 2 blinding/unblinding lines to remove"
+  },
+  {
+   "type": "T16",
+   "reason": "no row of at least 3 visit windows found"
+  }
+ ]
+}

@@ -128,8 +128,8 @@ def test_c9_broken_xref_and_undefined_abbreviation():
 
 
 def test_completeness_missing_and_score():
-    secs = [Section(id="s1", m11_id="5.1", title="5.1 Inclusion Criteria", level=2, page_start=23, page_end=24,
-                    text="word " * 60)]
+    secs = [Section(id="s1", m11_id="5.2", title="5.2 Inclusion Criteria", level=2, page_start=23, page_end=24,
+                    text="Each inclusion criterion must be met. " + "word " * 60)]
     out = CHECKS["B1"].fn(graph(sections=secs), CTX)
     assert any("Protocol Synopsis" in i.title for i in out)
     assert not any("Inclusion Criteria" in i.title for i in out)

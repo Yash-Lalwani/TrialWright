@@ -1,0 +1,3006 @@
+# ICH M11 CeSHarP template: table of contents and checkable requirements.
+# Source: FDA copy of the final ICH M11 Template (adopted 19 Nov 2025; FDA edition May 2026)
+#   https://www.fda.gov/media/192647/download   (headings, levels and applicability are extracted from the template itself)
+# Authored by Person B from the template's instructional text: required_subelements, synonyms, min_words.
+# These are a good-faith reading of the template, not an official ICH artifact. Spot-check before relying on them.
+#
+# Fields
+#   id / title / level / parent : M11 numbering (title in sentence case where the template uses ALL CAPS)
+#   applicability : universal    = black text, should appear in all protocols   -> required: true
+#                   conditional  = {braces}, include if applicable to the trial  -> required: false
+#                   optional     = blue text, may be modified or deleted         -> required: false
+#                   (the template says: keep a universal heading and write "Not applicable" if it does not apply,
+#                    so a heading with "Not applicable" counts as PRESENT.)
+#                   per_objective = repeated once per objective (3.1.1, 10.4.1.x ...); real protocols rarely number these -> required: false,
+#                                   check the L2 parent (3.1, 10.4) instead
+#   container : heading-only parent ("No text is intended here"). Treat as present if any child is present;
+#               do not count it as thin for lack of words.
+#   min_words : word floor for "thin" (0 for containers). Thin = fewer words than this OR a required_subelement missing.
+#   required_subelements : each entry is ONE sub-element; '|' separates accepted alternatives; match case-insensitively
+#               as a substring of THAT section's text only (the section A2 mapped to this id). Never search the whole document.
+#   sub_elements / word_floor : the same data as required_subelements / min_words, in the field names and
+#               dict form ({name, patterns}) that backend/preflight/checks/completeness.py reads. Regex-escaped. Keep both in sync.
+#   synonyms : alternative headings used by real pre-M11 protocols, for fuzzy heading mapping (A2).
+framework: ICH M11
+version: final template, adopted 2025-11-19
+items:
+- id: '1'
+  title: Protocol Summary
+  level: 1
+  parent: null
+  required: true
+  applicability: universal
+  container: true
+  min_words: 0
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 0
+- id: '1.1'
+  title: Protocol Synopsis
+  level: 2
+  parent: '1'
+  required: true
+  applicability: universal
+  container: true
+  min_words: 0
+  required_subelements: []
+  synonyms:
+  - synopsis
+  - protocol summary
+  - study summary
+  - summary of protocol
+  sub_elements: []
+  word_floor: 0
+- id: 1.1.1
+  title: Primary and Secondary Objectives and Estimands
+  level: 3
+  parent: '1.1'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 20
+  required_subelements:
+  - objective
+  - estimand|endpoint
+  synonyms: []
+  sub_elements:
+  - name: objective
+    patterns:
+    - objective
+  - name: estimand
+    patterns:
+    - estimand
+    - endpoint
+  word_floor: 20
+- id: 1.1.2
+  title: Overall Design
+  level: 3
+  parent: '1.1'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 20
+  required_subelements:
+  - number of participants|sample size|number of subjects|number of patients
+  - duration
+  - intervention|investigational product|study drug
+  - age|population
+  - randomi|open-label|open label|blind|masked
+  synonyms: []
+  sub_elements:
+  - name: number of participants
+    patterns:
+    - number\ of\ participants
+    - sample\ size
+    - number\ of\ subjects
+    - number\ of\ patients
+  - name: duration
+    patterns:
+    - duration
+  - name: intervention
+    patterns:
+    - intervention
+    - investigational\ product
+    - study\ drug
+  - name: age
+    patterns:
+    - age
+    - population
+  - name: randomi
+    patterns:
+    - randomi
+    - open\-label
+    - open\ label
+    - blind
+    - masked
+  word_floor: 20
+- id: '1.2'
+  title: Trial Schema
+  level: 2
+  parent: '1'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - schema|diagram|figure
+  synonyms:
+  - study schema
+  - trial schema
+  - schema
+  - study design diagram
+  - flow diagram
+  sub_elements:
+  - name: schema
+    patterns:
+    - schema
+    - diagram
+    - figure
+  word_floor: 25
+- id: '1.3'
+  title: Schedule of Activities
+  level: 2
+  parent: '1'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - screening
+  - visit|week|day|cycle
+  - window|±|+/-
+  - end of treatment|end of study|follow-up|follow up
+  synonyms:
+  - schedule of assessments
+  - schedule of events
+  - time and events schedule
+  - study flowchart
+  - flow chart
+  - schedule of procedures
+  - SoA
+  sub_elements:
+  - name: screening
+    patterns:
+    - screening
+  - name: visit
+    patterns:
+    - visit
+    - week
+    - day
+    - cycle
+  - name: window
+    patterns:
+    - window
+    - ±
+    - \+/\-
+  - name: end of treatment
+    patterns:
+    - end\ of\ treatment
+    - end\ of\ study
+    - follow\-up
+    - follow\ up
+  word_floor: 25
+- id: '2'
+  title: Introduction
+  level: 1
+  parent: null
+  required: true
+  applicability: universal
+  container: true
+  min_words: 0
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 0
+- id: '2.1'
+  title: Purpose of Trial
+  level: 2
+  parent: '2'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - rationale|background|purpose
+  synonyms:
+  - background
+  - introduction
+  - study rationale
+  - rationale for the study
+  sub_elements:
+  - name: rationale
+    patterns:
+    - rationale
+    - background
+    - purpose
+  word_floor: 25
+- id: '2.2'
+  title: Assessment of Risks and Benefits
+  level: 2
+  parent: '2'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - risk
+  - benefit
+  synonyms:
+  - risk benefit assessment
+  - benefit-risk
+  - risks and benefits
+  - potential risks and benefits
+  sub_elements:
+  - name: risk
+    patterns:
+    - risk
+  - name: benefit
+    patterns:
+    - benefit
+  word_floor: 25
+- id: 2.2.1
+  title: Risk Summary and Mitigation Strategy
+  level: 3
+  parent: '2.2'
+  required: false
+  applicability: optional
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: 2.2.2
+  title: Benefit Summary
+  level: 3
+  parent: '2.2'
+  required: false
+  applicability: optional
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: 2.2.3
+  title: Overall Risk-Benefit Assessment
+  level: 3
+  parent: '2.2'
+  required: false
+  applicability: optional
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: '3'
+  title: Trial Objectives and Associated Estimands
+  level: 1
+  parent: null
+  required: true
+  applicability: universal
+  container: true
+  min_words: 0
+  required_subelements: []
+  synonyms:
+  - objectives and endpoints
+  - study objectives
+  - objectives
+  sub_elements: []
+  word_floor: 0
+- id: '3.1'
+  title: Primary Objective(s) and Associated Estimand(s)
+  level: 2
+  parent: '3'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - primary objective|primary endpoint
+  - endpoint
+  - population
+  - treatment|intervention
+  - summary measure|population-level summary|estimand
+  - intercurrent event
+  synonyms:
+  - primary objective
+  - primary endpoint
+  - primary objectives and endpoints
+  sub_elements:
+  - name: primary objective
+    patterns:
+    - primary\ objective
+    - primary\ endpoint
+  - name: endpoint
+    patterns:
+    - endpoint
+  - name: population
+    patterns:
+    - population
+  - name: treatment
+    patterns:
+    - treatment
+    - intervention
+  - name: summary measure
+    patterns:
+    - summary\ measure
+    - population\-level\ summary
+    - estimand
+  - name: intercurrent event
+    patterns:
+    - intercurrent\ event
+  word_floor: 25
+- id: 3.1.1
+  title: Primary Objective
+  level: 3
+  parent: '3.1'
+  required: false
+  applicability: per_objective
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: '3.2'
+  title: Secondary Objective(s) and Associated Estimand(s)
+  level: 2
+  parent: '3'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - secondary objective|secondary endpoint|not applicable
+  - endpoint
+  synonyms:
+  - secondary objective
+  - secondary endpoints
+  - secondary objectives and endpoints
+  sub_elements:
+  - name: secondary objective
+    patterns:
+    - secondary\ objective
+    - secondary\ endpoint
+    - not\ applicable
+  - name: endpoint
+    patterns:
+    - endpoint
+  word_floor: 25
+- id: 3.2.1
+  title: Secondary Objective
+  level: 3
+  parent: '3.2'
+  required: false
+  applicability: per_objective
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: '3.3'
+  title: Exploratory Objective(s)
+  level: 2
+  parent: '3'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - exploratory|not applicable
+  synonyms:
+  - exploratory objective
+  - exploratory endpoints
+  sub_elements:
+  - name: exploratory
+    patterns:
+    - exploratory
+    - not\ applicable
+  word_floor: 25
+- id: 3.3.1
+  title: Exploratory Objective
+  level: 3
+  parent: '3.3'
+  required: false
+  applicability: per_objective
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: '4'
+  title: Trial Design
+  level: 1
+  parent: null
+  required: true
+  applicability: universal
+  container: true
+  min_words: 0
+  required_subelements: []
+  synonyms:
+  - study design
+  - investigational plan
+  - overall design
+  sub_elements: []
+  word_floor: 0
+- id: '4.1'
+  title: Description of Trial Design
+  level: 2
+  parent: '4'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - design
+  - randomi|parallel|single-arm|single arm|open-label|cross-over|crossover
+  - number of participants|sample size|number of subjects|number of patients
+  - control|comparator|placebo|single-arm|single arm
+  - duration
+  - blind|masked|open-label|open label
+  synonyms:
+  - overall study design
+  - description of study design
+  - study design
+  sub_elements:
+  - name: design
+    patterns:
+    - design
+  - name: randomi
+    patterns:
+    - randomi
+    - parallel
+    - single\-arm
+    - single\ arm
+    - open\-label
+    - cross\-over
+    - crossover
+  - name: number of participants
+    patterns:
+    - number\ of\ participants
+    - sample\ size
+    - number\ of\ subjects
+    - number\ of\ patients
+  - name: control
+    patterns:
+    - control
+    - comparator
+    - placebo
+    - single\-arm
+    - single\ arm
+  - name: duration
+    patterns:
+    - duration
+  - name: blind
+    patterns:
+    - blind
+    - masked
+    - open\-label
+    - open\ label
+  word_floor: 25
+- id: 4.1.1
+  title: Stakeholder Input into Design
+  level: 3
+  parent: '4.1'
+  required: false
+  applicability: optional
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: '4.2'
+  title: Rationale for Trial Design
+  level: 2
+  parent: '4'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - rationale|justification
+  synonyms:
+  - design rationale
+  - rationale for study design
+  - scientific rationale
+  sub_elements:
+  - name: rationale
+    patterns:
+    - rationale
+    - justification
+  word_floor: 25
+- id: 4.2.1
+  title: Rationale for Estimand(s)
+  level: 3
+  parent: '4.2'
+  required: false
+  applicability: optional
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: 4.2.2
+  title: Rationale for Intervention Model
+  level: 3
+  parent: '4.2'
+  required: false
+  applicability: optional
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: 4.2.3
+  title: Rationale for Control Type
+  level: 3
+  parent: '4.2'
+  required: false
+  applicability: optional
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: 4.2.4
+  title: Rationale for Trial Duration
+  level: 3
+  parent: '4.2'
+  required: false
+  applicability: optional
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: 4.2.5
+  title: Rationale for Adaptive or Novel Trial Design
+  level: 3
+  parent: '4.2'
+  required: false
+  applicability: optional
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: 4.2.6
+  title: Rationale for Interim Analysis
+  level: 3
+  parent: '4.2'
+  required: false
+  applicability: optional
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: 4.2.7
+  title: Rationale for Other Trial Design Aspects
+  level: 3
+  parent: '4.2'
+  required: false
+  applicability: optional
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: '4.3'
+  title: Trial Stopping Rules
+  level: 2
+  parent: '4'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - stopping|stop|terminat
+  - safety|efficacy|futility|toxicity
+  synonyms:
+  - stopping rules
+  - study stopping criteria
+  - termination criteria
+  sub_elements:
+  - name: stopping
+    patterns:
+    - stopping
+    - stop
+    - terminat
+  - name: safety
+    patterns:
+    - safety
+    - efficacy
+    - futility
+    - toxicity
+  word_floor: 25
+- id: '4.4'
+  title: Start of Trial and End of Trial
+  level: 2
+  parent: '4'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - end of trial|end of study
+  - start of trial|start of study|first participant|first subject|first patient
+  synonyms:
+  - end of study definition
+  - definition of end of study
+  - study completion
+  sub_elements:
+  - name: end of trial
+    patterns:
+    - end\ of\ trial
+    - end\ of\ study
+  - name: start of trial
+    patterns:
+    - start\ of\ trial
+    - start\ of\ study
+    - first\ participant
+    - first\ subject
+    - first\ patient
+  word_floor: 25
+- id: '4.5'
+  title: Access to Trial Intervention After End of Trial
+  level: 2
+  parent: '4'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - access|after the end|post-trial|continued treatment|not applicable
+  synonyms:
+  - post-trial access
+  - continued access to study treatment
+  - access after end of study
+  sub_elements:
+  - name: access
+    patterns:
+    - access
+    - after\ the\ end
+    - post\-trial
+    - continued\ treatment
+    - not\ applicable
+  word_floor: 25
+- id: '5'
+  title: Trial Population
+  level: 1
+  parent: null
+  required: true
+  applicability: universal
+  container: true
+  min_words: 0
+  required_subelements: []
+  synonyms:
+  - study population
+  - selection of study population
+  - selection of subjects
+  - patient population
+  - eligibility
+  sub_elements: []
+  word_floor: 0
+- id: '5.1'
+  title: Description of Trial Population and Rationale
+  level: 2
+  parent: '5'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - population
+  - age|years
+  - rationale|diagnos|disease
+  synonyms:
+  - study population
+  - population rationale
+  - target population
+  sub_elements:
+  - name: population
+    patterns:
+    - population
+  - name: age
+    patterns:
+    - age
+    - years
+  - name: rationale
+    patterns:
+    - rationale
+    - diagnos
+    - disease
+  word_floor: 25
+- id: '5.2'
+  title: Inclusion Criteria
+  level: 2
+  parent: '5'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - inclusion
+  synonyms:
+  - inclusion criteria
+  - criteria for inclusion
+  - eligibility criteria inclusion
+  sub_elements:
+  - name: inclusion
+    patterns:
+    - inclusion
+  word_floor: 25
+- id: '5.3'
+  title: Exclusion Criteria
+  level: 2
+  parent: '5'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - exclusion
+  synonyms:
+  - exclusion criteria
+  - criteria for exclusion
+  sub_elements:
+  - name: exclusion
+    patterns:
+    - exclusion
+  word_floor: 25
+- id: '5.4'
+  title: Contraception
+  level: 2
+  parent: '5'
+  required: true
+  applicability: universal
+  container: true
+  min_words: 0
+  required_subelements: []
+  synonyms:
+  - contraception
+  - contraceptive guidance
+  - reproductive risk
+  sub_elements: []
+  word_floor: 0
+- id: 5.4.1
+  title: Definitions Related to Childbearing Potential
+  level: 3
+  parent: '5.4'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 20
+  required_subelements:
+  - childbearing potential|child-bearing potential
+  synonyms: []
+  sub_elements:
+  - name: childbearing potential
+    patterns:
+    - childbearing\ potential
+    - child\-bearing\ potential
+  word_floor: 20
+- id: 5.4.2
+  title: Contraception Requirements
+  level: 3
+  parent: '5.4'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 20
+  required_subelements:
+  - contracepti
+  synonyms: []
+  sub_elements:
+  - name: contracepti
+    patterns:
+    - contracepti
+  word_floor: 20
+- id: '5.5'
+  title: Lifestyle Restrictions
+  level: 2
+  parent: '5'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements: []
+  synonyms:
+  - lifestyle restrictions
+  - dietary restrictions
+  - restrictions
+  sub_elements: []
+  word_floor: 25
+- id: 5.5.1
+  title: Meals and Dietary Restrictions
+  level: 3
+  parent: '5.5'
+  required: false
+  applicability: optional
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: 5.5.2
+  title: Caffeine, Alcohol, Tobacco, and Other Restrictions
+  level: 3
+  parent: '5.5'
+  required: false
+  applicability: optional
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: 5.5.3
+  title: Physical Activity Restrictions
+  level: 3
+  parent: '5.5'
+  required: false
+  applicability: optional
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: 5.5.4
+  title: Other Activity Restrictions
+  level: 3
+  parent: '5.5'
+  required: false
+  applicability: optional
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: '5.6'
+  title: Screen Failure and Rescreening
+  level: 2
+  parent: '5'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - screen failure|rescreen|re-screen
+  synonyms:
+  - screen failures
+  - rescreening
+  - screening failure
+  sub_elements:
+  - name: screen failure
+    patterns:
+    - screen\ failure
+    - rescreen
+    - re\-screen
+  word_floor: 25
+- id: '6'
+  title: Trial Intervention and Concomitant Therapy
+  level: 1
+  parent: null
+  required: true
+  applicability: universal
+  container: false
+  min_words: 0
+  required_subelements:
+  - investigational|study drug|study treatment|study intervention
+  - arm|group|cohort
+  synonyms:
+  - study treatment
+  - study intervention
+  - investigational product
+  - treatments administered
+  - study drug
+  sub_elements:
+  - name: investigational
+    patterns:
+    - investigational
+    - study\ drug
+    - study\ treatment
+    - study\ intervention
+  - name: arm
+    patterns:
+    - arm
+    - group
+    - cohort
+  word_floor: 0
+- id: '6.1'
+  title: Description of Investigational Trial Intervention
+  level: 2
+  parent: '6'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - dose
+  - route|intravenous|oral|subcutaneous
+  - regimen|schedule|frequency|every
+  - duration
+  synonyms:
+  - study drug description
+  - investigational product description
+  - study treatments administered
+  - drug description
+  sub_elements:
+  - name: dose
+    patterns:
+    - dose
+  - name: route
+    patterns:
+    - route
+    - intravenous
+    - oral
+    - subcutaneous
+  - name: regimen
+    patterns:
+    - regimen
+    - schedule
+    - frequency
+    - every
+  - name: duration
+    patterns:
+    - duration
+  word_floor: 25
+- id: '6.2'
+  title: Rationale for Investigational Trial Intervention Dose and Regimen
+  level: 2
+  parent: '6'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - rationale|justif
+  - dose
+  synonyms:
+  - dose rationale
+  - rationale for dose selection
+  sub_elements:
+  - name: rationale
+    patterns:
+    - rationale
+    - justif
+  - name: dose
+    patterns:
+    - dose
+  word_floor: 25
+- id: '6.3'
+  title: Investigational Trial Intervention Administration
+  level: 2
+  parent: '6'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - administ
+  - missed dose|delayed dose|timing|infusion|interval
+  synonyms:
+  - dosing and administration
+  - study drug administration
+  - dosage and administration
+  sub_elements:
+  - name: administ
+    patterns:
+    - administ
+  - name: missed dose
+    patterns:
+    - missed\ dose
+    - delayed\ dose
+    - timing
+    - infusion
+    - interval
+  word_floor: 25
+- id: '6.4'
+  title: Investigational Trial Intervention Dose Modification
+  level: 2
+  parent: '6'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - dose modification|dose reduction|dose delay|dose interruption|dose adjustment
+  synonyms:
+  - dose modifications
+  - dose adjustment
+  - dose reduction
+  - dose delays
+  sub_elements:
+  - name: dose modification
+    patterns:
+    - dose\ modification
+    - dose\ reduction
+    - dose\ delay
+    - dose\ interruption
+    - dose\ adjustment
+  word_floor: 25
+- id: '6.5'
+  title: Management of Investigational Trial Intervention Overdose
+  level: 2
+  parent: '6'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - overdose
+  synonyms:
+  - overdose
+  - treatment of overdose
+  sub_elements:
+  - name: overdose
+    patterns:
+    - overdose
+  word_floor: 25
+- id: '6.6'
+  title: Preparation, Storage, Handling and Accountability of Investigational Trial Intervention
+  level: 2
+  parent: '6'
+  required: true
+  applicability: universal
+  container: true
+  min_words: 0
+  required_subelements: []
+  synonyms:
+  - preparation and handling
+  - drug supply
+  - storage and accountability
+  sub_elements: []
+  word_floor: 0
+- id: 6.6.1
+  title: Preparation of Investigational Trial Intervention
+  level: 3
+  parent: '6.6'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 20
+  required_subelements:
+  - preparation|reconstitut|dilut
+  synonyms: []
+  sub_elements:
+  - name: preparation
+    patterns:
+    - preparation
+    - reconstitut
+    - dilut
+  word_floor: 20
+- id: 6.6.2
+  title: Storage and Handling of Investigational Trial Intervention
+  level: 3
+  parent: '6.6'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 20
+  required_subelements:
+  - storage|store
+  synonyms: []
+  sub_elements:
+  - name: storage
+    patterns:
+    - storage
+    - store
+  word_floor: 20
+- id: 6.6.3
+  title: Accountability of Investigational Trial Intervention
+  level: 3
+  parent: '6.6'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 20
+  required_subelements:
+  - accountability|dispens|return|disposal|reconcil
+  synonyms: []
+  sub_elements:
+  - name: accountability
+    patterns:
+    - accountability
+    - dispens
+    - return
+    - disposal
+    - reconcil
+  word_floor: 20
+- id: '6.7'
+  title: Investigational Trial Intervention Assignment, Randomisation and Blinding
+  level: 2
+  parent: '6'
+  required: true
+  applicability: universal
+  container: true
+  min_words: 0
+  required_subelements: []
+  synonyms:
+  - randomization and blinding
+  - treatment assignment
+  - method of treatment assignment
+  - blinding
+  sub_elements: []
+  word_floor: 0
+- id: 6.7.1
+  title: Participant Assignment to Investigational Trial Intervention
+  level: 3
+  parent: '6.7'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 20
+  required_subelements:
+  - assign|enrol|enroll
+  synonyms: []
+  sub_elements:
+  - name: assign
+    patterns:
+    - assign
+    - enrol
+    - enroll
+  word_floor: 20
+- id: 6.7.2
+  title: Randomisation
+  level: 3
+  parent: '6.7'
+  required: false
+  applicability: conditional
+  container: false
+  min_words: 20
+  required_subelements:
+  - randomi
+  - central|IRT|interactive|computer
+  synonyms: []
+  sub_elements:
+  - name: randomi
+    patterns:
+    - randomi
+  - name: central
+    patterns:
+    - central
+    - IRT
+    - interactive
+    - computer
+  word_floor: 20
+- id: 6.7.3
+  title: Measures to Maintain Blinding
+  level: 3
+  parent: '6.7'
+  required: false
+  applicability: conditional
+  container: false
+  min_words: 20
+  required_subelements:
+  - blind|mask
+  - code|kit|indistinguishable
+  - unblind|break
+  synonyms: []
+  sub_elements:
+  - name: blind
+    patterns:
+    - blind
+    - mask
+  - name: code
+    patterns:
+    - code
+    - kit
+    - indistinguishable
+  - name: unblind
+    patterns:
+    - unblind
+    - break
+  word_floor: 20
+- id: 6.7.4
+  title: Emergency Unblinding at the Site
+  level: 3
+  parent: '6.7'
+  required: false
+  applicability: conditional
+  container: false
+  min_words: 20
+  required_subelements:
+  - unblind
+  - investigator|sponsor|medical monitor
+  - document|record|report
+  synonyms: []
+  sub_elements:
+  - name: unblind
+    patterns:
+    - unblind
+  - name: investigator
+    patterns:
+    - investigator
+    - sponsor
+    - medical\ monitor
+  - name: document
+    patterns:
+    - document
+    - record
+    - report
+  word_floor: 20
+- id: '6.8'
+  title: Investigational Trial Intervention Adherence
+  level: 2
+  parent: '6'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - adherence|compliance
+  synonyms:
+  - treatment compliance
+  - compliance
+  - adherence
+  sub_elements:
+  - name: adherence
+    patterns:
+    - adherence
+    - compliance
+  word_floor: 25
+- id: '6.9'
+  title: Description of Noninvestigational Trial Intervention
+  level: 2
+  parent: '6'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - background|rescue|noninvestigational|non-investigational|not applicable
+  synonyms:
+  - background therapy
+  - non-investigational product
+  - auxiliary medicinal product
+  sub_elements:
+  - name: background
+    patterns:
+    - background
+    - rescue
+    - noninvestigational
+    - non\-investigational
+    - not\ applicable
+  word_floor: 25
+- id: 6.9.1
+  title: Background Trial Intervention
+  level: 3
+  parent: '6.9'
+  required: false
+  applicability: conditional
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: 6.9.2
+  title: Rescue Therapy
+  level: 3
+  parent: '6.9'
+  required: false
+  applicability: conditional
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: 6.9.3
+  title: Other Noninvestigational Trial Intervention
+  level: 3
+  parent: '6.9'
+  required: false
+  applicability: conditional
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: '6.10'
+  title: Concomitant Therapy
+  level: 2
+  parent: '6'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - concomitant
+  - prohibit|permit|allowed|not allowed
+  synonyms:
+  - concomitant medications
+  - prior and concomitant therapy
+  - prohibited medications
+  - concomitant treatment
+  sub_elements:
+  - name: concomitant
+    patterns:
+    - concomitant
+  - name: prohibit
+    patterns:
+    - prohibit
+    - permit
+    - allowed
+    - not\ allowed
+  word_floor: 25
+- id: 6.10.1
+  title: Prohibited Concomitant Therapy
+  level: 3
+  parent: '6.10'
+  required: false
+  applicability: conditional
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: 6.10.2
+  title: Permitted Concomitant Therapy
+  level: 3
+  parent: '6.10'
+  required: false
+  applicability: conditional
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: '7'
+  title: Participant Discontinuation of Trial Intervention and Discontinuation Or Withdrawal From Trial
+  level: 1
+  parent: null
+  required: true
+  applicability: universal
+  container: true
+  min_words: 0
+  required_subelements: []
+  synonyms:
+  - discontinuation
+  - withdrawal
+  - discontinuation of study treatment and withdrawal
+  sub_elements: []
+  word_floor: 0
+- id: '7.1'
+  title: Discontinuation of Trial Intervention for Individual Participants
+  level: 2
+  parent: '7'
+  required: true
+  applicability: universal
+  container: true
+  min_words: 0
+  required_subelements: []
+  synonyms:
+  - treatment discontinuation
+  - discontinuation of study intervention
+  sub_elements: []
+  word_floor: 0
+- id: 7.1.1
+  title: Permanent Discontinuation of Trial Intervention
+  level: 3
+  parent: '7.1'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 20
+  required_subelements:
+  - discontinu
+  - criteria|reason
+  - follow
+  synonyms: []
+  sub_elements:
+  - name: discontinu
+    patterns:
+    - discontinu
+  - name: criteria
+    patterns:
+    - criteria
+    - reason
+  - name: follow
+    patterns:
+    - follow
+  word_floor: 20
+- id: 7.1.2
+  title: Temporary Discontinuation of Trial Intervention
+  level: 3
+  parent: '7.1'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 20
+  required_subelements:
+  - temporar|interrupt|hold
+  synonyms: []
+  sub_elements:
+  - name: temporar
+    patterns:
+    - temporar
+    - interrupt
+    - hold
+  word_floor: 20
+- id: 7.1.3
+  title: Rechallenge
+  level: 3
+  parent: '7.1'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 20
+  required_subelements:
+  - rechallenge|re-challenge|restart
+  synonyms: []
+  sub_elements:
+  - name: rechallenge
+    patterns:
+    - rechallenge
+    - re\-challenge
+    - restart
+  word_floor: 20
+- id: '7.2'
+  title: Participant Discontinuation or Withdrawal from the Trial
+  level: 2
+  parent: '7'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - withdraw
+  - consent
+  synonyms:
+  - withdrawal from study
+  - study withdrawal
+  - subject withdrawal
+  sub_elements:
+  - name: withdraw
+    patterns:
+    - withdraw
+  - name: consent
+    patterns:
+    - consent
+  word_floor: 25
+- id: '7.3'
+  title: Management of Loss to Follow-Up
+  level: 2
+  parent: '7'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - lost to follow-up|loss to follow-up
+  synonyms:
+  - lost to follow-up
+  - loss to follow-up
+  sub_elements:
+  - name: lost to follow-up
+    patterns:
+    - lost\ to\ follow\-up
+    - loss\ to\ follow\-up
+  word_floor: 25
+- id: '8'
+  title: Trial Assessments and Procedures
+  level: 1
+  parent: null
+  required: true
+  applicability: universal
+  container: true
+  min_words: 0
+  required_subelements: []
+  synonyms:
+  - study assessments and procedures
+  - study procedures
+  - assessments
+  - efficacy and safety assessments
+  sub_elements: []
+  word_floor: 0
+- id: '8.1'
+  title: Trial Assessments and Procedures Considerations
+  level: 2
+  parent: '8'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 25
+- id: '8.2'
+  title: Screening/Baseline Assessments and Procedures
+  level: 2
+  parent: '8'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - screening|baseline
+  synonyms:
+  - screening procedures
+  - baseline assessments
+  - screening and baseline
+  sub_elements:
+  - name: screening
+    patterns:
+    - screening
+    - baseline
+  word_floor: 25
+- id: '8.3'
+  title: Efficacy Assessments and Procedures
+  level: 2
+  parent: '8'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - efficacy
+  synonyms:
+  - efficacy assessments
+  - efficacy evaluations
+  - tumor assessments
+  - response assessment
+  sub_elements:
+  - name: efficacy
+    patterns:
+    - efficacy
+  word_floor: 25
+- id: '8.4'
+  title: Safety Assessments and Procedures
+  level: 2
+  parent: '8'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - safety
+  - laboratory|vital|physical exam|ECG|electrocardiogram
+  synonyms:
+  - safety assessments
+  - safety evaluations
+  sub_elements:
+  - name: safety
+    patterns:
+    - safety
+  - name: laboratory
+    patterns:
+    - laboratory
+    - vital
+    - physical\ exam
+    - ECG
+    - electrocardiogram
+  word_floor: 25
+- id: 8.4.1
+  title: Physical Examination
+  level: 3
+  parent: '8.4'
+  required: false
+  applicability: conditional
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: 8.4.2
+  title: Vital Signs
+  level: 3
+  parent: '8.4'
+  required: false
+  applicability: conditional
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: 8.4.3
+  title: Electrocardiograms
+  level: 3
+  parent: '8.4'
+  required: false
+  applicability: conditional
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: 8.4.4
+  title: Clinical Laboratory Assessments
+  level: 3
+  parent: '8.4'
+  required: false
+  applicability: conditional
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: 8.4.5
+  title: Pregnancy Testing
+  level: 3
+  parent: '8.4'
+  required: false
+  applicability: conditional
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: 8.4.6
+  title: Suicidal Ideation and Behaviour Risk Monitoring
+  level: 3
+  parent: '8.4'
+  required: false
+  applicability: conditional
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: '8.5'
+  title: Pharmacokinetics
+  level: 2
+  parent: '8'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - sample
+  - assay|analytic|bioanalytic
+  - parameter|AUC|Cmax
+  synonyms:
+  - pharmacokinetic
+  - PK assessments
+  - pharmacokinetic evaluations
+  sub_elements:
+  - name: sample
+    patterns:
+    - sample
+  - name: assay
+    patterns:
+    - assay
+    - analytic
+    - bioanalytic
+  - name: parameter
+    patterns:
+    - parameter
+    - AUC
+    - Cmax
+  word_floor: 25
+- id: '8.6'
+  title: Biomarkers
+  level: 2
+  parent: '8'
+  required: true
+  applicability: universal
+  container: true
+  min_words: 0
+  required_subelements: []
+  synonyms:
+  - biomarker
+  - correlative studies
+  - exploratory biomarkers
+  - pharmacodynamic
+  sub_elements: []
+  word_floor: 0
+- id: 8.6.1
+  title: Genetics, Genomics, Pharmacogenetics, and Pharmacogenomics
+  level: 3
+  parent: '8.6'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 20
+  required_subelements:
+  - sample
+  synonyms: []
+  sub_elements:
+  - name: sample
+    patterns:
+    - sample
+  word_floor: 20
+- id: 8.6.2
+  title: Pharmacodynamic Biomarkers
+  level: 3
+  parent: '8.6'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 20
+  required_subelements:
+  - sample
+  synonyms: []
+  sub_elements:
+  - name: sample
+    patterns:
+    - sample
+  word_floor: 20
+- id: 8.6.3
+  title: Other Biomarkers
+  level: 3
+  parent: '8.6'
+  required: false
+  applicability: conditional
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: '8.7'
+  title: Immunogenicity Assessments
+  level: 2
+  parent: '8'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - immunogenic|anti-drug antibod
+  - sample
+  synonyms:
+  - immunogenicity
+  - anti-drug antibodies
+  - ADA
+  sub_elements:
+  - name: immunogenic
+    patterns:
+    - immunogenic
+    - anti\-drug\ antibod
+  - name: sample
+    patterns:
+    - sample
+  word_floor: 25
+- id: '8.8'
+  title: Medical Resource Utilisation and Health Economics
+  level: 2
+  parent: '8'
+  required: false
+  applicability: conditional
+  container: false
+  min_words: 25
+  required_subelements: []
+  synonyms:
+  - health economics
+  - resource utilization
+  - patient reported outcomes
+  - quality of life
+  sub_elements: []
+  word_floor: 25
+- id: '9'
+  title: Adverse Events, Serious Adverse Events, Product Complaints, Pregnancy and Postpartum Information, and Special Safety Situations
+  level: 1
+  parent: null
+  required: true
+  applicability: universal
+  container: true
+  min_words: 0
+  required_subelements: []
+  synonyms:
+  - adverse events
+  - safety reporting
+  - adverse event reporting
+  - safety monitoring
+  sub_elements: []
+  word_floor: 0
+- id: '9.1'
+  title: Definitions
+  level: 2
+  parent: '9'
+  required: true
+  applicability: universal
+  container: true
+  min_words: 0
+  required_subelements: []
+  synonyms:
+  - definitions of adverse events
+  - AE definitions
+  - definition of adverse event
+  sub_elements: []
+  word_floor: 0
+- id: 9.1.1
+  title: Definitions of Adverse Events
+  level: 3
+  parent: '9.1'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 20
+  required_subelements:
+  - adverse event
+  synonyms: []
+  sub_elements:
+  - name: adverse event
+    patterns:
+    - adverse\ event
+  word_floor: 20
+- id: 9.1.2
+  title: Definitions of Serious Adverse Events
+  level: 3
+  parent: '9.1'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 20
+  required_subelements:
+  - serious adverse event|SAE
+  synonyms: []
+  sub_elements:
+  - name: serious adverse event
+    patterns:
+    - serious\ adverse\ event
+    - SAE
+  word_floor: 20
+- id: 9.1.3
+  title: Definitions of Product Complaints
+  level: 3
+  parent: '9.1'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 20
+  required_subelements:
+  - product complaint
+  synonyms: []
+  sub_elements:
+  - name: product complaint
+    patterns:
+    - product\ complaint
+  word_floor: 20
+- id: 9.1.3.1
+  title: Definitions of Medical Device Product Complaints
+  level: 4
+  parent: 9.1.3
+  required: false
+  applicability: conditional
+  container: false
+  min_words: 15
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 15
+- id: '9.2'
+  title: Timing and Procedures for Collection and Reporting
+  level: 2
+  parent: '9'
+  required: true
+  applicability: universal
+  container: true
+  min_words: 0
+  required_subelements: []
+  synonyms:
+  - adverse event reporting
+  - reporting of adverse events
+  - collection and reporting
+  sub_elements: []
+  word_floor: 0
+- id: 9.2.1
+  title: Timing
+  level: 3
+  parent: '9.2'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 20
+  required_subelements:
+  - start|from the time|until|through
+  - frequency|duration|follow
+  synonyms: []
+  sub_elements:
+  - name: start
+    patterns:
+    - start
+    - from\ the\ time
+    - until
+    - through
+  - name: frequency
+    patterns:
+    - frequency
+    - duration
+    - follow
+  word_floor: 20
+- id: 9.2.2
+  title: Collection Procedures
+  level: 3
+  parent: '9.2'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 20
+  required_subelements:
+  - severity|grade|intensity
+  - causality|relationship|related
+  - follow-up|follow up|resolution
+  synonyms: []
+  sub_elements:
+  - name: severity
+    patterns:
+    - severity
+    - grade
+    - intensity
+  - name: causality
+    patterns:
+    - causality
+    - relationship
+    - related
+  - name: follow-up
+    patterns:
+    - follow\-up
+    - follow\ up
+    - resolution
+  word_floor: 20
+- id: 9.2.3
+  title: Reporting
+  level: 3
+  parent: '9.2'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 20
+  required_subelements:
+  - report
+  - 24 hours|timeline|within|immediately
+  - sponsor
+  synonyms: []
+  sub_elements:
+  - name: report
+    patterns:
+    - report
+  - name: 24 hours
+    patterns:
+    - 24\ hours
+    - timeline
+    - within
+    - immediately
+  - name: sponsor
+    patterns:
+    - sponsor
+  word_floor: 20
+- id: 9.2.3.1
+  title: Regulatory Reporting Requirements
+  level: 4
+  parent: 9.2.3
+  required: true
+  applicability: universal
+  container: false
+  min_words: 15
+  required_subelements:
+  - SUSAR|suspected unexpected|regulatory
+  - IRB|ethics committee|IEC|health authorit
+  synonyms: []
+  sub_elements:
+  - name: SUSAR
+    patterns:
+    - SUSAR
+    - suspected\ unexpected
+    - regulatory
+  - name: IRB
+    patterns:
+    - IRB
+    - ethics\ committee
+    - IEC
+    - health\ authorit
+  word_floor: 15
+- id: 9.2.4
+  title: Adverse Events of Special Interest
+  level: 3
+  parent: '9.2'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 20
+  required_subelements:
+  - special interest|AESI|not applicable
+  synonyms:
+  - adverse events of special interest
+  - AESI
+  sub_elements:
+  - name: special interest
+    patterns:
+    - special\ interest
+    - AESI
+    - not\ applicable
+  word_floor: 20
+- id: 9.2.5
+  title: Disease-Related Events or Outcomes Not Qualifying as AEs or SAEs
+  level: 3
+  parent: '9.2'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 20
+  required_subelements:
+  - disease-related|disease related|not applicable
+  synonyms: []
+  sub_elements:
+  - name: disease-related
+    patterns:
+    - disease\-related
+    - disease\ related
+    - not\ applicable
+  word_floor: 20
+- id: '9.3'
+  title: Pregnancy and Postpartum Information
+  level: 2
+  parent: '9'
+  required: true
+  applicability: universal
+  container: true
+  min_words: 0
+  required_subelements:
+  - pregnan
+  synonyms:
+  - pregnancy
+  - pregnancy reporting
+  sub_elements:
+  - name: pregnan
+    patterns:
+    - pregnan
+  word_floor: 0
+- id: 9.3.1
+  title: Participants Who Become Pregnant During the Trial
+  level: 3
+  parent: '9.3'
+  required: false
+  applicability: conditional
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: 9.3.2
+  title: Participants Whose Partners Become Pregnant During the Trial
+  level: 3
+  parent: '9.3'
+  required: false
+  applicability: conditional
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: '9.4'
+  title: Special Safety Situations
+  level: 2
+  parent: '9'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - overdose|misuse|medication error|special situation|special safety
+  synonyms:
+  - special situations
+  - overdose misuse medication error
+  sub_elements:
+  - name: overdose
+    patterns:
+    - overdose
+    - misuse
+    - medication\ error
+    - special\ situation
+    - special\ safety
+  word_floor: 25
+- id: '10'
+  title: Statistical Considerations
+  level: 1
+  parent: null
+  required: true
+  applicability: universal
+  container: true
+  min_words: 0
+  required_subelements: []
+  synonyms:
+  - statistical considerations
+  - statistical methods
+  - statistical analysis
+  - data analysis
+  sub_elements: []
+  word_floor: 0
+- id: '10.1'
+  title: General Considerations
+  level: 2
+  parent: '10'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - statistical analysis plan|SAP|statistical
+  synonyms:
+  - statistical analysis plan
+  - general statistical considerations
+  - general considerations
+  sub_elements:
+  - name: statistical analysis plan
+    patterns:
+    - statistical\ analysis\ plan
+    - SAP
+    - statistical
+  word_floor: 25
+- id: '10.2'
+  title: Analysis Sets
+  level: 2
+  parent: '10'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - analysis set|analysis population
+  - intent-to-treat|intention-to-treat|ITT|per-protocol|safety set|safety population|full analysis
+  synonyms:
+  - analysis populations
+  - analysis sets
+  - analysis datasets
+  - populations for analysis
+  sub_elements:
+  - name: analysis set
+    patterns:
+    - analysis\ set
+    - analysis\ population
+  - name: intent-to-treat
+    patterns:
+    - intent\-to\-treat
+    - intention\-to\-treat
+    - ITT
+    - per\-protocol
+    - safety\ set
+    - safety\ population
+    - full\ analysis
+  word_floor: 25
+- id: '10.3'
+  title: Analyses of Demographics and Other Baseline Variables
+  level: 2
+  parent: '10'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - baseline|demographic
+  synonyms: []
+  sub_elements:
+  - name: baseline
+    patterns:
+    - baseline
+    - demographic
+  word_floor: 25
+- id: '10.4'
+  title: Analyses Associated with the Primary Objective(s)
+  level: 2
+  parent: '10'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - hypothes
+  - type I error|significance level|alpha|two-sided|one-sided
+  - model|test|method|analysis
+  - missing data|imputation
+  - intercurrent|handling
+  synonyms:
+  - primary analysis
+  - analysis of primary endpoint
+  - primary endpoint analysis
+  sub_elements:
+  - name: hypothes
+    patterns:
+    - hypothes
+  - name: type I error
+    patterns:
+    - type\ I\ error
+    - significance\ level
+    - alpha
+    - two\-sided
+    - one\-sided
+  - name: model
+    patterns:
+    - model
+    - test
+    - method
+    - analysis
+  - name: missing data
+    patterns:
+    - missing\ data
+    - imputation
+  - name: intercurrent
+    patterns:
+    - intercurrent
+    - handling
+  word_floor: 25
+- id: 10.4.1
+  title: Primary Objective
+  level: 3
+  parent: '10.4'
+  required: false
+  applicability: per_objective
+  container: true
+  min_words: 0
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 0
+- id: 10.4.1.1
+  title: Statistical Analysis Method
+  level: 4
+  parent: 10.4.1
+  required: false
+  applicability: per_objective
+  container: false
+  min_words: 15
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 15
+- id: 10.4.1.2
+  title: Handling of Data in Relation to Primary Estimand(s)
+  level: 4
+  parent: 10.4.1
+  required: false
+  applicability: per_objective
+  container: false
+  min_words: 15
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 15
+- id: 10.4.1.3
+  title: Handling of Missing Data in Relation to Primary Estimand(s)
+  level: 4
+  parent: 10.4.1
+  required: false
+  applicability: per_objective
+  container: false
+  min_words: 15
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 15
+- id: 10.4.1.4
+  title: Sensitivity Analysis
+  level: 4
+  parent: 10.4.1
+  required: false
+  applicability: per_objective
+  container: false
+  min_words: 15
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 15
+- id: 10.4.1.5
+  title: Supplementary Analysis
+  level: 4
+  parent: 10.4.1
+  required: false
+  applicability: per_objective
+  container: false
+  min_words: 15
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 15
+- id: '10.5'
+  title: Analyses Associated with the Secondary Objective(s)
+  level: 2
+  parent: '10'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - secondary
+  - method|test|analysis
+  synonyms:
+  - secondary analysis
+  - analysis of secondary endpoints
+  sub_elements:
+  - name: secondary
+    patterns:
+    - secondary
+  - name: method
+    patterns:
+    - method
+    - test
+    - analysis
+  word_floor: 25
+- id: 10.5.1
+  title: Secondary Objective
+  level: 3
+  parent: '10.5'
+  required: false
+  applicability: per_objective
+  container: true
+  min_words: 0
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 0
+- id: 10.5.1.1
+  title: Statistical Analysis Method
+  level: 4
+  parent: 10.5.1
+  required: false
+  applicability: per_objective
+  container: false
+  min_words: 15
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 15
+- id: 10.5.1.2
+  title: Handling of Data in Relation to Secondary Estimand(s)
+  level: 4
+  parent: 10.5.1
+  required: false
+  applicability: per_objective
+  container: false
+  min_words: 15
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 15
+- id: 10.5.1.3
+  title: Handling of Missing Data in Relation to Secondary Estimand(s)
+  level: 4
+  parent: 10.5.1
+  required: false
+  applicability: per_objective
+  container: false
+  min_words: 15
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 15
+- id: 10.5.1.4
+  title: Sensitivity Analysis
+  level: 4
+  parent: 10.5.1
+  required: false
+  applicability: per_objective
+  container: false
+  min_words: 15
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 15
+- id: 10.5.1.5
+  title: Supplementary Analysis
+  level: 4
+  parent: 10.5.1
+  required: false
+  applicability: per_objective
+  container: false
+  min_words: 15
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 15
+- id: '10.6'
+  title: Analyses Associated with the Exploratory Objective(s)
+  level: 2
+  parent: '10'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - exploratory|not applicable
+  synonyms:
+  - exploratory analysis
+  sub_elements:
+  - name: exploratory
+    patterns:
+    - exploratory
+    - not\ applicable
+  word_floor: 25
+- id: '10.7'
+  title: Safety Analyses
+  level: 2
+  parent: '10'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - adverse event|safety
+  - incidence|frequency|proportion|number of participants
+  synonyms:
+  - safety analysis
+  - safety analyses
+  sub_elements:
+  - name: adverse event
+    patterns:
+    - adverse\ event
+    - safety
+  - name: incidence
+    patterns:
+    - incidence
+    - frequency
+    - proportion
+    - number\ of\ participants
+  word_floor: 25
+- id: '10.8'
+  title: Other Analyses
+  level: 2
+  parent: '10'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - subgroup|other analys|not applicable
+  synonyms: []
+  sub_elements:
+  - name: subgroup
+    patterns:
+    - subgroup
+    - other\ analys
+    - not\ applicable
+  word_floor: 25
+- id: '10.9'
+  title: Interim Analyses
+  level: 2
+  parent: '10'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - interim|not applicable
+  - stopping|boundary|DMC|data monitoring|futility
+  synonyms:
+  - interim analysis
+  - planned interim analyses
+  sub_elements:
+  - name: interim
+    patterns:
+    - interim
+    - not\ applicable
+  - name: stopping
+    patterns:
+    - stopping
+    - boundary
+    - DMC
+    - data\ monitoring
+    - futility
+  word_floor: 25
+- id: '10.10'
+  title: Multiplicity Adjustments
+  level: 2
+  parent: '10'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - multiplicity|type I error|multiple comparison|hierarchical|alpha|not applicable
+  synonyms:
+  - multiplicity
+  - multiple comparisons
+  - type I error control
+  sub_elements:
+  - name: multiplicity
+    patterns:
+    - multiplicity
+    - type\ I\ error
+    - multiple\ comparison
+    - hierarchical
+    - alpha
+    - not\ applicable
+  word_floor: 25
+- id: '10.11'
+  title: Sample Size Determination
+  level: 2
+  parent: '10'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - sample size
+  - significance level|alpha|type i error
+  - power
+  - effect|difference|hazard ratio|response rate
+  - dropout|drop-out|attrition|withdrawal|evaluable|loss
+  synonyms:
+  - sample size
+  - sample size calculation
+  - sample size estimation
+  - power calculation
+  sub_elements:
+  - name: sample size
+    patterns:
+    - sample\ size
+  - name: significance level
+    patterns:
+    - significance\ level
+    - alpha
+    - type\ i\ error
+  - name: power
+    patterns:
+    - power
+  - name: effect
+    patterns:
+    - effect
+    - difference
+    - hazard\ ratio
+    - response\ rate
+  - name: dropout
+    patterns:
+    - dropout
+    - drop\-out
+    - attrition
+    - withdrawal
+    - evaluable
+    - loss
+  word_floor: 25
+- id: '11'
+  title: Trial Oversight and Other General Considerations
+  level: 1
+  parent: null
+  required: true
+  applicability: universal
+  container: true
+  min_words: 0
+  required_subelements: []
+  synonyms:
+  - ethical and regulatory considerations
+  - administrative considerations
+  - regulatory
+  - ethics
+  - trial administration
+  sub_elements: []
+  word_floor: 0
+- id: '11.1'
+  title: Regulatory and Ethical Considerations
+  level: 2
+  parent: '11'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - helsinki
+  - good clinical practice|GCP|ICH
+  synonyms:
+  - ethical conduct
+  - regulatory and ethical
+  - declaration of helsinki
+  - ethics
+  sub_elements:
+  - name: helsinki
+    patterns:
+    - helsinki
+  - name: good clinical practice
+    patterns:
+    - good\ clinical\ practice
+    - GCP
+    - ICH
+  word_floor: 25
+- id: '11.2'
+  title: Trial Oversight
+  level: 2
+  parent: '11'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - investigator|sponsor|responsib
+  synonyms:
+  - oversight
+  - investigator responsibilities
+  - sponsor responsibilities
+  sub_elements:
+  - name: investigator
+    patterns:
+    - investigator
+    - sponsor
+    - responsib
+  word_floor: 25
+- id: 11.2.1
+  title: Investigator Responsibilities
+  level: 3
+  parent: '11.2'
+  required: false
+  applicability: optional
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: 11.2.2
+  title: Sponsor Responsibilities
+  level: 3
+  parent: '11.2'
+  required: false
+  applicability: optional
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: '11.3'
+  title: Informed Consent Process
+  level: 2
+  parent: '11'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - informed consent
+  synonyms:
+  - informed consent
+  - consent process
+  sub_elements:
+  - name: informed consent
+    patterns:
+    - informed\ consent
+  word_floor: 25
+- id: 11.3.1
+  title: Informed Consent for Rescreening
+  level: 3
+  parent: '11.3'
+  required: false
+  applicability: conditional
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: 11.3.2
+  title: Informed Consent for Use of Remaining Samples in Exploratory Research
+  level: 3
+  parent: '11.3'
+  required: false
+  applicability: conditional
+  container: false
+  min_words: 20
+  required_subelements: []
+  synonyms: []
+  sub_elements: []
+  word_floor: 20
+- id: '11.4'
+  title: Committees
+  level: 2
+  parent: '11'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - committee|DMC|data monitoring|not applicable
+  synonyms:
+  - data monitoring committee
+  - DMC
+  - steering committee
+  - independent data monitoring committee
+  - safety review committee
+  sub_elements:
+  - name: committee
+    patterns:
+    - committee
+    - DMC
+    - data\ monitoring
+    - not\ applicable
+  word_floor: 25
+- id: '11.5'
+  title: Insurance and Indemnity
+  level: 2
+  parent: '11'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - insurance|indemnity|not applicable
+  synonyms:
+  - insurance
+  - indemnity
+  sub_elements:
+  - name: insurance
+    patterns:
+    - insurance
+    - indemnity
+    - not\ applicable
+  word_floor: 25
+- id: '11.6'
+  title: Risk-Based Quality Management
+  level: 2
+  parent: '11'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - quality|risk
+  synonyms:
+  - quality management
+  - quality control and quality assurance
+  - quality assurance
+  sub_elements:
+  - name: quality
+    patterns:
+    - quality
+    - risk
+  word_floor: 25
+- id: '11.7'
+  title: Data Governance
+  level: 2
+  parent: '11'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - data
+  synonyms:
+  - data management
+  - data governance
+  - data handling
+  - record keeping
+  sub_elements:
+  - name: data
+    patterns:
+    - data
+  word_floor: 25
+- id: '11.8'
+  title: Data Protection
+  level: 2
+  parent: '11'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - privacy|confidential|data protection|GDPR|HIPAA
+  synonyms:
+  - confidentiality
+  - data protection
+  - privacy
+  sub_elements:
+  - name: privacy
+    patterns:
+    - privacy
+    - confidential
+    - data\ protection
+    - GDPR
+    - HIPAA
+  word_floor: 25
+- id: '11.9'
+  title: Source Records
+  level: 2
+  parent: '11'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - source
+  synonyms:
+  - source documents
+  - source data
+  - source records
+  sub_elements:
+  - name: source
+    patterns:
+    - source
+  word_floor: 25
+- id: '11.10'
+  title: Protocol Deviations
+  level: 2
+  parent: '11'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - deviation
+  synonyms:
+  - protocol deviations
+  - protocol compliance
+  sub_elements:
+  - name: deviation
+    patterns:
+    - deviation
+  word_floor: 25
+- id: '11.11'
+  title: Early Site Closure
+  level: 2
+  parent: '11'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - site closure|closure|terminat
+  synonyms:
+  - early site closure
+  - study termination
+  - premature termination
+  sub_elements:
+  - name: site closure
+    patterns:
+    - site\ closure
+    - closure
+    - terminat
+  word_floor: 25
+- id: '11.12'
+  title: Data Dissemination
+  level: 2
+  parent: '11'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - register|ClinicalTrials.gov|results|publication
+  synonyms:
+  - publication policy
+  - dissemination of results
+  - data sharing
+  - publication
+  - registration
+  sub_elements:
+  - name: register
+    patterns:
+    - register
+    - ClinicalTrials\.gov
+    - results
+    - publication
+  word_floor: 25
+- id: '12'
+  title: 'Appendix: Supporting Details'
+  level: 1
+  parent: null
+  required: true
+  applicability: universal
+  container: true
+  min_words: 0
+  required_subelements: []
+  synonyms:
+  - appendices
+  - appendix
+  sub_elements: []
+  word_floor: 0
+- id: '12.1'
+  title: Clinical Laboratory Tests
+  level: 2
+  parent: '12'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - laboratory|hematology|haematology|chemistry|not applicable
+  synonyms:
+  - clinical laboratory tests
+  - laboratory tests
+  - lab parameters
+  sub_elements:
+  - name: laboratory
+    patterns:
+    - laboratory
+    - hematology
+    - haematology
+    - chemistry
+    - not\ applicable
+  word_floor: 25
+- id: '12.2'
+  title: Country/Region-Specific Differences
+  level: 2
+  parent: '12'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - countr|region|not applicable
+  synonyms:
+  - country-specific
+  - regional differences
+  sub_elements:
+  - name: countr
+    patterns:
+    - countr
+    - region
+    - not\ applicable
+  word_floor: 25
+- id: '12.3'
+  title: Prior Protocol Amendment(s)
+  level: 2
+  parent: '12'
+  required: true
+  applicability: universal
+  container: false
+  min_words: 25
+  required_subelements:
+  - amend|not been amended
+  synonyms:
+  - protocol amendment history
+  - protocol amendments
+  - summary of changes
+  - document history
+  sub_elements:
+  - name: amend
+    patterns:
+    - amend
+    - not\ been\ amended
+  word_floor: 25
+- id: '13'
+  title: 'Appendix: Glossary of Terms and Abbreviations'
+  level: 1
+  parent: null
+  required: true
+  applicability: universal
+  container: false
+  min_words: 0
+  required_subelements:
+  - abbreviation|glossary
+  synonyms:
+  - abbreviations
+  - glossary
+  - list of abbreviations
+  - definitions
+  sub_elements:
+  - name: abbreviation
+    patterns:
+    - abbreviation
+    - glossary
+  word_floor: 0
+- id: '14'
+  title: 'Appendix: References'
+  level: 1
+  parent: null
+  required: true
+  applicability: universal
+  container: false
+  min_words: 0
+  required_subelements:
+  - reference
+  synonyms:
+  - references
+  - bibliography
+  sub_elements:
+  - name: reference
+    patterns:
+    - reference
+  word_floor: 0

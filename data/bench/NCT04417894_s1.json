@@ -1,0 +1,337 @@
+{
+ "nct_id": "NCT04417894",
+ "seed": 1,
+ "source_pdf": "NCT04417894_protocol.pdf",
+ "injected_pdf": "NCT04417894_s1.pdf",
+ "target_errors": 10,
+ "errors": [
+  {
+   "type": "T13",
+   "name": "Lab threshold value conflicts between mentions",
+   "page": 24,
+   "bbox": [
+    185.1,
+    202.6,
+    190.6,
+    217.5
+   ],
+   "original": "3",
+   "new": "6",
+   "context": "to ALT or AST >3 times ULN.",
+   "new_line": "to ALT or AST >6 times ULN.",
+   "description": "Lab threshold 3 changed to 6 in one place only",
+   "expected_checks": [
+    "C8"
+   ],
+   "amendment_category": "eligibility",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     24
+    ],
+    "texts": [
+     "o ALT or AST >6 times ULN."
+    ]
+   },
+   "error_id": "NCT04417894-s1-01"
+  },
+  {
+   "type": "T08",
+   "name": "Sample size changed in one place",
+   "page": 27,
+   "bbox": [
+    298.3,
+    180.9,
+    313.3,
+    194.4
+   ],
+   "original": "130",
+   "new": "156",
+   "context": "Approximately 130 patients (65 patients per arm) will be enrolled at",
+   "new_line": "Approximately 156 patients (65 patients per arm) will be enrolled at",
+   "description": "Sample size 130 changed to 156 in one place only",
+   "expected_checks": [
+    "C4"
+   ],
+   "amendment_category": "statistics",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     27,
+     29,
+     42,
+     46,
+     57,
+     85
+    ],
+    "texts": [
+     "Approximately 156 patients (65"
+    ]
+   },
+   "error_id": "NCT04417894-s1-02"
+  },
+  {
+   "type": "T14",
+   "name": "Cross-reference to a nonexistent section",
+   "page": 13,
+   "bbox": [
+    182.0,
+    531.9,
+    201.2,
+    546.8
+   ],
+   "original": "11.5",
+   "new": "99.5",
+   "context": "already exists in Section 11.5.",
+   "new_line": "already exists in Section 99.5.",
+   "description": "Reference to Section 11.5 changed to nonexistent Section 99.5",
+   "expected_checks": [
+    "C9"
+   ],
+   "amendment_category": "clerical",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     13
+    ],
+    "texts": [
+     "ts in Section 99.5."
+    ]
+   },
+   "error_id": "NCT04417894-s1-03"
+  },
+  {
+   "type": "T11",
+   "name": "Blinding / unblinding text removed",
+   "page": 13,
+   "bbox": [
+    72.0,
+    459.2,
+    227.2,
+    474.1
+   ],
+   "original": "Removed description of unblinded ",
+   "new": "(removed)",
+   "context": "Removed description of unblinded",
+   "new_line": "(removed)Removed description of unblinded",
+   "description": "Removed 13 lines about unblinding / randomisation codes",
+   "expected_checks": [
+    "C5",
+    "B3"
+   ],
+   "amendment_category": "design",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     13,
+     57,
+     58,
+     91
+    ],
+    "texts": [],
+    "titles": [
+     "unblinding procedure",
+     "unblind"
+    ]
+   },
+   "error_id": "NCT04417894-s1-04"
+  },
+  {
+   "type": "T09",
+   "name": "Power/effect changed so N not reproducible",
+   "page": 29,
+   "bbox": [
+    434.6,
+    359.9,
+    444.6,
+    373.3
+   ],
+   "original": "85",
+   "new": "95",
+   "context": "treatment arm). This sample size will yield >85% power to detect a",
+   "new_line": "treatment arm). This sample size will yield >95% power to detect a",
+   "description": "Stated power changed 85% -> 95% everywhere, so N is no longer reproducible",
+   "expected_checks": [
+    "C7"
+   ],
+   "amendment_category": "statistics",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     29,
+     85
+    ],
+    "texts": [
+     "e will yield >95% power to det"
+    ]
+   },
+   "error_id": "NCT04417894-s1-05"
+  },
+  {
+   "type": "T10",
+   "name": "Randomisation ratio changed in one place",
+   "page": 26,
+   "bbox": [
+    504.6,
+    361.6,
+    517.4,
+    375.0
+   ],
+   "original": "1:1",
+   "new": "2:1",
+   "context": "Patients who meet the eligibility criteria will be randomized (1:1) to",
+   "new_line": "Patients who meet the eligibility criteria will be randomized (2:1) to",
+   "description": "Ratio 1:1 changed to 2:1 in one place only",
+   "expected_checks": [
+    "C4"
+   ],
+   "amendment_category": "design",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     26,
+     43,
+     57
+    ],
+    "texts": [
+     "e randomized (2:1) to"
+    ]
+   },
+   "error_id": "NCT04417894-s1-06"
+  },
+  {
+   "type": "T15",
+   "name": "Required M11 section removed",
+   "page": 85,
+   "bbox": [
+    72.0,
+    70.3,
+    103.9,
+    89.7
+   ],
+   "original": "11.2 Justification of Sample Size",
+   "new": "(removed)",
+   "context": "11.2.",
+   "new_line": "(removed)11.2.",
+   "description": "Removed M11 10.11 11.2 Justification of Sample Size (12 lines)",
+   "expected_checks": [
+    "B1"
+   ],
+   "amendment_category": "completeness",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     85
+    ],
+    "texts": [],
+    "titles": [
+     "M11 10.11 "
+    ]
+   },
+   "m11_id": "10.11",
+   "error_id": "NCT04417894-s1-07"
+  },
+  {
+   "type": "T06",
+   "name": "Age range changed in one place",
+   "page": 20,
+   "bbox": [
+    248.8,
+    124.5,
+    259.8,
+    139.4
+   ],
+   "original": "18",
+   "new": "21",
+   "context": "prior to the screening visit for patients ≥18 years old and",
+   "new_line": "prior to the screening visit for patients ≥21 years old and",
+   "description": "Minimum age changed 18 -> 21 in one place only",
+   "expected_checks": [
+    "C4"
+   ],
+   "amendment_category": "eligibility",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     20,
+     46
+    ],
+    "texts": [
+     "for patients ≥21 years old and"
+    ]
+   },
+   "error_id": "NCT04417894-s1-08"
+  },
+  {
+   "type": "T07",
+   "name": "Dose changed in one place",
+   "page": 27,
+   "bbox": [
+    489.3,
+    410.6,
+    504.4,
+    424.0
+   ],
+   "original": "600",
+   "new": "750",
+   "context": "In adults: dupilumab 300 mg, after a loading dose of 600 mg on",
+   "new_line": "In adults: dupilumab 300 mg, after a loading dose of 750 mg on",
+   "description": "Dose 600 changed to 750 in one place only",
+   "expected_checks": [
+    "C4"
+   ],
+   "amendment_category": "intervention",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     27,
+     38,
+     43,
+     53
+    ],
+    "texts": [
+     "ading dose of 750 mg on"
+    ]
+   },
+   "error_id": "NCT04417894-s1-09"
+  }
+ ],
+ "skipped": [
+  {
+   "type": "T01",
+   "reason": "not implemented yet"
+  },
+  {
+   "type": "T03",
+   "reason": "not implemented yet"
+  },
+  {
+   "type": "T04",
+   "reason": "not implemented yet"
+  },
+  {
+   "type": "T05",
+   "reason": "not implemented yet"
+  },
+  {
+   "type": "T12",
+   "reason": "not implemented yet"
+  },
+  {
+   "type": "T02",
+   "reason": "no endpoint timepoint repeated across sections"
+  },
+  {
+   "type": "T16",
+   "reason": "no row of at least 3 visit windows found"
+  },
+  {
+   "type": "T18",
+   "reason": "protocol age mentions do not all equal the registry value 12"
+  },
+  {
+   "type": "T17",
+   "reason": "durations are not stated at least twice"
+  }
+ ]
+}

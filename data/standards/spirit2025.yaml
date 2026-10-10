@@ -1,0 +1,1244 @@
+# SPIRIT 2025 checklist (34 items) for protocols of randomised trials.
+# Source: Chan A-W et al., "SPIRIT 2025 statement: updated guideline for protocols of randomised trials", BMJ/Lancet/JAMA/others 2025.
+#   https://pmc.ncbi.nlm.nih.gov/articles/PMC12035670/   Licence: CC BY 4.0. Item wording is reproduced verbatim from the paper's checklist table.
+# Authored by Person B: required_subelements, conditional_subelements, m11_ids, applies_if. Good-faith reading, not an official artifact.
+#
+#   patterns / sub_elements / word_floor : aliases in the shape backend/preflight/checks/completeness.py reads (regex-escaped).
+#               patterns = anchor alternatives (first required sub-element) that locate the item; keep in sync with required_subelements.
+#
+# Unit of counting = the 34 numbered items. Sub-items (e.g. 24a/24b/24c) are listed in sub_items and drive "thin" detection (B3).
+#   required_subelements    : one entry per concept that must appear; '|' = accepted alternatives; case-insensitive substring match.
+#   conditional_subelements : only required when `when` holds: 'blinded' (trial is blinded) or 'applicable' (the sub-item applies to the trial).
+#   applies_if              : 'randomised' items (21-23) are skipped for single-arm / non-randomised protocols; 'always' otherwise.
+#   m11_ids                 : where this content usually lives in an M11 protocol (ids from m11_toc.yaml); [] = no direct M11 home.
+#   Status rule: search ONLY the text of the mapped sections (m11_ids, resolved to the protocol's own sections by A2).
+#                Fall back to the whole document ONLY when m11_ids is empty. Whole-document search is far too lenient
+#                (a smoke test on one real protocol marked 30 of 34 items present that way).
+#                present if all required_subelements are found; thin if some are; missing if none.
+framework: SPIRIT 2025
+version: '2025'
+items:
+- id: '1'
+  title: Title and structured summary
+  section: Administrative information
+  sub_items:
+  - id: 1a
+    description: Title stating the trial design, population, and interventions, with identification as a protocol
+  - id: 1b
+    description: Structured summary of trial design and methods, including items from the World Health Organization Trial Registration Data Set
+  required: true
+  applies_if: always
+  required_subelements:
+  - randomi|open-label|open label|double-blind|single-arm|single arm|phase
+  - patients|participants|subjects|adults
+  - protocol
+  conditional_subelements: []
+  m11_ids:
+  - '1.1'
+  patterns:
+  - randomi
+  - open\-label
+  - open\ label
+  - double\-blind
+  - single\-arm
+  - single\ arm
+  - phase
+  sub_elements:
+  - name: randomi
+    patterns:
+    - randomi
+    - open\-label
+    - open\ label
+    - double\-blind
+    - single\-arm
+    - single\ arm
+    - phase
+  - name: patients
+    patterns:
+    - patients
+    - participants
+    - subjects
+    - adults
+  - name: protocol
+    patterns:
+    - protocol
+  word_floor: 0
+- id: '2'
+  title: Protocol version
+  section: Administrative information
+  sub_items:
+  - id: '2'
+    description: Version date and identifier
+  required: true
+  applies_if: always
+  required_subelements:
+  - version
+  - date
+  conditional_subelements: []
+  m11_ids: []
+  patterns:
+  - version
+  sub_elements:
+  - name: version
+    patterns:
+    - version
+  - name: date
+    patterns:
+    - date
+  word_floor: 0
+- id: '3'
+  title: Roles and responsibilities
+  section: Administrative information
+  sub_items:
+  - id: 3a
+    description: Names, affiliations, and roles of protocol contributors
+  - id: 3b
+    description: Name and contact information for the trial sponsor
+  - id: 3c
+    description: Role of trial sponsor and funders in design, conduct, analysis, and reporting of trial; including any authority over these activities
+  - id: 3d
+    description: Composition, roles, and responsibilities of the coordinating site, steering committee, endpoint adjudication committee, data
+      management team, and other individuals or groups overseeing the trial, if applicable
+  required: true
+  applies_if: always
+  required_subelements:
+  - investigator|author|medical monitor|contributor
+  - sponsor
+  - address|telephone|phone|email|e-mail|contact
+  conditional_subelements:
+  - when: applicable
+    sub_item: 3d
+    match: steering committee|data management|coordinating|CRO|committee
+  m11_ids:
+  - '11.2'
+  - '11.4'
+  patterns:
+  - investigator
+  - author
+  - medical\ monitor
+  - contributor
+  sub_elements:
+  - name: investigator
+    patterns:
+    - investigator
+    - author
+    - medical\ monitor
+    - contributor
+  - name: sponsor
+    patterns:
+    - sponsor
+  - name: address
+    patterns:
+    - address
+    - telephone
+    - phone
+    - email
+    - e\-mail
+    - contact
+  word_floor: 0
+- id: '4'
+  title: Trial registration
+  section: Open science
+  sub_items:
+  - id: '4'
+    description: Name of trial registry, identifying number (with URL), and date of registration. If not yet registered, name of intended registry
+  required: true
+  applies_if: always
+  required_subelements:
+  - clinicaltrials.gov|registry|eudract|registration|euct
+  - NCT|identifier|number
+  conditional_subelements: []
+  m11_ids:
+  - '11.12'
+  patterns:
+  - clinicaltrials\.gov
+  - registry
+  - eudract
+  - registration
+  - euct
+  sub_elements:
+  - name: clinicaltrials.gov
+    patterns:
+    - clinicaltrials\.gov
+    - registry
+    - eudract
+    - registration
+    - euct
+  - name: NCT
+    patterns:
+    - NCT
+    - identifier
+    - number
+  word_floor: 0
+- id: '5'
+  title: Protocol and statistical analysis plan
+  section: Open science
+  sub_items:
+  - id: '5'
+    description: Where the trial protocol and statistical analysis plan can be accessed
+  required: true
+  applies_if: always
+  required_subelements:
+  - statistical analysis plan|SAP
+  conditional_subelements: []
+  m11_ids:
+  - '10.1'
+  patterns:
+  - statistical\ analysis\ plan
+  - SAP
+  sub_elements:
+  - name: statistical analysis plan
+    patterns:
+    - statistical\ analysis\ plan
+    - SAP
+  word_floor: 0
+- id: '6'
+  title: Data sharing
+  section: Open science
+  sub_items:
+  - id: '6'
+    description: Where and how the individual de-identified participant data (including data dictionary), statistical code, and any other materials
+      will be accessible
+  required: true
+  applies_if: always
+  required_subelements:
+  - data sharing|individual participant data|de-identified|deidentified|IPD
+  - access|available|request
+  conditional_subelements: []
+  m11_ids:
+  - '11.12'
+  - '11.7'
+  patterns:
+  - data\ sharing
+  - individual\ participant\ data
+  - de\-identified
+  - deidentified
+  - IPD
+  sub_elements:
+  - name: data sharing
+    patterns:
+    - data\ sharing
+    - individual\ participant\ data
+    - de\-identified
+    - deidentified
+    - IPD
+  - name: access
+    patterns:
+    - access
+    - available
+    - request
+  word_floor: 0
+- id: '7'
+  title: Funding and conflicts of interest
+  section: Open science
+  sub_items:
+  - id: 7a
+    description: Sources of funding and other support (eg, supply of drugs)
+  - id: 7b
+    description: Financial and other conflicts of interest for principal investigators and steering committee members
+  required: true
+  applies_if: always
+  required_subelements:
+  - funding|funded|sponsor|supported by|supply of
+  - conflict of interest|conflicts of interest|financial disclosure
+  conditional_subelements: []
+  m11_ids:
+  - '11.2'
+  patterns:
+  - funding
+  - funded
+  - sponsor
+  - supported\ by
+  - supply\ of
+  sub_elements:
+  - name: funding
+    patterns:
+    - funding
+    - funded
+    - sponsor
+    - supported\ by
+    - supply\ of
+  - name: conflict of interest
+    patterns:
+    - conflict\ of\ interest
+    - conflicts\ of\ interest
+    - financial\ disclosure
+  word_floor: 0
+- id: '8'
+  title: Dissemination policy
+  section: Open science
+  sub_items:
+  - id: '8'
+    description: Plans to communicate trial results to participants, healthcare professionals, the public, and other relevant groups (eg, reporting
+      in trial registry, plain language summary, publication)
+  required: true
+  applies_if: always
+  required_subelements:
+  - dissemination|publication|publish|results
+  - registry|public|plain language|clinicaltrials.gov|participants
+  conditional_subelements: []
+  m11_ids:
+  - '11.12'
+  patterns:
+  - dissemination
+  - publication
+  - publish
+  - results
+  sub_elements:
+  - name: dissemination
+    patterns:
+    - dissemination
+    - publication
+    - publish
+    - results
+  - name: registry
+    patterns:
+    - registry
+    - public
+    - plain\ language
+    - clinicaltrials\.gov
+    - participants
+  word_floor: 0
+- id: '9'
+  title: Background and rationale
+  section: Introduction
+  sub_items:
+  - id: 9a
+    description: Scientific background and rationale, including summary of relevant studies (published and unpublished) examining benefits and
+      harms for each intervention
+  - id: 9b
+    description: Explanation for choice of comparator
+  required: true
+  applies_if: always
+  required_subelements:
+  - background|rationale
+  - comparator|control|placebo|standard of care
+  conditional_subelements: []
+  m11_ids:
+  - '2.1'
+  - 4.2.3
+  patterns:
+  - background
+  - rationale
+  sub_elements:
+  - name: background
+    patterns:
+    - background
+    - rationale
+  - name: comparator
+    patterns:
+    - comparator
+    - control
+    - placebo
+    - standard\ of\ care
+  word_floor: 0
+- id: '10'
+  title: Objectives
+  section: Introduction
+  sub_items:
+  - id: '10'
+    description: Specific objectives related to benefits and harms
+  required: true
+  applies_if: always
+  required_subelements:
+  - objective
+  - efficacy|safety|benefit|harm|response|survival
+  conditional_subelements: []
+  m11_ids:
+  - '3.1'
+  - '3.2'
+  - '3.3'
+  patterns:
+  - objective
+  sub_elements:
+  - name: objective
+    patterns:
+    - objective
+  - name: efficacy
+    patterns:
+    - efficacy
+    - safety
+    - benefit
+    - harm
+    - response
+    - survival
+  word_floor: 0
+- id: '11'
+  title: Patient and public involvement
+  section: 'Methods: Patient and public involvement, trial design'
+  sub_items:
+  - id: '11'
+    description: Details of, or plans for, patient or public involvement in the design, conduct, and reporting of the trial
+  required: true
+  applies_if: always
+  required_subelements:
+  - patient and public involvement|patient involvement|public involvement|patient advisory|patient engagement
+  conditional_subelements: []
+  m11_ids:
+  - 4.1.1
+  patterns:
+  - patient\ and\ public\ involvement
+  - patient\ involvement
+  - public\ involvement
+  - patient\ advisory
+  - patient\ engagement
+  sub_elements:
+  - name: patient and public involvement
+    patterns:
+    - patient\ and\ public\ involvement
+    - patient\ involvement
+    - public\ involvement
+    - patient\ advisory
+    - patient\ engagement
+  word_floor: 0
+- id: '12'
+  title: Trial design
+  section: 'Methods: Patient and public involvement, trial design'
+  sub_items:
+  - id: '12'
+    description: Description of trial design including type of trial (eg, parallel group, crossover), allocation ratio, and framework (eg, superiority,
+      equivalence, non-inferiority, exploratory)
+  required: true
+  applies_if: always
+  required_subelements:
+  - parallel|crossover|cross-over|single-arm|single arm|open-label|factorial
+  - allocation ratio|ratio|1:1|2:1|randomi
+  - superiority|non-inferiority|noninferiority|equivalence|exploratory
+  conditional_subelements: []
+  m11_ids:
+  - '4.1'
+  - 1.1.2
+  patterns:
+  - parallel
+  - crossover
+  - cross\-over
+  - single\-arm
+  - single\ arm
+  - open\-label
+  - factorial
+  sub_elements:
+  - name: parallel
+    patterns:
+    - parallel
+    - crossover
+    - cross\-over
+    - single\-arm
+    - single\ arm
+    - open\-label
+    - factorial
+  - name: allocation ratio
+    patterns:
+    - allocation\ ratio
+    - ratio
+    - '1:1'
+    - '2:1'
+    - randomi
+  - name: superiority
+    patterns:
+    - superiority
+    - non\-inferiority
+    - noninferiority
+    - equivalence
+    - exploratory
+  word_floor: 0
+- id: '13'
+  title: Trial setting
+  section: 'Methods: Participants, interventions, and outcomes'
+  sub_items:
+  - id: '13'
+    description: Settings (eg, community, hospital) and locations (eg, countries, sites) where the trial will be conducted
+  required: true
+  applies_if: always
+  required_subelements:
+  - site|setting|center|centre|hospital|countr|location
+  conditional_subelements: []
+  m11_ids:
+  - '4.1'
+  - '12.2'
+  patterns:
+  - site
+  - setting
+  - center
+  - centre
+  - hospital
+  - countr
+  - location
+  sub_elements:
+  - name: site
+    patterns:
+    - site
+    - setting
+    - center
+    - centre
+    - hospital
+    - countr
+    - location
+  word_floor: 0
+- id: '14'
+  title: Eligibility criteria
+  section: 'Methods: Participants, interventions, and outcomes'
+  sub_items:
+  - id: 14a
+    description: Eligibility criteria for participants
+  - id: 14b
+    description: If applicable, eligibility criteria for sites and for individuals who will deliver the interventions (eg, surgeons, physiotherapists)
+  required: true
+  applies_if: always
+  required_subelements:
+  - eligibility|inclusion
+  - exclusion
+  conditional_subelements:
+  - when: applicable
+    sub_item: 14b
+    match: site|investigator qualification|training|experience
+  m11_ids:
+  - '5.2'
+  - '5.3'
+  patterns:
+  - eligibility
+  - inclusion
+  sub_elements:
+  - name: eligibility
+    patterns:
+    - eligibility
+    - inclusion
+  - name: exclusion
+    patterns:
+    - exclusion
+  word_floor: 0
+- id: '15'
+  title: Intervention and comparator
+  section: 'Methods: Participants, interventions, and outcomes'
+  sub_items:
+  - id: 15a
+    description: Intervention and comparator with sufficient details to allow replication including how, when, and by whom they will be administered.
+      If relevant, where additional materials describing the intervention and comparator (eg, intervention manual) can be accessed
+  - id: 15b
+    description: Criteria for discontinuing or modifying allocated intervention/comparator for a trial participant (eg, drug dose change in response
+      to harms, participant request, or improving/worsening disease)
+  - id: 15c
+    description: Strategies to improve adherence to intervention/comparator protocols, if applicable, and any procedures for monitoring adherence
+      (eg, drug tablet return, sessions attended)
+  - id: 15d
+    description: Concomitant care that is permitted or prohibited during the trial
+  required: true
+  applies_if: always
+  required_subelements:
+  - dose|regimen|schedule|administered
+  - route|intravenous|oral|subcutaneous|by whom|investigator|pharmacist
+  - discontinu|dose modification|dose reduction|withdraw
+  - adherence|compliance|accountability
+  - concomitant
+  conditional_subelements: []
+  m11_ids:
+  - '6.1'
+  - '6.3'
+  - '6.4'
+  - '6.8'
+  - '6.10'
+  patterns:
+  - dose
+  - regimen
+  - schedule
+  - administered
+  sub_elements:
+  - name: dose
+    patterns:
+    - dose
+    - regimen
+    - schedule
+    - administered
+  - name: route
+    patterns:
+    - route
+    - intravenous
+    - oral
+    - subcutaneous
+    - by\ whom
+    - investigator
+    - pharmacist
+  - name: discontinu
+    patterns:
+    - discontinu
+    - dose\ modification
+    - dose\ reduction
+    - withdraw
+  - name: adherence
+    patterns:
+    - adherence
+    - compliance
+    - accountability
+  - name: concomitant
+    patterns:
+    - concomitant
+  word_floor: 0
+- id: '16'
+  title: Outcomes
+  section: 'Methods: Participants, interventions, and outcomes'
+  sub_items:
+  - id: '16'
+    description: Primary and secondary outcomes, including the specific measurement variable (eg, systolic blood pressure), analysis metric (eg,
+      change from baseline, final value, time to event), method of aggregation (eg, median, proportion), and time point for each outcome
+  required: true
+  applies_if: always
+  required_subelements:
+  - primary
+  - secondary
+  - endpoint|outcome
+  - time point|timepoint|week|month|day
+  conditional_subelements: []
+  m11_ids:
+  - '3.1'
+  - '3.2'
+  - '8.3'
+  patterns:
+  - primary
+  sub_elements:
+  - name: primary
+    patterns:
+    - primary
+  - name: secondary
+    patterns:
+    - secondary
+  - name: endpoint
+    patterns:
+    - endpoint
+    - outcome
+  - name: time point
+    patterns:
+    - time\ point
+    - timepoint
+    - week
+    - month
+    - day
+  word_floor: 0
+- id: '17'
+  title: Harms
+  section: 'Methods: Participants, interventions, and outcomes'
+  sub_items:
+  - id: '17'
+    description: How harms are defined and will be assessed (eg, systematically, non-systematically)
+  required: true
+  applies_if: always
+  required_subelements:
+  - adverse event
+  - defin
+  - assess|monitor|collect|record
+  conditional_subelements: []
+  m11_ids:
+  - '9.1'
+  - '9.2'
+  - '8.4'
+  patterns:
+  - adverse\ event
+  sub_elements:
+  - name: adverse event
+    patterns:
+    - adverse\ event
+  - name: defin
+    patterns:
+    - defin
+  - name: assess
+    patterns:
+    - assess
+    - monitor
+    - collect
+    - record
+  word_floor: 0
+- id: '18'
+  title: Participant timeline
+  section: 'Methods: Participants, interventions, and outcomes'
+  sub_items:
+  - id: '18'
+    description: Time schedule of enrolment, interventions (including any run-ins and washouts), assessments, and visits for participants. A schematic
+      diagram is highly recommended (see fig 1 )
+  required: true
+  applies_if: always
+  required_subelements:
+  - schedule of|visit
+  - screening
+  - follow-up|follow up|end of treatment|end of study
+  conditional_subelements: []
+  m11_ids:
+  - '1.3'
+  - '1.2'
+  - '4.1'
+  patterns:
+  - schedule\ of
+  - visit
+  sub_elements:
+  - name: schedule of
+    patterns:
+    - schedule\ of
+    - visit
+  - name: screening
+    patterns:
+    - screening
+  - name: follow-up
+    patterns:
+    - follow\-up
+    - follow\ up
+    - end\ of\ treatment
+    - end\ of\ study
+  word_floor: 0
+- id: '19'
+  title: Sample size
+  section: 'Methods: Participants, interventions, and outcomes'
+  sub_items:
+  - id: '19'
+    description: How sample size was determined, including all assumptions supporting the sample size calculation
+  required: true
+  applies_if: always
+  required_subelements:
+  - sample size
+  - power
+  - significance level|alpha|type i error
+  - effect|difference|hazard ratio|response rate|assum
+  conditional_subelements: []
+  m11_ids:
+  - '10.11'
+  patterns:
+  - sample\ size
+  sub_elements:
+  - name: sample size
+    patterns:
+    - sample\ size
+  - name: power
+    patterns:
+    - power
+  - name: significance level
+    patterns:
+    - significance\ level
+    - alpha
+    - type\ i\ error
+  - name: effect
+    patterns:
+    - effect
+    - difference
+    - hazard\ ratio
+    - response\ rate
+    - assum
+  word_floor: 0
+- id: '20'
+  title: Recruitment
+  section: 'Methods: Participants, interventions, and outcomes'
+  sub_items:
+  - id: '20'
+    description: Strategies for achieving adequate participant enrolment to reach target sample size
+  required: true
+  applies_if: always
+  required_subelements:
+  - recruit|enrol|enroll|accrual
+  conditional_subelements: []
+  m11_ids: []
+  patterns:
+  - recruit
+  - enrol
+  - enroll
+  - accrual
+  sub_elements:
+  - name: recruit
+    patterns:
+    - recruit
+    - enrol
+    - enroll
+    - accrual
+  word_floor: 0
+- id: '21'
+  title: Sequence generation
+  section: 'Methods: Assignment of interventions'
+  sub_items:
+  - id: 21a
+    description: Who will generate the random allocation sequence and the method used
+  - id: 21b
+    description: Type of randomisation (simple or restricted) and details of any factors for stratification. To reduce predictability of a random
+      sequence, other details of any planned restriction (eg, blocking) should be provided in a separate document that is unavailable to those
+      who enrol participants or assign interventions
+  required: true
+  applies_if: randomised
+  required_subelements:
+  - randomi
+  - sequence|stratif|block|ratio
+  conditional_subelements: []
+  m11_ids:
+  - 6.7.1
+  - 6.7.2
+  patterns:
+  - randomi
+  sub_elements:
+  - name: randomi
+    patterns:
+    - randomi
+  - name: sequence
+    patterns:
+    - sequence
+    - stratif
+    - block
+    - ratio
+  word_floor: 0
+- id: '22'
+  title: Allocation concealment mechanism
+  section: 'Methods: Assignment of interventions'
+  sub_items:
+  - id: '22'
+    description: Mechanism used to implement the random allocation sequence (eg, central computer/telephone; sequentially numbered, opaque, sealed
+      containers), describing any steps to conceal the sequence until interventions are assigned
+  required: true
+  applies_if: randomised
+  required_subelements:
+  - central|IRT|interactive|IWRS|sealed|opaque|conceal|allocation
+  conditional_subelements: []
+  m11_ids:
+  - 6.7.2
+  patterns:
+  - central
+  - IRT
+  - interactive
+  - IWRS
+  - sealed
+  - opaque
+  - conceal
+  - allocation
+  sub_elements:
+  - name: central
+    patterns:
+    - central
+    - IRT
+    - interactive
+    - IWRS
+    - sealed
+    - opaque
+    - conceal
+    - allocation
+  word_floor: 0
+- id: '23'
+  title: Implementation
+  section: 'Methods: Assignment of interventions'
+  sub_items:
+  - id: '23'
+    description: Whether the personnel who will enrol and those who will assign participants to the interventions will have access to the random
+      allocation sequence
+  required: true
+  applies_if: randomised
+  required_subelements:
+  - investigator|site staff|personnel
+  - randomi|allocation|assign
+  conditional_subelements: []
+  m11_ids:
+  - 6.7.1
+  - 6.7.2
+  patterns:
+  - investigator
+  - site\ staff
+  - personnel
+  sub_elements:
+  - name: investigator
+    patterns:
+    - investigator
+    - site\ staff
+    - personnel
+  - name: randomi
+    patterns:
+    - randomi
+    - allocation
+    - assign
+  word_floor: 0
+- id: '24'
+  title: Blinding
+  section: 'Methods: Assignment of interventions'
+  sub_items:
+  - id: 24a
+    description: Who will be blinded after assignment to interventions (eg, participants, care providers, outcome assessors, data analysts)
+  - id: 24b
+    description: If blinded, how blinding will be achieved and description of the similarity of interventions
+  - id: 24c
+    description: If blinded, circumstances under which unblinding is permissible, and procedure for revealing a participant’s allocated intervention
+      during the trial
+  required: true
+  applies_if: always
+  required_subelements:
+  - blind|mask|open-label|open label
+  conditional_subelements:
+  - when: blinded
+    sub_item: 24b
+    match: indistinguishable|identical|matching|similar|placebo
+  - when: blinded
+    sub_item: 24c
+    match: unblind|break the blind|emergency|code break
+  m11_ids:
+  - 6.7.3
+  - 6.7.4
+  patterns:
+  - blind
+  - mask
+  - open\-label
+  - open\ label
+  sub_elements:
+  - name: blind
+    patterns:
+    - blind
+    - mask
+    - open\-label
+    - open\ label
+  word_floor: 0
+- id: '25'
+  title: Data collection methods
+  section: 'Methods: Data collection, management, and analysis'
+  sub_items:
+  - id: 25a
+    description: Plans for assessment and collection of trial data, including any related processes to promote data quality (eg, duplicate measurements,
+      training of assessors) and a description of trial instruments (eg, questionnaires, laboratory tests) along with their reliability and validity,
+      if known. Reference to where data collection forms can be accessed, if not in the protocol
+  - id: 25b
+    description: Plans to promote participant retention and complete follow-up, including list of any outcome data to be collected for participants
+      who discontinue or deviate from intervention protocols
+  required: true
+  applies_if: always
+  required_subelements:
+  - data collection|CRF|case report form|eCRF|source
+  - retention|follow-up|discontinu|withdraw
+  conditional_subelements: []
+  m11_ids:
+  - '8.1'
+  - '8.3'
+  - '11.7'
+  patterns:
+  - data\ collection
+  - CRF
+  - case\ report\ form
+  - eCRF
+  - source
+  sub_elements:
+  - name: data collection
+    patterns:
+    - data\ collection
+    - CRF
+    - case\ report\ form
+    - eCRF
+    - source
+  - name: retention
+    patterns:
+    - retention
+    - follow\-up
+    - discontinu
+    - withdraw
+  word_floor: 0
+- id: '26'
+  title: Data management
+  section: 'Methods: Data collection, management, and analysis'
+  sub_items:
+  - id: '26'
+    description: Plans for data entry, coding, security, and storage, including any related processes to promote data quality (eg, double data
+      entry; range checks for data values). Reference to where details of data management procedures can be accessed, if not in the protocol
+  required: true
+  applies_if: always
+  required_subelements:
+  - data management|data entry|database|EDC|coding|meddra|storage|security
+  conditional_subelements: []
+  m11_ids:
+  - '11.7'
+  patterns:
+  - data\ management
+  - data\ entry
+  - database
+  - EDC
+  - coding
+  - meddra
+  - storage
+  - security
+  sub_elements:
+  - name: data management
+    patterns:
+    - data\ management
+    - data\ entry
+    - database
+    - EDC
+    - coding
+    - meddra
+    - storage
+    - security
+  word_floor: 0
+- id: '27'
+  title: Statistical methods
+  section: 'Methods: Data collection, management, and analysis'
+  sub_items:
+  - id: 27a
+    description: Statistical methods used to compare groups for primary and secondary outcomes, including harms
+  - id: 27b
+    description: Definition of who will be included in each analysis (eg, all randomised participants), and in which group
+  - id: 27c
+    description: How missing data will be handled in the analysis
+  - id: 27d
+    description: Methods for any additional analyses (eg, subgroup and sensitivity analyses)
+  required: true
+  applies_if: always
+  required_subelements:
+  - statistical|analysis method|test|model
+  - analysis set|intent-to-treat|ITT|per-protocol|safety population|population
+  - missing data|imputation
+  - subgroup|sensitivity
+  conditional_subelements: []
+  m11_ids:
+  - '10.2'
+  - '10.4'
+  - '10.5'
+  - '10.8'
+  patterns:
+  - statistical
+  - analysis\ method
+  - test
+  - model
+  sub_elements:
+  - name: statistical
+    patterns:
+    - statistical
+    - analysis\ method
+    - test
+    - model
+  - name: analysis set
+    patterns:
+    - analysis\ set
+    - intent\-to\-treat
+    - ITT
+    - per\-protocol
+    - safety\ population
+    - population
+  - name: missing data
+    patterns:
+    - missing\ data
+    - imputation
+  - name: subgroup
+    patterns:
+    - subgroup
+    - sensitivity
+  word_floor: 0
+- id: '28'
+  title: Data monitoring committee
+  section: 'Methods: Monitoring'
+  sub_items:
+  - id: 28a
+    description: Composition of data monitoring committee (DMC); summary of its role and reporting structure; statement of whether it is independent
+      from the sponsor and funder; conflicts of interest and reference to where further details about its charter can be found, if not in the
+      protocol. Alternatively, an explanation of why a DMC is not needed
+  - id: 28b
+    description: Explanation of any interim analyses and stopping guidelines, including who will have access to these interim results and make
+      the final decision to terminate the trial
+  required: true
+  applies_if: always
+  required_subelements:
+  - data monitoring committee|DMC|data safety monitoring|DSMB|independent
+  - interim|stopping|futility|boundary
+  conditional_subelements: []
+  m11_ids:
+  - '11.4'
+  - '10.9'
+  patterns:
+  - data\ monitoring\ committee
+  - DMC
+  - data\ safety\ monitoring
+  - DSMB
+  - independent
+  sub_elements:
+  - name: data monitoring committee
+    patterns:
+    - data\ monitoring\ committee
+    - DMC
+    - data\ safety\ monitoring
+    - DSMB
+    - independent
+  - name: interim
+    patterns:
+    - interim
+    - stopping
+    - futility
+    - boundary
+  word_floor: 0
+- id: '29'
+  title: Trial monitoring
+  section: 'Methods: Monitoring'
+  sub_items:
+  - id: '29'
+    description: Frequency and procedures for monitoring trial conduct. If there is no monitoring, give explanation
+  required: true
+  applies_if: always
+  required_subelements:
+  - monitoring|monitor|site visit|audit|quality
+  conditional_subelements: []
+  m11_ids:
+  - '11.6'
+  - '11.9'
+  patterns:
+  - monitoring
+  - monitor
+  - site\ visit
+  - audit
+  - quality
+  sub_elements:
+  - name: monitoring
+    patterns:
+    - monitoring
+    - monitor
+    - site\ visit
+    - audit
+    - quality
+  word_floor: 0
+- id: '30'
+  title: Research ethics approval
+  section: Ethics
+  sub_items:
+  - id: '30'
+    description: Plans for seeking research ethics committee/institutional review board approval
+  required: true
+  applies_if: always
+  required_subelements:
+  - ethics committee|IRB|institutional review board|IEC|approval
+  conditional_subelements: []
+  m11_ids:
+  - '11.1'
+  patterns:
+  - ethics\ committee
+  - IRB
+  - institutional\ review\ board
+  - IEC
+  - approval
+  sub_elements:
+  - name: ethics committee
+    patterns:
+    - ethics\ committee
+    - IRB
+    - institutional\ review\ board
+    - IEC
+    - approval
+  word_floor: 0
+- id: '31'
+  title: Protocol amendments
+  section: Ethics
+  sub_items:
+  - id: '31'
+    description: Plans for communicating important protocol modifications to relevant parties
+  required: true
+  applies_if: always
+  required_subelements:
+  - amendment|protocol modification|protocol change
+  - IRB|ethics|regulator|investigators|notif|communicat
+  conditional_subelements: []
+  m11_ids:
+  - '12.3'
+  - '11.1'
+  patterns:
+  - amendment
+  - protocol\ modification
+  - protocol\ change
+  sub_elements:
+  - name: amendment
+    patterns:
+    - amendment
+    - protocol\ modification
+    - protocol\ change
+  - name: IRB
+    patterns:
+    - IRB
+    - ethics
+    - regulator
+    - investigators
+    - notif
+    - communicat
+  word_floor: 0
+- id: '32'
+  title: Consent or assent
+  section: Ethics
+  sub_items:
+  - id: 32a
+    description: Who will obtain informed consent or assent from potential trial participants or authorised proxies, and how
+  - id: 32b
+    description: Additional consent provisions for collection and use of participant data and biological specimens in ancillary studies, if applicable
+  required: true
+  applies_if: always
+  required_subelements:
+  - informed consent|assent
+  - who|investigator|obtain|process
+  conditional_subelements:
+  - when: applicable
+    sub_item: 32b
+    match: ancillary|future use|biological specimens|biospecimens|samples|exploratory research
+  m11_ids:
+  - '11.3'
+  patterns:
+  - informed\ consent
+  - assent
+  sub_elements:
+  - name: informed consent
+    patterns:
+    - informed\ consent
+    - assent
+  - name: who
+    patterns:
+    - who
+    - investigator
+    - obtain
+    - process
+  word_floor: 0
+- id: '33'
+  title: Confidentiality
+  section: Ethics
+  sub_items:
+  - id: '33'
+    description: How personal information about potential and enrolled participants will be collected, shared, and maintained in order to protect
+      confidentiality before, during, and after the trial
+  required: true
+  applies_if: always
+  required_subelements:
+  - confidential|privacy|personal data|anonym|pseudonym|coded|identif
+  conditional_subelements: []
+  m11_ids:
+  - '11.8'
+  patterns:
+  - confidential
+  - privacy
+  - personal\ data
+  - anonym
+  - pseudonym
+  - coded
+  - identif
+  sub_elements:
+  - name: confidential
+    patterns:
+    - confidential
+    - privacy
+    - personal\ data
+    - anonym
+    - pseudonym
+    - coded
+    - identif
+  word_floor: 0
+- id: '34'
+  title: Ancillary and post-trial care
+  section: Ethics
+  sub_items:
+  - id: '34'
+    description: Provisions, if any, for ancillary and post-trial care, and for compensation to those who suffer harm from trial participation
+  required: true
+  applies_if: always
+  required_subelements:
+  - compensation|insurance|indemnity|post-trial|ancillary care|injur
+  conditional_subelements: []
+  m11_ids:
+  - '11.5'
+  - '4.5'
+  patterns:
+  - compensation
+  - insurance
+  - indemnity
+  - post\-trial
+  - ancillary\ care
+  - injur
+  sub_elements:
+  - name: compensation
+    patterns:
+    - compensation
+    - insurance
+    - indemnity
+    - post\-trial
+    - ancillary\ care
+    - injur
+  word_floor: 0
