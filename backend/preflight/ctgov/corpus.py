@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import csv
-from datetime import datetime, timezone
+from datetime import datetime, UTC
 from pathlib import Path
 
 import pymupdf
@@ -23,7 +23,7 @@ async def manifest_row(nct_id: str, split: str) -> dict:
         raise RuntimeError(f"{nct_id}: no protocol document")
     with pymupdf.open(path) as d:
         pages = len(d)
-    mtime = datetime.fromtimestamp(Path(path).stat().st_mtime, timezone.utc)
+    mtime = datetime.fromtimestamp(Path(path).stat().st_mtime, UTC)
     return {
         "nct_id": nct_id,
         "title": pm["identificationModule"]["briefTitle"],

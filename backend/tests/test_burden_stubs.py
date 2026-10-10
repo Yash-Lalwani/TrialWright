@@ -8,7 +8,15 @@ except Exception:  # A's real graph needs more fields; stubs ignore the graph an
     G = None
 
 
-def test_stub_shapes_validate():
+def test_stubs_are_inert_by_default(monkeypatch):
+    monkeypatch.delenv("PREFLIGHT_BURDEN_STUBS", raising=False)
+    assert burden.find_peers(G) is None
+    assert burden.hotspots(G, None) == []
+    assert burden.burden_score(burden.compute_burden(G, None)) == 50.0
+
+
+def test_stub_shapes_validate(monkeypatch):
+    monkeypatch.setenv("PREFLIGHT_BURDEN_STUBS", "1")
     peers = burden.find_peers(G)
     assert isinstance(peers, PeerSet) and peers.n == 143
     assert isinstance(burden.compute_burden(G, peers), BurdenReport)
@@ -16,7 +24,8 @@ def test_stub_shapes_validate():
     assert burden.burden_score(burden.compute_burden(G, peers)) == 58.0
 
 
-def test_hotspot_issues_match_peer_ids_and_category():
+def test_hotspot_issues_match_peer_ids_and_category(monkeypatch):
+    monkeypatch.setenv("PREFLIGHT_BURDEN_STUBS", "1")
     peers = burden.find_peers(G)
     issues = burden.hotspots(G, peers)
     assert [i.id for i in issues] == peers.hotspot_issue_ids

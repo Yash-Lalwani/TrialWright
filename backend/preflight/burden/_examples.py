@@ -1,3 +1,4 @@
+# ruff: noqa: E501
 """Example payloads copied from docs/CONTRACTS.md 4.8 to 4.10. Used by the H2 stubs only."""
 
 BURDEN = {

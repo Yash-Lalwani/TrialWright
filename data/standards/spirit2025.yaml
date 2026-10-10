@@ -3,6 +3,9 @@
 #   https://pmc.ncbi.nlm.nih.gov/articles/PMC12035670/   Licence: CC BY 4.0. Item wording is reproduced verbatim from the paper's checklist table.
 # Authored by Person B: required_subelements, conditional_subelements, m11_ids, applies_if. Good-faith reading, not an official artifact.
 #
+#   patterns / sub_elements / word_floor : aliases in the shape backend/preflight/checks/completeness.py reads (regex-escaped).
+#               patterns = anchor alternatives (first required sub-element) that locate the item; keep in sync with required_subelements.
+#
 # Unit of counting = the 34 numbered items. Sub-items (e.g. 24a/24b/24c) are listed in sub_items and drive "thin" detection (B3).
 #   required_subelements    : one entry per concept that must appear; '|' = accepted alternatives; case-insensitive substring match.
 #   conditional_subelements : only required when `when` holds: 'blinded' (trial is blinded) or 'applicable' (the sub-item applies to the trial).
@@ -32,6 +35,34 @@ items:
   conditional_subelements: []
   m11_ids:
   - '1.1'
+  patterns:
+  - randomi
+  - open\-label
+  - open\ label
+  - double\-blind
+  - single\-arm
+  - single\ arm
+  - phase
+  sub_elements:
+  - name: randomi
+    patterns:
+    - randomi
+    - open\-label
+    - open\ label
+    - double\-blind
+    - single\-arm
+    - single\ arm
+    - phase
+  - name: patients
+    patterns:
+    - patients
+    - participants
+    - subjects
+    - adults
+  - name: protocol
+    patterns:
+    - protocol
+  word_floor: 0
 - id: '2'
   title: Protocol version
   section: Administrative information
@@ -45,6 +76,16 @@ items:
   - date
   conditional_subelements: []
   m11_ids: []
+  patterns:
+  - version
+  sub_elements:
+  - name: version
+    patterns:
+    - version
+  - name: date
+    patterns:
+    - date
+  word_floor: 0
 - id: '3'
   title: Roles and responsibilities
   section: Administrative information
@@ -71,6 +112,30 @@ items:
   m11_ids:
   - '11.2'
   - '11.4'
+  patterns:
+  - investigator
+  - author
+  - medical\ monitor
+  - contributor
+  sub_elements:
+  - name: investigator
+    patterns:
+    - investigator
+    - author
+    - medical\ monitor
+    - contributor
+  - name: sponsor
+    patterns:
+    - sponsor
+  - name: address
+    patterns:
+    - address
+    - telephone
+    - phone
+    - email
+    - e\-mail
+    - contact
+  word_floor: 0
 - id: '4'
   title: Trial registration
   section: Open science
@@ -85,6 +150,26 @@ items:
   conditional_subelements: []
   m11_ids:
   - '11.12'
+  patterns:
+  - clinicaltrials\.gov
+  - registry
+  - eudract
+  - registration
+  - euct
+  sub_elements:
+  - name: clinicaltrials.gov
+    patterns:
+    - clinicaltrials\.gov
+    - registry
+    - eudract
+    - registration
+    - euct
+  - name: NCT
+    patterns:
+    - NCT
+    - identifier
+    - number
+  word_floor: 0
 - id: '5'
   title: Protocol and statistical analysis plan
   section: Open science
@@ -98,6 +183,15 @@ items:
   conditional_subelements: []
   m11_ids:
   - '10.1'
+  patterns:
+  - statistical\ analysis\ plan
+  - SAP
+  sub_elements:
+  - name: statistical analysis plan
+    patterns:
+    - statistical\ analysis\ plan
+    - SAP
+  word_floor: 0
 - id: '6'
   title: Data sharing
   section: Open science
@@ -114,6 +208,26 @@ items:
   m11_ids:
   - '11.12'
   - '11.7'
+  patterns:
+  - data\ sharing
+  - individual\ participant\ data
+  - de\-identified
+  - deidentified
+  - IPD
+  sub_elements:
+  - name: data sharing
+    patterns:
+    - data\ sharing
+    - individual\ participant\ data
+    - de\-identified
+    - deidentified
+    - IPD
+  - name: access
+    patterns:
+    - access
+    - available
+    - request
+  word_floor: 0
 - id: '7'
   title: Funding and conflicts of interest
   section: Open science
@@ -130,6 +244,26 @@ items:
   conditional_subelements: []
   m11_ids:
   - '11.2'
+  patterns:
+  - funding
+  - funded
+  - sponsor
+  - supported\ by
+  - supply\ of
+  sub_elements:
+  - name: funding
+    patterns:
+    - funding
+    - funded
+    - sponsor
+    - supported\ by
+    - supply\ of
+  - name: conflict of interest
+    patterns:
+    - conflict\ of\ interest
+    - conflicts\ of\ interest
+    - financial\ disclosure
+  word_floor: 0
 - id: '8'
   title: Dissemination policy
   section: Open science
@@ -145,6 +279,26 @@ items:
   conditional_subelements: []
   m11_ids:
   - '11.12'
+  patterns:
+  - dissemination
+  - publication
+  - publish
+  - results
+  sub_elements:
+  - name: dissemination
+    patterns:
+    - dissemination
+    - publication
+    - publish
+    - results
+  - name: registry
+    patterns:
+    - registry
+    - public
+    - plain\ language
+    - clinicaltrials\.gov
+    - participants
+  word_floor: 0
 - id: '9'
   title: Background and rationale
   section: Introduction
@@ -163,6 +317,21 @@ items:
   m11_ids:
   - '2.1'
   - 4.2.3
+  patterns:
+  - background
+  - rationale
+  sub_elements:
+  - name: background
+    patterns:
+    - background
+    - rationale
+  - name: comparator
+    patterns:
+    - comparator
+    - control
+    - placebo
+    - standard\ of\ care
+  word_floor: 0
 - id: '10'
   title: Objectives
   section: Introduction
@@ -179,6 +348,21 @@ items:
   - '3.1'
   - '3.2'
   - '3.3'
+  patterns:
+  - objective
+  sub_elements:
+  - name: objective
+    patterns:
+    - objective
+  - name: efficacy
+    patterns:
+    - efficacy
+    - safety
+    - benefit
+    - harm
+    - response
+    - survival
+  word_floor: 0
 - id: '11'
   title: Patient and public involvement
   section: 'Methods: Patient and public involvement, trial design'
@@ -192,6 +376,21 @@ items:
   conditional_subelements: []
   m11_ids:
   - 4.1.1
+  patterns:
+  - patient\ and\ public\ involvement
+  - patient\ involvement
+  - public\ involvement
+  - patient\ advisory
+  - patient\ engagement
+  sub_elements:
+  - name: patient and public involvement
+    patterns:
+    - patient\ and\ public\ involvement
+    - patient\ involvement
+    - public\ involvement
+    - patient\ advisory
+    - patient\ engagement
+  word_floor: 0
 - id: '12'
   title: Trial design
   section: 'Methods: Patient and public involvement, trial design'
@@ -209,6 +408,39 @@ items:
   m11_ids:
   - '4.1'
   - 1.1.2
+  patterns:
+  - parallel
+  - crossover
+  - cross\-over
+  - single\-arm
+  - single\ arm
+  - open\-label
+  - factorial
+  sub_elements:
+  - name: parallel
+    patterns:
+    - parallel
+    - crossover
+    - cross\-over
+    - single\-arm
+    - single\ arm
+    - open\-label
+    - factorial
+  - name: allocation ratio
+    patterns:
+    - allocation\ ratio
+    - ratio
+    - '1:1'
+    - '2:1'
+    - randomi
+  - name: superiority
+    patterns:
+    - superiority
+    - non\-inferiority
+    - noninferiority
+    - equivalence
+    - exploratory
+  word_floor: 0
 - id: '13'
   title: Trial setting
   section: 'Methods: Participants, interventions, and outcomes'
@@ -223,6 +455,25 @@ items:
   m11_ids:
   - '4.1'
   - '12.2'
+  patterns:
+  - site
+  - setting
+  - center
+  - centre
+  - hospital
+  - countr
+  - location
+  sub_elements:
+  - name: site
+    patterns:
+    - site
+    - setting
+    - center
+    - centre
+    - hospital
+    - countr
+    - location
+  word_floor: 0
 - id: '14'
   title: Eligibility criteria
   section: 'Methods: Participants, interventions, and outcomes'
@@ -243,6 +494,18 @@ items:
   m11_ids:
   - '5.2'
   - '5.3'
+  patterns:
+  - eligibility
+  - inclusion
+  sub_elements:
+  - name: eligibility
+    patterns:
+    - eligibility
+    - inclusion
+  - name: exclusion
+    patterns:
+    - exclusion
+  word_floor: 0
 - id: '15'
   title: Intervention and comparator
   section: 'Methods: Participants, interventions, and outcomes'
@@ -273,6 +536,42 @@ items:
   - '6.4'
   - '6.8'
   - '6.10'
+  patterns:
+  - dose
+  - regimen
+  - schedule
+  - administered
+  sub_elements:
+  - name: dose
+    patterns:
+    - dose
+    - regimen
+    - schedule
+    - administered
+  - name: route
+    patterns:
+    - route
+    - intravenous
+    - oral
+    - subcutaneous
+    - by\ whom
+    - investigator
+    - pharmacist
+  - name: discontinu
+    patterns:
+    - discontinu
+    - dose\ modification
+    - dose\ reduction
+    - withdraw
+  - name: adherence
+    patterns:
+    - adherence
+    - compliance
+    - accountability
+  - name: concomitant
+    patterns:
+    - concomitant
+  word_floor: 0
 - id: '16'
   title: Outcomes
   section: 'Methods: Participants, interventions, and outcomes'
@@ -292,6 +591,27 @@ items:
   - '3.1'
   - '3.2'
   - '8.3'
+  patterns:
+  - primary
+  sub_elements:
+  - name: primary
+    patterns:
+    - primary
+  - name: secondary
+    patterns:
+    - secondary
+  - name: endpoint
+    patterns:
+    - endpoint
+    - outcome
+  - name: time point
+    patterns:
+    - time\ point
+    - timepoint
+    - week
+    - month
+    - day
+  word_floor: 0
 - id: '17'
   title: Harms
   section: 'Methods: Participants, interventions, and outcomes'
@@ -309,6 +629,22 @@ items:
   - '9.1'
   - '9.2'
   - '8.4'
+  patterns:
+  - adverse\ event
+  sub_elements:
+  - name: adverse event
+    patterns:
+    - adverse\ event
+  - name: defin
+    patterns:
+    - defin
+  - name: assess
+    patterns:
+    - assess
+    - monitor
+    - collect
+    - record
+  word_floor: 0
 - id: '18'
   title: Participant timeline
   section: 'Methods: Participants, interventions, and outcomes'
@@ -327,6 +663,24 @@ items:
   - '1.3'
   - '1.2'
   - '4.1'
+  patterns:
+  - schedule\ of
+  - visit
+  sub_elements:
+  - name: schedule of
+    patterns:
+    - schedule\ of
+    - visit
+  - name: screening
+    patterns:
+    - screening
+  - name: follow-up
+    patterns:
+    - follow\-up
+    - follow\ up
+    - end\ of\ treatment
+    - end\ of\ study
+  word_floor: 0
 - id: '19'
   title: Sample size
   section: 'Methods: Participants, interventions, and outcomes'
@@ -343,6 +697,28 @@ items:
   conditional_subelements: []
   m11_ids:
   - '10.11'
+  patterns:
+  - sample\ size
+  sub_elements:
+  - name: sample size
+    patterns:
+    - sample\ size
+  - name: power
+    patterns:
+    - power
+  - name: significance level
+    patterns:
+    - significance\ level
+    - alpha
+    - type\ i\ error
+  - name: effect
+    patterns:
+    - effect
+    - difference
+    - hazard\ ratio
+    - response\ rate
+    - assum
+  word_floor: 0
 - id: '20'
   title: Recruitment
   section: 'Methods: Participants, interventions, and outcomes'
@@ -355,6 +731,19 @@ items:
   - recruit|enrol|enroll|accrual
   conditional_subelements: []
   m11_ids: []
+  patterns:
+  - recruit
+  - enrol
+  - enroll
+  - accrual
+  sub_elements:
+  - name: recruit
+    patterns:
+    - recruit
+    - enrol
+    - enroll
+    - accrual
+  word_floor: 0
 - id: '21'
   title: Sequence generation
   section: 'Methods: Assignment of interventions'
@@ -374,6 +763,19 @@ items:
   m11_ids:
   - 6.7.1
   - 6.7.2
+  patterns:
+  - randomi
+  sub_elements:
+  - name: randomi
+    patterns:
+    - randomi
+  - name: sequence
+    patterns:
+    - sequence
+    - stratif
+    - block
+    - ratio
+  word_floor: 0
 - id: '22'
   title: Allocation concealment mechanism
   section: 'Methods: Assignment of interventions'
@@ -388,6 +790,27 @@ items:
   conditional_subelements: []
   m11_ids:
   - 6.7.2
+  patterns:
+  - central
+  - IRT
+  - interactive
+  - IWRS
+  - sealed
+  - opaque
+  - conceal
+  - allocation
+  sub_elements:
+  - name: central
+    patterns:
+    - central
+    - IRT
+    - interactive
+    - IWRS
+    - sealed
+    - opaque
+    - conceal
+    - allocation
+  word_floor: 0
 - id: '23'
   title: Implementation
   section: 'Methods: Assignment of interventions'
@@ -404,6 +827,22 @@ items:
   m11_ids:
   - 6.7.1
   - 6.7.2
+  patterns:
+  - investigator
+  - site\ staff
+  - personnel
+  sub_elements:
+  - name: investigator
+    patterns:
+    - investigator
+    - site\ staff
+    - personnel
+  - name: randomi
+    patterns:
+    - randomi
+    - allocation
+    - assign
+  word_floor: 0
 - id: '24'
   title: Blinding
   section: 'Methods: Assignment of interventions'
@@ -429,6 +868,19 @@ items:
   m11_ids:
   - 6.7.3
   - 6.7.4
+  patterns:
+  - blind
+  - mask
+  - open\-label
+  - open\ label
+  sub_elements:
+  - name: blind
+    patterns:
+    - blind
+    - mask
+    - open\-label
+    - open\ label
+  word_floor: 0
 - id: '25'
   title: Data collection methods
   section: 'Methods: Data collection, management, and analysis'
@@ -450,6 +902,27 @@ items:
   - '8.1'
   - '8.3'
   - '11.7'
+  patterns:
+  - data\ collection
+  - CRF
+  - case\ report\ form
+  - eCRF
+  - source
+  sub_elements:
+  - name: data collection
+    patterns:
+    - data\ collection
+    - CRF
+    - case\ report\ form
+    - eCRF
+    - source
+  - name: retention
+    patterns:
+    - retention
+    - follow\-up
+    - discontinu
+    - withdraw
+  word_floor: 0
 - id: '26'
   title: Data management
   section: 'Methods: Data collection, management, and analysis'
@@ -464,6 +937,27 @@ items:
   conditional_subelements: []
   m11_ids:
   - '11.7'
+  patterns:
+  - data\ management
+  - data\ entry
+  - database
+  - EDC
+  - coding
+  - meddra
+  - storage
+  - security
+  sub_elements:
+  - name: data management
+    patterns:
+    - data\ management
+    - data\ entry
+    - database
+    - EDC
+    - coding
+    - meddra
+    - storage
+    - security
+  word_floor: 0
 - id: '27'
   title: Statistical methods
   section: 'Methods: Data collection, management, and analysis'
@@ -489,6 +983,35 @@ items:
   - '10.4'
   - '10.5'
   - '10.8'
+  patterns:
+  - statistical
+  - analysis\ method
+  - test
+  - model
+  sub_elements:
+  - name: statistical
+    patterns:
+    - statistical
+    - analysis\ method
+    - test
+    - model
+  - name: analysis set
+    patterns:
+    - analysis\ set
+    - intent\-to\-treat
+    - ITT
+    - per\-protocol
+    - safety\ population
+    - population
+  - name: missing data
+    patterns:
+    - missing\ data
+    - imputation
+  - name: subgroup
+    patterns:
+    - subgroup
+    - sensitivity
+  word_floor: 0
 - id: '28'
   title: Data monitoring committee
   section: 'Methods: Monitoring'
@@ -509,6 +1032,27 @@ items:
   m11_ids:
   - '11.4'
   - '10.9'
+  patterns:
+  - data\ monitoring\ committee
+  - DMC
+  - data\ safety\ monitoring
+  - DSMB
+  - independent
+  sub_elements:
+  - name: data monitoring committee
+    patterns:
+    - data\ monitoring\ committee
+    - DMC
+    - data\ safety\ monitoring
+    - DSMB
+    - independent
+  - name: interim
+    patterns:
+    - interim
+    - stopping
+    - futility
+    - boundary
+  word_floor: 0
 - id: '29'
   title: Trial monitoring
   section: 'Methods: Monitoring'
@@ -523,6 +1067,21 @@ items:
   m11_ids:
   - '11.6'
   - '11.9'
+  patterns:
+  - monitoring
+  - monitor
+  - site\ visit
+  - audit
+  - quality
+  sub_elements:
+  - name: monitoring
+    patterns:
+    - monitoring
+    - monitor
+    - site\ visit
+    - audit
+    - quality
+  word_floor: 0
 - id: '30'
   title: Research ethics approval
   section: Ethics
@@ -536,6 +1095,21 @@ items:
   conditional_subelements: []
   m11_ids:
   - '11.1'
+  patterns:
+  - ethics\ committee
+  - IRB
+  - institutional\ review\ board
+  - IEC
+  - approval
+  sub_elements:
+  - name: ethics committee
+    patterns:
+    - ethics\ committee
+    - IRB
+    - institutional\ review\ board
+    - IEC
+    - approval
+  word_floor: 0
 - id: '31'
   title: Protocol amendments
   section: Ethics
@@ -551,6 +1125,25 @@ items:
   m11_ids:
   - '12.3'
   - '11.1'
+  patterns:
+  - amendment
+  - protocol\ modification
+  - protocol\ change
+  sub_elements:
+  - name: amendment
+    patterns:
+    - amendment
+    - protocol\ modification
+    - protocol\ change
+  - name: IRB
+    patterns:
+    - IRB
+    - ethics
+    - regulator
+    - investigators
+    - notif
+    - communicat
+  word_floor: 0
 - id: '32'
   title: Consent or assent
   section: Ethics
@@ -570,6 +1163,21 @@ items:
     match: ancillary|future use|biological specimens|biospecimens|samples|exploratory research
   m11_ids:
   - '11.3'
+  patterns:
+  - informed\ consent
+  - assent
+  sub_elements:
+  - name: informed consent
+    patterns:
+    - informed\ consent
+    - assent
+  - name: who
+    patterns:
+    - who
+    - investigator
+    - obtain
+    - process
+  word_floor: 0
 - id: '33'
   title: Confidentiality
   section: Ethics
@@ -584,6 +1192,25 @@ items:
   conditional_subelements: []
   m11_ids:
   - '11.8'
+  patterns:
+  - confidential
+  - privacy
+  - personal\ data
+  - anonym
+  - pseudonym
+  - coded
+  - identif
+  sub_elements:
+  - name: confidential
+    patterns:
+    - confidential
+    - privacy
+    - personal\ data
+    - anonym
+    - pseudonym
+    - coded
+    - identif
+  word_floor: 0
 - id: '34'
   title: Ancillary and post-trial care
   section: Ethics
@@ -598,3 +1225,20 @@ items:
   m11_ids:
   - '11.5'
   - '4.5'
+  patterns:
+  - compensation
+  - insurance
+  - indemnity
+  - post\-trial
+  - ancillary\ care
+  - injur
+  sub_elements:
+  - name: compensation
+    patterns:
+    - compensation
+    - insurance
+    - indemnity
+    - post\-trial
+    - ancillary\ care
+    - injur
+  word_floor: 0
