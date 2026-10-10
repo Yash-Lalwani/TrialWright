@@ -127,7 +127,7 @@ async def bench(split: str, config: str = "rules_only", seeds: list[int] | None 
         graph = await llm_graph(str(pdf), nct) if use_llm_graph and runner is default_runner else None
         for seed in seeds:
             key = inject.inject_file(str(pdf), str(BENCH_DIR), seed, registry=registry, graph=graph)
-            bad = inject.verify_key(str(BENCH_DIR / key["injected_pdf"]), key)
+            bad = inject.verify_key(str(BENCH_DIR / key["injected_pdf"]), key, str(pdf))
             if bad:
                 raise RuntimeError(f"injection did not land as recorded: {bad}")
             run = await cached_run(runner, str(BENCH_DIR / key["injected_pdf"]), config, nct, refresh)

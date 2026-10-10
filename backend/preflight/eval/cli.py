@@ -52,7 +52,8 @@ def inject(split: str = typer.Option("dev", "--set", help="dev or test"), seed: 
         reg = asyncio.run(client.get_study(r["nct_id"]))
         key = inject_mod.inject_file(str(client.CORPUS_DIR / f"{r['nct_id']}_protocol.pdf"), str(bench_mod.BENCH_DIR), seed,
                                      registry=reg)
-        bad = inject_mod.verify_key(str(bench_mod.BENCH_DIR / key["injected_pdf"]), key)
+        bad = inject_mod.verify_key(str(bench_mod.BENCH_DIR / key["injected_pdf"]), key,
+                                    str(client.CORPUS_DIR / f"{r['nct_id']}_protocol.pdf"))
         typer.echo(f"{r['nct_id']}: {len(key['errors'])} errors injected, {len(key['skipped'])} skipped"
                    f"{'  PROBLEMS: ' + str(bad) if bad else ''}")
 

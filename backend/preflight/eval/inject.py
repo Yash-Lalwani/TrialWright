@@ -55,6 +55,7 @@ class Ctx:
     whites: dict[int, list[Rect]] = field(default_factory=dict)
     _lines: dict[int, list[dict]] = field(default_factory=dict)
     _ttf: object = None
+    touched: list = field(default_factory=list)  # [page, original line text] for every line an injection changed
 
     def lines(self, pno: int) -> list[dict]:
         """Text lines of a page (1-indexed) with spans, in reading order."""
@@ -104,6 +105,22 @@ class Ctx:
             text = text[:a] + new + text[b:]
         return text
 
+    def _band(self, ln: dict) -> Rect:
+        """A thin band through the middle of the text height. Redaction removes every glyph whose box touches the
+        rectangle, and in tightly spaced text a full-height rectangle also deletes the lines above and below."""
+        r, sp = ln["rect"], ln["spans"][0]
+        base, size = sp["origin"][1], sp["size"]
+        return Rect(r.x0 - 0.3, base - 0.45 * size, r.x1 + 0.3, base - 0.08 * size)
+
+    def _lines_under(self, pno: int, rect: Rect) -> list[dict]:
+        """Text lines of a page that mostly lie inside a rectangle."""
+        out = []
+        for ln in self.lines(pno):
+            inter = ln["rect"] & rect
+            if not inter.is_empty and inter.height >= 0.5 * ln["rect"].height:
+                out.append(ln)
+        return out
+
     def apply(self) -> None:
         """Rewrite each edited line as ONE piece of text so it extracts as a normal sentence (a redaction
         annotation's replacement text would extract as a separate block)."""
@@ -113,10 +130,15 @@ class Ctx:
             lines = self.lines(pno)
             todo = [(lines[i], self._span_texts(lines[i], subs)) for (p, i), subs in self.subs.items() if p == pno]
             for ln, _ in todo:
-                page.add_redact_annot(Rect(ln["rect"].x0 - 0.3, ln["rect"].y0 + 0.4, ln["rect"].x1 + 0.3, ln["rect"].y1 - 0.4),
-                                      fill=(1, 1, 1))
+                self.touched.append([pno, _norm_line(ln["text"])])
+                page.add_redact_annot(self._band(ln), fill=(1, 1, 1))
             for r in self.whites.get(pno, []):
-                page.add_redact_annot(Rect(r.x0 - 0.3, r.y0 + 0.4, r.x1 + 0.3, r.y1 - 0.4), fill=(1, 1, 1))
+                under = self._lines_under(pno, r)
+                for ln in under:
+                    self.touched.append([pno, _norm_line(ln["text"])])
+                    page.add_redact_annot(self._band(ln), fill=(1, 1, 1))
+                if not under:  # no text line found: fall back to the middle of the rectangle
+                    page.add_redact_annot(Rect(r.x0, r.y0 + 0.35 * r.height, r.x1, r.y0 + 0.65 * r.height), fill=(1, 1, 1))
             page.apply_redactions(images=pymupdf.PDF_REDACT_IMAGE_NONE)
             for ln, text in todo:
                 _draw_line(page, ln, text)
@@ -132,6 +154,10 @@ class Ctx:
             out.append(t)
             off += n
         return out
+
+
+def _norm_line(t: str) -> str:
+    return re.sub(r"\s+", " ", t).strip()
 
 
 FONT_CANDIDATES = {
@@ -657,7 +683,7 @@ def inject_file(pdf: str, out_dir: str, seed: int, n_target: tuple[int, int] = (
     stem = f"{nct}_s{seed}"
     doc.save(out / f"{stem}.pdf", garbage=3, deflate=True, no_new_id=True)
     key = {"nct_id": nct, "seed": seed, "source_pdf": Path(pdf).name, "injected_pdf": f"{stem}.pdf",
-           "target_errors": target, "errors": errors, "skipped": skipped}
+           "target_errors": target, "errors": errors, "skipped": skipped, "touched": ctx.touched}
     (out / f"{stem}.json").write_text(json.dumps(key, indent=1, ensure_ascii=False))
     return key
 
@@ -677,8 +703,9 @@ def _finalize(ctx: Ctx, e: dict) -> None:
         e["match"]["texts"] = [re.sub(r"\s+", " ", final[max(0, s0 - pad): s0 + len(e["new"]) + pad]).strip()]
 
 
-def verify_key(pdf_path: str, key: dict) -> list[str]:
-    """Re-read the injected PDF and confirm each text change is really there. Returns problems (empty = ok)."""
+def verify_key(pdf_path: str, key: dict, original: str | None = None) -> list[str]:
+    """Re-read the injected PDF and confirm (1) each text change is really there and (2) with `original` given, that
+    no OTHER line was lost: injection must not delete neighbouring text."""
     doc = pymupdf.open(pdf_path)
     problems = []
     for e in key["errors"]:
@@ -688,4 +715,16 @@ def verify_key(pdf_path: str, key: dict) -> list[str]:
         page_text = re.sub(r"\s+", " ", doc[e["page"] - 1].get_text())
         if unicodedata.normalize("NFKC", want) not in unicodedata.normalize("NFKC", page_text):
             problems.append(f"{e['error_id']} {e['type']}: '{want}' not found on page {e['page']}")
+    if original and "touched" in key:
+        orig = pymupdf.open(original)
+        touched = {(p, t) for p, t in key["touched"]}
+        for pno in sorted({p for p, _ in touched}):
+            was = [_norm_line(t) for t in _page_line_texts(orig[pno - 1])]
+            now = " ".join(_norm_line(t) for t in _page_line_texts(doc[pno - 1]))
+            lost = [t for t in was if t and (pno, t) not in touched and t not in now]
+            problems += [f"collateral loss on page {pno}: {t[:70]!r}" for t in lost]
     return problems
+
+
+def _page_line_texts(page: pymupdf.Page) -> list[str]:
+    return ["".join(s["text"] for s in ln["spans"]) for b in page.get_text("dict")["blocks"] for ln in b.get("lines", [])]

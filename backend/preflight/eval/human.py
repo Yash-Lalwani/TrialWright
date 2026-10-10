@@ -73,7 +73,7 @@ def build_kit(nct: str, out_dir: str | Path, corpus_dir: str | Path, seed: int =
     for s in range(seed, seed + 40):
         shutil.rmtree(tmp, ignore_errors=True)
         key = inject.inject_file(pdf, str(tmp), s, (minimum, maximum), registry, sections=sections, max_per_type=2)
-        if len(key["errors"]) >= minimum and not inject.verify_key(str(tmp / key["injected_pdf"]), key):
+        if len(key["errors"]) >= minimum and not inject.verify_key(str(tmp / key["injected_pdf"]), key, pdf):
             break
     else:
         raise RuntimeError(f"could not plant {minimum} verifiable errors in {nct}")

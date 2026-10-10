@@ -73,3 +73,37 @@ def test_a_repeated_type_never_changes_every_mention(tmp_path):
     text = pymupdf.open(str(tmp_path / "rep" / key2["injected_pdf"]))[0].get_text()
     assert len(key["errors"]) == 1 and len(key2["errors"]) == 1
     assert "100 subjects" in text  # an untouched original mention is still there
+
+
+def _tight_pdf(path):
+    """Lines 11.5pt apart at 12pt: a full-height redaction rectangle on one line also hits its neighbours."""
+    doc = pymupdf.open()
+    page = doc.new_page()
+    lines = ["The study will enroll approximately 100 subjects. A subject is enrolled when they have",
+             "received the first dose of study treatment.",
+             "A total of 100 subjects will be randomized 1:1 and a sample size of 69 achieves 90% power",
+             "2-sided exact test with a significance level of 0.05, assuming that the null hypothesis"]
+    for n, t in enumerate(lines):
+        page.insert_text((72, 100 + 11.5 * n), t, fontname="tiro", fontsize=12)
+    doc.save(path)
+    return str(path)
+
+
+def test_edit_never_deletes_neighbouring_lines_in_tight_text(tmp_path):
+    pdf = _tight_pdf(tmp_path / "NCT00000001_protocol.pdf")
+    key = inject.inject_file(pdf, str(tmp_path / "out"), 1, n_target=(12, 12), types=["T09"], sections=[])
+    assert key["errors"]
+    out = str(tmp_path / "out" / key["injected_pdf"])
+    assert inject.verify_key(out, key, pdf) == []
+    text = pymupdf.open(out)[0].get_text()
+    assert "received the first dose" in text and "significance level of 0.05" in text
+
+
+def test_collateral_check_catches_a_full_height_rectangle(tmp_path, monkeypatch):
+    """Mutation test: with the old full-height rectangle the checker must report the lost neighbour lines."""
+    pdf = _tight_pdf(tmp_path / "NCT00000001_protocol.pdf")
+    monkeypatch.setattr(inject.Ctx, "_band", lambda self, ln: pymupdf.Rect(ln["rect"].x0, ln["rect"].y0 + 0.4,
+                                                                           ln["rect"].x1, ln["rect"].y1 - 0.4))
+    key = inject.inject_file(pdf, str(tmp_path / "out"), 1, n_target=(12, 12), types=["T09"], sections=[])
+    problems = inject.verify_key(str(tmp_path / "out" / key["injected_pdf"]), key, pdf)
+    assert any("collateral loss" in p for p in problems)
