@@ -53,6 +53,7 @@ class Ctx:
     subs: dict[tuple[int, int], list[tuple[int, int, str]]] = field(default_factory=dict)  # (page, line idx) -> subs
     whites: dict[int, list[Rect]] = field(default_factory=dict)
     _lines: dict[int, list[dict]] = field(default_factory=dict)
+    _ttf: object = None
 
     def lines(self, pno: int) -> list[dict]:
         """Text lines of a page (1-indexed) with spans, in reading order."""
@@ -72,6 +73,15 @@ class Ctx:
                     out.append({"text": "".join(s["text"] for s in ln["spans"]), "spans": ln["spans"], "rect": r})
             self._lines[pno] = out
         return self._lines[pno]
+
+    def renderable(self, text: str) -> bool:
+        """Can this line be redrawn character-for-character? Latin-1 via base-14 fonts, other symbols only if an installed
+        Unicode font has the glyph. Lines with private-use glyphs (e.g. SymbolMT's U+F0B3 for >=) are not injectable:
+        redrawing them would change how they extract, handing the pipeline a signal the original never had."""
+        if self._ttf is None:
+            path = _font_for(False)
+            self._ttf = pymupdf.Font(fontfile=path) if path else False
+        return all(ord(c) < 256 or (self._ttf and self._ttf.has_glyph(ord(c))) for c in text)
 
     def free(self, pno: int, rect: Rect) -> bool:
         return not any(rect.intersects(u) for u in self.used.get(pno, []))
@@ -188,6 +198,8 @@ def find(ctx: Ctx, pattern: str, group: int = 1, pages: range | list[int] | None
     hits: list[Hit] = []
     for pno in pages or range(1, len(ctx.doc) + 1):
         for idx, ln in enumerate(ctx.lines(pno)):
+            if not ctx.renderable(ln["text"]):
+                continue
             for m in rx.finditer(ln["text"]):
                 tok = m.group(group)
                 if tok is None:
@@ -415,7 +427,7 @@ def t18_registry(ctx: Ctx):
     if not hits or len({h.token for h in _age_hits(ctx)}) != 1:
         return Skip("T18", f"protocol age mentions do not all equal the registry value {m.group(1)}")
     hits = [h for h in hits if ctx.free(h.page, h.rect)]
-    if len(hits) < 2:
+    if not hits:
         return Skip("T18", "age mentions overlap other injections")
     new = str(int(m.group(1)) + 3)
     for h in hits:

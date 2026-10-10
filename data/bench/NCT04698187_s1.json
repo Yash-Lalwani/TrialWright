@@ -161,6 +161,36 @@
    "error_id": "NCT04698187-s1-05"
   },
   {
+   "type": "T18",
+   "name": "Enrollment differs from registry record",
+   "page": 39,
+   "bbox": [
+    140.2,
+    382.4,
+    152.2,
+    398.6
+   ],
+   "original": "18",
+   "new": "21",
+   "context": "8. Age ≥ 18 years at time of consent.",
+   "new_line": "8. Age ≥ 21 years at time of consent.",
+   "description": "Minimum age changed 18 -> 21 everywhere; registry still says 18",
+   "expected_checks": [
+    "C10"
+   ],
+   "amendment_category": "registry",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     39
+    ],
+    "texts": [
+     "8. Age ≥ 21 years at time"
+    ]
+   },
+   "error_id": "NCT04698187-s1-06"
+  },
+  {
    "type": "T16",
    "name": "Visit windows made to overlap",
    "page": 13,
@@ -190,7 +220,7 @@
      "± 9d"
     ]
    },
-   "error_id": "NCT04698187-s1-06"
+   "error_id": "NCT04698187-s1-07"
   },
   {
    "type": "T09",
@@ -221,7 +251,7 @@
      "eves at least 80% power to det"
     ]
    },
-   "error_id": "NCT04698187-s1-07"
+   "error_id": "NCT04698187-s1-08"
   }
  ],
  "skipped": [
@@ -256,10 +286,6 @@
   {
    "type": "T02",
    "reason": "no endpoint timepoint repeated across sections"
-  },
-  {
-   "type": "T18",
-   "reason": "age mentions overlap other injections"
   },
   {
    "type": "T10",

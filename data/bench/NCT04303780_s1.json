@@ -297,7 +297,7 @@
   },
   {
    "type": "T18",
-   "reason": "age mentions overlap other injections"
+   "reason": "protocol age mentions do not all equal the registry value 18"
   },
   {
    "type": "T11",
