@@ -138,16 +138,16 @@ function FacetSelect({
   const total = [...counts.values()].reduce((a, b) => a + b, 0);
   return (
     <Select value={value} onValueChange={onChange}>
-      <SelectTrigger size="sm" aria-label={`Filter by ${label.toLowerCase()}`} className={cn("w-full min-w-0 bg-card text-xs", value !== "all" && "border-primary/40 bg-accent text-accent-foreground")}>
+      <SelectTrigger size="sm" aria-label={`Filter by ${label.toLowerCase()}`} className={cn("w-full min-w-0 bg-card text-xs [&_[data-count]]:hidden", value !== "all" && "border-primary/40 bg-accent text-accent-foreground")}>
         <SelectValue />
       </SelectTrigger>
       <SelectContent position="popper" align="start">
         <SelectItem value="all">
-          {allLabel} <span className="ml-auto pl-3 text-xs text-muted-foreground tabular">{total}</span>
+          {allLabel} <span data-count className="ml-auto pl-3 text-xs text-muted-foreground tabular">{total}</span>
         </SelectItem>
         {options.map((o) => (
           <SelectItem key={o.value} value={o.value} disabled={!counts.get(o.value) && value !== o.value}>
-            {o.label} <span className="ml-auto pl-3 text-xs text-muted-foreground tabular">{counts.get(o.value) ?? 0}</span>
+            {o.label} <span data-count className="ml-auto pl-3 text-xs text-muted-foreground tabular">{counts.get(o.value) ?? 0}</span>
           </SelectItem>
         ))}
       </SelectContent>

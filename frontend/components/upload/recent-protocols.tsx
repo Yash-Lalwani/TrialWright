@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, FileText, Loader2 } from "lucide-react";
+import { ArrowRight, CircleX, FileText, Loader2 } from "lucide-react";
 import Link from "next/link";
 
 import { EmptyState, ErrorState } from "@/components/common/states";
@@ -15,7 +15,7 @@ export function RecentProtocols() {
 
   return (
     <section aria-labelledby="recent-heading" className="rounded-lg border bg-card">
-      <div className="flex items-center justify-between border-b px-4 py-3">
+      <div className="flex items-center justify-between border-b px-5 py-3">
         <h2 id="recent-heading" className="text-sm font-semibold">
           Recent protocols
         </h2>
@@ -43,17 +43,17 @@ export function RecentProtocols() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b text-left text-xs text-muted-foreground">
-                <th scope="col" className="px-4 py-2 font-medium">Protocol</th>
+                <th scope="col" className="px-5 py-2 font-medium">Protocol</th>
                 <th scope="col" className="px-3 py-2 font-medium">Registry</th>
                 <th scope="col" className="px-3 py-2 font-medium">Uploaded</th>
                 <th scope="col" className="px-3 py-2 text-right font-medium">Score</th>
-                <th scope="col" className="px-4 py-2 font-medium"><span className="sr-only">Action</span></th>
+                <th scope="col" className="px-5 py-2 font-medium"><span className="sr-only">Action</span></th>
               </tr>
             </thead>
             <tbody>
               {data.items.map((p) => (
-                <tr key={p.protocol_id} className="border-b last:border-0 hover:bg-muted/50">
-                  <td className="max-w-md px-4 py-2.5">
+                <tr key={p.protocol_id} className="border-b transition-colors duration-150 last:border-0 hover:bg-muted/50">
+                  <td className="max-w-md px-5 py-2.5">
                     <div className="truncate font-medium" title={p.title}>{p.title}</div>
                     <div className="truncate text-xs text-muted-foreground">
                       {p.filename} · {p.pages} pages · {formatPhase(p.phase)}
@@ -69,7 +69,7 @@ export function RecentProtocols() {
                   <td className="px-3 py-2.5 text-right">
                     <LatestScore run={p.latest_run} />
                   </td>
-                  <td className="px-4 py-2.5 text-right">
+                  <td className="px-5 py-2.5 text-right">
                     {p.latest_run ? (
                       <Link
                         href={`/runs/${p.latest_run.run_id}`}
@@ -78,9 +78,7 @@ export function RecentProtocols() {
                         {p.latest_run.status === "complete" ? "Open review" : "View run"}
                         <ArrowRight className="size-3.5" aria-hidden />
                       </Link>
-                    ) : (
-                      <span className="text-xs text-muted-foreground">Not reviewed</span>
-                    )}
+                    ) : null}
                   </td>
                 </tr>
               ))}
@@ -93,7 +91,7 @@ export function RecentProtocols() {
 }
 
 function LatestScore({ run }: { run: LatestRun | null }) {
-  if (!run) return <span className="text-xs text-muted-foreground">-</span>;
+  if (!run) return <span className="text-xs text-muted-foreground">Not reviewed</span>;
   if (run.status === "queued" || run.status === "running") {
     return (
       <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
@@ -103,7 +101,12 @@ function LatestScore({ run }: { run: LatestRun | null }) {
     );
   }
   if (run.status === "failed" || run.score == null) {
-    return <span className="text-xs font-medium text-sev-critical">Failed</span>;
+    return (
+      <span className="inline-flex items-center gap-1 text-xs font-medium text-sev-critical">
+        <CircleX className="size-3.5" aria-hidden />
+        Failed
+      </span>
+    );
   }
   return (
     <span className="inline-flex items-center justify-end gap-2">

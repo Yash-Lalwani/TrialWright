@@ -22,6 +22,7 @@ import { applyFilters, ClearFilters, EMPTY_FILTERS, IssueFilters, isFiltered, ty
 import { IssueList } from "./issue-list";
 import type { FocusTarget, Highlight } from "./pdf-viewer";
 import { ScoreCard } from "./score-card";
+import { SplitPane } from "./split-pane";
 
 const PdfViewer = dynamic(() => import("./pdf-viewer"), {
   ssr: false,
@@ -126,17 +127,19 @@ function ReviewWorkspace({ run, protocol }: { run: Run; protocol: ProtocolListIt
     <div className="flex flex-col lg:h-full">
       <WorkspaceHeader run={run} protocol={protocol} />
 
-      <div className="flex min-h-0 flex-1 flex-col lg:flex-row">
-        <div className="h-[70vh] min-w-0 flex-1 border-b lg:h-auto lg:border-b-0">
+      <SplitPane
+        storageKey="preflight.workspace.panelWidth"
+        sideLabel="review panel"
+        main={
           <PdfViewer
             file={protocolPdfUrl(run.protocol_id)}
             highlights={highlights}
             focus={focus}
             onSelectIssue={select}
           />
-        </div>
-
-        <aside aria-label="Review panel" className="flex min-h-0 flex-col bg-card lg:w-[420px] lg:border-l xl:w-[480px]">
+        }
+        side={
+        <aside aria-label="Review panel" className="flex min-h-0 flex-1 flex-col">
           <Tabs value={tab} onValueChange={setTab} className="flex min-h-0 flex-1 flex-col gap-0">
             <div className="border-b px-3 py-2">
               <TabsList className="w-full">
@@ -193,7 +196,8 @@ function ReviewWorkspace({ run, protocol }: { run: Run; protocol: ProtocolListIt
             </TabsContent>
           </Tabs>
         </aside>
-      </div>
+        }
+      />
     </div>
   );
 }
@@ -230,16 +234,16 @@ function buildHighlights(visible: Issue[], selected: Issue | null): Highlight[] 
 
 function WorkspaceHeader({ run, protocol }: { run: Run; protocol: ProtocolListItem | undefined }) {
   return (
-    <div className="shrink-0 space-y-3 border-b bg-card px-4 py-3">
-      <div className="min-w-0">
+    <div className="flex shrink-0 flex-col gap-3 border-b bg-card px-4 py-3 xl:flex-row xl:items-center xl:gap-6">
+      <div className="min-w-0 flex-1">
         <nav aria-label="Breadcrumb" className="flex items-center gap-1 text-xs text-muted-foreground">
-          <Link href="/" className="rounded-sm hover:text-foreground hover:underline">
+          <Link href="/" className="rounded-sm transition-colors hover:text-foreground hover:underline">
             Protocols
           </Link>
           <ChevronRight className="size-3" aria-hidden />
           <span className="truncate font-mono">{protocol?.nct_id ?? run.protocol_id}</span>
         </nav>
-        <h1 className="mt-0.5 truncate text-base font-semibold" title={protocol?.title}>
+        <h1 className="mt-1 truncate text-base leading-6 font-semibold" title={protocol?.title}>
           {protocol?.title ?? run.protocol_id}
         </h1>
         <p className="mt-0.5 flex flex-wrap items-center gap-x-2 text-xs text-muted-foreground">
@@ -265,7 +269,7 @@ function WorkspaceHeader({ run, protocol }: { run: Run; protocol: ProtocolListIt
           )}
         </p>
       </div>
-      {run.score && <ScoreCard score={run.score} counts={run.counts} />}
+      {run.score && <ScoreCard score={run.score} />}
     </div>
   );
 }

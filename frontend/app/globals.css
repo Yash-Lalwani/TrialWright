@@ -59,6 +59,9 @@
   --hl-related-border: #6d28d9;
   --hl-idle: rgb(30 58 95 / 0.07);
 
+  /* Meter track: a step darker than --muted so empty range reads on white */
+  --track: #e3e7ed;
+
   --chart-1: #1e3a5f;
   --chart-2: #2f5d93;
   --chart-3: #6b8fbf;
@@ -89,6 +92,7 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-track: var(--track);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -141,6 +145,22 @@
   button:not(:disabled),
   [role="button"]:not(:disabled) {
     cursor: pointer;
+  }
+  /* Browser surfaces carry the palette too. */
+  ::selection {
+    background: rgb(47 93 147 / 0.22);
+    color: inherit;
+  }
+  input,
+  textarea {
+    caret-color: var(--primary);
+  }
+  :root {
+    accent-color: var(--primary);
+    scrollbar-color: #c3cad4 transparent;
+  }
+  * {
+    scrollbar-width: thin;
   }
 }
 

@@ -360,7 +360,7 @@ function HighlightBox({
         title={h.label}
         onClick={() => onSelect(h.issueId)}
         style={style}
-        className="pointer-events-auto absolute rounded-[2px] border-b-2 border-(--sev) bg-hl-idle opacity-70 mix-blend-multiply transition-opacity hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-ring"
+        className="pointer-events-auto absolute border-b-2 border-(--sev) bg-hl-idle opacity-70 mix-blend-multiply transition-opacity hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-ring"
       />
     );
   }
@@ -423,7 +423,7 @@ function Toolbar({
   };
 
   return (
-    <div className="flex h-10 shrink-0 items-center gap-1 border-b bg-card px-2">
+    <div className="@container flex h-10 shrink-0 items-center gap-1 border-b bg-card px-2">
       <ToolButton label="Previous page" onClick={() => onPage(page - 1)} disabled={page <= 1}>
         <ChevronLeft />
       </ToolButton>
@@ -453,6 +453,8 @@ function Toolbar({
         <ChevronRight />
       </ToolButton>
 
+      <HighlightLegend />
+
       <div className="ml-auto flex items-center gap-1">
         <ToolButton label="Zoom out" onClick={onZoomOut} disabled={scale <= ZOOM_STEPS[0]}>
           <Minus />
@@ -469,6 +471,26 @@ function Toolbar({
         </Button>
       </div>
     </div>
+  );
+}
+
+/** Key for the overlay styles; matches the swatches in the issue detail. Hidden when the pane is narrow. */
+function HighlightLegend() {
+  return (
+    <ul aria-label="Highlight key" className="ml-4 hidden items-center gap-3 text-xs text-muted-foreground @[40rem]:flex">
+      <li className="flex items-center gap-1.5">
+        <span aria-hidden className="size-3 rounded-[2px] border-[1.5px] border-foreground/60 bg-hl-where" />
+        Evidence
+      </li>
+      <li className="flex items-center gap-1.5">
+        <span aria-hidden className="size-3 rounded-[2px] border-[1.5px] border-dashed border-hl-related-border bg-hl-related" />
+        Related
+      </li>
+      <li className="flex items-center gap-1.5">
+        <span aria-hidden className="h-3 w-3 border-b-2 border-sev-advisory bg-hl-idle" />
+        Other issues
+      </li>
+    </ul>
   );
 }
 
