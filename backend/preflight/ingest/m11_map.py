@@ -63,6 +63,7 @@ STUB_TOC = [
 ]
 
 THRESHOLD = 85
+MAX_LEFTOVERS = 60
 
 
 def load_toc() -> list[dict]:
@@ -117,23 +118,24 @@ class _Batch(BaseModel):
 async def map_sections(sections: list[Section], use_llm: bool = True) -> list[Section]:
     toc = load_toc()
     mapped = [s.model_copy(update={"m11_id": match(s, toc)}) for s in sections]
-    leftovers = [s for s in mapped if s.m11_id is None and s.level <= 2 and s.text]
+    leftovers = [s for s in mapped if s.m11_id is None and s.level <= 2 and s.text][:MAX_LEFTOVERS]
     if use_llm and leftovers:
         mapped = await _llm_map(mapped, leftovers, toc)
     return mapped
 
 
 async def _llm_map(mapped: list[Section], leftovers: list[Section], toc: list[dict]) -> list[Section]:
-    from preflight.llm.client import LLMCacheMiss, complete_json
+    from preflight.llm.client import LLMUnavailable, complete_json
 
     toc_lines = "\n".join(f'{i["id"]} {i["title"]}' for i in toc)
-    rows = "\n".join(f"{s.id} | {s.title} | {s.text[:200].replace(chr(10), ' ')}" for s in leftovers)
+    rows = "\n".join(f"{s.id} | {s.title} | {s.text[:120].replace(chr(10), ' ')}" for s in leftovers)
     system = ("You map clinical trial protocol section headings to the ICH M11 table of contents. "
-              "Return m11_id null when no M11 item fits (front matter, amendment history, signatures).")
+              "Return m11_id null when no M11 item fits (front matter, amendment history, signatures). "
+              "Only list sections that do map to an M11 item.")
     user = f"M11 items:\n{toc_lines}\n\nSections (id | heading | start of text):\n{rows}"
     try:
         batch = await complete_json("map_sections", system, user, _Batch)
-    except LLMCacheMiss:
+    except LLMUnavailable:
         return mapped
     valid = {i["id"] for i in toc}
     found = {m.section_id: m.m11_id for m in batch.mappings if m.m11_id in valid}
