@@ -64,20 +64,20 @@ async def ingest_file(path: str, nct_id: str | None = None, use_llm: bool = True
     soa = await asyncio.to_thread(extract_soa, path, doc)
     llm = {}
     if use_llm:
-        from preflight.llm.client import LLMCacheMiss
+        from preflight.llm.client import LLMUnavailable
 
         if soa:
             context = "\n".join(ln.text for ln in entities.effective_parts(parts, ("1.1", "4.1")))
             try:
                 soa = await fill_days_with_llm(soa, context)
-            except LLMCacheMiss as e:
+            except LLMUnavailable as e:
                 log.warning("SoA day normalization skipped: %s", e)
     soa_msg = f"{len(soa.visits)} visits, {len(soa.procedures)} procedures" if soa else "SoA table not found"
     await progress("extract_soa", "done", soa_msg)
     if use_llm:
         try:
             llm = await entities.extract_llm(parts)
-        except LLMCacheMiss as e:
+        except LLMUnavailable as e:
             log.warning("LLM extraction skipped: %s", e)
 
     arms = llm.get("arms", [])

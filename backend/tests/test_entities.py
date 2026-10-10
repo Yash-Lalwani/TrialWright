@@ -61,7 +61,7 @@ async def test_extract_llm_assembles_graph_parts(monkeypatch):
                                                "thresholds": [{"test": "ANC", "op": ">=", "value": 1.5,
                                                                "unit": "10^9/L"}]}]},
             "extract_stats": {"sample_size": 300, "alpha": 0.05, "power": 0.8,
-                              "analyses": [{"endpoint_text": "PFS", "method": "Log-rank", "quote": "log-rank"}]},
+                              "analyses": [{"endpoint_ids": ["ep_1"], "method": "Log-rank", "quote": "log-rank"}]},
             "extract_design": {"condition": "NSCLC", "arms": [{"name": "A", "type": "experimental", "dose": None,
                                                                "route": None, "frequency": None,
                                                                "duration_weeks": None}]},

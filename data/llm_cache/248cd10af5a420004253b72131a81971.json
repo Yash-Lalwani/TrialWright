@@ -1,0 +1,7 @@
+{
+ "step": "extract_stats",
+ "model": "deepseek/deepseek-v4-flash-0731",
+ "content": "{\n  \"sample_size\": null,\n  \"alpha\": null,\n  \"sided\": null,\n  \"power\": null,\n  \"effect_size\": null,\n  \"effect_type\": null,\n  \"control_rate\": null,\n  \"dropout\": null,\n  \"analyses\": [\n    {\n      \"endpoint_ids\": [\"ep_1\", \"ep_3\", \"ep_8\"],\n      \"method\": \"Kaplan-Meier techniques, Brookmeyer and Crowley methodology, Greenwood formula, stratified log-rank test, stratified Cox model\",\n      \"quote\": \"Time-to-event endpoints (i.e., PFS, OS, and DOR) will be estimated using Kaplan-Meier techniques.\"\n    },\n    {\n      \"endpoint_ids\": [\"ep_2\", \"ep_9\", \"ep_10\"],\n      \"method\": \"Clopper-Pearson method, normal approximation, stratified Cochran-Mantel-Haenszel test, Mantel-Haenszel estimator\",\n      \"quote\": \"Categorical endpoints will be summarized by category for each treatment arm.\"\n    }\n  ]\n}",
+ "tokens_in": 2255,
+ "tokens_out": 228
+}

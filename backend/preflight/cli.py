@@ -21,12 +21,17 @@ def check(
 
     from preflight.pipeline import check_graph, ingest_file
 
+    async def run():
+        graph = await ingest_file(path, nct_id=nct_id, use_llm=not rules_only)
+        if dump_graph:
+            return graph, None
+        return graph, await check_graph(graph, "rules_only" if rules_only else "full", pdf_path=path)
+
     start = time.monotonic()
-    graph = asyncio.run(ingest_file(path, nct_id=nct_id, use_llm=not rules_only))
+    graph, result = asyncio.run(run())
     if dump_graph:
         typer.echo(graph.model_dump_json(indent=2))
         return
-    result = asyncio.run(check_graph(graph, "rules_only" if rules_only else "full"))
     m = graph.meta
     typer.echo(f"{graph.protocol_id}  {m.title[:90]}")
     typer.echo(f"  phase={m.phase} masking={m.masking} allocation={m.allocation} ratio={m.ratio} "

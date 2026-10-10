@@ -149,3 +149,14 @@ async def test_check_graph_assigns_ids_and_sorts():
     assert [i.id for i in result.issues][:2] == ["iss_01", "iss_02"]
     assert result.issues[0].severity == "critical"
     assert result.completeness.summary.required > 0
+
+
+def test_c1_range_visit_covers_recurring_days():
+    from preflight.checks.consistency import _visit_at
+
+    visits = [Visit(id="v1", name="Cycle 1 Day 1", study_day=1, window_minus=None, window_plus=None),
+              Visit(id="v2", name="Cycle 2 Day 1", study_day=22, window_minus=3, window_plus=3),
+              Visit(id="v3", name="Cycles 3-10 Day 1", study_day=43, window_minus=3, window_plus=3)]
+    assert _visit_at(43 + 21 * 4, visits).id == "v3"
+    assert _visit_at(43 + 21 * 4 + 10, visits) is None
+    assert _visit_at(43 + 21 * 9, visits) is None

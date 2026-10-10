@@ -37,8 +37,33 @@ def _procedures_for(endpoint: Endpoint, graph: ProtocolGraph) -> set[str]:
     return ids
 
 
+def _cycle_length(visits: list[Visit]) -> float | None:
+    days = sorted(v.study_day for v in visits if v.study_day is not None and v.study_day > 0)
+    gaps = sorted(b - a for a, b in zip(days, days[1:], strict=False) if b > a)
+    return gaps[len(gaps) // 2] if gaps else None
+
+
+def _recurring(day: float, v: Visit, cycle: float | None) -> bool:
+    """'Cycles 7-17 Day 1' or 'Cycle 18 and beyond': repeats every cycle from its first day."""
+    if v.study_day is None or not cycle:
+        return False
+    m = re.search(r"cycles?\s*(\d+)\s*(?:-\s*(\d+)|and beyond|onward|\+)", v.name, re.I)
+    if not m:
+        return False
+    end = v.study_day + (int(m.group(2)) - int(m.group(1))) * cycle if m.group(2) else float("inf")
+    if not v.study_day <= day <= end + cycle:
+        return False
+    offset = (day - v.study_day) % cycle
+    window = max(v.window_plus or 3, v.window_minus or 3)
+    return min(offset, cycle - offset) <= window
+
+
 def _visit_at(day: float, visits: list[Visit]) -> Visit | None:
     """Visit whose window covers the day (3-day tolerance when no window is given)."""
+    cycle = _cycle_length(visits)
+    for v in visits:
+        if _recurring(day, v, cycle):
+            return v
     best = None
     for v in visits:
         if v.study_day is None:
@@ -138,9 +163,10 @@ def objective_endpoint_analysis(graph: ProtocolGraph, ctx: CheckContext):
     for ep in graph.endpoints:
         if ep.analysis_ids or ep.id not in primary | secondary:
             continue
+        safety = bool(SAFETY.search(f"{ep.measure} {ep.text}"))
         issues.append(issue(
             "C3", f"Endpoint '{ep.measure}' has no analysis method in the statistics section", where(graph, ep.span),
             f"The endpoint '{ep.text}' is not analysed in the statistical considerations section.",
             fix=f"Describe the analysis method, population and handling of missing data for {ep.measure}.",
-            severity="critical" if ep.id in primary else "major"))
+            severity="critical" if ep.id in primary else "minor" if safety else "major"))
     return issues
