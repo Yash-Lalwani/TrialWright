@@ -1,3 +1,4 @@
+import importlib
 import os
 from contextlib import asynccontextmanager
 
@@ -55,3 +56,13 @@ def health():
 
 for r in (protocols, runs, issues, exports, trace):
     app.include_router(r.router)
+
+# B's routes (CONTRACTS 4.8 to 4.12) are picked up as soon as their files exist, so B never edits this file.
+for name in ("analysis", "drafts", "benchmark"):
+    try:
+        module = importlib.import_module(f"preflight.api.routes.{name}")
+    except ModuleNotFoundError as e:
+        if e.name != f"preflight.api.routes.{name}":
+            raise
+        continue
+    app.include_router(module.router)
