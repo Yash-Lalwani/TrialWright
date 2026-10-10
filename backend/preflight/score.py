@@ -33,7 +33,8 @@ def load_config() -> dict:
 
 
 def _penalty(issues: list[Issue], category: str, points: dict) -> float:
-    return sum(points.get(i.severity, 0) for i in issues if i.category == category and i.status == "open")
+    """Accepted issues stop counting; rejected ones keep their points (CONTRACTS 4.4)."""
+    return sum(points.get(i.severity, 0) for i in issues if i.category == category and i.status != "accepted")
 
 
 def compute(issues: list[Issue], present: int, thin: int, required: int, burden: float) -> Score:
