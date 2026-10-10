@@ -1,0 +1,9 @@
+# Person B's scoring config. A's preflight/score.py merges this over its own defaults and only reads keys it knows,
+# so the keys below do not change A's weights or points.
+#
+# burden_percentile_weights: how the three peer percentiles combine into the Burden sub-score
+#   Burden = 100 - weighted mean percentile (ARCHITECTURE.md section 11). Assumption: patient time matters most.
+burden_percentile_weights:
+  patient_hours: 0.5
+  procedures_total: 0.3
+  visits: 0.2

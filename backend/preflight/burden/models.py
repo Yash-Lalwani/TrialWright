@@ -1,3 +1,4 @@
+# ruff: noqa: E501
 """Response models for CONTRACTS.md 4.8 (burden), 4.9 (peers), 4.10 (precedent). Shapes are frozen."""
 from __future__ import annotations
 
@@ -40,12 +41,22 @@ class Assumptions(BaseModel):
     version: str
 
 
+class Coverage(BaseModel):
+    """ADDITIVE to CONTRACTS 4.8 (consumers may ignore it): how far the cost table and the SoA columns can be trusted."""
+    procedures: int
+    matched: int
+    unmatched: list[str]
+    columns: int
+    recurring_columns: int
+
+
 class BurdenReport(BaseModel):
     per_patient: PerPatient
     by_visit: list[ByVisit]
     orphan_procedures: list[OrphanProcedure]
     peer_percentiles: PeerPercentiles | None
     assumptions: Assumptions
+    coverage: Coverage | None = None
 
 
 class PeerQuery(BaseModel):
