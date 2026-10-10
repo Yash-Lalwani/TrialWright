@@ -14,6 +14,22 @@ def check(path: str):
     typer.echo(f"check not implemented yet: {path}")
 
 
+@app.command("mock-issues")
+def mock_issues(pdf: str, out: str = "../frontend/mocks/issues_real.json"):
+    """Write contract-shaped issues with real pages and bboxes for a PDF."""
+    import json
+    from pathlib import Path
+
+    from preflight.ingest.mock_issues import build
+
+    data = build(pdf)
+    Path(out).parent.mkdir(parents=True, exist_ok=True)
+    Path(out).write_text(json.dumps(data, indent=2) + "\n")
+    for i in data["items"]:
+        typer.echo(f'{i["id"]} {i["check_id"]} p{i["where"]["page"]} {i["where"]["bbox"]} {i["where"]["quote"][:60]}')
+    typer.echo(f"wrote {data['total']} issues to {out}")
+
+
 @app.command("llm-probe")
 def llm_probe():
     """Check whether the model honours response_format json_schema on OpenRouter."""
