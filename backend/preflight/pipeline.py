@@ -3,12 +3,19 @@ import logging
 from collections import Counter
 from pathlib import Path
 
+from pydantic import BaseModel
+
+from preflight import score
+from preflight.checks.completeness import Completeness, compute_completeness
+from preflight.checks.registry import CheckContext, run_checks
+from preflight.graph.issues import Issue
 from preflight.graph.models import ProtocolGraph, Stats
 from preflight.ingest import entities
 from preflight.ingest.m11_map import map_sections
 from preflight.ingest.pdf import read_pdf
 from preflight.ingest.sections import split_sections
 from preflight.ingest.soa import extract_soa, fill_days_with_llm
+from preflight.score import Score
 
 log = logging.getLogger(__name__)
 
@@ -79,3 +86,64 @@ async def ingest_file(path: str, nct_id: str | None = None, use_llm: bool = True
         xrefs=entities.extract_xrefs(lines),
         abbreviations=entities.extract_abbreviations(doc, sections),
     )
+
+
+SEVERITY_ORDER = {"critical": 0, "major": 1, "minor": 2, "advisory": 3}
+NEUTRAL_BURDEN = 50.0
+
+
+class CheckResult(BaseModel):
+    issues: list[Issue]
+    score: Score
+    completeness: Completeness
+
+
+async def _registry_record(graph: ProtocolGraph) -> dict | None:
+    if not graph.meta.nct_id:
+        return None
+    try:
+        from preflight.ctgov.client import get_study
+
+        return await get_study(graph.meta.nct_id)
+    except Exception as e:  # B's client not merged yet, or network off
+        log.warning("Registry record unavailable: %s", e)
+        return None
+
+
+def _burden(graph: ProtocolGraph) -> tuple[object | None, list[Issue], float]:
+    """B's peers, hotspots and burden score; neutral values until B's module lands."""
+    try:
+        from preflight.burden import burden_score, compute_burden, find_peers, hotspots
+    except ImportError:
+        log.warning("Burden module not available; using neutral burden score")
+        return None, [], NEUTRAL_BURDEN
+    peers = find_peers(graph)
+    report = compute_burden(graph, peers)
+    return peers, hotspots(graph, peers) if peers else [], float(burden_score(report))
+
+
+def _dedupe(issues: list[Issue]) -> list[Issue]:
+    seen, out = set(), []
+    for i in issues:
+        key = (i.check_id, i.title.lower(), i.where.page)
+        if key not in seen:
+            seen.add(key)
+            out.append(i)
+    return out
+
+
+async def check_graph(graph: ProtocolGraph, mode: str = "full") -> CheckResult:
+    peers, hotspot_issues, burden = _burden(graph)
+    ctx = CheckContext(registry_record=await _registry_record(graph), peers=peers, settings={"mode": mode})
+    issues = _dedupe(run_checks(graph, ctx) + hotspot_issues)
+    issues.sort(key=lambda i: (SEVERITY_ORDER.get(i.severity, 9), i.where.page or 0))
+    issues = [i.model_copy(update={"id": f"iss_{n:02d}"}) for n, i in enumerate(issues, 1)]
+    completeness = compute_completeness(graph)
+    s = completeness.summary
+    return CheckResult(issues=issues, score=score.compute(issues, s.present, s.thin, s.required, burden),
+                       completeness=completeness)
+
+
+async def run_file(path: str, mode: str = "full", nct_id: str | None = None) -> CheckResult:
+    graph = await ingest_file(path, nct_id=nct_id, use_llm=mode == "full")
+    return await check_graph(graph, mode)
