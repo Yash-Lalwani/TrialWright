@@ -1,0 +1,56 @@
+# --- Markdown: never pushed ---
+*.md
+docs/
+# README.md is also ignored for now. Judges need a README on GitHub,
+# so uncomment the next line before submission (BUILD_PLAN.md section 6):
+# !README.md
+
+# --- Secrets ---
+.env
+.env.*
+!.env.example
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+*.egg-info/
+dist/
+build/
+
+# --- Node / Next.js ---
+node_modules/
+frontend/.next/
+frontend/out/
+frontend/.vercel/
+*.tsbuildinfo
+next-env.d.ts
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# --- App runtime ---
+*.db
+*.sqlite
+*.sqlite3
+backend/uploads/
+backend/exports/
+logs/
+*.log
+
+# --- Data: PDFs are re-downloaded or regenerated, not committed ---
+data/corpus/*.pdf
+data/bench/*.pdf
+data/peers/protocols/*.pdf
+# Committed on purpose: data/corpus/manifest.csv, data/bench/*.json (answer keys),
+# data/bench/results/, data/peers/*.json, data/llm_cache/, data/standards/, data/assumptions/
+
+# --- OS / editors ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
