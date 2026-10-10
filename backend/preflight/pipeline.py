@@ -116,6 +116,7 @@ class CheckResult(BaseModel):
     issues: list[Issue]
     score: Score
     completeness: Completeness
+    verifier: dict | None = None
 
 
 async def _registry_record(graph: ProtocolGraph) -> dict | None:
@@ -149,16 +150,36 @@ def _dedupe(issues: list[Issue]) -> list[Issue]:
     return out
 
 
-async def check_graph(graph: ProtocolGraph, mode: str = "full", progress: Progress = _noop) -> CheckResult:
+async def _ai_review(graph: ProtocolGraph, issues: list[Issue], completeness: Completeness, pdf_path: str | None,
+                     progress: Progress) -> tuple[list[Issue], dict]:
+    from preflight.reviewers.committee import review
+    from preflight.reviewers.verifier import attach_fixes, verify
+
+    thin = [f"{i.framework} {i.item_id} {i.title} ({i.status})" for i in completeness.items if i.status != "present"]
+    findings = await review(graph, thin, [i.title for i in issues])
+    await progress("reviewers", "done", f"{len(findings)} findings from the review committee")
+    ai_issues, stats = await asyncio.to_thread(verify, findings, graph, pdf_path)
+    ai_issues = attach_fixes(issues, ai_issues)
+    await progress("verify", "done", f"{stats['dropped_ungrounded']} ungrounded findings dropped")
+    return ai_issues, stats
+
+
+async def check_graph(graph: ProtocolGraph, mode: str = "full", progress: Progress = _noop,
+                      pdf_path: str | None = None) -> CheckResult:
     b = _burden_module()
     peers = await asyncio.to_thread(b.find_peers, graph) if b else None
     ctx = CheckContext(registry_record=await _registry_record(graph), peers=peers, settings={"mode": mode})
     issues = await asyncio.to_thread(run_checks, graph, ctx)
     await progress("rules", "done", f"{len(issues)} rule issues")
+    completeness = compute_completeness(graph)
 
-    skipped = "rules_only mode" if mode == "rules_only" else "AI reviewers not enabled yet"
-    await progress("reviewers", "skipped", skipped)
-    await progress("verify", "skipped", skipped)
+    verifier = None
+    if mode == "full":
+        ai_issues, verifier = await _ai_review(graph, issues, completeness, pdf_path, progress)
+        issues += ai_issues
+    else:
+        await progress("reviewers", "skipped", "rules_only mode")
+        await progress("verify", "skipped", "rules_only mode")
 
     if b:
         burden = float(b.burden_score(b.compute_burden(graph, peers)))
@@ -171,12 +192,13 @@ async def check_graph(graph: ProtocolGraph, mode: str = "full", progress: Progre
         await progress("peers", "skipped", "peer module not available")
 
     issues = _dedupe(issues + hotspot_issues)
+    if verifier:
+        verifier["shown"] = sum(1 for i in issues if i.source.startswith("ai:"))
     issues.sort(key=lambda i: (SEVERITY_ORDER.get(i.severity, 9), i.where.page or 0))
     issues = [i.model_copy(update={"id": f"iss_{n:02d}"}) for n, i in enumerate(issues, 1)]
-    completeness = compute_completeness(graph)
     s = completeness.summary
     result = CheckResult(issues=issues, score=score.compute(issues, s.present, s.thin, s.required, burden),
-                         completeness=completeness)
+                         completeness=completeness, verifier=verifier)
     await progress("score", "done", f"score {result.score.overall}")
     return result
 
@@ -184,4 +206,4 @@ async def check_graph(graph: ProtocolGraph, mode: str = "full", progress: Progre
 async def run_file(path: str, mode: str = "full", nct_id: str | None = None,
                    progress: Progress = _noop) -> CheckResult:
     graph = await ingest_file(path, nct_id=nct_id, use_llm=mode == "full", progress=progress)
-    return await check_graph(graph, mode, progress=progress)
+    return await check_graph(graph, mode, progress=progress, pdf_path=path)
