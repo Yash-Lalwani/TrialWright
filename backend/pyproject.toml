@@ -1,0 +1,42 @@
+[project]
+name = "preflight"
+version = "0.1.0"
+description = "Protocol Pre-Flight: clinical trial protocol checker"
+requires-python = ">=3.12"
+license = "MIT"
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+    "pydantic>=2",
+    "sqlmodel",
+    "pymupdf",
+    "pdfplumber",
+    "rapidfuzz",
+    "statsmodels",
+    "scipy",
+    "pint",
+    "python-docx",
+    "jsonschema",
+    "openai",
+    "typer",
+    "httpx",
+    "python-dotenv",
+    "python-multipart",
+    "pyyaml",
+]
+
+[dependency-groups]
+dev = ["pytest", "pytest-asyncio", "ruff"]
+
+[project.scripts]
+preflight = "preflight.cli:app"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+
+[tool.ruff]
+line-length = 110
