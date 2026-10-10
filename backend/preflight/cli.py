@@ -19,13 +19,14 @@ def check(
     import asyncio
     import time
 
-    from preflight.pipeline import ingest_file
+    from preflight.pipeline import check_graph, ingest_file
 
     start = time.monotonic()
     graph = asyncio.run(ingest_file(path, nct_id=nct_id, use_llm=not rules_only))
     if dump_graph:
         typer.echo(graph.model_dump_json(indent=2))
         return
+    result = asyncio.run(check_graph(graph, "rules_only" if rules_only else "full"))
     m = graph.meta
     typer.echo(f"{graph.protocol_id}  {m.title[:90]}")
     typer.echo(f"  phase={m.phase} masking={m.masking} allocation={m.allocation} ratio={m.ratio} "
@@ -39,7 +40,16 @@ def check(
         dated = sum(v.study_day is not None for v in graph.soa.visits)
         typer.echo(f"  soa: p{graph.soa.span.page} visits={len(graph.soa.visits)} ({dated} with study day) "
                    f"procedures={len(graph.soa.procedures)}")
-    typer.echo(f"  {time.monotonic() - start:.1f}s")
+    sc, cs = result.score, result.completeness.summary
+    typer.echo(f"  score={sc.overall} (completeness {sc.completeness}, consistency {sc.consistency}, "
+               f"burden {sc.burden}, amendment risk {sc.amendment_risk})  "
+               f"M11/SPIRIT present={cs.present} thin={cs.thin} missing={cs.missing}")
+    typer.echo(f"\n{len(result.issues)} issues")
+    for i in result.issues:
+        typer.echo(f"  {i.id} [{i.severity:8}] {i.check_id:3} p{i.where.page or '-':<4} {i.title[:95]}")
+        if i.where.quote:
+            typer.echo(f"        \"{i.where.quote[:100]}\"")
+    typer.echo(f"\n{time.monotonic() - start:.1f}s")
 
 
 @app.command("mock-issues")

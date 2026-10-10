@@ -3,8 +3,8 @@ import pkgutil
 from dataclasses import dataclass, field
 from collections.abc import Callable
 
-from preflight.graph.issues import Issue
-from preflight.graph.models import ProtocolGraph
+from preflight.graph.issues import Fix, Issue, Where, Why
+from preflight.graph.models import ProtocolGraph, Span
 
 
 @dataclass
@@ -33,6 +33,32 @@ def check(id: str, category: str, amendment_category: str, standard_ref: str, se
         return fn
 
     return register
+
+
+def section_title(graph: ProtocolGraph, page: int | None) -> str | None:
+    """Deepest section whose page range covers the page."""
+    if page is None:
+        return None
+    hits = [s for s in graph.sections if s.page_start <= page <= s.page_end]
+    return max(hits, key=lambda s: (s.level, s.page_start)).title if hits else None
+
+
+def where(graph: ProtocolGraph, span: Span | None, section: str | None = None) -> Where:
+    if span is None:
+        return Where(section=section, page=None, bbox=None, quote=None)
+    return Where(section=section or section_title(graph, span.page), page=span.page, bbox=span.bbox, quote=span.quote)
+
+
+def issue(check_id: str, title: str, at: Where, explanation: str, fix: str | None = None,
+          related: list[Where] | None = None, severity: str | None = None, patch: dict | None = None,
+          confidence: float = 1.0) -> Issue:
+    spec = CHECKS[check_id]
+    return Issue(
+        id="", check_id=check_id, source="rule", category=spec.category, severity=severity or spec.severity,
+        title=title, where=at, related=related or [],
+        why=Why(explanation=explanation, standard_ref=spec.standard_ref, amendment_category=spec.amendment_category),
+        fix=Fix(suggestion=fix, patch=patch) if fix else None, confidence=confidence, verified=True,
+    )
 
 
 def discover() -> dict[str, CheckSpec]:
