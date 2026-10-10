@@ -11,6 +11,8 @@ from preflight.ingest.m11_map import load_toc
 
 SPIRIT_PATH = Path(__file__).resolve().parents[3] / "data" / "standards" / "spirit2025.yaml"
 WORD_FLOOR = 40
+# Missing items that block review of the trial itself are major; other missing M11 items are minor.
+KEY_ITEMS = {"1.1", "1.3", "3.1", "4.1", "5.2", "5.3", "6.1", "10.4", "10.11"}
 # Used while the M11 YAML has no 'required' flags: the items every interventional protocol needs.
 STUB_REQUIRED = {"1", "1.1", "1.3", "2", "3", "4", "4.1", "5", "5.2", "5.3", "6", "7", "8", "9", "10", "10.11", "11"}
 
@@ -109,12 +111,13 @@ def _m11_items(graph: ProtocolGraph) -> list[CompletenessItem]:
             status, note = _status("\n".join(s.text for s in covered), item)
             add(status, [p for s in covered for p in range(s.page_start, s.page_end + 1)], note)
             continue
-        # No heading for this item: look for its content inside the nearest present ancestor (pre-M11 protocols
-        # rarely have a heading per sub-item), or by name anywhere in the document.
         parts = item["id"].split(".")
+        if len(parts) <= 2:
+            add("missing")  # chapters and sections need their own heading
+            continue
+        # Sub-items rarely have their own heading in pre-M11 protocols: look for the content inside the parent.
         scope = next((c for k in range(len(parts) - 1, 0, -1) if (c := _covered(graph, ".".join(parts[:k])))), None)
         hit = _found_in(scope, item, by_name_only=False) if scope else None
-        hit = hit or _found_in(graph.sections, item, by_name_only=True)
         if hit is None:
             add("missing")
             continue
@@ -160,9 +163,10 @@ def _issues(graph: ProtocolGraph, framework: str, check_id: str):
         page = item.pages[0] if item.pages else None
         at = Where(section=f"{item.item_id} {item.title}", page=page, bbox=None, quote=None)
         if item.status == "missing":
+            key = framework == "SPIRIT" or item.item_id.split(".")[0] == item.item_id or item.item_id in KEY_ITEMS
             issues.append(issue(check_id, f"{framework} {item.item_id} {item.title} is missing", at,
                                 f"The protocol has no section or content for {framework} item {item.item_id} "
-                                f"({item.title}).", fix=f"Add {item.title}."))
+                                f"({item.title}).", fix=f"Add {item.title}.", severity="major" if key else "minor"))
         else:
             issues.append(issue("B3", f"{framework} {item.item_id} {item.title} is thin", at,
                                 f"{item.title} is present but incomplete. {item.note}.",

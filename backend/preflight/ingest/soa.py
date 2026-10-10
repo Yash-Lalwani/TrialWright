@@ -54,7 +54,7 @@ def _window(text: str, plus_minus_only: bool = False) -> tuple[float | None, flo
         return None, None
     if m := re.search(r"\+\s*(\d+)", text):
         return 0.0, float(m.group(1))
-    if m := re.search(r"(?<!\d)-\s*(\d+)\b", text):
+    if m := re.search(r"(?<![\d\w])-\s*(\d+)\b", text):
         return float(m.group(1)), 0.0
     return None, None
 
@@ -64,6 +64,8 @@ def _day_from_name(name: str, cycle_len: int | None) -> float | None:
     if m := re.search(r"\b(?:cycles?|cc?s?)\s*(\d+)(?:\s*-\s*\d+)?\D{0,16}?(?:day|d)\s*(-?\d+)", low):
         n, d = int(m.group(1)), int(m.group(2))
         return float((n - 1) * cycle_len + d) if cycle_len else None
+    if m := re.search(r"\bw(\d+)\s*d(\d+)\b", low):
+        return float((int(m.group(1)) - 1) * 7 + int(m.group(2)))
     if m := re.search(r"\bweek\s*(\d+)", low):
         return float(int(m.group(1)) * 7 + 1)
     if m := re.search(r"\bdays?\s*(-?\d+)", low):
@@ -93,7 +95,7 @@ def _parse_table(rows: list[list[str]], cycle_len: int | None) -> dict | None:
     n_cols = len(rows[0])
     header, body = rows[:first_mark], rows[first_mark:]
     day_row = next((r for r in header if re.match(r"^(study )?days?$", r[0], re.I)), None)
-    win_row = next((r for r in header if re.match(r"^(time )?window", r[0], re.I)), None)
+    win_row = next((r for r in header if re.search(r"\bwindows?\b", r[0], re.I)), None)
     name_rows = [r for r in header if r is not day_row and r is not win_row]
 
     visits = []

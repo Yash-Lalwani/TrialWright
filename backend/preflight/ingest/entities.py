@@ -15,7 +15,11 @@ AGE_RANGE = re.compile(r"\b(\d{2})\s*(?:to|-|–|and)\s*(\d{2,3})\s*years", re.I
 AGE_MIN = re.compile(r"(?:≥|>=|at least|aged)\s*(\d{2})\s*years"
                      r"|\b(\d{2})\s*years(?: of age)?,? (?:or|and) (?:older|above)", re.I)
 AGE_MAX = re.compile(r"(?:≤|<=|no older than|up to|not older than)\s*(\d{2,3})\s*years", re.I)
-SAMPLE = re.compile(r"(?:approximately|total of|a total of)\s+(\d{2,5})\s+(?:participants|patients|subjects)", re.I)
+SAMPLE = re.compile(
+    r"(?:approximately|total of|a total of|enroll?|randomi[sz]e)\s+(?:approximately\s+)?(\d{2,5})\s+"
+    r"(?:participants|patients|subjects)"
+    r"|sample size (?:of|is|will be)\s+(?:approximately\s+)?(\d{2,5})"
+    r"|number of (?:subjects|patients|participants)[a-z ]{0,30}? is\s+(?:approximately\s+)?(\d{2,5})", re.I)
 RATIO = re.compile(r"\b(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?\b")
 ARMS = re.compile(r"\b(one|two|three|four|five|six|\d)[- ](?:treatment )?arms?\b", re.I)
 DOSE = re.compile(r"\b(\d+(?:\.\d+)?)\s*(mg/kg|mg/m2|mg/m²|mg|mcg|µg|μg|g)\b(?!/dL|/L)", re.I)
@@ -59,11 +63,12 @@ def extract_numbers(lines: list[Line]) -> list[NumberFact]:
     def add(kind, value, unit, line):
         facts.append(NumberFact(kind=kind, value=value, unit=unit, span=_span(line)))
 
-    for ln in lines:
+    for k, ln in enumerate(lines):
         t = ln.text
         low = t.lower()
+        nxt = lines[k + 1].text.lower() if k + 1 < len(lines) else ""
         if re.search(r"\bage\b|\baged\b|years of age|years old", low) and not re.search(
-                r"amenorrh|menopaus|childbearing|female|women|median|mean age", low):
+                r"amenorrh|menopaus|childbearing|female|women|median|mean age|clearance|covariate|range", low):
             if m := AGE_RANGE.search(t):
                 add("age_min", float(m.group(1)), "years", ln)
                 add("age_max", float(m.group(2)), "years", ln)
@@ -72,12 +77,15 @@ def extract_numbers(lines: list[Line]) -> list[NumberFact]:
                     add("age_min", float(m.group(1) or m.group(2)), "years", ln)
                 if m := AGE_MAX.search(t):
                     add("age_max", float(m.group(1)), "years", ln)
-        if re.search(r"enrol|random|planned|sample size", low) and (m := SAMPLE.search(t)):
-            add("sample_size", float(m.group(1)), None, ln)
+        sample_context = re.search(r"enrol|randomi|planned|sample size|number of (subjects|patients|participants)",
+                                   f"{low} {nxt}")
+        if sample_context and not re.search(r"\bpk\b|pharmacokinetic|subset|substudy|evaluable|achieves|power",
+                                            low) and (m := SAMPLE.search(t)):
+            add("sample_size", float(next(g for g in m.groups() if g)), None, ln)
         if "ratio" in low and re.search(r"random|allocation", low):
             m = RATIO.search(t)
         else:
-            m = re.search(r"randomi[sz]ed\s+(\d{1,2}):(\d{1,2})", t)
+            m = re.search(r"randomi[sz]ed\s*\(?\s*(\d{1,2}):(\d{1,2})\b", t)
         if m:
             add("ratio", ":".join(g for g in m.groups() if g), None, ln)
         if m := ARMS.search(t):
@@ -86,8 +94,7 @@ def extract_numbers(lines: list[Line]) -> list[NumberFact]:
         if re.search(r"\b(dose|dosing|administered|mg)\b", low) and "mg" in low:
             for m in DOSE.finditer(t):
                 add("dose", float(m.group(1)), m.group(2), ln)
-        if re.search(r"duration|treatment period|follow-up|followed up|for up to|study period", low) \
-                and "age" not in low:
+        if not re.search(r"\bage\b|years old|years of age", low):
             for m in DURATION.finditer(t):
                 add("duration_weeks", _weeks(float(m.group(1)), m.group(2)), "weeks", ln)
     return facts
