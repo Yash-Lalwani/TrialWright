@@ -243,7 +243,7 @@ class _CriteriaOut(BaseModel):
 
 
 class _AnalysisOut(BaseModel):
-    endpoint_text: str
+    endpoint_ids: list[str]
     method: str
     quote: str
 
@@ -313,12 +313,12 @@ async def extract_llm(parts: list[tuple[Section, list[Line]]]) -> dict:
     stats_lines = effective_parts(parts, ("10",))
     design_lines = effective_parts(parts, ("1.1", "4.1", "6")) or effective_parts(parts, ("4",))
 
-    async def ask(step, system, lines, schema):
+    async def ask(step, system, lines, schema, extra=""):
         if not lines:
             return None
-        return await complete_json(step, f"{system} {QUOTE_RULE}", _text(lines), schema)
+        return await complete_json(step, f"{system} {QUOTE_RULE}", extra + _text(lines), schema)
 
-    objectives_out, criteria_out, stats_out, arms_out = await asyncio.gather(
+    objectives_out, criteria_out, arms_out = await asyncio.gather(
         ask("extract_objectives",
             "Extract every trial objective and its endpoints. Convert endpoint timepoints to study weeks "
             "(Day 1 = week 0, 'Cycle 3 Day 1' of 3-week cycles = week 6, 6 months = 26 weeks).",
@@ -327,15 +327,20 @@ async def extract_llm(parts: list[tuple[Section, list[Line]]]) -> dict:
             "Extract every inclusion and exclusion criterion. For lab or numeric limits give thresholds "
             "like {test: 'ANC', op: '>=', value: 1.5, unit: '10^9/L'}.",
             crit_lines, _CriteriaOut),
-        ask("extract_stats",
-            "Extract the sample size inputs (alpha as a decimal, power as a decimal, sided 1 or 2, effect size, "
-            "control rate, dropout) and the analysis method for each endpoint. Use null when not stated.",
-            stats_lines, _StatsOut),
         ask("extract_design",
             "Extract the condition studied, the sponsor and the treatment arms (name, type such as "
             "experimental/active comparator/placebo, dose, route, frequency, duration in weeks).",
             design_lines, _ArmsOut),
     )
+    # Endpoint ids are assigned in this order by _assemble; the stats call links analyses to them.
+    ep_list = [e for o in (objectives_out.objectives if objectives_out else []) for e in o.endpoints]
+    catalog = "\n".join(f"ep_{i}: {e.measure} ({e.text[:100]})" for i, e in enumerate(ep_list, 1))
+    stats_out = await ask(
+        "extract_stats",
+        "Extract the sample size inputs (alpha as a decimal, power as a decimal, sided 1 or 2, effect size, "
+        "control rate, dropout) and every analysis method. For each analysis list the ids of the endpoints it "
+        "covers, chosen from the endpoint list. Use null when not stated.",
+        stats_lines, _StatsOut, extra=f"Endpoints:\n{catalog or 'none'}\n\nStatistics text:\n")
     return _assemble(objectives_out, criteria_out, stats_out, arms_out, obj_lines, crit_lines, stats_lines)
 
 
@@ -360,13 +365,14 @@ def _assemble(objectives_out, criteria_out, stats_out, arms_out, obj_lines, crit
 
     s = stats_out or _StatsOut()
     analyses = []
+    by_id = {e.id: e for e in endpoints}
     for a in s.analyses:
-        aid = f"ana_{len(analyses) + 1}"
-        target = max(endpoints, key=lambda e: fuzz.token_set_ratio(a.endpoint_text, e.text), default=None)
-        if target and fuzz.token_set_ratio(a.endpoint_text, target.text) >= 60:
-            target.analysis_ids.append(aid)
-        analyses.append({"id": aid, "endpoint_id": target.id if target else None, "method": a.method,
-                         "span": locate(a.quote, stats_lines).model_dump()})
+        for eid in [e for e in a.endpoint_ids if e in by_id] or [None]:
+            aid = f"ana_{len(analyses) + 1}"
+            if eid:
+                by_id[eid].analysis_ids.append(aid)
+            analyses.append({"id": aid, "endpoint_id": eid, "method": a.method,
+                             "span": locate(a.quote, stats_lines).model_dump()})
     stats = Stats(**s.model_dump(exclude={"analyses"}), analyses=analyses)
     arms = arms_out.arms if arms_out else []
     return {"objectives": objectives, "endpoints": endpoints, "criteria": criteria, "stats": stats, "arms": arms,

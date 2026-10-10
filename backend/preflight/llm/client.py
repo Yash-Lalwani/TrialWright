@@ -11,10 +11,15 @@ from preflight.llm import cache
 current_run_id: ContextVar[str | None] = ContextVar("current_run_id", default=None)
 
 _client = None
-_semaphore = asyncio.Semaphore(int(os.getenv("LLM_CONCURRENCY", "8")))
+_semaphore = None
+_loop = None
 
 
-class LLMCacheMiss(RuntimeError):
+class LLMUnavailable(RuntimeError):
+    """The LLM step cannot run (no cached answer in replay mode, API error, out of credit)."""
+
+
+class LLMCacheMiss(LLMUnavailable):
     pass
 
 
@@ -27,7 +32,12 @@ def mode() -> str:
 
 
 def _get_client():
-    global _client
+    """One client and semaphore per event loop (each asyncio.run gets fresh ones)."""
+    global _client, _semaphore, _loop
+    loop = asyncio.get_running_loop()
+    if _loop is not loop:
+        _client, _loop = None, loop
+        _semaphore = asyncio.Semaphore(int(os.getenv("LLM_CONCURRENCY", "8")))
     if _client is None:
         from openai import AsyncOpenAI
 
@@ -69,14 +79,26 @@ async def _call(step: str, system: str, user: str, temperature: float,
         kwargs["response_format"] = {"type": "json_object"}
 
     start = time.monotonic()
-    async with _semaphore:
-        resp = await _get_client().chat.completions.create(
-            model=model(),
-            temperature=temperature,
-            messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
-            extra_body={"usage": {"include": True}, "provider": {"data_collection": "deny"}},
-            **kwargs,
-        )
+    client = _get_client()
+    from openai import APIError
+
+    try:
+        async with _semaphore:
+            resp = await client.chat.completions.create(
+                model=model(),
+                temperature=temperature,
+                max_tokens=int(os.getenv("LLM_MAX_TOKENS", "4000")),
+                messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
+                extra_body={
+                    "usage": {"include": True},
+                    "provider": {"data_collection": "deny", "sort": "throughput"},
+                    # DeepSeek V4 otherwise spends ~10k hidden reasoning tokens per call (5 min on map_sections).
+                    "reasoning": {"enabled": os.getenv("LLM_REASONING", "false") == "true"},
+                },
+                **kwargs,
+            )
+    except APIError as e:
+        raise LLMUnavailable(f"{step}: {e}") from e
     latency = time.monotonic() - start
     content = resp.choices[0].message.content or ""
     usage = resp.usage

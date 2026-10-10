@@ -1,0 +1,7 @@
+{
+ "step": "extract_design",
+ "model": "deepseek/deepseek-v4-flash-0731",
+ "content": "{\n  \"condition\": \"RET fusion-positive, metastatic non-small cell lung cancer\",\n  \"sponsor\": \"Blueprint Medicines\",\n  \"arms\": [\n    {\n      \"name\": \"Pralsetinib (Arm A)\",\n      \"type\": \"Experimental\",\n      \"dose\": \"400 mg\",\n      \"route\": \"oral\",\n      \"frequency\": \"once a day\",\n      \"duration_weeks\": null\n    },\n    {\n      \"name\": \"Standard of Care (Arm B)\",\n      \"type\": \"Active Comparator\",\n      \"dose\": \"various\",\n      \"route\": \"intravenous\",\n      \"frequency\": \"every 3 weeks\",\n      \"duration_weeks\": 12\n    }\n  ]\n}",
+ "tokens_in": 3776,
+ "tokens_out": 156
+}

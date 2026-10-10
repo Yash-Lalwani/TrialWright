@@ -1,0 +1,7 @@
+{
+ "step": "extract_stats",
+ "model": "deepseek/deepseek-v4-flash-0731",
+ "content": "{\n  \"sample_size\": null,\n  \"alpha\": null,\n  \"sided\": null,\n  \"power\": null,\n  \"effect_size\": null,\n  \"effect_type\": null,\n  \"control_rate\": null,\n  \"dropout\": null,\n  \"analyses\": [\n    {\n      \"endpoint_text\": \"PFS\",\n      \"method\": \"descriptive\",\n      \"quote\": \"the analysis of PFS will only be reported in a descriptive manner.\"\n    },\n    {\n      \"endpoint_text\": \"OS\",\n      \"method\": \"Kaplan-Meier, stratified log-rank test, stratified Cox model\",\n      \"quote\": \"Time-to-event endpoints (i.e., PFS, OS, and DOR) will be estimated using Kaplan-Meier techniques.\"\n    },\n    {\n      \"endpoint_text\": \"DOR\",\n      \"method\": \"Kaplan-Meier, stratified log-rank test, stratified Cox model\",\n      \"quote\": \"Time-to-event endpoints (i.e., PFS, OS, and DOR) will be estimated using Kaplan-Meier techniques.\"\n    },\n    {\n      \"endpoint_text\": \"Categorical endpoints\",\n      \"method\": \"Clopper-Pearson exact CI, stratified Cochran-Mantel-Haenszel test\",\n      \"quote\": \"Categorical endpoints will be summarized by category for each treatment arm.\"\n    }\n  ]\n}",
+ "tokens_in": 1970,
+ "tokens_out": 291
+}
