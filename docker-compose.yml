@@ -1,0 +1,35 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      LLM_MODE: ${LLM_MODE:-replay}
+    volumes:
+      - ./data:/app/data
+      - backend-var:/app/var
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')"]
+      interval: 10s
+      retries: 5
+
+  # Placeholder until C adds frontend/Dockerfile; then replace with a build: frontend
+  frontend:
+    image: node:22-alpine
+    working_dir: /app
+    command: ["sh", "-c", "echo frontend placeholder until Next.js app lands; sleep infinity"]
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+      NEXT_PUBLIC_USE_MOCKS: "true"
+    depends_on:
+      - backend
+
+volumes:
+  backend-var:
