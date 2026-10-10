@@ -3,38 +3,68 @@
  "seed": 1,
  "source_pdf": "NCT04698187_protocol.pdf",
  "injected_pdf": "NCT04698187_s1.pdf",
- "target_errors": 9,
+ "target_errors": 8,
  "errors": [
   {
-   "type": "T06",
-   "name": "Age range changed in one place",
-   "page": 8,
+   "type": "T08",
+   "name": "Sample size changed in one place",
+   "page": 11,
    "bbox": [
-    149.3,
-    286.7,
-    160.3,
-    301.5
+    244.0,
+    617.3,
+    260.5,
+    632.1
    ],
-   "original": "18",
-   "new": "21",
-   "context": "8. Age ≥ 18 years at time of consent.",
-   "new_line": "8. Age ≥ 21 years at time of consent.",
-   "description": "Minimum age changed 18 -> 21 in one place only",
+   "original": "100",
+   "new": "120",
+   "context": "The study will enroll approximately 100 subjects. A subject is enrolled in the study when they have",
+   "new_line": "The study will enroll approximately 120 subjects. A subject is enrolled in the study when they have",
+   "description": "Sample size 100 changed to 120 in one place only",
    "expected_checks": [
     "C4"
    ],
-   "amendment_category": "eligibility",
+   "amendment_category": "statistics",
    "needs_llm": false,
    "match": {
     "pages": [
-     8,
-     39
+     11,
+     80
     ],
     "texts": [
-     "8. Age ≥ 21 years at time"
+     "approximately 120 subjects. A s"
     ]
    },
    "error_id": "NCT04698187-s1-01"
+  },
+  {
+   "type": "T14",
+   "name": "Cross-reference to a nonexistent section",
+   "page": 8,
+   "bbox": [
+    194.0,
+    576.6,
+    207.8,
+    591.4
+   ],
+   "original": "4.4",
+   "new": "99.4",
+   "context": "Refer to Section 4.4. for prohibited therapies.",
+   "new_line": "Refer to Section 99.4. for prohibited therapies.",
+   "description": "Reference to Section 4.4 changed to nonexistent Section 99.4",
+   "expected_checks": [
+    "C9"
+   ],
+   "amendment_category": "clerical",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     8
+    ],
+    "texts": [
+     "er to Section 99.4. for prohibit"
+    ]
+   },
+   "error_id": "NCT04698187-s1-02"
   },
   {
    "type": "T07",
@@ -67,128 +97,69 @@
      "ive nivolumab 450 mg IV over 30"
     ]
    },
-   "error_id": "NCT04698187-s1-02"
+   "error_id": "NCT04698187-s1-03"
   },
   {
-   "type": "T08",
-   "name": "Sample size changed in one place",
+   "type": "T09",
+   "name": "Power/effect changed so N not reproducible",
    "page": 11,
    "bbox": [
-    244.0,
-    617.3,
-    260.5,
-    632.1
+    286.2,
+    645.6,
+    297.2,
+    660.4
    ],
-   "original": "100",
-   "new": "120",
-   "context": "The study will enroll approximately 100 subjects. A subject is enrolled in the study when they have",
-   "new_line": "The study will enroll approximately 120 subjects. A subject is enrolled in the study when they have",
-   "description": "Sample size 100 changed to 120 in one place only",
+   "original": "90",
+   "new": "80",
+   "context": "A sample size of 69 subjects achieves at least 90% power to detect a difference of 13% using a",
+   "new_line": "A sample size of 69 subjects achieves at least 80% power to detect a difference of 13% using a",
+   "description": "Stated power changed 90% -> 80% everywhere, so N is no longer reproducible",
    "expected_checks": [
-    "C4"
+    "C7"
    ],
    "amendment_category": "statistics",
-   "needs_llm": false,
+   "needs_llm": true,
    "match": {
     "pages": [
      11,
      80
     ],
     "texts": [
-     "approximately 120 subjects. A s"
-    ]
-   },
-   "error_id": "NCT04698187-s1-03"
-  },
-  {
-   "type": "T14",
-   "name": "Cross-reference to a nonexistent section",
-   "page": 8,
-   "bbox": [
-    194.0,
-    576.6,
-    207.8,
-    591.4
-   ],
-   "original": "4.4",
-   "new": "99.4",
-   "context": "Refer to Section 4.4. for prohibited therapies.",
-   "new_line": "Refer to Section 99.4. for prohibited therapies.",
-   "description": "Reference to Section 4.4 changed to nonexistent Section 99.4",
-   "expected_checks": [
-    "C9"
-   ],
-   "amendment_category": "clerical",
-   "needs_llm": false,
-   "match": {
-    "pages": [
-     8
-    ],
-    "texts": [
-     "er to Section 99.4. for prohibit"
+     "eves at least 80% power to det"
     ]
    },
    "error_id": "NCT04698187-s1-04"
   },
   {
-   "type": "T13",
-   "name": "Lab threshold value conflicts between mentions",
-   "page": 7,
+   "type": "T06",
+   "name": "Age range changed in one place",
+   "page": 8,
    "bbox": [
-    239.2,
-    673.1,
-    260.9,
-    687.9
-   ],
-   "original": "1500",
-   "new": "3000",
-   "context": "neutrophil count ≥ 1500/mm3",
-   "new_line": "neutrophil count ≥ 3000/mm3",
-   "description": "Lab threshold 1500 changed to 3000 in one place only",
-   "expected_checks": [
-    "C8"
-   ],
-   "amendment_category": "eligibility",
-   "needs_llm": true,
-   "match": {
-    "pages": [
-     7
-    ],
-    "texts": [
-     "ophil count ≥ 3000/mm3"
-    ]
-   },
-   "error_id": "NCT04698187-s1-05"
-  },
-  {
-   "type": "T18",
-   "name": "Enrollment differs from registry record",
-   "page": 39,
-   "bbox": [
-    140.2,
-    382.4,
-    152.2,
-    398.6
+    149.3,
+    286.7,
+    160.3,
+    301.5
    ],
    "original": "18",
    "new": "21",
    "context": "8. Age ≥ 18 years at time of consent.",
    "new_line": "8. Age ≥ 21 years at time of consent.",
-   "description": "Minimum age changed 18 -> 21 everywhere; registry still says 18",
+   "description": "Minimum age changed 18 -> 21 in one place only",
    "expected_checks": [
-    "C10"
+    "C4"
    ],
-   "amendment_category": "registry",
+   "amendment_category": "eligibility",
    "needs_llm": false,
    "match": {
     "pages": [
+     8,
      39
     ],
     "texts": [
      "8. Age ≥ 21 years at time"
     ]
    },
-   "error_id": "NCT04698187-s1-06"
+   "error_id": "NCT04698187-s1-05"
   },
   {
    "type": "T16",
@@ -220,108 +191,155 @@
      "± 9d"
     ]
    },
-   "error_id": "NCT04698187-s1-07"
+   "error_id": "NCT04698187-s1-06"
   },
   {
-   "type": "T09",
-   "name": "Power/effect changed so N not reproducible",
-   "page": 11,
+   "type": "T13",
+   "name": "Lab threshold value conflicts between mentions",
+   "page": 7,
    "bbox": [
-    286.2,
-    645.6,
-    297.2,
-    660.4
+    239.2,
+    673.1,
+    260.9,
+    687.9
    ],
-   "original": "90",
-   "new": "80",
-   "context": "A sample size of 69 subjects achieves at least 90% power to detect a difference of 13% using a",
-   "new_line": "A sample size of 69 subjects achieves at least 80% power to detect a difference of 13% using a",
-   "description": "Stated power changed 90% -> 80% everywhere, so N is no longer reproducible",
+   "original": "1500",
+   "new": "3000",
+   "context": "neutrophil count ≥ 1500/mm3",
+   "new_line": "neutrophil count ≥ 3000/mm3",
+   "description": "Lab threshold 1500 changed to 3000 in one place only",
    "expected_checks": [
-    "C7"
+    "C8"
    ],
-   "amendment_category": "statistics",
+   "amendment_category": "eligibility",
    "needs_llm": true,
    "match": {
     "pages": [
-     11,
-     80
+     7
     ],
     "texts": [
-     "eves at least 80% power to det"
+     "ophil count ≥ 3000/mm3"
     ]
    },
-   "error_id": "NCT04698187-s1-08"
+   "error_id": "NCT04698187-s1-07"
   },
   {
-   "type": "T15",
-   "name": "Required M11 section removed",
-   "page": 80,
+   "type": "T18",
+   "name": "Enrollment differs from registry record",
+   "page": 39,
    "bbox": [
-    72.0,
-    227.9,
-    96.7,
-    247.9
+    140.2,
+    382.4,
+    152.2,
+    398.6
    ],
-   "original": "9.1 Sample Size Calculation",
-   "new": "(removed)",
-   "context": "9.1.",
-   "new_line": "(removed)9.1.",
-   "description": "Removed M11 10.11 9.1 Sample Size Calculation (12 lines)",
+   "original": "18",
+   "new": "21",
+   "context": "8. Age ≥ 18 years at time of consent.",
+   "new_line": "8. Age ≥ 21 years at time of consent.",
+   "description": "Minimum age changed 18 -> 21 everywhere; registry still says 18",
    "expected_checks": [
-    "B1"
+    "C10"
    ],
-   "amendment_category": "completeness",
+   "amendment_category": "registry",
    "needs_llm": false,
    "match": {
     "pages": [
-     80
+     39
     ],
-    "texts": [],
-    "titles": [
-     "M11 10.11 "
+    "texts": [
+     "8. Age ≥ 21 years at time"
     ]
    },
-   "m11_id": "10.11",
-   "error_id": "NCT04698187-s1-09"
+   "error_id": "NCT04698187-s1-08"
   }
  ],
  "skipped": [
   {
    "type": "T01",
-   "reason": "not implemented yet"
+   "reason": "endpoint timepoints are not extracted (timepoints_weeks is empty on the dev protocols), so the endpoint visit is unknown"
   },
   {
    "type": "T03",
-   "reason": "not implemented yet"
-  },
-  {
-   "type": "T04",
-   "reason": "not implemented yet"
-  },
-  {
-   "type": "T05",
-   "reason": "not implemented yet"
-  },
-  {
-   "type": "T12",
-   "reason": "not implemented yet"
+   "reason": "needs a synthesised SoA row with matching ruling lines; not implemented"
   },
   {
    "type": "T11",
    "reason": "protocol is not double-blind"
   },
   {
-   "type": "T17",
-   "reason": "durations are not stated at least twice"
+   "type": "T12",
+   "reason": "needs the LLM-extracted eligibility criteria (no LLM graph available)"
   },
   {
    "type": "T02",
    "reason": "no endpoint timepoint repeated across sections"
   },
   {
+   "type": "T17",
+   "reason": "durations are not stated at least twice"
+  },
+  {
+   "type": "T05",
+   "reason": "not sampled (target count reached)"
+  },
+  {
    "type": "T10",
-   "reason": "no randomisation ratio is stated twice"
+   "reason": "not sampled (target count reached)"
+  },
+  {
+   "type": "T04",
+   "reason": "not sampled (target count reached)"
+  },
+  {
+   "type": "T15",
+   "reason": "not sampled (target count reached)"
   }
+ ],
+ "touched": [
+  [
+   7,
+   "neutrophil count ≥ 1500/mm3"
+  ],
+  [
+   8,
+   "Refer to Section 4.4. for prohibited therapies."
+  ],
+  [
+   8,
+   "8. Age ≥ 18 years at time of consent."
+  ],
+  [
+   10,
+   "Subjects will receive nivolumab 360 mg IV over 30 minutes at W1D1 and Q3W thereafter until the"
+  ],
+  [
+   11,
+   "The study will enroll approximately 100 subjects. A subject is enrolled in the study when they have"
+  ],
+  [
+   11,
+   "A sample size of 69 subjects achieves at least 90% power to detect a difference of 13% using a"
+  ],
+  [
+   13,
+   "± 2d"
+  ],
+  [
+   13,
+   "± 2d"
+  ],
+  [
+   13,
+   "± 2d"
+  ],
+  [
+   39,
+   "8. Age ≥ 18 years at time of consent."
+  ],
+  [
+   80,
+   "A sample size of 69 subjects achieves at least 90% power to detect a difference of 13% using"
+  ]
  ]
 }

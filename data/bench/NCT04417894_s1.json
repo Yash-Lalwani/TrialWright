@@ -3,38 +3,8 @@
  "seed": 1,
  "source_pdf": "NCT04417894_protocol.pdf",
  "injected_pdf": "NCT04417894_s1.pdf",
- "target_errors": 10,
+ "target_errors": 8,
  "errors": [
-  {
-   "type": "T13",
-   "name": "Lab threshold value conflicts between mentions",
-   "page": 24,
-   "bbox": [
-    185.1,
-    202.6,
-    190.6,
-    217.5
-   ],
-   "original": "3",
-   "new": "6",
-   "context": "to ALT or AST >3 times ULN.",
-   "new_line": "to ALT or AST >6 times ULN.",
-   "description": "Lab threshold 3 changed to 6 in one place only",
-   "expected_checks": [
-    "C8"
-   ],
-   "amendment_category": "eligibility",
-   "needs_llm": true,
-   "match": {
-    "pages": [
-     24
-    ],
-    "texts": [
-     "o ALT or AST >6 times ULN."
-    ]
-   },
-   "error_id": "NCT04417894-s1-01"
-  },
   {
    "type": "T08",
    "name": "Sample size changed in one place",
@@ -68,37 +38,40 @@
      "Approximately 156 patients (65"
     ]
    },
-   "error_id": "NCT04417894-s1-02"
+   "error_id": "NCT04417894-s1-01"
   },
   {
-   "type": "T14",
-   "name": "Cross-reference to a nonexistent section",
-   "page": 13,
+   "type": "T15",
+   "name": "Required M11 section removed",
+   "page": 85,
    "bbox": [
-    182.0,
-    531.9,
-    201.2,
-    546.8
+    72.0,
+    70.3,
+    103.9,
+    89.7
    ],
-   "original": "11.5",
-   "new": "99.5",
-   "context": "already exists in Section 11.5.",
-   "new_line": "already exists in Section 99.5.",
-   "description": "Reference to Section 11.5 changed to nonexistent Section 99.5",
+   "original": "11.2 Justification of Sample Size",
+   "new": "(removed)",
+   "context": "11.2.",
+   "new_line": "(removed)11.2.",
+   "description": "Removed M11 10.11 11.2 Justification of Sample Size (15 lines)",
    "expected_checks": [
-    "C9"
+    "B1",
+    "B3"
    ],
-   "amendment_category": "clerical",
+   "amendment_category": "completeness",
    "needs_llm": false,
    "match": {
     "pages": [
-     13
+     85
     ],
-    "texts": [
-     "ts in Section 99.5."
+    "texts": [],
+    "titles": [
+     "M11 10.11 "
     ]
    },
-   "error_id": "NCT04417894-s1-03"
+   "m11_id": "10.11",
+   "error_id": "NCT04417894-s1-02"
   },
   {
    "type": "T11",
@@ -134,35 +107,64 @@
      "unblind"
     ]
    },
-   "error_id": "NCT04417894-s1-04"
+   "error_id": "NCT04417894-s1-03"
   },
   {
-   "type": "T09",
-   "name": "Power/effect changed so N not reproducible",
-   "page": 29,
+   "type": "T13",
+   "name": "Lab threshold value conflicts between mentions",
+   "page": 24,
    "bbox": [
-    434.6,
-    359.9,
-    444.6,
-    373.3
+    185.1,
+    202.6,
+    190.6,
+    217.5
    ],
-   "original": "85",
-   "new": "95",
-   "context": "treatment arm). This sample size will yield >85% power to detect a",
-   "new_line": "treatment arm). This sample size will yield >95% power to detect a",
-   "description": "Stated power changed 85% -> 95% everywhere, so N is no longer reproducible",
+   "original": "3",
+   "new": "6",
+   "context": "to ALT or AST >3 times ULN.",
+   "new_line": "to ALT or AST >6 times ULN.",
+   "description": "Lab threshold 3 changed to 6 in one place only",
    "expected_checks": [
-    "C7"
+    "C8"
    ],
-   "amendment_category": "statistics",
+   "amendment_category": "eligibility",
    "needs_llm": true,
    "match": {
     "pages": [
-     29,
-     85
+     24
     ],
     "texts": [
-     "e will yield >95% power to det"
+     "o ALT or AST >6 times ULN."
+    ]
+   },
+   "error_id": "NCT04417894-s1-04"
+  },
+  {
+   "type": "T14",
+   "name": "Cross-reference to a nonexistent section",
+   "page": 13,
+   "bbox": [
+    182.0,
+    531.9,
+    201.2,
+    546.8
+   ],
+   "original": "11.5",
+   "new": "99.5",
+   "context": "already exists in Section 11.5.",
+   "new_line": "already exists in Section 99.5.",
+   "description": "Reference to Section 11.5 changed to nonexistent Section 99.5",
+   "expected_checks": [
+    "C9"
+   ],
+   "amendment_category": "clerical",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     13
+    ],
+    "texts": [
+     "ts in Section 99.5."
     ]
    },
    "error_id": "NCT04417894-s1-05"
@@ -200,35 +202,36 @@
    "error_id": "NCT04417894-s1-06"
   },
   {
-   "type": "T15",
-   "name": "Required M11 section removed",
-   "page": 85,
+   "type": "T07",
+   "name": "Dose changed in one place",
+   "page": 27,
    "bbox": [
-    72.0,
-    70.3,
-    103.9,
-    89.7
+    489.3,
+    410.6,
+    504.4,
+    424.0
    ],
-   "original": "11.2 Justification of Sample Size",
-   "new": "(removed)",
-   "context": "11.2.",
-   "new_line": "(removed)11.2.",
-   "description": "Removed M11 10.11 11.2 Justification of Sample Size (12 lines)",
+   "original": "600",
+   "new": "750",
+   "context": "In adults: dupilumab 300 mg, after a loading dose of 600 mg on",
+   "new_line": "In adults: dupilumab 300 mg, after a loading dose of 750 mg on",
+   "description": "Dose 600 changed to 750 in one place only",
    "expected_checks": [
-    "B1"
+    "C4"
    ],
-   "amendment_category": "completeness",
+   "amendment_category": "intervention",
    "needs_llm": false,
    "match": {
     "pages": [
-     85
+     27,
+     38,
+     43,
+     53
     ],
-    "texts": [],
-    "titles": [
-     "M11 10.11 "
+    "texts": [
+     "ading dose of 750 mg on"
     ]
    },
-   "m11_id": "10.11",
    "error_id": "NCT04417894-s1-07"
   },
   {
@@ -261,77 +264,186 @@
     ]
    },
    "error_id": "NCT04417894-s1-08"
-  },
-  {
-   "type": "T07",
-   "name": "Dose changed in one place",
-   "page": 27,
-   "bbox": [
-    489.3,
-    410.6,
-    504.4,
-    424.0
-   ],
-   "original": "600",
-   "new": "750",
-   "context": "In adults: dupilumab 300 mg, after a loading dose of 600 mg on",
-   "new_line": "In adults: dupilumab 300 mg, after a loading dose of 750 mg on",
-   "description": "Dose 600 changed to 750 in one place only",
-   "expected_checks": [
-    "C4"
-   ],
-   "amendment_category": "intervention",
-   "needs_llm": false,
-   "match": {
-    "pages": [
-     27,
-     38,
-     43,
-     53
-    ],
-    "texts": [
-     "ading dose of 750 mg on"
-    ]
-   },
-   "error_id": "NCT04417894-s1-09"
   }
  ],
  "skipped": [
   {
    "type": "T01",
-   "reason": "not implemented yet"
+   "reason": "endpoint timepoints are not extracted (timepoints_weeks is empty on the dev protocols), so the endpoint visit is unknown"
   },
   {
    "type": "T03",
-   "reason": "not implemented yet"
-  },
-  {
-   "type": "T04",
-   "reason": "not implemented yet"
-  },
-  {
-   "type": "T05",
-   "reason": "not implemented yet"
-  },
-  {
-   "type": "T12",
-   "reason": "not implemented yet"
+   "reason": "needs a synthesised SoA row with matching ruling lines; not implemented"
   },
   {
    "type": "T02",
    "reason": "no endpoint timepoint repeated across sections"
   },
   {
+   "type": "T12",
+   "reason": "needs the LLM-extracted eligibility criteria (no LLM graph available)"
+  },
+  {
+   "type": "T17",
+   "reason": "durations are not stated at least twice"
+  },
+  {
    "type": "T16",
    "reason": "no row of at least 3 visit windows found"
+  },
+  {
+   "type": "T05",
+   "reason": "needs the LLM-extracted endpoint analyses (no LLM graph available)"
   },
   {
    "type": "T18",
    "reason": "protocol age mentions do not all equal the registry value 12"
   },
   {
-   "type": "T17",
-   "reason": "durations are not stated at least twice"
+   "type": "T04",
+   "reason": "needs the LLM-extracted objectives and endpoints (no LLM graph available)"
+  },
+  {
+   "type": "T09",
+   "reason": "not sampled (target count reached)"
   }
+ ],
+ "touched": [
+  [
+   13,
+   "already exists in Section 11.5."
+  ],
+  [
+   13,
+   "Removed description of unblinded"
+  ],
+  [
+   20,
+   "prior to the screening visit for patients ≥18 years old and"
+  ],
+  [
+   24,
+   "to ALT or AST >3 times ULN."
+  ],
+  [
+   26,
+   "Patients who meet the eligibility criteria will be randomized (1:1) to"
+  ],
+  [
+   27,
+   "Approximately 130 patients (65 patients per arm) will be enrolled at"
+  ],
+  [
+   27,
+   "In adults: dupilumab 300 mg, after a loading dose of 600 mg on"
+  ],
+  [
+   57,
+   "Emergency Unblinding"
+  ],
+  [
+   57,
+   "Unblinding of treatment assignment for a patient may be necessary due to a medical emergency or"
+  ],
+  [
+   57,
+   "treatment has been unblinded (Section 8.4.2)."
+  ],
+  [
+   58,
+   "• If unblinding is required:"
+  ],
+  [
+   58,
+   "− Only the investigator will make the decision to unblind the treatment assignment."
+  ],
+  [
+   58,
+   "− Only the affected patients will be unblinded."
+  ],
+  [
+   58,
+   "investigator for the site will unblind the patient."
+  ],
+  [
+   58,
+   "will notify Regeneron of the unblinding transaction."
+  ],
+  [
+   58,
+   "unblinding the patient"
+  ],
+  [
+   58,
+   "Treatment assignment is not to be provided to site personnel, other than the unblinded study"
+  ],
+  [
+   58,
+   "role will be the only unblinded member of the site personnel."
+  ],
+  [
+   85,
+   "11.2."
+  ],
+  [
+   85,
+   "Justification of Sample Size"
+  ],
+  [
+   85,
+   "The planned sample size is approximately 130 patients (65 patients in each treatment arm). This"
+  ],
+  [
+   85,
+   "sample size will yield >85% power to detect a treatment difference of 24% in the proportion of"
+  ],
+  [
+   85,
+   "patients achieving IGA hand and foot (0, 1) at week 16 between placebo (10%) and dupilumab"
+  ],
+  [
+   85,
+   "(34%) at a 2-sided significant level of 5% using Chi-square test and assuming a dropout rate of"
+  ],
+  [
+   85,
+   "10%. The assumed treatment difference of 24% is based on the effect of 26% observed in"
+  ],
+  [
+   85,
+   "dupilumab phase 3 monotherapy studies in adult patients with AD and adjusted to account for the"
+  ],
+  [
+   85,
+   "potential inclusion of some patients with ACD who would be missed with certain patch testing (ie,"
+  ],
+  [
+   85,
+   "TRUE test) at screening."
+  ],
+  [
+   85,
+   "It is reasonable to assume that the effect size of dupilumab on AD of hands and feet would be"
+  ],
+  [
+   85,
+   "similar to that seen in global AD lesions in previously conducted phase 3 trials as the underlying"
+  ],
+  [
+   85,
+   "pathophysiology is same. Moreover, a recent observational study to compare effect of dupilumab"
+  ],
+  [
+   85,
+   "on hand lesions vs. lesions on other parts of the body found a high degree of concordance in terms"
+  ],
+  [
+   85,
+   "of onset of effect and overall effect at week 16 (Oosterhaven, 2018)."
+  ],
+  [
+   91,
+   "No interim analysis is planned for this study. The unblinded primary analysis may be performed"
+  ]
  ]
 }

@@ -3,40 +3,67 @@
  "seed": 1,
  "source_pdf": "NCT04303780_protocol.pdf",
  "injected_pdf": "NCT04303780_s1.pdf",
- "target_errors": 10,
+ "target_errors": 11,
  "errors": [
   {
-   "type": "T15",
-   "name": "Required M11 section removed",
-   "page": 103,
+   "type": "T13",
+   "name": "Lab threshold value conflicts between mentions",
+   "page": 71,
    "bbox": [
-    108.0,
-    287.3,
-    126.3,
-    303.1
+    169.3,
+    234.5,
+    184.2,
+    246.8
    ],
-   "original": "9.2 Sample Size Determination",
-   "new": "(removed)",
-   "context": "9.2",
-   "new_line": "(removed)9.2",
-   "description": "Removed M11 10.11 9.2 Sample Size Determination (45 lines)",
+   "original": "500",
+   "new": "1000",
+   "context": "Neutrophils < 500 cells/mm3 for",
+   "new_line": "Neutrophils < 1000 cells/mm3 for",
+   "description": "Lab threshold 500 changed to 1000 in one place only",
    "expected_checks": [
-    "B1"
+    "C8"
    ],
-   "amendment_category": "completeness",
+   "amendment_category": "eligibility",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     71
+    ],
+    "texts": [
+     "Neutrophils < 1000 cells/mm3 for"
+    ]
+   },
+   "error_id": "NCT04303780-s1-01"
+  },
+  {
+   "type": "T14",
+   "name": "Cross-reference to a nonexistent section",
+   "page": 13,
+   "bbox": [
+    444.4,
+    679.3,
+    468.9,
+    694.4
+   ],
+   "original": "8.1.6",
+   "new": "99.1.6",
+   "context": "follow-up (SFU) period, and long-term follow-up period. See Section 8.1.6 and",
+   "new_line": "follow-up (SFU) period, and long-term follow-up period. See Section 99.1.6 and",
+   "description": "Reference to Section 8.1.6 changed to nonexistent Section 99.1.6",
+   "expected_checks": [
+    "C9"
+   ],
+   "amendment_category": "clerical",
    "needs_llm": false,
    "match": {
     "pages": [
-     103,
-     104
+     13
     ],
-    "texts": [],
-    "titles": [
-     "M11 10.11 "
+    "texts": [
+     "See Section 99.1.6 and"
     ]
    },
-   "m11_id": "10.11",
-   "error_id": "NCT04303780-s1-01"
+   "error_id": "NCT04303780-s1-02"
   },
   {
    "type": "T07",
@@ -71,68 +98,40 @@
      "dispensed at 1200 mg once daily"
     ]
    },
-   "error_id": "NCT04303780-s1-02"
-  },
-  {
-   "type": "T17",
-   "name": "Treatment/follow-up duration no longer adds up",
-   "page": 17,
-   "bbox": [
-    207.1,
-    165.8,
-    213.3,
-    180.8
-   ],
-   "original": "3",
-   "new": "9",
-   "context": "be at approximately 3 months after PFS primary analysis. The analysis of ORR will be",
-   "new_line": "be at approximately 9 months after PFS primary analysis. The analysis of ORR will be",
-   "description": "Duration 3 changed to 9 in one place; total no longer adds up",
-   "expected_checks": [
-    "C6"
-   ],
-   "amendment_category": "design",
-   "needs_llm": false,
-   "match": {
-    "pages": [
-     17,
-     20,
-     21
-    ],
-    "texts": [
-     "approximately 9 months after"
-    ]
-   },
    "error_id": "NCT04303780-s1-03"
   },
   {
-   "type": "T14",
-   "name": "Cross-reference to a nonexistent section",
-   "page": 13,
+   "type": "T15",
+   "name": "Required M11 section removed",
+   "page": 103,
    "bbox": [
-    444.4,
-    679.3,
-    468.9,
-    694.4
+    108.0,
+    287.3,
+    126.3,
+    303.1
    ],
-   "original": "8.1.6",
-   "new": "99.1.6",
-   "context": "follow-up (SFU) period, and long-term follow-up period. See Section 8.1.6 and",
-   "new_line": "follow-up (SFU) period, and long-term follow-up period. See Section 99.1.6 and",
-   "description": "Reference to Section 8.1.6 changed to nonexistent Section 99.1.6",
+   "original": "9.2 Sample Size Determination",
+   "new": "(removed)",
+   "context": "9.2",
+   "new_line": "(removed)9.2",
+   "description": "Removed M11 10.11 9.2 Sample Size Determination (45 lines)",
    "expected_checks": [
-    "C9"
+    "B1",
+    "B3"
    ],
-   "amendment_category": "clerical",
+   "amendment_category": "completeness",
    "needs_llm": false,
    "match": {
     "pages": [
-     13
+     103,
+     104
     ],
-    "texts": [
-     "See Section 99.1.6 and"
+    "texts": [],
+    "titles": [
+     "M11 10.11 "
     ]
    },
+   "m11_id": "10.11",
    "error_id": "NCT04303780-s1-04"
   },
   {
@@ -237,6 +236,38 @@
    "error_id": "NCT04303780-s1-07"
   },
   {
+   "type": "T17",
+   "name": "Treatment/follow-up duration no longer adds up",
+   "page": 17,
+   "bbox": [
+    207.1,
+    165.8,
+    213.3,
+    180.8
+   ],
+   "original": "3",
+   "new": "9",
+   "context": "be at approximately 3 months after PFS primary analysis. The analysis of ORR will be",
+   "new_line": "be at approximately 9 months after PFS primary analysis. The analysis of ORR will be",
+   "description": "Duration 3 changed to 9 in one place; total no longer adds up",
+   "expected_checks": [
+    "C6"
+   ],
+   "amendment_category": "design",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     17,
+     20,
+     21
+    ],
+    "texts": [
+     "approximately 9 months after"
+    ]
+   },
+   "error_id": "NCT04303780-s1-08"
+  },
+  {
    "type": "T02",
    "name": "Endpoint timepoint changed in one place",
    "page": 13,
@@ -265,75 +296,263 @@
      "eline to Week 14 in PRO endpoi"
     ]
    },
-   "error_id": "NCT04303780-s1-08"
-  },
-  {
-   "type": "T13",
-   "name": "Lab threshold value conflicts between mentions",
-   "page": 71,
-   "bbox": [
-    169.3,
-    234.5,
-    184.2,
-    246.8
-   ],
-   "original": "500",
-   "new": "1000",
-   "context": "Neutrophils < 500 cells/mm3 for",
-   "new_line": "Neutrophils < 1000 cells/mm3 for",
-   "description": "Lab threshold 500 changed to 1000 in one place only",
-   "expected_checks": [
-    "C8"
-   ],
-   "amendment_category": "eligibility",
-   "needs_llm": true,
-   "match": {
-    "pages": [
-     71
-    ],
-    "texts": [
-     "Neutrophils < 1000 cells/mm3 for"
-    ]
-   },
    "error_id": "NCT04303780-s1-09"
   }
  ],
  "skipped": [
   {
    "type": "T01",
-   "reason": "not implemented yet"
+   "reason": "endpoint timepoints are not extracted (timepoints_weeks is empty on the dev protocols), so the endpoint visit is unknown"
   },
   {
    "type": "T03",
-   "reason": "not implemented yet"
-  },
-  {
-   "type": "T04",
-   "reason": "not implemented yet"
-  },
-  {
-   "type": "T05",
-   "reason": "not implemented yet"
-  },
-  {
-   "type": "T12",
-   "reason": "not implemented yet"
+   "reason": "needs a synthesised SoA row with matching ruling lines; not implemented"
   },
   {
    "type": "T06",
    "reason": "minimum age is stated only once, so a change cannot create an inconsistency"
   },
   {
-   "type": "T18",
-   "reason": "protocol age mentions do not all equal the registry value 18"
+   "type": "T04",
+   "reason": "needs the LLM-extracted objectives and endpoints (no LLM graph available)"
+  },
+  {
+   "type": "T05",
+   "reason": "needs the LLM-extracted endpoint analyses (no LLM graph available)"
   },
   {
    "type": "T11",
    "reason": "fewer than 2 blinding/unblinding lines to remove"
   },
   {
+   "type": "T18",
+   "reason": "protocol age mentions do not all equal the registry value 18"
+  },
+  {
    "type": "T16",
    "reason": "no row of at least 3 visit windows found"
+  },
+  {
+   "type": "T12",
+   "reason": "needs the LLM-extracted eligibility criteria (no LLM graph available)"
   }
+ ],
+ "touched": [
+  [
+   13,
+   "follow-up (SFU) period, and long-term follow-up period. See Section 8.1.6 and"
+  ],
+  [
+   13,
+   "Change from baseline to Week 12 in PRO endpoints between AMG 510 and docetaxel, for"
+  ],
+  [
+   14,
+   "KRAS p.G12C mutation will be enrolled and randomized 1:1 to receive either AMG 510"
+  ],
+  [
+   17,
+   "administered to a subject. AMG 510 will be dispensed at 960 mg once daily (QD) orally"
+  ],
+  [
+   17,
+   "Approximately 330 subjects with locally advanced unresectable or metastatic NSCLC"
+  ],
+  [
+   17,
+   "be at approximately 3 months after PFS primary analysis. The analysis of ORR will be"
+  ],
+  [
+   19,
+   "mutation. A total of 230 PFS events are required to provide at least 90% power to"
+  ],
+  [
+   20,
+   "study will have ~90% power to show a statistically significant PFS at the 2.5% 1-sided"
+  ],
+  [
+   71,
+   "Neutrophils < 500 cells/mm3 for"
+  ],
+  [
+   103,
+   "9.2"
+  ],
+  [
+   103,
+   "Sample Size Determination"
+  ],
+  [
+   103,
+   "The PA of PFS will occur when approximately 230 PFS events have been observed."
+  ],
+  [
+   103,
+   "With 230 PFS events, the study will have ~90% power to show a statistically significant"
+  ],
+  [
+   103,
+   "PFS at the 2.5% 1-sided significance level if the true treatment effect hazard ratio (HR)"
+  ],
+  [
+   103,
+   "is assumed 0.65 for the AMG 510 arm versus the control arm. The sample size is"
+  ],
+  [
+   103,
+   "chosen to have 70% maturity realizing PFS events, which is approximately 330 subjects"
+  ],
+  [
+   103,
+   "with 1:1 randomization ratio into the AMG 510 arm and the docetaxel arm. The PFS PA"
+  ],
+  [
+   103,
+   "may be delayed to ensure that the enrollment is finished and the delayed PA will be"
+  ],
+  [
+   103,
+   "triggered when the last randomized subject have had the opportunity to have at least"
+  ],
+  [
+   103,
+   "6 weeks of follow up."
+  ],
+  [
+   103,
+   "An IA is planned when approximately 70% (160) of the target PFS events have been"
+  ],
+  [
+   103,
+   "observed from both arms, or when the enrollment is finished and the last randomized"
+  ],
+  [
+   103,
+   "subject have had the opportunity to have 6 weeks of follow up, whichever occurs later."
+  ],
+  [
+   103,
+   "The monitoring boundary for early stopping for efficacy will be based on an"
+  ],
+  [
+   103,
+   "O’Brien-Fleming type alpha spending function for multiplicity adjustment. The actual"
+  ],
+  [
+   103,
+   "information fraction will be calculated based on the number of observed events at the"
+  ],
+  [
+   103,
+   "time of the analysis. Under exponential distribution, the minimum detectable difference"
+  ],
+  [
+   103,
+   "for success in this design is an HR of 0.68 between AMG 510 arm and the docetaxel"
+  ],
+  [
+   103,
+   "arm with 160 PFS events, 70% of the target PFS events, and an HR of 0.769 at the PA"
+  ],
+  [
+   103,
+   "with 230 PFS events. Assuming an enrollment rate of 40 subjects per month after a"
+  ],
+  [
+   103,
+   "3-month ramp-up period, with a total sample size of 330, it is estimated that"
+  ],
+  [
+   103,
+   "approximately 19 months will be required to reach 230 PFS events, and 13 months will"
+  ],
+  [
+   103,
+   "be required to reach 70% (160) of the target PFS events. This estimation is based on a"
+  ],
+  [
+   104,
+   "median PFS of 5 months for the control arm (Charpidou et al, 2019) and 7.7 months for"
+  ],
+  [
+   104,
+   "the AMG 510 arm, and a 10% dropout rate."
+  ],
+  [
+   104,
+   "If PFS achieves statistical significance at the interim analysis, an administrative interim"
+  ],
+  [
+   104,
+   "summary for OS will be performed with approximately 107 OS events (~32%"
+  ],
+  [
+   104,
+   "maturity) observed. A nominal alpha of 0.01% (negligible impact on overall type I error"
+  ],
+  [
+   104,
+   "rate) will be spent on this OS interim summary. Otherwise, the OS will be assessed for"
+  ],
+  [
+   104,
+   "superiority of AMG 510 over docetaxel at either the time of PFS primary analysis or after"
+  ],
+  [
+   104,
+   "175 OS events (~53% maturity) have been observed, whichever is later. Assuming the"
+  ],
+  [
+   104,
+   "actual crossover rate of approximately 30% at the time of PFS primary analysis for"
+  ],
+  [
+   104,
+   "subjects on the control arm who have disease progression, then with 175 OS events, the"
+  ],
+  [
+   104,
+   "study has ~96% probability to observe a HR < 1 when the true OS HR is 0.75."
+  ],
+  [
+   104,
+   "The OS primary analysis will occur when at least 198 OS events (~60% maturity) have"
+  ],
+  [
+   104,
+   "been observed, which is expected to be at approximately 3 months after PFS primary"
+  ],
+  [
+   104,
+   "analysis, with the same enrollment assumptions. The estimation is based on a median"
+  ],
+  [
+   104,
+   "OS of 9 months for the control arm and 12 months for the AMG 510 arm (OS HR=0.75)."
+  ],
+  [
+   104,
+   "The multiplicity will be adjusted as necessary based on O’Brien-Fleming type alpha"
+  ],
+  [
+   104,
+   "spending function."
+  ],
+  [
+   104,
+   "As designed, the trial will not be terminated at PFS analyses and subjects will continue"
+  ],
+  [
+   104,
+   "to be followed for OS data until the targeted number of events are reached, regardless of"
+  ],
+  [
+   104,
+   "the OS analysis result at the PFS primary analysis, to enable OS analyses and a robust"
+  ],
+  [
+   104,
+   "description of the totality of the data."
+  ]
  ]
 }
