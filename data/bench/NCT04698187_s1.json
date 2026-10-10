@@ -1,0 +1,273 @@
+{
+ "nct_id": "NCT04698187",
+ "seed": 1,
+ "source_pdf": "NCT04698187_protocol.pdf",
+ "injected_pdf": "NCT04698187_s1.pdf",
+ "target_errors": 9,
+ "errors": [
+  {
+   "type": "T06",
+   "name": "Age range changed in one place",
+   "page": 8,
+   "bbox": [
+    149.3,
+    286.7,
+    160.3,
+    301.5
+   ],
+   "original": "18",
+   "new": "21",
+   "context": "8. Age ≥ 18 years at time of consent.",
+   "new_line": "8. Age ≥ 21 years at time of consent.",
+   "description": "Minimum age changed 18 -> 21 in one place only",
+   "expected_checks": [
+    "C4"
+   ],
+   "amendment_category": "eligibility",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     8,
+     39
+    ],
+    "texts": [
+     "8. Age ≥ 21 years at time"
+    ]
+   },
+   "error_id": "NCT04698187-s1-01"
+  },
+  {
+   "type": "T07",
+   "name": "Dose changed in one place",
+   "page": 10,
+   "bbox": [
+    227.6,
+    381.6,
+    244.1,
+    396.4
+   ],
+   "original": "360",
+   "new": "450",
+   "context": "Subjects will receive nivolumab 360 mg IV over 30 minutes at W1D1 and Q3W thereafter until the",
+   "new_line": "Subjects will receive nivolumab 450 mg IV over 30 minutes at W1D1 and Q3W thereafter until the",
+   "description": "Dose 360 changed to 450 in one place only",
+   "expected_checks": [
+    "C4"
+   ],
+   "amendment_category": "intervention",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     10,
+     32,
+     45,
+     46
+    ],
+    "texts": [
+     "ive nivolumab 450 mg IV over 30"
+    ]
+   },
+   "error_id": "NCT04698187-s1-02"
+  },
+  {
+   "type": "T08",
+   "name": "Sample size changed in one place",
+   "page": 11,
+   "bbox": [
+    244.0,
+    617.3,
+    260.5,
+    632.1
+   ],
+   "original": "100",
+   "new": "120",
+   "context": "The study will enroll approximately 100 subjects. A subject is enrolled in the study when they have",
+   "new_line": "The study will enroll approximately 120 subjects. A subject is enrolled in the study when they have",
+   "description": "Sample size 100 changed to 120 in one place only",
+   "expected_checks": [
+    "C4"
+   ],
+   "amendment_category": "statistics",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     11,
+     80
+    ],
+    "texts": [
+     "approximately 120 subjects. A s"
+    ]
+   },
+   "error_id": "NCT04698187-s1-03"
+  },
+  {
+   "type": "T14",
+   "name": "Cross-reference to a nonexistent section",
+   "page": 8,
+   "bbox": [
+    194.0,
+    576.6,
+    207.8,
+    591.4
+   ],
+   "original": "4.4",
+   "new": "99.4",
+   "context": "Refer to Section 4.4. for prohibited therapies.",
+   "new_line": "Refer to Section 99.4. for prohibited therapies.",
+   "description": "Reference to Section 4.4 changed to nonexistent Section 99.4",
+   "expected_checks": [
+    "C9"
+   ],
+   "amendment_category": "clerical",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     8
+    ],
+    "texts": [
+     "er to Section 99.4. for prohibit"
+    ]
+   },
+   "error_id": "NCT04698187-s1-04"
+  },
+  {
+   "type": "T13",
+   "name": "Lab threshold value conflicts between mentions",
+   "page": 7,
+   "bbox": [
+    239.2,
+    673.1,
+    260.9,
+    687.9
+   ],
+   "original": "1500",
+   "new": "3000",
+   "context": "neutrophil count ≥ 1500/mm3",
+   "new_line": "neutrophil count ≥ 3000/mm3",
+   "description": "Lab threshold 1500 changed to 3000 in one place only",
+   "expected_checks": [
+    "C8"
+   ],
+   "amendment_category": "eligibility",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     7
+    ],
+    "texts": [
+     "ophil count ≥ 3000/mm3"
+    ]
+   },
+   "error_id": "NCT04698187-s1-05"
+  },
+  {
+   "type": "T16",
+   "name": "Visit windows made to overlap",
+   "page": 13,
+   "bbox": [
+    249.6,
+    155.6,
+    254.1,
+    168.1
+   ],
+   "original": "2",
+   "new": "9",
+   "context": "± 2d",
+   "new_line": "± 9d",
+   "description": "Visit windows widened to +/-9 days on three adjacent visits",
+   "expected_checks": [
+    "C6"
+   ],
+   "amendment_category": "visit_schedule",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     13
+    ],
+    "texts": [
+     "± 9d",
+     "± 9d",
+     "± 9d"
+    ]
+   },
+   "error_id": "NCT04698187-s1-06"
+  },
+  {
+   "type": "T09",
+   "name": "Power/effect changed so N not reproducible",
+   "page": 11,
+   "bbox": [
+    286.2,
+    645.6,
+    297.2,
+    660.4
+   ],
+   "original": "90",
+   "new": "80",
+   "context": "A sample size of 69 subjects achieves at least 90% power to detect a difference of 13% using a",
+   "new_line": "A sample size of 69 subjects achieves at least 80% power to detect a difference of 13% using a",
+   "description": "Stated power changed 90% -> 80% everywhere, so N is no longer reproducible",
+   "expected_checks": [
+    "C7"
+   ],
+   "amendment_category": "statistics",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     11,
+     80
+    ],
+    "texts": [
+     "eves at least 80% power to det"
+    ]
+   },
+   "error_id": "NCT04698187-s1-07"
+  }
+ ],
+ "skipped": [
+  {
+   "type": "T01",
+   "reason": "not implemented yet"
+  },
+  {
+   "type": "T03",
+   "reason": "not implemented yet"
+  },
+  {
+   "type": "T04",
+   "reason": "not implemented yet"
+  },
+  {
+   "type": "T05",
+   "reason": "not implemented yet"
+  },
+  {
+   "type": "T12",
+   "reason": "not implemented yet"
+  },
+  {
+   "type": "T11",
+   "reason": "protocol is not double-blind"
+  },
+  {
+   "type": "T17",
+   "reason": "durations are not stated at least twice"
+  },
+  {
+   "type": "T02",
+   "reason": "no endpoint timepoint repeated across sections"
+  },
+  {
+   "type": "T18",
+   "reason": "age mentions overlap other injections"
+  },
+  {
+   "type": "T10",
+   "reason": "no randomisation ratio is stated twice"
+  },
+  {
+   "type": "T15",
+   "reason": "no removable M11 section of at most 2 pages found"
+  }
+ ]
+}

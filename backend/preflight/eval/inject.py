@@ -56,6 +56,8 @@ class Ctx:
 
     def lines(self, pno: int) -> list[dict]:
         """Text lines of a page (1-indexed) with spans, in reading order."""
+        if not 1 <= pno <= len(self.doc):
+            return []  # injectors scan fixed page ranges; short documents just have fewer pages
         if pno not in self._lines:
             page = self.doc[pno - 1]
             out = []
@@ -309,7 +311,9 @@ def t10_ratio(ctx: Ctx):
 
 def t14_xref(ctx: Ctx):
     hits = find(ctx, r"[Ss]ection\s+(\d{1,2}(?:\.\d{1,2}){1,3})\b", pages=range(8, min(len(ctx.doc), 80) + 1))
-    hits = [h for h in hits if "\u2026" not in h.line and not re.search(r"\.{4,}", h.line)]
+    # in-text references only: not table rows / TOC entries such as "Section 7.2.1 Inclusion Criteria"
+    hits = [h for h in hits if not re.search(r"\.{4,}", h.line) and not h.line.lstrip().lower().startswith("section")
+            and re.search(r"\b(see|refer(?:red)? to|per|in|of|under|described|detailed|outlined|\()\W*(?:also\W+)?Section", h.line, re.I)]
     h = _choose(ctx, hits)
     if not h:
         return Skip("T14", "no in-text section cross-reference found")
@@ -440,7 +444,7 @@ def t11_blinding(ctx: Ctx):
     h = Hit(first[0], first[1]["text"], "", 0, first[1]["rect"], 0, first[1]["rect"])
     e = error("T11", h, "(removed)", f"Removed {len(lines)} lines about unblinding / randomisation codes")
     e["original"] = first[1]["text"][:80]
-    e["match"] = {"pages": sorted({p for p, _ in lines}), "texts": []}
+    e["match"] = {"pages": sorted({p for p, _ in lines}), "texts": [], "titles": ["unblinding procedure", "unblind"]}
     return e
 
 
@@ -488,15 +492,13 @@ NOT_YET = ["T01", "T03", "T04", "T05", "T12"]  # need SoA cell geometry or inser
 
 
 def _sections(pdf: str):
-    import asyncio
-
-    from preflight.ingest.m11_map import map_sections
+    """M11-mapped sections via A's ingest, heading-match only (no LLM, no event loop needed)."""
+    from preflight.ingest.m11_map import load_toc, match
     from preflight.ingest.pdf import read_pdf
     from preflight.ingest.sections import split_sections
 
-    parts = split_sections(read_pdf(pdf))
-    mapped = asyncio.run(map_sections([s for s, _ in parts], use_llm=False))
-    return mapped
+    toc = load_toc()
+    return [s.model_copy(update={"m11_id": match(s, toc)}) for s, _ in split_sections(read_pdf(pdf))]
 
 
 def inject_file(pdf: str, out_dir: str, seed: int, n_target: tuple[int, int] = (8, 12), registry: dict | None = None,
@@ -526,7 +528,7 @@ def inject_file(pdf: str, out_dir: str, seed: int, n_target: tuple[int, int] = (
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
     stem = f"{nct}_s{seed}"
-    doc.save(out / f"{stem}.pdf", garbage=3, deflate=True)
+    doc.save(out / f"{stem}.pdf", garbage=3, deflate=True, no_new_id=True)
     key = {"nct_id": nct, "seed": seed, "source_pdf": Path(pdf).name, "injected_pdf": f"{stem}.pdf",
            "target_errors": target, "errors": errors, "skipped": skipped}
     (out / f"{stem}.json").write_text(json.dumps(key, indent=1, ensure_ascii=False))
