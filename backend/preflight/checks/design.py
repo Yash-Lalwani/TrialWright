@@ -15,8 +15,11 @@ def _design_sections(graph: ProtocolGraph):
 
 
 def _span(section, pattern) -> Span | None:
+    """First line using the pattern about this trial; 'a double-blind study' describes some other or hypothetical
+    trial, so mentions after 'a'/'an'/'other' are skipped."""
     for line in section.text.split("\n"):
-        if re.search(pattern, line, re.I):
+        m = re.search(pattern, line, re.I)
+        if m and not re.search(r"\b(a|an|other|another|previous|prior)\s+$", line[:m.start()], re.I):
             return Span(page=section.page_start, bbox=None, quote=line.strip()[:200])
     return None
 

@@ -65,7 +65,7 @@ def slices(graph: ProtocolGraph, thin: list[str], rule_titles: list[str]) -> dic
     return {
         "medical_writer": f"Thin or missing sections: {', '.join(thin) or 'none'}\n\n"
                           + _section_text(s, ("1.1", "4.1", "3"), MAX_CHARS),
-        "clinical_scientist": _section_text(s, ("5.1", "5.2", "3", "8.2", "9"), MAX_CHARS),
+        "clinical_scientist": _section_text(s, ("5.2", "5.3", "3", "8.4", "9"), MAX_CHARS),
         "biostatistician": f"Extracted facts: {facts}\n\n" + _section_text(s, ("3", "10"), MAX_CHARS - 3000),
         "clinical_ops": _soa_table(graph)[:6000] + "\n\nRule findings already raised:\n" + "\n".join(rule_titles[:20])
                         + "\n\n" + _section_text(s, ("8",), MAX_CHARS - 7000),

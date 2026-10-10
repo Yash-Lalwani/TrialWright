@@ -8,10 +8,10 @@ def sec(title, level=2):
 
 def test_match_headings_to_m11():
     cases = {
-        "5.1 INCLUSION CRITERIA FOR ALL PARTICIPANTS": "5.1",
-        "4.2 Exclusion criteria": "5.2",
+        "5.1 INCLUSION CRITERIA FOR ALL PARTICIPANTS": "5.2",
+        "4.2 Exclusion criteria": "5.3",
         "1.3 Schedule of Assessments": "1.3",
-        "9.2 SAMPLE SIZE DETERMINATION": "10.1",
+        "9.2 SAMPLE SIZE DETERMINATION": "10.11",
         "8.1 Definition of AEs": None,
         "6.3 TREATMENT ASSIGNMENT": None,
     }

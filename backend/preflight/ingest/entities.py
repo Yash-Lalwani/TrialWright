@@ -95,7 +95,7 @@ def extract_numbers(lines: list[Line]) -> list[NumberFact]:
 
 def age_limits(facts: list[NumberFact], sections: list[Section]) -> tuple[float | None, float | None]:
     """Prefer ages stated inside the inclusion criteria pages."""
-    incl = [s for s in sections if s.m11_id == "5.1"] or [s for s in sections if "inclusion" in s.title.lower()]
+    incl = [s for s in sections if s.m11_id == "5.2"] or [s for s in sections if "inclusion" in s.title.lower()]
     pages = {p for s in incl for p in range(s.page_start, s.page_end + 1)}
 
     def pick(kind):
@@ -309,7 +309,7 @@ async def extract_llm(parts: list[tuple[Section, list[Line]]]) -> dict:
     from preflight.llm.client import complete_json
 
     obj_lines = effective_parts(parts, ("3",)) or effective_parts(parts, ("1.1",))
-    crit_lines = effective_parts(parts, ("5.1", "5.2"))
+    crit_lines = effective_parts(parts, ("5.2", "5.3"))
     stats_lines = effective_parts(parts, ("10",))
     design_lines = effective_parts(parts, ("1.1", "4.1", "6")) or effective_parts(parts, ("4",))
 

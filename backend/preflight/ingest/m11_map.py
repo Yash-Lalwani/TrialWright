@@ -28,26 +28,26 @@ STUB_TOC = [
     {"id": "4.2", "title": "Rationale for Trial Design", "synonyms": ["Rationale for Study Design"]},
     {"id": "4.4", "title": "Start of Trial and End of Trial", "synonyms": ["End of Study", "End of Study Definition"]},
     {"id": "5", "title": "Trial Population", "synonyms": ["Study Population", "Selection of Patients"]},
-    {"id": "5.1", "title": "Inclusion Criteria"},
-    {"id": "5.2", "title": "Exclusion Criteria"},
-    {"id": "5.3", "title": "Lifestyle Considerations", "synonyms": ["Restrictions During the Study"]},
-    {"id": "5.4", "title": "Screen Failure and Rescreening", "synonyms": ["Screen Failures"]},
+    {"id": "5.2", "title": "Inclusion Criteria"},
+    {"id": "5.3", "title": "Exclusion Criteria"},
+    {"id": "5.5", "title": "Lifestyle Considerations", "synonyms": ["Restrictions During the Study"]},
+    {"id": "5.6", "title": "Screen Failure and Rescreening", "synonyms": ["Screen Failures"]},
     {"id": "6", "title": "Trial Intervention and Concomitant Therapy",
      "synonyms": ["Study Treatment", "Study Drug and Other Treatments", "Study Treatments"]},
-    {"id": "6.9", "title": "Concomitant Therapy", "synonyms": ["Concomitant Medications", "Concomitant Treatments"]},
+    {"id": "6.10", "title": "Concomitant Therapy", "synonyms": ["Concomitant Medications", "Concomitant Treatments"]},
     {"id": "7",
      "title": "Participant Discontinuation of Trial Intervention and Discontinuation or Withdrawal from Trial",
      "synonyms": ["Discontinuation", "Withdrawal", "Patient Discontinuation", "Discontinuation of Study Treatment",
                   "Participant Discontinuation or Withdrawal", "Criteria for Discontinuation"]},
     {"id": "8", "title": "Trial Assessments and Procedures",
      "synonyms": ["Study Assessments", "Study Procedures", "Study Evaluations", "Assessment of Efficacy"]},
-    {"id": "8.1", "title": "Efficacy Assessments", "synonyms": ["Efficacy Evaluation"]},
-    {"id": "8.2", "title": "Safety Assessments", "synonyms": ["Safety Evaluation", "Safety Parameters"]},
+    {"id": "8.3", "title": "Efficacy Assessments", "synonyms": ["Efficacy Evaluation"]},
+    {"id": "8.4", "title": "Safety Assessments", "synonyms": ["Safety Evaluation", "Safety Parameters"]},
     {"id": "9", "title": "Adverse Events, Serious Adverse Events, Product Complaints, Pregnancy",
      "synonyms": ["Adverse Events", "Safety Reporting", "Safety Reports and AE Management"]},
     {"id": "10", "title": "Statistical Considerations",
      "synonyms": ["Statistical Analysis", "Statistical Methods", "Statistical Considerations and Analysis Plan"]},
-    {"id": "10.1", "title": "Sample Size Determination",
+    {"id": "10.11", "title": "Sample Size Determination",
      "synonyms": ["Determination of Sample Size", "Statistical Hypothesis and Sample Size", "Sample Size"]},
     {"id": "10.2", "title": "Analysis Sets", "synonyms": ["Populations for Analyses", "Definition of Analysis Sets"]},
     {"id": "11", "title": "Trial Oversight and Other General Considerations",
@@ -63,14 +63,32 @@ STUB_TOC = [
 ]
 
 THRESHOLD = 85
+SCOPED_THRESHOLD = 70
 MAX_LEFTOVERS = 60
 
 
+# Chapter names common in pre-M11 protocols, added to the YAML synonyms (shared with B for the YAML).
+EXTRA_SYNONYMS = {
+    "2": ["background", "background and rationale"],
+    "5": ["study population", "patients", "selection of patients"],
+    "6": ["study drug and other treatments", "study treatment", "study treatments"],
+    "8": ["study evaluations", "study assessments", "study procedure", "study procedures", "study assessments and "
+          "procedures"],
+    "9": ["safety reports and ae management", "assessment of safety", "safety reporting", "adverse event reporting"],
+    "11": ["ethics", "ethical considerations", "study management", "quality assurance and quality control",
+           "study documentation, monitoring, and administration", "data collection and management"],
+}
+
+
 def load_toc() -> list[dict]:
-    if TOC_PATH.exists():
-        data = yaml.safe_load(TOC_PATH.read_text())
-        return data["items"] if isinstance(data, dict) else data
-    return STUB_TOC
+    if not TOC_PATH.exists():
+        return STUB_TOC
+    data = yaml.safe_load(TOC_PATH.read_text())
+    items = data["items"] if isinstance(data, dict) else data
+    for item in items:
+        if item["id"] in EXTRA_SYNONYMS:
+            item["synonyms"] = [*(item.get("synonyms") or []), *EXTRA_SYNONYMS[item["id"]]]
+    return items
 
 
 def _clean(title: str) -> str:
@@ -90,20 +108,36 @@ def _score(title: str, item: dict) -> tuple[float, float]:
     return best
 
 
-def match(section: Section, toc: list[dict]) -> str | None:
+def match(section: Section, toc: list[dict], chapter: str | None = None) -> str | None:
+    """Best M11 id for a heading. `chapter` is the M11 id of the enclosing level-1 section, if mapped:
+    subsections prefer items inside that chapter and never take the chapter's own id."""
     if re.match(r"^section\s+\d", section.title, re.I):
         return None  # entries in an amendment's summary of changes, not real headings
     title = _clean(section.title)
     if not title:
         return None
+    if section.level == 1:
+        scope = [i for i in toc if "." not in i["id"]]
+    elif chapter:
+        scope = [i for i in toc if i["id"].startswith(chapter + ".")]
+    else:
+        scope = []
+    if scope and (hit := _best(title, scope, section.level, SCOPED_THRESHOLD)):
+        return hit
+    return _best(title, [i for i in toc if i["id"] != chapter], section.level, THRESHOLD)
+
+
+def _best(title: str, items: list[dict], level: int, threshold: float) -> str | None:
     scored = []
-    for item in toc:
+    for item in items:
         score, exact = _score(title, item)
-        if item["id"].count(".") + 1 == section.level:
+        if item["id"].count(".") + 1 == level:
             score += 3
         scored.append((score, exact, item["id"]))
+    if not scored:
+        return None
     best, _, best_id = max(scored)
-    return best_id if best >= THRESHOLD else None
+    return best_id if best >= threshold else None
 
 
 class _Mapping(BaseModel):
@@ -117,7 +151,12 @@ class _Batch(BaseModel):
 
 async def map_sections(sections: list[Section], use_llm: bool = True) -> list[Section]:
     toc = load_toc()
-    mapped = [s.model_copy(update={"m11_id": match(s, toc)}) for s in sections]
+    mapped, chapter = [], None
+    for sec in sections:
+        m11 = match(sec, toc, chapter)
+        if sec.level == 1 and sec.title[:1].isdigit():
+            chapter = m11.split(".")[0] if m11 else None
+        mapped.append(sec.model_copy(update={"m11_id": m11}))
     leftovers = [s for s in mapped if s.m11_id is None and s.level <= 2 and s.text][:MAX_LEFTOVERS]
     if use_llm and leftovers:
         mapped = await _llm_map(mapped, leftovers, toc)

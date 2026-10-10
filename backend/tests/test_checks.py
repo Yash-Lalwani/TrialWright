@@ -160,3 +160,12 @@ def test_c1_range_visit_covers_recurring_days():
     assert _visit_at(43 + 21 * 4, visits).id == "v3"
     assert _visit_at(43 + 21 * 4 + 10, visits) is None
     assert _visit_at(43 + 21 * 9, visits) is None
+
+
+def test_c5_ignores_hypothetical_masking_mentions():
+    meta = graph().meta.model_copy(update={"masking": "NONE"})
+    secs = [Section(id="a", m11_id="4.1", title="4.1 Design", level=2, page_start=10, page_end=10,
+                    text="This is an open-label study."),
+            Section(id="b", m11_id="6.4", title="6.4 Dose", level=2, page_start=52, page_end=52,
+                    text="In a double-blind study, dose reductions would unblind the investigator.")]
+    assert run("C5", graph(meta=meta, sections=secs)) == []
