@@ -107,6 +107,8 @@ def doses_agree(graph: ProtocolGraph, ctx: CheckContext):
         (main_v, main_n), *rest = counts.most_common()
         main = next(f for f in facts if float(f.value) == main_v)
         for value, n in rest:
+            if len(counts) >= 3 and (n > 1 or main_n < 2):
+                continue  # dose-ranging arms: only a one-off value against an established dose is suspicious
             odd = next(f for f in facts if float(f.value) == value)
             label = f"{drug} loading dose" if kind == "loading" else f"{drug} dose"
             issues.append(issue(
