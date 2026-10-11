@@ -12,7 +12,7 @@ import os
 from ._graph_compat import Issue, ProtocolGraph
 from .models import BurdenReport, PeerSet, PrecedentTable
 from . import _examples, peers as _peers
-from . import burden as _burden, hotspots as _hotspots, precedent as _precedent
+from . import burden as _burden, hotspots as _hotspots, peer_soa as _peer_soa, precedent as _precedent
 
 STUB = False
 NEUTRAL_BURDEN = 50.0
@@ -28,10 +28,13 @@ def find_peers(graph: ProtocolGraph) -> PeerSet | None:
 
 
 def compute_burden(graph: ProtocolGraph, peers: PeerSet | None) -> BurdenReport:
-    """REAL (D1). Peer percentiles are filled in by D2 once peer SoA burdens exist; until then they are None."""
+    """REAL (D1). peer_percentiles come from peers whose posted protocols we summarised (peer_soa); None when fewer than 8."""
     if _examples_on():
         return BurdenReport.model_validate(_examples.BURDEN)
-    return _burden.compute(graph)
+    report = _burden.compute(graph)
+    if peers is not None:
+        report = report.model_copy(update={"peer_percentiles": _peer_soa.percentiles(report, {t.nct_id for t in peers.trials})})
+    return report
 
 
 def hotspots(graph: ProtocolGraph, peers: PeerSet | None) -> list[Issue]:
