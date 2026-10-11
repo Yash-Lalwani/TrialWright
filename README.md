@@ -107,12 +107,12 @@ The planted-error benchmark only shows detection of errors we put there. As a ha
 and amended (v2.0, 2019) protocols of **TRUNCATE-TB** (NCT03474198, a multi-arm, multi-stage tuberculosis trial) in
 confidential mode. None of the checks were tuned on it.
 
-- **First run: 13 major findings, score 64.** Read against the source PDFs, about 20 findings across the two versions were
+- **First run: 13 major findings.** Read against the source PDFs, about 20 findings across the two versions were
   false: section numbers such as "6.3.5 Arm F" read as "5 arms"; "2 month vs 6 month treatment" flagged although the trial
   compares exactly those two strategies; author initials in the reference list reported as undefined abbreviations; a
   comparison with the wrong ClinicalTrials.gov record (an NCT number taken from a reference-list link); and M11 sections
   reported missing because older protocols use different chapter names.
-- **After fixing those rule bugs:** v1.0 scores 78 (6 major) and v2.0 scores 76 (7 major). Benchmark recall is unchanged
+- **After fixing those rule bugs:** v1.0 has 6 major findings and v2.0 has 7; the wrong findings fell from about 23 to 2. (The overall score is not a good yardstick here: under the current formula the original code scored 84 and the fixed code 82, because "thin" sections now count in full.) Benchmark recall is unchanged
   (test set 43%, precision 90%).
 - **What it does not do:** it does not compare the text of two versions. The real amendments (for example an eligibility change
   from Stage 4 to Stage 3, listed in v2.0's amendment appendices) are not detected, and Compare versions diffs findings, not
