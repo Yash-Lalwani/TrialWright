@@ -1,7 +1,7 @@
 # Protocol Pre-Flight: demo script (3 minutes)
 
 Record at 1440×900 or larger, browser zoom 100%, on the live demo
-(https://frontend-production-a539.up.railway.app) or a local `docker compose up`. Open every page once before recording
+(https://trialwright.tech) or a local `docker compose up`. Open every page once before recording
 so nothing loads cold. The demo protocol is **NCT04698187** (CMP-001 + nivolumab in advanced melanoma, Phase 2,
 Regeneron). It is already reviewed on the live demo, together with an earlier draft of the same protocol that contains
 planted errors.
