@@ -12,7 +12,7 @@ import os
 from ._graph_compat import Issue, ProtocolGraph
 from .models import BurdenReport, PeerSet, PrecedentTable
 from . import _examples, peers as _peers
-from . import burden as _burden, hotspots as _hotspots, peer_soa as _peer_soa, precedent as _precedent, risk as _risk
+from . import burden as _burden, hotspots as _hotspots, peer_soa as _peer_soa, precedent as _precedent
 
 STUB = False
 NEUTRAL_BURDEN = 50.0
@@ -49,14 +49,9 @@ def precedent(graph: ProtocolGraph, peers: PeerSet | None) -> PrecedentTable:
     return PrecedentTable.model_validate(_examples.PRECEDENT) if _examples_on() else _precedent.precedent(graph, peers)
 
 
-def amendment_risk_score(peers: PeerSet | None) -> float | None:
-    """0-100 (higher = lower risk), or None = not assessed (no peers or too little extracted). See burden/risk.py."""
-    return 90.0 if _examples_on() and peers is not None else _risk.amendment_risk_score(peers)
-
-
 def burden_score(report: BurdenReport) -> float:
     """0-100 (higher = lighter burden). STUB: neutral 50, or the CONTRACTS.md example 58 when examples are on."""
     return 58.0 if _examples_on() else _burden.score(report)
 
 
-__all__ = ["find_peers", "compute_burden", "hotspots", "precedent", "burden_score", "amendment_risk_score", "STUB"]
+__all__ = ["find_peers", "compute_burden", "hotspots", "precedent", "burden_score", "STUB"]

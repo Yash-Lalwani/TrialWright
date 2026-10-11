@@ -50,18 +50,12 @@ export function ScoreCard({ score }: { score: Score }) {
             <dt className="truncate text-xs text-muted-foreground">{SUBSCORE_LABEL[k]}</dt>
             <dd>
               <span className="flex items-baseline justify-between gap-2">
-                <span className="text-base leading-7 font-semibold tabular">
-                  {score.weights[k] === 0 ? "n/a" : score[k]}
-                </span>
+                <span className="text-base leading-7 font-semibold tabular">{score[k]}</span>
                 <span className="text-xs text-muted-foreground tabular" title={`Weight in the overall score: ${score.weights[k]}`}>
                   ×{score.weights[k].toFixed(2)}
                 </span>
               </span>
-              {score.weights[k] === 0 ? (
-                <span className="text-xs text-muted-foreground">Not assessed: no peer comparison</span>
-              ) : (
-                <Meter value={score[k]} />
-              )}
+              <Meter value={score[k]} />
             </dd>
           </div>
         ))}
