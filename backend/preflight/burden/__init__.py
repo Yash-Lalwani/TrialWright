@@ -1,10 +1,9 @@
 # ruff: noqa: E501
 """Burden, peers, hotspots, precedent (D1 to D3, E6). Interface per CONTRACTS.md 3.4.
 
-compute_burden and burden_score (D1) and find_peers (D2) are REAL. hotspots and precedent are still STUBS. By default the stubs are INERT so real runs never show invented findings:
-find_peers -> None (so the pipeline skips hotspots), burden_score -> 50 (A's neutral value).
-Set PREFLIGHT_BURDEN_STUBS=1 to get the CONTRACTS.md example data (for frontend demos and contract tests).
-Real implementations land H7 to H15 (compute_burden H7-11; peers, hotspots, precedent H11-15).
+All of D1 (compute_burden, burden_score), D2 (find_peers), D3 (hotspots) and E6 (precedent) are REAL.
+Set PREFLIGHT_BURDEN_STUBS=1 to get the CONTRACTS.md example data instead (for frontend demos and contract tests).
+Without it nothing invented is ever shown: no peers -> no hotspots, an empty precedent table, burden score 50.
 """
 from __future__ import annotations
 
@@ -13,9 +12,9 @@ import os
 from ._graph_compat import Issue, ProtocolGraph
 from .models import BurdenReport, PeerSet, PrecedentTable
 from . import _examples, peers as _peers
-from . import burden as _burden
+from . import burden as _burden, hotspots as _hotspots, precedent as _precedent
 
-STUB = True
+STUB = False
 NEUTRAL_BURDEN = 50.0
 
 
@@ -36,14 +35,15 @@ def compute_burden(graph: ProtocolGraph, peers: PeerSet | None) -> BurdenReport:
 
 
 def hotspots(graph: ProtocolGraph, peers: PeerSet | None) -> list[Issue]:
-    """Amendment-risk issues (category "amendment_risk")."""
-    if not _examples_on() or peers is None:
-        return []
-    return [Issue.model_validate(i) for i in _examples.HOTSPOT_ISSUES]
+    """REAL (D3): amendment-risk issues (category "amendment_risk"): where the protocol is an outlier among peers."""
+    if _examples_on():
+        return [Issue.model_validate(i) for i in _examples.HOTSPOT_ISSUES] if peers is not None else []
+    return _hotspots.hotspots(graph, peers)
 
 
 def precedent(graph: ProtocolGraph, peers: PeerSet | None) -> PrecedentTable:
-    return PrecedentTable.model_validate(_examples.PRECEDENT)
+    """REAL (E6): top 10 most similar registered trials and what they chose."""
+    return PrecedentTable.model_validate(_examples.PRECEDENT) if _examples_on() else _precedent.precedent(graph, peers)
 
 
 def burden_score(report: BurdenReport) -> float:

@@ -199,3 +199,14 @@ def find(graph: ProtocolGraph) -> PeerSet | None:
     except Exception as e:
         log.warning("peer search failed: %s", e)
         return None
+
+
+def peer_studies(query: PeerQuery, fields: str | None = None) -> list[dict]:
+    """The registry records behind a PeerSet (disk-cached, so no network after find_peers). [] on any failure."""
+    if not query.condition:
+        return []
+    try:
+        return _run(client.search_peers(query.condition, query.phase, query.start_year_min, LIMIT, fields=fields or client.PEER_FIELDS))
+    except Exception as e:
+        log.warning("peer records unavailable: %s", e)
+        return []
