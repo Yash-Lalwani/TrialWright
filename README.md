@@ -10,7 +10,7 @@ trials on ClinicalTrials.gov, and explains every finding with where it is, why i
 57% of protocols have at least one substantial amendment and 45% of those were judged avoidable; a single amendment costs a
 median $141,000 (Phase II) to $535,000 (Phase III) and adds about three months (Getz et al. 2016; Applied Clinical Trials).
 
-**Live demo:** https://frontend-production-a539.up.railway.app · API: https://backend-production-2404.up.railway.app/api/health
+**Live demo:** https://trialwright.tech · API: https://api.trialwright.tech/api/health
 
 ![Review workspace: every finding is highlighted on the page it cites](docs/images/review.png)
 
@@ -28,6 +28,7 @@ median $141,000 (Phase II) to $535,000 (Phase III) and adds about three months (
 | Versions | Upload a revised protocol and see which issues were resolved, which are new, and how the score changed |
 | Co-author | A short design brief becomes an ICH M11-structured draft that cites precedent trials, with a sample size from a statistical calculator (never the model); Pre-Flight then checks its own draft |
 | Exports | Issue report (PDF/CSV), clean M11 .docx, USDM JSON |
+| Private uploads | No accounts: each browser keeps a random workspace id, so your uploads appear only in your own list (the demo protocol is visible to everyone). Review links can still be shared |
 | Confidential mode | Rules only: no language model is called and nothing leaves the machine |
 
 | Burden & peers | Compare versions | Evidence |
@@ -131,6 +132,7 @@ All data is public or synthetic.
 - Flags on clean protocols have not been adjudicated by clinicians; some may be real issues, some false alarms.
 - Burden uses assumed procedure times and costs; peer comparison depends on how complete the ClinicalTrials.gov records are.
 - Uploads other than the demo and benchmark protocols get AI review only with an API key; without one, the rule checks still run.
+- Workspaces are privacy, not security: anyone with a review link can open it, and clearing browser storage starts a new, empty workspace.
 - Not measured in this release: human reviewer baseline, clinician-rated precision on real findings, SoA cell accuracy.
 
 ## License
