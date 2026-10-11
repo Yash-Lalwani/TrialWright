@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 
 const NAV = [
   { href: "/", label: "Protocols", match: (p: string) => p === "/" || p.startsWith("/runs") },
+  { href: "/compare", label: "Compare", match: (p: string) => p.startsWith("/compare") },
   { href: "/draft", label: "Draft", match: (p: string) => p.startsWith("/draft") },
   { href: "/evidence", label: "Evidence", match: (p: string) => p.startsWith("/evidence") },
 ];

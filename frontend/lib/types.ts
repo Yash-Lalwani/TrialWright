@@ -321,12 +321,13 @@ export interface Burden {
     patient_minutes: number;
     cost_usd: number;
   }[];
+  /** null when no peer trials with a Schedule of Activities were found. */
   peer_percentiles: {
     patient_hours: number;
     procedures_total: number;
     visits: number;
     n_peers_with_soa: number;
-  };
+  } | null;
   assumptions: { file: string; version: string };
 }
 
@@ -364,8 +365,8 @@ export interface PrecedentProtocolSummary {
   primary_endpoint: string;
   primary_timeframe: string;
   key_eligibility: string[];
-  enrollment: number;
-  n_visits: number;
+  enrollment: number | null;
+  n_visits: number | null;
 }
 
 export interface Precedent {
@@ -440,24 +441,37 @@ export interface Benchmark {
   model: string;
   test_set: { protocols: number; injected_errors: number };
   overall: { recall: number; precision: number; f1: number };
-  by_type: { type: string; name: string; n: number; found: number; recall: number }[];
+  by_type: { type: string; name: string; n: number; found: number; recall: number; measurable?: boolean }[];
   by_category: { amendment_category: AmendmentCategory; n: number; recall: number }[];
   ablation: { config: string; recall: number; precision: number; f1: number }[];
-  hallucination: { ai_findings: number; dropped_ungrounded: number; shown_ungrounded: number };
+  // The backend returns null for blocks it has not measured (CONTRACTS 4.12 nullable fields).
+  hallucination: { ai_findings: number; dropped_ungrounded: number; shown_ungrounded: number; shown?: number } | null;
   false_alarms_per_clean_protocol: number;
   human_baseline: {
     protocol: string;
     participants: { id: string; found: number; minutes: number }[];
     preflight: { found: number; seconds: number };
     total_errors: number;
-  };
-  real_findings: { sampled: number; precision: number; kappa: number };
-  soa_extraction: { protocols: number; cell_accuracy: number };
-  speed_cost: { median_seconds: number; median_usd: number };
-  case_studies: {
-    nct_id: string;
-    change: string;
-    flagged_in_earlier_version: boolean;
-    summary: string;
-  }[];
+  } | null;
+  real_findings: { sampled: number; precision: number; kappa: number } | null;
+  soa_extraction: { protocols: number; cell_accuracy: number } | null;
+  speed_cost: { median_seconds: number; median_usd: number; measured?: string; protocols?: number } | null;
+  case_studies:
+    | {
+        nct_id: string;
+        change: string;
+        flagged_in_earlier_version: boolean;
+        summary: string;
+      }[]
+    | null;
+  set?: string;
+  config?: string;
+  /** N7 retrospective check of the hotspot signal on registry histories (optional block from `preflight bench`). */
+  retrospective?: {
+    population: string;
+    method: string;
+    result: Record<string, { relaxed_trials: number; flagged_before_edit: number; other_trials: number;
+      other_flagged: number; odds_ratio?: number; fisher_one_sided_p?: number }>;
+    caveats: string[];
+  } | null;
 }

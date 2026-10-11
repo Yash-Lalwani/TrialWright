@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+import { RunNav } from "@/components/analysis/run-nav";
 import { RunProgress } from "@/components/common/run-progress";
 import { EmptyState, ErrorState } from "@/components/common/states";
 import { Button } from "@/components/ui/button";
@@ -127,6 +128,7 @@ function ReviewWorkspace({ run, protocol }: { run: Run; protocol: ProtocolListIt
   return (
     <div className="flex flex-col lg:h-full">
       <WorkspaceHeader run={run} protocol={protocol} />
+      <RunNav runId={run.run_id} protocolId={run.protocol_id} active="review" />
 
       <SplitPane
         storageKey="preflight.workspace.panelWidth"
