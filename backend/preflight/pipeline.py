@@ -185,9 +185,10 @@ async def check_graph(graph: ProtocolGraph, mode: str = "full", progress: Progre
         burden = float(b.burden_score(b.compute_burden(graph, peers)))
         await progress("burden", "done", f"burden score {burden:.0f}")
         hotspot_issues = b.hotspots(graph, peers) if peers else []
+        risk = b.amendment_risk_score(peers) if hasattr(b, "amendment_risk_score") else None
         await progress("peers", "done", f"{len(hotspot_issues)} hotspots")
     else:
-        burden, hotspot_issues = NEUTRAL_BURDEN, []
+        burden, hotspot_issues, risk = NEUTRAL_BURDEN, [], None
         await progress("burden", "skipped", "burden module not available; neutral score")
         await progress("peers", "skipped", "peer module not available")
 
@@ -197,7 +198,7 @@ async def check_graph(graph: ProtocolGraph, mode: str = "full", progress: Progre
     issues.sort(key=lambda i: (SEVERITY_ORDER.get(i.severity, 9), i.where.page or 0))
     issues = [i.model_copy(update={"id": f"iss_{n:02d}"}) for n, i in enumerate(issues, 1)]
     s = completeness.summary
-    result = CheckResult(issues=issues, score=score.compute(issues, s.present, s.thin, s.required, burden),
+    result = CheckResult(issues=issues, score=score.compute(issues, s.present, s.thin, s.required, burden, risk),
                          completeness=completeness, verifier=verifier)
     await progress("score", "done", f"score {result.score.overall}")
     return result

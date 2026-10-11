@@ -170,3 +170,13 @@ def test_c5_ignores_hypothetical_masking_mentions():
             Section(id="b", m11_id="6.4", title="6.4 Dose", level=2, page_start=52, page_end=52,
                     text="In a double-blind study, dose reductions would unblind the investigator.")]
     assert run("C5", graph(meta=meta, sections=secs)) == []
+
+
+def test_amendment_risk_not_assessed_is_left_out_of_the_overall_score():
+    from preflight.score import compute
+
+    s = compute([], present=10, thin=0, required=10, burden=50, amendment_risk=None)
+    assert s.weights["amendment_risk"] == 0 and abs(sum(s.weights.values()) - 1) < 1e-3 and s.amendment_risk == 50
+    assert s.overall == round((0.25 * 100 + 0.35 * 100 + 0.20 * 50) / 0.8)       # the other three weights, rescaled
+    assert compute([], 10, 0, 10, 50, amendment_risk=80).overall == round(0.25 * 100 + 0.35 * 100 + 0.2 * 50 + 0.2 * 80)
+    assert compute([], 10, 0, 10, 50).amendment_risk == 100         # old rule when the argument is omitted

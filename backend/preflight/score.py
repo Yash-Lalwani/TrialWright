@@ -21,6 +21,10 @@ class Score(BaseModel):
     weights: dict[str, float]
 
 
+_LEGACY = object()
+NEUTRAL = 50.0
+
+
 def load_config() -> dict:
     cfg = {k: dict(v) for k, v in DEFAULTS.items()}
     if CONFIG_PATH.exists():
@@ -37,13 +41,24 @@ def _penalty(issues: list[Issue], category: str, points: dict) -> float:
     return sum(points.get(i.severity, 0) for i in issues if i.category == category and i.status != "accepted")
 
 
-def compute(issues: list[Issue], present: int, thin: int, required: int, burden: float) -> Score:
+def compute(issues: list[Issue], present: int, thin: int, required: int, burden: float,
+            amendment_risk=_LEGACY) -> Score:
+    """amendment_risk: a 0-100 value from burden.risk (peer-based); None = not assessed (weight 0 in the returned
+    weights, the others rescaled to sum to 1); omitted = the old rule (100 minus the points of issues tagged
+    amendment_risk)."""
     cfg = load_config()
-    w, pts = cfg["weights"], cfg["points"]
+    w, pts = dict(cfg["weights"]), cfg["points"]
     completeness = 100 * (present + 0.5 * thin) / required if required else 100
     consistency = max(0.0, 100 - _penalty(issues, "consistency", pts))
-    amendment_risk = max(0.0, 100 - _penalty(issues, "amendment_risk", pts))
+    if amendment_risk is _LEGACY:
+        risk = max(0.0, 100 - _penalty(issues, "amendment_risk", pts))
+    elif amendment_risk is None:
+        risk = NEUTRAL      # shown at a neutral 50; weight 0 tells consumers it was not assessed
+        total = sum(v for k, v in w.items() if k != "amendment_risk")
+        w = {k: (0.0 if k == "amendment_risk" else round(v / total, 4)) for k, v in w.items()}
+    else:
+        risk = float(amendment_risk)
     overall = (w["completeness"] * completeness + w["consistency"] * consistency
-               + w["burden"] * burden + w["amendment_risk"] * amendment_risk)
+               + w["burden"] * burden + w["amendment_risk"] * risk)
     return Score(overall=round(overall), completeness=round(completeness), consistency=round(consistency),
-                 burden=round(burden), amendment_risk=round(amendment_risk), weights=w)
+                 burden=round(burden), amendment_risk=round(risk), weights=w)

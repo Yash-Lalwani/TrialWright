@@ -132,9 +132,13 @@ def run_issues(s: Session, run_id: str) -> list[IssueRow]:
 def rescore(s: Session, run: Run) -> dict:
     issues = [Issue.model_validate(issue_dict(r)) for r in run_issues(s, run.id)]
     summary = (run.completeness or {}).get("summary", {})
-    burden = (run.score or {}).get("burden", 50)
+    stored = run.score or {}
+    burden = stored.get("burden", 50)
+    weights = stored.get("weights") or {}
+    # Weight 0 means the sub-score was not assessed; a stored value keeps decisions from recomputing it from issues.
+    risk = None if weights.get("amendment_risk") == 0 else stored.get("amendment_risk", score._LEGACY)
     return score.compute(issues, summary.get("present", 0), summary.get("thin", 0), summary.get("required", 0),
-                         burden).model_dump()
+                         burden, risk).model_dump()
 
 
 def match_key(issue: dict) -> tuple:
