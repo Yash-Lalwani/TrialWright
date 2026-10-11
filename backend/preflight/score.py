@@ -40,7 +40,8 @@ def _penalty(issues: list[Issue], category: str, points: dict) -> float:
 def compute(issues: list[Issue], present: int, thin: int, required: int, burden: float) -> Score:
     cfg = load_config()
     w, pts = cfg["weights"], cfg["points"]
-    completeness = 100 * (present + 0.5 * thin) / required if required else 100
+    missing = max(0, required - present - thin)
+    completeness = 100 * (present + thin + 0.25 * missing) / required if required else 100
     consistency = max(0.0, 100 - _penalty(issues, "consistency", pts))
     amendment_risk = max(0.0, 100 - _penalty(issues, "amendment_risk", pts))
     overall = (w["completeness"] * completeness + w["consistency"] * consistency
