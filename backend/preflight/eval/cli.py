@@ -60,7 +60,7 @@ def inject(split: str = typer.Option("dev", "--set", help="dev or test"), seed: 
 
 @app.command()
 def bench(split: str = typer.Option("dev", "--set", help="dev or test"),
-          config: str = typer.Option("rules_only", help="rules_only or full"),
+          config: str = typer.Option("rules_only", help="rules_only, full or llm_only (the N3 baseline)"),
           seeds: int = typer.Option(1, help="number of seeds (1..N)"),
           quick: bool = typer.Option(False, help="one seed; for CI"),
           refresh: bool = typer.Option(False, help="ignore cached pipeline runs"),

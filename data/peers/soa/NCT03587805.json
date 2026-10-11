@@ -1,0 +1,9 @@
+{
+ "match_share": 0.66,
+ "nct_id": "NCT03587805",
+ "patient_hours": 40.6,
+ "procedures_total": 208,
+ "usable": true,
+ "version": "2026-10-10",
+ "visits": 16
+}

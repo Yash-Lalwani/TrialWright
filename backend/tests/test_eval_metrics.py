@@ -60,3 +60,30 @@ def test_shared_check_flags_are_matched_by_kind_not_order():
     es = [err("T08", 14, pages=[14, 19]), err("T10", 14)]
     s = metrics.score_run(es, [issue("C4", "Randomization ratio disagrees across sections: 2:1 vs 1:1", 14)], [])
     assert [e["type"] for e, _ in s.tp] == ["T10"] and [e["type"] for e in s.fn] == ["T08"]
+
+
+def test_document_level_type_counts_a_new_flag_cited_on_another_page():
+    """T09 changes the power sentence; C7 cites the sample-size statement elsewhere. A NEW C7 flag is a hit; one already in the clean run is not."""
+    err = {"error_id": "e1", "type": "T09", "page": 11, "new": "80", "match": {"pages": [11]}}
+    flag = {"check_id": "C7", "severity": "major", "title": "Stated sample size 100 cannot be reproduced (needs 130)", "where": {"page": 6}, "related": []}
+    assert len(metrics.score_run([err], [flag], []).tp) == 1
+    assert len(metrics.score_run([err], [flag], [flag]).tp) == 0
+
+
+def test_check_agnostic_scoring_needs_the_edit_not_just_the_page():
+    err = {"error_id": "e1", "type": "T06", "page": 8, "new": "21", "match": {"pages": [8], "texts": ["Age >= 21 years at time"]}}
+    base = {"check_id": "LLM", "severity": "major", "related": []}
+    on_page_unrelated = {**base, "title": "Typo in header", "where": {"page": 8, "quote": "Protocol number"}}
+    cites_edit = {**base, "title": "Age limit differs", "where": {"page": 8, "quote": "Age >= 21 years at time of consent"}}
+    mentions_value = {**base, "title": "Minimum age 21 conflicts with 18 elsewhere", "where": {"page": 8, "quote": "inclusion"}}
+    wrong_page = {**base, "title": "Age 21", "where": {"page": 30, "quote": "Age 21"}}
+    for flag, hit in ((on_page_unrelated, 0), (cites_edit, 1), (mentions_value, 1), (wrong_page, 0)):
+        assert len(metrics.score_run([err], [flag], [], check_agnostic=True).tp) == hit
+
+
+def test_grounding_tolerates_footnote_letters_but_not_invented_text():
+    from preflight.eval.ablation import grounded
+
+    page = "Schedule of Activities\nPharmacokinetic Sampling n\nHematology and serum chemistry at each visit\nThe study drug is given every 3 weeks."
+    assert grounded("Pharmacokinetic Samplingn", page) and grounded("serum chemistry at each visit", page)
+    assert not grounded("Patients receive 600 mg of rescue medication daily.", page) and not grounded("", page)

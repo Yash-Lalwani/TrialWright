@@ -37,6 +37,37 @@
    "error_id": "NCT04698187-s1-01"
   },
   {
+   "type": "T12",
+   "name": "Exclusion criterion contradicts an inclusion criterion",
+   "page": 39,
+   "bbox": [
+    107.9,
+    600.4,
+    281.9,
+    616.5
+   ],
+   "original": "Uveal, acral, or mucosal melanoma. ",
+   "new": "Neutrophil count at or above 1200 /mm3.",
+   "context": "1. Uveal, acral, or mucosal melanoma.",
+   "new_line": "1. Neutrophil count at or above 1200 /mm3.",
+   "description": "Exclusion criterion rewritten to contradict inclusion on neutrophil count",
+   "expected_checks": [
+    "C8"
+   ],
+   "amendment_category": "eligibility",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     38,
+     39
+    ],
+    "texts": [
+     "1. Neutrophil count at or above 1200 /mm3."
+    ]
+   },
+   "error_id": "NCT04698187-s1-02"
+  },
+  {
    "type": "T14",
    "name": "Cross-reference to a nonexistent section",
    "page": 8,
@@ -64,7 +95,7 @@
      "er to Section 99.4. for prohibit"
     ]
    },
-   "error_id": "NCT04698187-s1-02"
+   "error_id": "NCT04698187-s1-03"
   },
   {
    "type": "T07",
@@ -97,7 +128,7 @@
      "ive nivolumab 450 mg IV over 30"
     ]
    },
-   "error_id": "NCT04698187-s1-03"
+   "error_id": "NCT04698187-s1-04"
   },
   {
    "type": "T09",
@@ -128,7 +159,7 @@
      "eves at least 80% power to det"
     ]
    },
-   "error_id": "NCT04698187-s1-04"
+   "error_id": "NCT04698187-s1-05"
   },
   {
    "type": "T06",
@@ -159,7 +190,7 @@
      "8. Age ≥ 21 years at time"
     ]
    },
-   "error_id": "NCT04698187-s1-05"
+   "error_id": "NCT04698187-s1-06"
   },
   {
    "type": "T16",
@@ -191,7 +222,7 @@
      "± 9d"
     ]
    },
-   "error_id": "NCT04698187-s1-06"
+   "error_id": "NCT04698187-s1-07"
   },
   {
    "type": "T13",
@@ -221,36 +252,6 @@
      "ophil count ≥ 3000/mm3"
     ]
    },
-   "error_id": "NCT04698187-s1-07"
-  },
-  {
-   "type": "T18",
-   "name": "Enrollment differs from registry record",
-   "page": 39,
-   "bbox": [
-    140.2,
-    382.4,
-    152.2,
-    398.6
-   ],
-   "original": "18",
-   "new": "21",
-   "context": "8. Age ≥ 18 years at time of consent.",
-   "new_line": "8. Age ≥ 21 years at time of consent.",
-   "description": "Minimum age changed 18 -> 21 everywhere; registry still says 18",
-   "expected_checks": [
-    "C10"
-   ],
-   "amendment_category": "registry",
-   "needs_llm": false,
-   "match": {
-    "pages": [
-     39
-    ],
-    "texts": [
-     "8. Age ≥ 21 years at time"
-    ]
-   },
    "error_id": "NCT04698187-s1-08"
   }
  ],
@@ -268,16 +269,16 @@
    "reason": "protocol is not double-blind"
   },
   {
-   "type": "T12",
-   "reason": "needs the LLM-extracted eligibility criteria (no LLM graph available)"
-  },
-  {
    "type": "T02",
    "reason": "no endpoint timepoint repeated across sections"
   },
   {
    "type": "T17",
    "reason": "durations are not stated at least twice"
+  },
+  {
+   "type": "T18",
+   "reason": "not sampled (target count reached)"
   },
   {
    "type": "T05",
@@ -335,7 +336,7 @@
   ],
   [
    39,
-   "8. Age ≥ 18 years at time of consent."
+   "1. Uveal, acral, or mucosal melanoma."
   ],
   [
    80,
