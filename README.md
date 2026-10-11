@@ -35,6 +35,10 @@ median $141,000 (Phase II) to $535,000 (Phase III) and adds about three months (
 |---|---|---|
 | ![Burden](docs/images/burden.png) | ![Compare](docs/images/compare.png) | ![Evidence](docs/images/evidence.png) |
 
+| Upload (full or confidential mode) | Co-author: brief to checked M11 draft |
+|---|---|
+| ![Upload](docs/images/upload.png) | ![Draft](docs/images/draft.png) |
+
 ## Quickstart (no API key needed)
 
 ```bash
@@ -97,6 +101,25 @@ uv run preflight inject --set test             # regenerates injected PDFs from 
 uv run preflight bench --set test --config full
 ```
 
+## Tested on a real, amended protocol
+
+The planted-error benchmark only shows detection of errors we put there. As a harder check we ran the original (v1.0, 2015)
+and amended (v2.0, 2019) protocols of **TRUNCATE-TB** (NCT03474198, a multi-arm, multi-stage tuberculosis trial) in
+confidential mode. None of the checks were tuned on it.
+
+- **First run: 13 major findings, score 64.** Read against the source PDFs, about 20 findings across the two versions were
+  false: section numbers such as "6.3.5 Arm F" read as "5 arms"; "2 month vs 6 month treatment" flagged although the trial
+  compares exactly those two strategies; author initials in the reference list reported as undefined abbreviations; a
+  comparison with the wrong ClinicalTrials.gov record (an NCT number taken from a reference-list link); and M11 sections
+  reported missing because older protocols use different chapter names.
+- **After fixing those rule bugs:** v1.0 scores 78 (6 major) and v2.0 scores 76 (7 major). Benchmark recall is unchanged
+  (test set 43%, precision 90%).
+- **What it does not do:** it does not compare the text of two versions. The real amendments (for example an eligibility change
+  from Stage 4 to Stage 3, listed in v2.0's amendment appendices) are not detected, and Compare versions diffs findings, not
+  protocol text.
+- **Still wrong on this protocol:** the document title is read from the contacts page ("Trial Statistician (Singapore)"), and
+  some M11 sections (6.1 treatment, objectives, appendices) are still reported missing.
+
 ## Architecture
 
 ```
@@ -130,6 +153,8 @@ All data is public or synthetic.
 
 - Recall on unseen protocols is about 43%; checks were tuned on three development protocols. Errors that need deep reading (a deleted endpoint, a removed analysis) are mostly missed.
 - Flags on clean protocols have not been adjudicated by clinicians; some may be real issues, some false alarms.
+- On older, pre-M11 protocols expect false "section missing" findings, because the check matches M11 headings. On one real amended protocol the first run had about 20 false findings; the rule bugs behind them were fixed, but that is one protocol, read by us, not a clinician-labelled set.
+- The AI reviewers add advisory observations only; every error found in our benchmark came from the rule checks (the AI reads the protocol to extract the structure those checks use).
 - Burden uses assumed procedure times and costs; peer comparison depends on how complete the ClinicalTrials.gov records are.
 - Uploads other than the demo and benchmark protocols get AI review only with an API key; without one, the rule checks still run.
 - Workspaces are privacy, not security: anyone with a review link can open it, and clearing browser storage starts a new, empty workspace.
