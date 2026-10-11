@@ -33,7 +33,27 @@ def _locations(issue: dict) -> tuple[set[int], str]:
     return pages, text
 
 
-def location_match(error: dict, issue: dict) -> bool:
+def evidence_match(error: dict, issue: dict) -> bool:
+    """Stricter rule for check-agnostic scoring (the LLM-only baseline). A page number alone is not enough: with dozens of
+    findings per protocol some land on the injected page by chance. The finding must be on an injected page AND quote the
+    edited line, or mention the new value as a whole token."""
+    m = error.get("match", {})
+    spots = [issue.get("where") or {}, *(issue.get("related") or [])]
+    if not ({s["page"] for s in spots if s.get("page")} & set(m.get("pages", [error.get("page")]))):
+        return any(_norm(t) in _norm(issue["title"]) for t in m.get("titles", []) if _norm(t))
+    text = _norm(" ".join([issue["title"], *(s.get("quote") or "" for s in spots)]))
+    new = _norm(str(error.get("new", "")))
+    if new and len(new) <= 12 and re.search(rf"(?<!\w){re.escape(new)}(?!\w)", text):
+        return True
+    quotes = [_norm(s.get("quote") or "") for s in spots]
+    return any(_norm(t) and (_norm(t) in text or any(len(q) >= 15 and q in _norm(t) for q in quotes)) for t in m.get("texts", []))
+
+
+def location_match(error: dict, issue: dict, strict: bool = False) -> bool:
+    if strict:
+        return evidence_match(error, issue)
+    if TYPES[error["type"]].document_level:
+        return True  # C7 cites the sample-size statement, the injection changed the power sentence elsewhere; flags already in the clean run are excluded upstream
     pages, text = _locations(issue)
     m = error.get("match", {})
     if any(_norm(t) in _norm(issue["title"]) for t in m.get("titles", []) if _norm(t)):
@@ -52,7 +72,8 @@ class Scored:
     diagnosis: dict[str, str] = field(default_factory=dict)  # error_id -> why it was missed
 
 
-def score_run(errors: list[dict], injected_issues: list[dict], clean_issues: list[dict], facts: dict | None = None) -> Scored:
+def score_run(errors: list[dict], injected_issues: list[dict], clean_issues: list[dict], facts: dict | None = None,
+              check_agnostic: bool = False) -> Scored:
     clean_keys = {flag_key(i) for i in clean_issues}
     flags = [i for i in injected_issues if i["severity"] in SCORED_SEVERITIES and flag_key(i) not in clean_keys]
     used: set[int] = set()
@@ -60,6 +81,8 @@ def score_run(errors: list[dict], injected_issues: list[dict], clean_issues: lis
 
     def candidates(e: dict) -> list[int]:
         spec = TYPES[e["type"]]
+        if check_agnostic:    # the LLM-only baseline has no check ids: a finding counts if it points at the injected place
+            return [n for n, i in enumerate(flags) if location_match(e, i, strict=True)]
         return [n for n, i in enumerate(flags) if i["check_id"] in spec.expected_checks and location_match(e, i)
                 and (not spec.title_hint or re.search(spec.title_hint, i["title"], re.I))]
 
@@ -83,7 +106,7 @@ def score_run(errors: list[dict], injected_issues: list[dict], clean_issues: lis
 
 def _extracted(e: dict, facts: dict | None) -> bool | None:
     """Did ingest pick up the injected value at all? None = cannot tell for this type."""
-    if not facts:
+    if not facts or "numbers" not in facts:      # the LLM-only baseline extracts nothing
         return None
     t, new, page = e["type"], str(e["new"]), e["page"]
     kinds = {"T06": "age_min", "T08": "sample_size", "T10": "ratio", "T07": "dose", "T17": "duration_weeks"}

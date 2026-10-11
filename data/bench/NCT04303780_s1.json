@@ -66,6 +66,38 @@
    "error_id": "NCT04303780-s1-02"
   },
   {
+   "type": "T04",
+   "name": "Secondary objective's endpoint deleted",
+   "page": 39,
+   "bbox": [
+    108.0,
+    114.8,
+    496.2,
+    129.8
+   ],
+   "original": "Overall survival - defined as time from randomization until ; Objective response (complete response [CR] + partial respons",
+   "new": "(removed)",
+   "context": "Overall survival - defined as time from randomization until death from any cause.",
+   "new_line": "(removed)Overall survival - defined as time from randomization until death from any cause.",
+   "description": "Removed the endpoint text of secondary objective 'To compare the efficacy of AMG 510 versus docetaxel as asses'",
+   "expected_checks": [
+    "C3"
+   ],
+   "amendment_category": "endpoints",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     39,
+     48
+    ],
+    "texts": [],
+    "titles": [
+     "objective has no endpoint"
+    ]
+   },
+   "error_id": "NCT04303780-s1-03"
+  },
+  {
    "type": "T07",
    "name": "Dose changed in one place",
    "page": 17,
@@ -98,7 +130,39 @@
      "dispensed at 1200 mg once daily"
     ]
    },
-   "error_id": "NCT04303780-s1-03"
+   "error_id": "NCT04303780-s1-04"
+  },
+  {
+   "type": "T05",
+   "name": "Endpoint analysis removed from statistics",
+   "page": 104,
+   "bbox": [
+    108.0,
+    291.6,
+    531.4,
+    306.6
+   ],
+   "original": "log-rank test",
+   "new": "(removed)",
+   "context": "The OS primary analysis will occur when at least 198 OS events (~60% maturity) have been observed, which is expected to be at approximately 3 months after PFS primary analysis, with the same enrollmen",
+   "new_line": "(removed)The OS primary analysis will occur when at least 198 OS events (~60% maturity) have been observed, which is expected to be at approximately 3 months after PFS primary analysis, with the same ",
+   "description": "Removed the analysis of secondary endpoint 'OS' (1 line(s))",
+   "expected_checks": [
+    "C3"
+   ],
+   "amendment_category": "statistics",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     39,
+     104
+    ],
+    "texts": [],
+    "titles": [
+     "no analysis method"
+    ]
+   },
+   "error_id": "NCT04303780-s1-05"
   },
   {
    "type": "T15",
@@ -114,7 +178,7 @@
    "new": "(removed)",
    "context": "9.2",
    "new_line": "(removed)9.2",
-   "description": "Removed M11 10.11 9.2 Sample Size Determination (45 lines)",
+   "description": "Removed M11 10.11 9.2 Sample Size Determination (44 lines)",
    "expected_checks": [
     "B1",
     "B3"
@@ -132,7 +196,7 @@
     ]
    },
    "m11_id": "10.11",
-   "error_id": "NCT04303780-s1-04"
+   "error_id": "NCT04303780-s1-06"
   },
   {
    "type": "T08",
@@ -166,7 +230,7 @@
      "Approximately 396 subjects with"
     ]
    },
-   "error_id": "NCT04303780-s1-05"
+   "error_id": "NCT04303780-s1-07"
   },
   {
    "type": "T10",
@@ -202,7 +266,7 @@
      "nd randomized 2:1 to receive ei"
     ]
    },
-   "error_id": "NCT04303780-s1-06"
+   "error_id": "NCT04303780-s1-08"
   },
   {
    "type": "T09",
@@ -233,7 +297,7 @@
      "vide at least 80% power to"
     ]
    },
-   "error_id": "NCT04303780-s1-07"
+   "error_id": "NCT04303780-s1-09"
   },
   {
    "type": "T17",
@@ -265,7 +329,7 @@
      "approximately 9 months after"
     ]
    },
-   "error_id": "NCT04303780-s1-08"
+   "error_id": "NCT04303780-s1-10"
   },
   {
    "type": "T02",
@@ -296,7 +360,7 @@
      "eline to Week 14 in PRO endpoi"
     ]
    },
-   "error_id": "NCT04303780-s1-09"
+   "error_id": "NCT04303780-s1-11"
   }
  ],
  "skipped": [
@@ -313,14 +377,6 @@
    "reason": "minimum age is stated only once, so a change cannot create an inconsistency"
   },
   {
-   "type": "T04",
-   "reason": "needs the LLM-extracted objectives and endpoints (no LLM graph available)"
-  },
-  {
-   "type": "T05",
-   "reason": "needs the LLM-extracted endpoint analyses (no LLM graph available)"
-  },
-  {
    "type": "T11",
    "reason": "fewer than 2 blinding/unblinding lines to remove"
   },
@@ -334,7 +390,7 @@
   },
   {
    "type": "T12",
-   "reason": "needs the LLM-extracted eligibility criteria (no LLM graph available)"
+   "reason": "not sampled (target count reached)"
   }
  ],
  "touched": [
@@ -369,6 +425,18 @@
   [
    20,
    "study will have ~90% power to show a statistically significant PFS at the 2.5% 1-sided"
+  ],
+  [
+   39,
+   "Overall survival, defined as time from randomization until death from any cause"
+  ],
+  [
+   48,
+   ""
+  ],
+  [
+   48,
+   "Objective response (complete response [CR] + partial"
   ],
   [
    71,
@@ -472,6 +540,10 @@
   ],
   [
    104,
+   "The OS primary analysis will occur when at least 198 OS events (~60% maturity) have"
+  ],
+  [
+   104,
    "median PFS of 5 months for the control arm (Charpidou et al, 2019) and 7.7 months for"
   ],
   [
@@ -513,10 +585,6 @@
   [
    104,
    "study has ~96% probability to observe a HR < 1 when the true OS HR is 0.75."
-  ],
-  [
-   104,
-   "The OS primary analysis will occur when at least 198 OS events (~60% maturity) have"
   ],
   [
    104,

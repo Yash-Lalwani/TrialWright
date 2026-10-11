@@ -1,0 +1,7 @@
+{
+ "step": "draft_3",
+ "model": "deepseek/deepseek-v4-flash-0731",
+ "content": "{\n  \"markdown\": \"### 3.1 Primary Objective\\n\\nThe primary objective is to evaluate whether Drug X 350 mg IV every 3 weeks improves the objective response rate (ORR) compared to docetaxel in adults with previously treated advanced melanoma.\\n\\n- **Primary Endpoint:** Objective Response Rate (ORR), defined as the proportion of participants achieving a confirmed complete response (CR) or partial response (PR) per RECIST 1.1, as assessed by the investigator.\\n- **Timepoint:** ORR will be assessed from randomization until disease progression, start of new anticancer therapy, or death, whichever occurs first, with a minimum follow-up of 52 weeks. The primary analysis will be performed when all participants have completed at least 24 weeks of follow-up or have discontinued earlier.\\n\\n### 3.2 Secondary Objectives\\n\\nSecondary objectives include:\\n\\n1. To evaluate progression-free survival (PFS) of Drug X versus docetaxel. [TBD: define PFS endpoint and timepoint]\\n2. To evaluate overall survival (OS) of Drug X versus docetaxel. [TBD: define OS endpoint and timepoint]\\n3. To evaluate the safety and tolerability of Drug X compared to docetaxel. [TBD: define safety endpoints and timepoints]\"\n}",
+ "tokens_in": 849,
+ "tokens_out": 277
+}

@@ -1,0 +1,7 @@
+{
+ "step": "extract_stats",
+ "model": "deepseek/deepseek-v4-flash-0731",
+ "content": "{\n  \"sample_size\": 60,\n  \"alpha\": 0.05,\n  \"sided\": 2,\n  \"power\": 0.96,\n  \"effect_size\": 35,\n  \"effect_type\": \"mean_diff_sd\",\n  \"control_rate\": null,\n  \"dropout\": null,\n  \"analyses\": [\n    {\n      \"endpoint_ids\": [\"ep_1\"],\n      \"method\": \"ANCOVA with multiple imputation\",\n      \"quote\": \"Continuous endpoints will be analyzed using the multiple imputation (MI) method with analysis of covariance (ANCOVA) model, which includes treatment group, stratification variable (moderate [IGA=3] vs. severe [IGA=4] AD) and relevant baseline value as covariates.\"\n    },\n    {\n      \"endpoint_ids\": [\"ep_2\", \"ep_3\", \"ep_4\", \"ep_5\", \"ep_6\", \"ep_7\"],\n      \"method\": \"Descriptive statistics\",\n      \"quote\": \"A summary of safety results will be presented for each treatment group.\"\n    },\n    {\n      \"endpoint_ids\": [\"ep_8\"],\n      \"method\": \"Descriptive statistics\",\n      \"quote\": \"Biomarker results will be summarized by baseline, measured values, change from baseline and percent change from baseline to each scheduled assessment time with descriptive statistics.\"\n    }\n  ]\n}",
+ "tokens_in": 3087,
+ "tokens_out": 296
+}

@@ -1,0 +1,434 @@
+{
+ "nct_id": "NCT03132636",
+ "seed": 1,
+ "source_pdf": "NCT03132636_protocol.pdf",
+ "injected_pdf": "NCT03132636_s1.pdf",
+ "target_errors": 9,
+ "errors": [
+  {
+   "type": "T07",
+   "name": "Dose changed in one place",
+   "page": 5,
+   "bbox": [
+    184.5,
+    192.1,
+    202.7,
+    207.8
+   ],
+   "original": "350",
+   "new": "437",
+   "context": "from 250 mg Q3W to 350 mg Q3W to",
+   "new_line": "from 250 mg Q3W to 437 mg Q3W to",
+   "description": "Dose 350 changed to 437 in one place only",
+   "expected_checks": [
+    "C4"
+   ],
+   "amendment_category": "intervention",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     5,
+     21,
+     33,
+     37,
+     45,
+     46,
+     56,
+     60,
+     67
+    ],
+    "texts": [
+     "250 mg Q3W to 437 mg Q3W to"
+    ]
+   },
+   "error_id": "NCT03132636-s1-01"
+  },
+  {
+   "type": "T04",
+   "name": "Secondary objective's endpoint deleted",
+   "page": 31,
+   "bbox": [
+    108.0,
+    231.6,
+    522.0,
+    248.0
+   ],
+   "original": "ORR according to investigator review; Duration of response; Progression-free survival (PFS) by central and investigator ; Overall survival (OS); Complete response (CR) rate by central review; Safety and tolerability of cemiplimab; Pharmacokinetics (PK) of cemiplimab (at select sites only); Immunogenicity of cemiplimab; Impact of cemiplimab on quality of life using EORTC QLQ-C30 ",
+   "new": "(removed)",
+   "context": "Estimate ORR (see Appendix 1 and Appendix 2) according to investigator review",
+   "new_line": "(removed)Estimate ORR (see Appendix 1 and Appendix 2) according to investigator review",
+   "description": "Removed the endpoint text of secondary objective 'Estimate ORR according to investigator review; estimate dura'",
+   "expected_checks": [
+    "C3"
+   ],
+   "amendment_category": "endpoints",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     31,
+     35
+    ],
+    "texts": [],
+    "titles": [
+     "objective has no endpoint"
+    ]
+   },
+   "error_id": "NCT03132636-s1-02"
+  },
+  {
+   "type": "T08",
+   "name": "Sample size changed in one place",
+   "page": 23,
+   "bbox": [
+    391.3,
+    451.7,
+    406.2,
+    464.8
+   ],
+   "original": "137",
+   "new": "164",
+   "context": "and 84 patients for Group 2, for a total of 137 patients.",
+   "new_line": "and 84 patients for Group 2, for a total of 164 patients.",
+   "description": "Sample size 137 changed to 164 in one place only",
+   "expected_checks": [
+    "C4"
+   ],
+   "amendment_category": "statistics",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     23,
+     82
+    ],
+    "texts": [
+     "or a total of 164 patients."
+    ]
+   },
+   "error_id": "NCT03132636-s1-03"
+  },
+  {
+   "type": "T05",
+   "name": "Endpoint analysis removed from statistics",
+   "page": 86,
+   "bbox": [
+    72.0,
+    71.1,
+    542.8,
+    86.9
+   ],
+   "original": "binomial exact confidence interval (Clop",
+   "new": "(removed)",
+   "context": "The investigator-assessed ORR will be considered as a secondary analysis.",
+   "new_line": "(removed)The investigator-assessed ORR will be considered as a secondary analysis.",
+   "description": "Removed the analysis of secondary endpoint 'ORR' (1 line(s))",
+   "expected_checks": [
+    "C3"
+   ],
+   "amendment_category": "statistics",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     31,
+     86
+    ],
+    "texts": [],
+    "titles": [
+     "no analysis method"
+    ]
+   },
+   "error_id": "NCT03132636-s1-04"
+  },
+  {
+   "type": "T09",
+   "name": "Power/effect changed so N not reproducible",
+   "page": 18,
+   "bbox": [
+    395.8,
+    405.6,
+    407.8,
+    421.4
+   ],
+   "original": "85",
+   "new": "95",
+   "context": "Group 1 Given a Sample Size of 50 Patients (Based on 85% Power) ........................83",
+   "new_line": "Group 1 Given a Sample Size of 50 Patients (Based on 95% Power) ........................83",
+   "description": "Stated power changed 85% -> 95% everywhere, so N is no longer reproducible",
+   "expected_checks": [
+    "C7"
+   ],
+   "amendment_category": "statistics",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     18,
+     23,
+     82,
+     83,
+     84
+    ],
+    "texts": [
+     "nts (Based on 95% Power) ....."
+    ]
+   },
+   "error_id": "NCT03132636-s1-05"
+  },
+  {
+   "type": "T13",
+   "name": "Lab threshold value conflicts between mentions",
+   "page": 40,
+   "bbox": [
+    205.3,
+    414.9,
+    220.3,
+    430.7
+   ],
+   "original": "1.5",
+   "new": "3.0",
+   "context": "a. Total bilirubin ≤1.5x upper limit of normal (ULN) (or ≤3x ULN, if liver metastases).",
+   "new_line": "a. Total bilirubin ≤3.0x upper limit of normal (ULN) (or ≤3x ULN, if liver metastases).",
+   "description": "Lab threshold 1.5 changed to 3.0 in one place only",
+   "expected_checks": [
+    "C8"
+   ],
+   "amendment_category": "eligibility",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     40
+    ],
+    "texts": [
+     "al bilirubin ≤3.0x upper limit"
+    ]
+   },
+   "error_id": "NCT03132636-s1-06"
+  },
+  {
+   "type": "T12",
+   "name": "Exclusion criterion contradicts an inclusion criterion",
+   "page": 42,
+   "bbox": [
+    108.0,
+    267.9,
+    432.1,
+    283.7
+   ],
+   "original": "Prior treatment with an agent that blocks the PD-1/PD-L1 pathway ",
+   "new": "Age at or above 14 years.",
+   "context": "2. Prior treatment with an agent that blocks the PD-1/PD-L1 pathway",
+   "new_line": "2. Age at or above 14 years.",
+   "description": "Exclusion criterion rewritten to contradict inclusion on age",
+   "expected_checks": [
+    "C8"
+   ],
+   "amendment_category": "eligibility",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     40,
+     42
+    ],
+    "texts": [
+     "2. Age at or above 14 years."
+    ]
+   },
+   "error_id": "NCT03132636-s1-07"
+  },
+  {
+   "type": "T14",
+   "name": "Cross-reference to a nonexistent section",
+   "page": 29,
+   "bbox": [
+    218.6,
+    627.3,
+    242.6,
+    643.0
+   ],
+   "original": "3.2.1",
+   "new": "99.2.1",
+   "context": "metastatic BCC (see Section 3.2.1). The phase 1 experience supports a 3 mg/kg cemiplimab",
+   "new_line": "metastatic BCC (see Section 99.2.1). The phase 1 experience supports a 3 mg/kg cemiplimab",
+   "description": "Reference to Section 3.2.1 changed to nonexistent Section 99.2.1",
+   "expected_checks": [
+    "C9"
+   ],
+   "amendment_category": "clerical",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     29
+    ],
+    "texts": [
+     "(see Section 99.2.1). The phase"
+    ]
+   },
+   "error_id": "NCT03132636-s1-08"
+  },
+  {
+   "type": "T10",
+   "name": "Randomisation ratio changed in one place",
+   "page": 89,
+   "bbox": [
+    108.0,
+    253.6,
+    123.4,
+    269.4
+   ],
+   "original": "1:1",
+   "new": "2:1",
+   "context": "1:1 or 3:2.",
+   "new_line": "2:1 or 3:2.",
+   "description": "Ratio 1:1 changed to 2:1 in one place only",
+   "expected_checks": [
+    "C4"
+   ],
+   "amendment_category": "design",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     89,
+     90
+    ],
+    "texts": [
+     "2:1 or 3:2."
+    ]
+   },
+   "error_id": "NCT03132636-s1-09"
+  }
+ ],
+ "skipped": [
+  {
+   "type": "T01",
+   "reason": "endpoint timepoints are not extracted (timepoints_weeks is empty on the dev protocols), so the endpoint visit is unknown"
+  },
+  {
+   "type": "T03",
+   "reason": "needs a synthesised SoA row with matching ruling lines; not implemented"
+  },
+  {
+   "type": "T16",
+   "reason": "no row of at least 3 visit windows found"
+  },
+  {
+   "type": "T06",
+   "reason": "minimum age is stated only once, so a change cannot create an inconsistency"
+  },
+  {
+   "type": "T15",
+   "reason": "not sampled (target count reached)"
+  },
+  {
+   "type": "T11",
+   "reason": "not sampled (target count reached)"
+  },
+  {
+   "type": "T18",
+   "reason": "not sampled (target count reached)"
+  },
+  {
+   "type": "T17",
+   "reason": "not sampled (target count reached)"
+  },
+  {
+   "type": "T02",
+   "reason": "not sampled (target count reached)"
+  }
+ ],
+ "touched": [
+  [
+   5,
+   "from 250 mg Q3W to 350 mg Q3W to"
+  ],
+  [
+   18,
+   "Group 1 Given a Sample Size of 50 Patients (Based on 85% Power) ........................83"
+  ],
+  [
+   18,
+   "Group 2 Given a Sample Size of 80 Patients (Based on 85% Power) ........................84"
+  ],
+  [
+   23,
+   "and 84 patients for Group 2, for a total of 137 patients."
+  ],
+  [
+   23,
+   "For Group 1, 50 patients are required to provide at least 85% power to reject a"
+  ],
+  [
+   23,
+   "85% power to reject a null hypothesis of an ORR of 20% at a 2-sided"
+  ],
+  [
+   29,
+   "metastatic BCC (see Section 3.2.1). The phase 1 experience supports a 3 mg/kg cemiplimab"
+  ],
+  [
+   31,
+   " Estimate ORR (see Appendix 1 and Appendix 2) according to investigator review"
+  ],
+  [
+   31,
+   " Estimate the duration of response, progression-free survival (PFS) by central and"
+  ],
+  [
+   31,
+   " Estimate the duration of response, progression-free survival (PFS) by central and"
+  ],
+  [
+   31,
+   " Estimate the duration of response, progression-free survival (PFS) by central and"
+  ],
+  [
+   31,
+   " Estimate the complete response (CR) rate by central review"
+  ],
+  [
+   31,
+   " Assess the safety and tolerability of cemiplimab"
+  ],
+  [
+   31,
+   " Assess the pharmacokinetics (PK) of cemiplimab (at select sites only)"
+  ],
+  [
+   31,
+   " Assess the immunogenicity of cemiplimab"
+  ],
+  [
+   35,
+   "of cemiplimab"
+  ],
+  [
+   40,
+   "a. Total bilirubin ≤1.5x upper limit of normal (ULN) (or ≤3x ULN, if liver metastases)."
+  ],
+  [
+   42,
+   "2. Prior treatment with an agent that blocks the PD-1/PD-L1 pathway"
+  ],
+  [
+   82,
+   "For Group 1, 50 patients are required to provide at least 85% power to reject a null hypothesis of"
+  ],
+  [
+   82,
+   "80 patients are required to provide at least 85% power to reject a null hypothesis of an ORR of"
+  ],
+  [
+   83,
+   "Group 1 Given a Sample Size of 50 Patients (Based on 85% Power)"
+  ],
+  [
+   84,
+   "Group 2 Given a Sample Size of 80 Patients (Based on 85% Power)"
+  ],
+  [
+   86,
+   "committee. The investigator-assessed ORR will be considered as a secondary analysis. Efficacy"
+  ],
+  [
+   89,
+   "1:1 or 3:2."
+  ]
+ ]
+}

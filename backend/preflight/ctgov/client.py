@@ -93,12 +93,15 @@ PEER_FIELDS = ("NCTId,BriefTitle,LeadSponsorName,Phase,EnrollmentCount,StartDate
 
 
 async def search_peers(condition: str, phase: str | None, start_year_min: int = 2015,
-                       limit: int = 200, fields: str | None = None) -> list[dict]:
-    """Peer trials: same condition/phase, DRUG or BIOLOGICAL, started >= start_year_min."""
+                       limit: int = 200, fields: str | None = None, protocol_only: bool = False) -> list[dict]:
+    """Peer trials: same condition/phase, DRUG or BIOLOGICAL, started >= start_year_min.
+    protocol_only keeps trials with a posted protocol document (the subset whose schedule we can read)."""
     adv = [f"AREA[StartDate]RANGE[{start_year_min}-01-01,MAX]",
            "(AREA[InterventionType]DRUG OR AREA[InterventionType]BIOLOGICAL)"]
     if phase:
         adv.append(f"AREA[Phase]{phase}")
+    if protocol_only:
+        adv.append("AREA[LargeDocHasProtocol]true")
     params = {"query.cond": condition, "filter.advanced": " AND ".join(adv)}
     if fields:
         params["fields"] = fields

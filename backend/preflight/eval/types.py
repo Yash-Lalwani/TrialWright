@@ -13,6 +13,7 @@ class ErrorType:
     amendment_category: str
     needs_llm: bool  # the expected check only fires when A's LLM extraction ran (endpoints, criteria, stats)
     title_hint: str | None = None  # regex a flag title must match, for checks shared by several types (C4, C6, C8, C3)
+    document_level: bool = False  # the check compares two statements far apart (power vs N): any NEW flag of the check counts, wherever it cites
 
 
 TYPES: dict[str, ErrorType] = {t.id: t for t in [
@@ -24,7 +25,7 @@ TYPES: dict[str, ErrorType] = {t.id: t for t in [
     ErrorType("T06", "Age range changed in one place", ("C4",), "eligibility", False, r"\bage\b"),
     ErrorType("T07", "Dose changed in one place", ("C4",), "intervention", False, r"\bdos(e|ing)\b"),
     ErrorType("T08", "Sample size changed in one place", ("C4",), "statistics", False, r"sample size|enrol"),
-    ErrorType("T09", "Power/effect changed so N not reproducible", ("C7",), "statistics", True),
+    ErrorType("T09", "Power/effect changed so N not reproducible", ("C7",), "statistics", True, None, True),
     ErrorType("T10", "Randomisation ratio changed in one place", ("C4",), "design", False, r"ratio|randomi[sz]ation"),
     ErrorType("T11", "Blinding / unblinding text removed", ("C5", "B3"), "design", False),
     ErrorType("T12", "Exclusion criterion contradicts an inclusion criterion", ("C8",), "eligibility", True, r"inclusion and exclusion|conflict"),

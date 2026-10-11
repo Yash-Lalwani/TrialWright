@@ -1,0 +1,7 @@
+{
+ "step": "draft_4.1",
+ "model": "deepseek/deepseek-v4-flash-0731",
+ "content": "{\"markdown\": \"This is a Phase 2, multicenter, randomized, open-label, active-controlled, parallel-group trial designed to evaluate the efficacy and safety of Drug X 350 mg administered intravenously every 3 weeks compared with docetaxel in adults with previously treated advanced melanoma. The primary objective is to determine whether Drug X improves the objective response rate (ORR) versus docetaxel.\\n\\nEligible participants will be randomized in a 1:1 ratio to one of two treatment arms:\\n- **Arm A (Experimental):** Drug X 350 mg IV every 3 weeks\\n- **Arm B (Active Comparator):** Docetaxel (dose and schedule per standard of care, [TBD: specify docetaxel dose and regimen])\\n\\nRandomization will be stratified by [TBD: stratification factors, e.g., number of prior therapies, presence of liver metastases, etc.]. The trial is open-label; no masking is applied. The planned total study duration is 52 weeks, including treatment and follow-up. The expected ORR is 27% in the Drug X arm and 12% in the docetaxel arm, with a two-sided alpha of 0.05 and 80% power, assuming a 10% dropout rate. The sample size will be calculated accordingly [TBD: provide final sample size].\\n\\nThis design is consistent with similar trials in advanced melanoma (e.g., NCT06727630, NCT05983237) that assess ORR as a primary endpoint.\"}",
+ "tokens_in": 822,
+ "tokens_out": 320
+}

@@ -1,0 +1,7 @@
+{
+ "step": "extract_design",
+ "model": "deepseek/deepseek-v4-flash-20260731",
+ "content": "{\n  \"condition\": \"moderate-to-severe atopic hand and foot dermatitis\",\n  \"sponsor\": \"Regeneron Pharmaceuticals, Inc.\",\n  \"arms\": [\n    {\n      \"name\": \"Dupilumab\",\n      \"type\": \"experimental\",\n      \"dose\": \"not specified\",\n      \"route\": \"subcutaneously (SC)\",\n      \"frequency\": \"every 2 weeks (Q2W)\",\n      \"duration_weeks\": 16\n    },\n    {\n      \"name\": \"Placebo\",\n      \"type\": \"placebo\",\n      \"dose\": \"matching placebo\",\n      \"route\": \"subcutaneously (SC)\",\n      \"frequency\": \"every 2 weeks (Q2W)\",\n      \"duration_weeks\": 16\n    }\n  ]\n}",
+ "tokens_in": 3569,
+ "tokens_out": 172
+}

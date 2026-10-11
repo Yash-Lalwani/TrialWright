@@ -1,0 +1,7 @@
+{
+ "step": "map_sections",
+ "model": "deepseek/deepseek-v4-flash-20260731",
+ "content": "{\"mappings\": [{\"section_id\": \"sec_11\", \"m11_id\": \"3.1\"}, {\"section_id\": \"sec_23\", \"m11_id\": \"10.3\"}, {\"section_id\": \"sec_24\", \"m11_id\": \"8.3\"}, {\"section_id\": \"sec_25\", \"m11_id\": \"8.4\"}, {\"section_id\": \"sec_26\", \"m11_id\": \"8.5\"}, {\"section_id\": \"sec_27\", \"m11_id\": \"8.7\"}, {\"section_id\": \"sec_28\", \"m11_id\": \"8.6.2\"}, {\"section_id\": \"sec_35\", \"m11_id\": \"10.11\"}, {\"section_id\": \"sec_40\", \"m11_id\": \"7.2\"}, {\"section_id\": \"sec_42\", \"m11_id\": \"6.1\"}, {\"section_id\": \"sec_71\", \"m11_id\": \"8.1\"}, {\"section_id\": \"sec_111\", \"m11_id\": \"11.2.2\"}, {\"section_id\": \"sec_112\", \"m11_id\": \"9.2.3.1\"}, {\"section_id\": \"sec_136\", \"m11_id\": \"10.9\"}, {\"section_id\": \"sec_146\", \"m11_id\": \"11.6\"}, {\"section_id\": \"sec_151\", \"m11_id\": \"11.1\"}, {\"section_id\": \"sec_154\", \"m11_id\": \"11.4\"}, {\"section_id\": \"sec_155\", \"m11_id\": \"11.12\"}, {\"section_id\": \"sec_160\", \"m11_id\": \"11.11\"}, {\"section_id\": \"sec_162\", \"m11_id\": \"11.5\"}, {\"section_id\": \"sec_165\", \"m11_id\": \"11.2.1\"}, {\"section_id\": \"sec_167\", \"m11_id\": \"12.1\"}, {\"section_id\": \"sec_169\", \"m11_id\": \"12.1\"}, {\"section_id\": \"sec_171\", \"m11_id\": \"12.1\"}]}",
+ "tokens_in": 2851,
+ "tokens_out": 474
+}

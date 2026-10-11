@@ -1,0 +1,7 @@
+{
+ "step": "extract_design",
+ "model": "deepseek/deepseek-v4-flash-20260731",
+ "content": "{\n  \"condition\": \"Previously treated locally advanced and unresectable or metastatic non-small cell lung cancer (NSCLC) with KRAS p.G12C mutation\",\n  \"sponsor\": \"Amgen\",\n  \"arms\": [\n    {\n      \"name\": \"AMG 510\",\n      \"type\": \"experimental\",\n      \"dose\": \"not specified\",\n      \"route\": \"not specified\",\n      \"frequency\": \"not specified\",\n      \"duration_weeks\": null\n    },\n    {\n      \"name\": \"Docetaxel\",\n      \"type\": \"active comparator\",\n      \"dose\": \"not specified\",\n      \"route\": \"not specified\",\n      \"frequency\": \"not specified\",\n      \"duration_weeks\": null\n    }\n  ]\n}",
+ "tokens_in": 3804,
+ "tokens_out": 165
+}

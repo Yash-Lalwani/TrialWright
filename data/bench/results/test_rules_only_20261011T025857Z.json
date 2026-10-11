@@ -1,0 +1,829 @@
+{
+ "generated_at": "2026-10-11T02:58:57Z",
+ "set": "test",
+ "config": "rules_only",
+ "seeds": [
+  1
+ ],
+ "llm_enabled": false,
+ "llm_extraction": {
+  "runs": 14,
+  "with_extraction": 0
+ },
+ "test_set": {
+  "protocols": 7,
+  "injected_errors": 65
+ },
+ "overall": {
+  "recall": 0.354,
+  "precision": 0.885,
+  "f1": 0.505
+ },
+ "overall_measurable": {
+  "recall": 0.629,
+  "precision": 0.88,
+  "f1": 0.733,
+  "n_errors": 35,
+  "note": "only error types this config can detect (rules_only cannot see types that need LLM extraction)"
+ },
+ "by_type": [
+  {
+   "type": "T02",
+   "name": "Endpoint timepoint changed in one place",
+   "n": 2,
+   "found": 1,
+   "recall": 0.5,
+   "measurable": false
+  },
+  {
+   "type": "T04",
+   "name": "Secondary objective's endpoint deleted",
+   "n": 5,
+   "found": 0,
+   "recall": 0.0,
+   "measurable": false
+  },
+  {
+   "type": "T05",
+   "name": "Endpoint analysis removed from statistics",
+   "n": 7,
+   "found": 0,
+   "recall": 0.0,
+   "measurable": false
+  },
+  {
+   "type": "T06",
+   "name": "Age range changed in one place",
+   "n": 3,
+   "found": 2,
+   "recall": 0.667,
+   "measurable": true
+  },
+  {
+   "type": "T07",
+   "name": "Dose changed in one place",
+   "n": 6,
+   "found": 3,
+   "recall": 0.5,
+   "measurable": true
+  },
+  {
+   "type": "T08",
+   "name": "Sample size changed in one place",
+   "n": 5,
+   "found": 3,
+   "recall": 0.6,
+   "measurable": true
+  },
+  {
+   "type": "T09",
+   "name": "Power/effect changed so N not reproducible",
+   "n": 4,
+   "found": 0,
+   "recall": 0.0,
+   "measurable": false
+  },
+  {
+   "type": "T10",
+   "name": "Randomisation ratio changed in one place",
+   "n": 2,
+   "found": 1,
+   "recall": 0.5,
+   "measurable": true
+  },
+  {
+   "type": "T12",
+   "name": "Exclusion criterion contradicts an inclusion criterion",
+   "n": 6,
+   "found": 0,
+   "recall": 0.0,
+   "measurable": false
+  },
+  {
+   "type": "T13",
+   "name": "Lab threshold value conflicts between mentions",
+   "n": 6,
+   "found": 0,
+   "recall": 0.0,
+   "measurable": false
+  },
+  {
+   "type": "T14",
+   "name": "Cross-reference to a nonexistent section",
+   "n": 7,
+   "found": 7,
+   "recall": 1.0,
+   "measurable": true
+  },
+  {
+   "type": "T15",
+   "name": "Required M11 section removed",
+   "n": 5,
+   "found": 5,
+   "recall": 1.0,
+   "measurable": true
+  },
+  {
+   "type": "T16",
+   "name": "Visit windows made to overlap",
+   "n": 2,
+   "found": 0,
+   "recall": 0.0,
+   "measurable": true
+  },
+  {
+   "type": "T17",
+   "name": "Treatment/follow-up duration no longer adds up",
+   "n": 5,
+   "found": 1,
+   "recall": 0.2,
+   "measurable": true
+  }
+ ],
+ "by_category": [
+  {
+   "amendment_category": "clerical",
+   "n": 7,
+   "recall": 1.0
+  },
+  {
+   "amendment_category": "completeness",
+   "n": 5,
+   "recall": 1.0
+  },
+  {
+   "amendment_category": "design",
+   "n": 7,
+   "recall": 0.286
+  },
+  {
+   "amendment_category": "eligibility",
+   "n": 15,
+   "recall": 0.133
+  },
+  {
+   "amendment_category": "endpoints",
+   "n": 7,
+   "recall": 0.143
+  },
+  {
+   "amendment_category": "intervention",
+   "n": 6,
+   "recall": 0.5
+  },
+  {
+   "amendment_category": "statistics",
+   "n": 16,
+   "recall": 0.188
+  },
+  {
+   "amendment_category": "visit_schedule",
+   "n": 2,
+   "recall": 0.0
+  }
+ ],
+ "false_alarms_per_clean_protocol": 4.57,
+ "clean_flags_by_check": {
+  "B2:major": 2.1,
+  "B1:major": 1.1,
+  "C4:critical": 0.7,
+  "C4:major": 0.3,
+  "C5:critical": 0.1,
+  "C6:major": 0.1
+ },
+ "per_protocol": [
+  {
+   "nct_id": "NCT03132636",
+   "seed": 1,
+   "injected": 9,
+   "tp": 1,
+   "fn": 8,
+   "fp": 0,
+   "skipped": [
+    {
+     "type": "T01",
+     "reason": "endpoint timepoints are not extracted (timepoints_weeks is empty on the dev protocols), so the endpoint visit is unknown"
+    },
+    {
+     "type": "T03",
+     "reason": "needs a synthesised SoA row with matching ruling lines; not implemented"
+    },
+    {
+     "type": "T16",
+     "reason": "no row of at least 3 visit windows found"
+    },
+    {
+     "type": "T06",
+     "reason": "minimum age is stated only once, so a change cannot create an inconsistency"
+    },
+    {
+     "type": "T15",
+     "reason": "not sampled (target count reached)"
+    },
+    {
+     "type": "T11",
+     "reason": "not sampled (target count reached)"
+    },
+    {
+     "type": "T18",
+     "reason": "not sampled (target count reached)"
+    },
+    {
+     "type": "T17",
+     "reason": "not sampled (target count reached)"
+    },
+    {
+     "type": "T02",
+     "reason": "not sampled (target count reached)"
+    }
+   ],
+   "missed": [
+    {
+     "type": "T07",
+     "description": "Dose 350 changed to 437 in one place only",
+     "page": 5,
+     "line": "from 250 mg Q3W to 437 mg Q3W to",
+     "why": "injected value was NOT extracted by ingest (pipeline gap)"
+    },
+    {
+     "type": "T04",
+     "description": "Removed the endpoint text of secondary objective 'Estimate ORR according to investigator review; estimate dura'",
+     "page": 31,
+     "line": "(removed)Estimate ORR (see Appendix 1 and Appendix 2) according to investigator review",
+     "why": "no C3 flag at all (needs LLM extraction)"
+    },
+    {
+     "type": "T08",
+     "description": "Sample size 137 changed to 164 in one place only",
+     "page": 23,
+     "line": "and 84 patients for Group 2, for a total of 164 patients.",
+     "why": "injected value was NOT extracted by ingest (pipeline gap)"
+    },
+    {
+     "type": "T05",
+     "description": "Removed the analysis of secondary endpoint 'ORR' (1 line(s))",
+     "page": 86,
+     "line": "(removed)The investigator-assessed ORR will be considered as a secondary analysis.",
+     "why": "no C3 flag at all (needs LLM extraction)"
+    },
+    {
+     "type": "T09",
+     "description": "Stated power changed 85% -> 95% everywhere, so N is no longer reproducible",
+     "page": 18,
+     "line": "Group 1 Given a Sample Size of 50 Patients (Based on 95% Power) ........................83",
+     "why": "no C7 flag at all (needs LLM extraction)"
+    },
+    {
+     "type": "T13",
+     "description": "Lab threshold 1.5 changed to 3.0 in one place only",
+     "page": 40,
+     "line": "a. Total bilirubin \u22643.0x upper limit of normal (ULN) (or \u22643x ULN, if liver metastases).",
+     "why": "no C8 flag at all (needs LLM extraction)"
+    },
+    {
+     "type": "T12",
+     "description": "Exclusion criterion rewritten to contradict inclusion on age",
+     "page": 42,
+     "line": "2. Age at or above 14 years.",
+     "why": "no C8 flag at all (needs LLM extraction)"
+    },
+    {
+     "type": "T10",
+     "description": "Ratio 1:1 changed to 2:1 in one place only",
+     "page": 89,
+     "line": "2:1 or 3:2.",
+     "why": "injected value was NOT extracted by ingest (pipeline gap)"
+    }
+   ]
+  },
+  {
+   "nct_id": "NCT03257267",
+   "seed": 1,
+   "injected": 12,
+   "tp": 5,
+   "fn": 7,
+   "fp": 0,
+   "skipped": [
+    {
+     "type": "T01",
+     "reason": "endpoint timepoints are not extracted (timepoints_weeks is empty on the dev protocols), so the endpoint visit is unknown"
+    },
+    {
+     "type": "T03",
+     "reason": "needs a synthesised SoA row with matching ruling lines; not implemented"
+    },
+    {
+     "type": "T18",
+     "reason": "protocol age mentions do not all equal the registry value 18"
+    },
+    {
+     "type": "T16",
+     "reason": "no row of at least 3 visit windows found"
+    },
+    {
+     "type": "T11",
+     "reason": "protocol is not double-blind"
+    },
+    {
+     "type": "T02",
+     "reason": "no endpoint timepoint repeated across sections"
+    }
+   ],
+   "missed": [
+    {
+     "type": "T07",
+     "description": "Dose 350 changed to 437 in one place only",
+     "page": 27,
+     "line": "cemiplimab will be administered intravenously (IV) as a flat dose of 437 mg",
+     "why": "expected check fired elsewhere: p27 Sample size disagrees across sections: 708.0 vs 59; p28 Randomization ratio disagrees across sections: 2:1 (extracted, but the check did not flag it)"
+    },
+    {
+     "type": "T13",
+     "description": "Lab threshold 1.5 changed to 3.0 in one place only",
+     "page": 48,
+     "line": "a. Total bilirubin \u22643.0x upper limit of normal (ULN; if liver metastases \u22643x ULN).",
+     "why": "no C8 flag at all (needs LLM extraction)"
+    },
+    {
+     "type": "T17",
+     "description": "Duration 96 changed to 108 in one place; total no longer adds up",
+     "page": 3,
+     "line": "All patients currently on cemiplimab may continue treatment up to 108 weeks. All patients",
+     "why": "injected value was NOT extracted by ingest (pipeline gap)"
+    },
+    {
+     "type": "T09",
+     "description": "Stated power changed 90% -> 80% everywhere, so N is no longer reproducible",
+     "page": 4,
+     "line": "80% power with 2 interim analyses.",
+     "why": "no C7 flag at all (needs LLM extraction)"
+    },
+    {
+     "type": "T05",
+     "description": "Removed the analysis of secondary endpoint 'Time to progression or death' (1 line(s))",
+     "page": 94,
+     "line": "(removed)The PFS will be analyzed using the same statistical method as the analysis of OS.",
+     "why": "no C3 flag at all (needs LLM extraction)"
+    },
+    {
+     "type": "T12",
+     "description": "Exclusion criterion rewritten to contradict inclusion on lesion size (CT/MRI/caliper)",
+     "page": 49,
+     "line": "2. Lesion size (ct/mri/caliper) at or above 8 mm.",
+     "why": "no C8 flag at all (needs LLM extraction)"
+    },
+    {
+     "type": "T04",
+     "description": "Removed the endpoint text of secondary objective 'To compare progression-free survival (PFS) of cemiplimab ver'",
+     "page": 43,
+     "line": "(removed)Progression-free survival will be defined as the time from randomization to the date of the first documented tumor progression using RECIST 1.1, or death due to any cause.",
+     "why": "no C3 flag at all (needs LLM extraction)"
+    }
+   ]
+  },
+  {
+   "nct_id": "NCT03738423",
+   "seed": 1,
+   "injected": 8,
+   "tp": 2,
+   "fn": 6,
+   "fp": 0,
+   "skipped": [
+    {
+     "type": "T01",
+     "reason": "endpoint timepoints are not extracted (timepoints_weeks is empty on the dev protocols), so the endpoint visit is unknown"
+    },
+    {
+     "type": "T03",
+     "reason": "needs a synthesised SoA row with matching ruling lines; not implemented"
+    },
+    {
+     "type": "T13",
+     "reason": "no lab threshold stated at least twice"
+    },
+    {
+     "type": "T16",
+     "reason": "not sampled (target count reached)"
+    },
+    {
+     "type": "T12",
+     "reason": "not sampled (target count reached)"
+    },
+    {
+     "type": "T15",
+     "reason": "not sampled (target count reached)"
+    },
+    {
+     "type": "T10",
+     "reason": "not sampled (target count reached)"
+    },
+    {
+     "type": "T18",
+     "reason": "not sampled (target count reached)"
+    },
+    {
+     "type": "T04",
+     "reason": "not sampled (target count reached)"
+    },
+    {
+     "type": "T11",
+     "reason": "not sampled (target count reached)"
+    }
+   ],
+   "missed": [
+    {
+     "type": "T05",
+     "description": "Removed the analysis of secondary endpoint 'Incidence of TEAEs' (1 line(s))",
+     "page": 66,
+     "line": "(removed)For categorical or ordinal data, frequencies and percentages will be displayed for each category.",
+     "why": "no C3 flag at all (needs LLM extraction)"
+    },
+    {
+     "type": "T06",
+     "description": "Minimum age changed 15 -> 18 in one place only",
+     "page": 76,
+     "line": "investigator copies of CRFs, and drug accountability records for at least 18 years following the",
+     "why": "injected value was NOT extracted by ingest (pipeline gap)"
+    },
+    {
+     "type": "T17",
+     "description": "Duration 41 changed to 53 in one place; total no longer adds up",
+     "page": 7,
+     "line": "Each patient\u2019s participation in the study will be up to 53 weeks, including an up",
+     "why": "no C6 flag at all (extracted, but the check did not flag it)"
+    },
+    {
+     "type": "T09",
+     "description": "Stated power changed 96% -> 80% everywhere, so N is no longer reproducible",
+     "page": 10,
+     "line": "provide 80% power to detect a 35% difference between the most efficacious",
+     "why": "no C7 flag at all (needs LLM extraction)"
+    },
+    {
+     "type": "T02",
+     "description": "Endpoint timepoint 16 -> 18 in one place only",
+     "page": 7,
+     "line": "dose of study drug. The primary endpoint will be evaluated at week 18. The",
+     "why": "expected check fired elsewhere: p7 Sample size disagrees across sections: 360.0 vs 30"
+    },
+    {
+     "type": "T07",
+     "description": "Dose 300 changed to 375 in one place only",
+     "page": 3,
+     "line": "the REGN3500 375 mg SC every 4 weeks (Q4W) group,",
+     "why": "injected value was NOT extracted by ingest (pipeline gap)"
+    }
+   ]
+  },
+  {
+   "nct_id": "NCT04154943",
+   "seed": 1,
+   "injected": 10,
+   "tp": 4,
+   "fn": 6,
+   "fp": 0,
+   "skipped": [
+    {
+     "type": "T01",
+     "reason": "endpoint timepoints are not extracted (timepoints_weeks is empty on the dev protocols), so the endpoint visit is unknown"
+    },
+    {
+     "type": "T03",
+     "reason": "needs a synthesised SoA row with matching ruling lines; not implemented"
+    },
+    {
+     "type": "T16",
+     "reason": "no row of at least 3 visit windows found"
+    },
+    {
+     "type": "T11",
+     "reason": "protocol is not double-blind"
+    },
+    {
+     "type": "T18",
+     "reason": "protocol age mentions do not all equal the registry value 18"
+    },
+    {
+     "type": "T10",
+     "reason": "no randomisation ratio is stated twice"
+    },
+    {
+     "type": "T06",
+     "reason": "minimum age is stated only once, so a change cannot create an inconsistency"
+    },
+    {
+     "type": "T02",
+     "reason": "no endpoint timepoint repeated across sections"
+    }
+   ],
+   "missed": [
+    {
+     "type": "T05",
+     "description": "Removed the analysis of secondary endpoint 'mPR rate' (1 line(s))",
+     "page": 74,
+     "line": "(removed)The pCR rate per local pathology review, mPR rate per independent central pathology review, mPR rate per local pathology review, and ORR prior to surgery per investigator assessment, along wi",
+     "why": "no C3 flag at all (needs LLM extraction)"
+    },
+    {
+     "type": "T04",
+     "description": "Removed the endpoint text of secondary objective 'To evaluate the efficacy of neoadjuvant cemiplimab on measur'",
+     "page": 26,
+     "line": "(removed)mPR rate assessed by independent central pathology review",
+     "why": "no C3 flag at all (needs LLM extraction)"
+    },
+    {
+     "type": "T09",
+     "description": "Stated power changed 90% -> 80% everywhere, so N is no longer reproducible",
+     "page": 17,
+     "line": "Seventy-two (72) patients will be required to provide 80% power to reject the",
+     "why": "no C7 flag at all (needs LLM extraction)"
+    },
+    {
+     "type": "T17",
+     "description": "Duration 12 changed to 24 in one place; total no longer adds up",
+     "page": 14,
+     "line": "treatment period of up to 24 weeks, and surgery after 12 weeks",
+     "why": "no C6 flag at all (extracted, but the check did not flag it)"
+    },
+    {
+     "type": "T12",
+     "description": "Exclusion criterion rewritten to contradict inclusion on lesion longest diameter",
+     "page": 34,
+     "line": "2. Lesion longest diameter at or above 2.4 cm.",
+     "why": "no C8 flag at all (needs LLM extraction)"
+    },
+    {
+     "type": "T13",
+     "description": "Lab threshold 9.0 changed to 18.0 in one place only",
+     "page": 34,
+     "line": "a. Hemoglobin >18.0 g/dL",
+     "why": "no C8 flag at all (needs LLM extraction)"
+    }
+   ]
+  },
+  {
+   "nct_id": "NCT04639219",
+   "seed": 1,
+   "injected": 8,
+   "tp": 3,
+   "fn": 5,
+   "fp": 0,
+   "skipped": [
+    {
+     "type": "T01",
+     "reason": "endpoint timepoints are not extracted (timepoints_weeks is empty on the dev protocols), so the endpoint visit is unknown"
+    },
+    {
+     "type": "T03",
+     "reason": "needs a synthesised SoA row with matching ruling lines; not implemented"
+    },
+    {
+     "type": "T10",
+     "reason": "no randomisation ratio is stated twice"
+    },
+    {
+     "type": "T18",
+     "reason": "protocol age mentions do not all equal the registry value 18"
+    },
+    {
+     "type": "T09",
+     "reason": "no stated power"
+    },
+    {
+     "type": "T11",
+     "reason": "protocol is not double-blind"
+    },
+    {
+     "type": "T02",
+     "reason": "no endpoint timepoint repeated across sections"
+    },
+    {
+     "type": "T07",
+     "reason": "no dose value is repeated at least 3 times"
+    },
+    {
+     "type": "T08",
+     "reason": "not sampled (target count reached)"
+    },
+    {
+     "type": "T04",
+     "reason": "not sampled (target count reached)"
+    }
+   ],
+   "missed": [
+    {
+     "type": "T13",
+     "description": "Lab threshold 9 changed to 18 in one place only",
+     "page": 44,
+     "line": "Hemoglobin \u2265 18 g/dL. NOTE: Patients requiring ongoing",
+     "why": "no C8 flag at all (needs LLM extraction)"
+    },
+    {
+     "type": "T05",
+     "description": "Removed the analysis of secondary endpoint 'DoR, DCR, PFS, Proportion alive and progression-free at 6 and 12 months, Confirmed ORR (Investigator)' (3 line(s))",
+     "page": 93,
+     "line": "(removed)Kaplan-Meier median estimates and their corresponding two-sided 95% confidence intervals will be reported (ICR and Investigator assessment).",
+     "why": "no C3 flag at all (needs LLM extraction)"
+    },
+    {
+     "type": "T16",
+     "description": "Visit windows widened to +/-42 days on three adjacent visits",
+     "page": 24,
+     "line": "\u00b1 42 days",
+     "why": "injected value was NOT extracted by ingest (pipeline gap)"
+    },
+    {
+     "type": "T17",
+     "description": "Duration 32 changed to 44 in one place; total no longer adds up",
+     "page": 11,
+     "line": "the opportunity for approximately 44 weeks of follow-up after treatment assignment. This",
+     "why": "expected check fired but only on issues already present in the clean run (extracted, but the check did not flag it)"
+    },
+    {
+     "type": "T12",
+     "description": "Exclusion criterion rewritten to contradict inclusion on LVEF",
+     "page": 48,
+     "line": "10 Lvef at or above 40 %.",
+     "why": "no C8 flag at all (needs LLM extraction)"
+    }
+   ]
+  },
+  {
+   "nct_id": "NCT04646005",
+   "seed": 1,
+   "injected": 10,
+   "tp": 5,
+   "fn": 5,
+   "fp": 1,
+   "skipped": [
+    {
+     "type": "T01",
+     "reason": "endpoint timepoints are not extracted (timepoints_weeks is empty on the dev protocols), so the endpoint visit is unknown"
+    },
+    {
+     "type": "T03",
+     "reason": "needs a synthesised SoA row with matching ruling lines; not implemented"
+    },
+    {
+     "type": "T18",
+     "reason": "protocol age mentions do not all equal the registry value 18"
+    },
+    {
+     "type": "T11",
+     "reason": "protocol is not double-blind"
+    },
+    {
+     "type": "T09",
+     "reason": "no stated power"
+    },
+    {
+     "type": "T06",
+     "reason": "minimum age is stated only once, so a change cannot create an inconsistency"
+    },
+    {
+     "type": "T10",
+     "reason": "no randomisation ratio is stated twice"
+    },
+    {
+     "type": "T16",
+     "reason": "no row of at least 3 visit windows found"
+    }
+   ],
+   "missed": [
+    {
+     "type": "T05",
+     "description": "Removed the analysis of secondary endpoint 'DOR' (1 line(s))",
+     "page": 78,
+     "line": "(removed)The secondary efficacy endpoints as measured by DOR, PFS, and OS will be summarized by median and its 95% confidence interval using the Kaplan-Meier method.",
+     "why": "no C3 flag at all (needs LLM extraction)"
+    },
+    {
+     "type": "T08",
+     "description": "Sample size 105 changed to 126 in one place only",
+     "page": 19,
+     "line": "Approximately 126 patients are planned to be enrolled in the study.",
+     "why": "expected check fired elsewhere: p19 Sample size disagrees across sections: 126.0 vs 10; p38 Cemiplimab dose disagrees across sections: 350 mg  (extracted, but the check did not flag it)"
+    },
+    {
+     "type": "T04",
+     "description": "Removed the endpoint text of secondary objective 'To characterize the safety profile of cemiplimab + ISA101b a'",
+     "page": 35,
+     "line": "(removed)Incidence and severity of TEAEs/adverse events of special interest (AESIs)/serious adverse events (SAEs) and \u2265 grade 3 laboratory abnormalities during the treatment period and up to 90 days a",
+     "why": "no C3 flag at all (needs LLM extraction)"
+    },
+    {
+     "type": "T12",
+     "description": "Exclusion criterion rewritten to contradict inclusion on Hemoglobin",
+     "page": 42,
+     "line": "1. Hemoglobin at or above 6 g/dL.",
+     "why": "no C8 flag at all (needs LLM extraction)"
+    },
+    {
+     "type": "T13",
+     "description": "Lab threshold 8 changed to 16 in one place only",
+     "page": 41,
+     "line": "a. Hemoglobin \u226516 g/dL",
+     "why": "no C8 flag at all (needs LLM extraction)"
+    }
+   ]
+  },
+  {
+   "nct_id": "NCT04916002",
+   "seed": 1,
+   "injected": 8,
+   "tp": 3,
+   "fn": 5,
+   "fp": 2,
+   "skipped": [
+    {
+     "type": "T01",
+     "reason": "endpoint timepoints are not extracted (timepoints_weeks is empty on the dev protocols), so the endpoint visit is unknown"
+    },
+    {
+     "type": "T03",
+     "reason": "needs a synthesised SoA row with matching ruling lines; not implemented"
+    },
+    {
+     "type": "T09",
+     "reason": "no stated power"
+    },
+    {
+     "type": "T06",
+     "reason": "minimum age is stated only once, so a change cannot create an inconsistency"
+    },
+    {
+     "type": "T02",
+     "reason": "no endpoint timepoint repeated across sections"
+    },
+    {
+     "type": "T08",
+     "reason": "no free sample-size mention"
+    },
+    {
+     "type": "T18",
+     "reason": "protocol age mentions do not all equal the registry value 18"
+    },
+    {
+     "type": "T17",
+     "reason": "durations are not stated at least twice"
+    },
+    {
+     "type": "T11",
+     "reason": "fewer than 2 blinding/unblinding lines to remove"
+    },
+    {
+     "type": "T10",
+     "reason": "no randomisation ratio is stated twice"
+    }
+   ],
+   "missed": [
+    {
+     "type": "T13",
+     "description": "Lab threshold 1500 changed to 3000 in one place only",
+     "page": 54,
+     "line": "\u2212 neutrophil count \u2265 3000/mm3",
+     "why": "no C8 flag at all (needs LLM extraction)"
+    },
+    {
+     "type": "T05",
+     "description": "Removed the analysis of secondary endpoint 'DOR' (1 line(s))",
+     "page": 94,
+     "line": "(removed)DOR will be analyzed using the Kaplan-Meier method by cohort for responders.",
+     "why": "no C3 flag at all (needs LLM extraction)"
+    },
+    {
+     "type": "T04",
+     "description": "Removed the endpoint text of secondary objective 'To evaluate the safety and tolerability of vidutolimod admin'",
+     "page": 46,
+     "line": "(removed)AEs, SAEs, and AEs leading to discontinuation or death, and severity of AEs as assessed by the National Cancer Institute Common Terminology Criteria for Adverse Events Version 5.0 (CTCAE v5.0",
+     "why": "no C3 flag at all (needs LLM extraction)"
+    },
+    {
+     "type": "T16",
+     "description": "Visit windows widened to +/-9 days on three adjacent visits",
+     "page": 24,
+     "line": "\u00b1 9d",
+     "why": "injected value was NOT extracted by ingest (pipeline gap)"
+    },
+    {
+     "type": "T12",
+     "description": "Exclusion criterion rewritten to contradict inclusion on PD-L1 TPS",
+     "page": 55,
+     "line": "6. Pd-l1 tps at or above 40 %.",
+     "why": "no C8 flag at all (needs LLM extraction)"
+    }
+   ]
+  }
+ ],
+ "speed_cost": {
+  "median_seconds": 3.77,
+  "median_usd": 0.0,
+  "measured": "replay (not a real wait)"
+ },
+ "ablation": null,
+ "hallucination": null,
+ "human_baseline": null,
+ "real_findings": null,
+ "soa_extraction": null,
+ "case_studies": null
+}

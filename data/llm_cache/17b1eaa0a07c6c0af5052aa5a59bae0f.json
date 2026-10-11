@@ -1,0 +1,7 @@
+{
+ "step": "llm_only",
+ "model": "deepseek/deepseek-v4-flash-0731",
+ "content": "{\n  \"findings\": [\n    {\n      \"title\": \"Inconsistent dose reduction table for AMG 510: text says reductions below 240 mg not allowed, but table has only 960, 480, 240; no contradiction, but text says 'Dose reductions below 240 mg are not allowed' and 'Subjects who experience an adverse event requiring dose reductions below 240 mg should be permanently discontinued' \u2013 this is consistent, but the table has only two reductions, and text says 'Up to two dose reductions are allowed' \u2013 consistent. However, the dose modification table (Table 6-3) says 'resume dosing at 2 dose decrement' for recovery >4 weeks, but only two dose reductions are allowed, so a 2-dose decrement from 960 would be 240, which is allowed, but if already at 480, a 2-dose decrement would be below 240, which is not allowed; the footnote b says if 2 dose decrements not possible, discontinue \u2013 this is consistent. No error found.\",\n      \"page\": 69,\n      \"quote\": \"Up to two dose reductions are allowed.  Dose reductions below 240 mg are not allowed.\",\n      \"severity\": \"minor\"\n    }\n  ]\n}",
+ "tokens_in": 7087,
+ "tokens_out": 265
+}

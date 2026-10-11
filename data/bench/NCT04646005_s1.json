@@ -1,0 +1,551 @@
+{
+ "nct_id": "NCT04646005",
+ "seed": 1,
+ "source_pdf": "NCT04646005_protocol.pdf",
+ "injected_pdf": "NCT04646005_s1.pdf",
+ "target_errors": 12,
+ "errors": [
+  {
+   "type": "T02",
+   "name": "Endpoint timepoint changed in one place",
+   "page": 19,
+   "bbox": [
+    442.5,
+    176.5,
+    452.5,
+    189.9
+   ],
+   "original": "50",
+   "new": "52",
+   "context": "Patients will be assessed for response at cycle 1 day 50 (week 7), then once",
+   "new_line": "Patients will be assessed for response at cycle 1 day 52 (week 7), then once",
+   "description": "Endpoint timepoint 50 -> 52 in one place only",
+   "expected_checks": [
+    "C1",
+    "C4"
+   ],
+   "amendment_category": "endpoints",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     19
+    ],
+    "texts": [
+     "t cycle 1 day 52 (week 7), the"
+    ]
+   },
+   "error_id": "NCT04646005-s1-01"
+  },
+  {
+   "type": "T05",
+   "name": "Endpoint analysis removed from statistics",
+   "page": 78,
+   "bbox": [
+    72.0,
+    130.7,
+    542.7,
+    146.9
+   ],
+   "original": "Kaplan-Meier method",
+   "new": "(removed)",
+   "context": "The secondary efficacy endpoints as measured by DOR, PFS, and OS will be summarized by median and its 95% confidence interval using the Kaplan-Meier method.",
+   "new_line": "(removed)The secondary efficacy endpoints as measured by DOR, PFS, and OS will be summarized by median and its 95% confidence interval using the Kaplan-Meier method.",
+   "description": "Removed the analysis of secondary endpoint 'DOR' (1 line(s))",
+   "expected_checks": [
+    "C3"
+   ],
+   "amendment_category": "statistics",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     29,
+     78
+    ],
+    "texts": [],
+    "titles": [
+     "no analysis method"
+    ]
+   },
+   "error_id": "NCT04646005-s1-02"
+  },
+  {
+   "type": "T08",
+   "name": "Sample size changed in one place",
+   "page": 19,
+   "bbox": [
+    295.4,
+    401.5,
+    310.6,
+    414.9
+   ],
+   "original": "105",
+   "new": "126",
+   "context": "Approximately 105 patients are planned to be enrolled in the study.",
+   "new_line": "Approximately 126 patients are planned to be enrolled in the study.",
+   "description": "Sample size 105 changed to 126 in one place only",
+   "expected_checks": [
+    "C4"
+   ],
+   "amendment_category": "statistics",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     19,
+     40
+    ],
+    "texts": [
+     "Approximately 126 patients are"
+    ]
+   },
+   "error_id": "NCT04646005-s1-03"
+  },
+  {
+   "type": "T04",
+   "name": "Secondary objective's endpoint deleted",
+   "page": 35,
+   "bbox": [
+    108.0,
+    189.9,
+    542.8,
+    206.2
+   ],
+   "original": "Incidence and severity of TEAEs/AESIs/SAEs and ≥ grade 3 lab; Duration of response (DOR).; Progression-free survival (PFS).; Overall survival (OS).",
+   "new": "(removed)",
+   "context": "Incidence and severity of TEAEs/adverse events of special interest (AESIs)/serious adverse events (SAEs) and ≥ grade 3 laboratory abnormalities during the treatment period and up to 90 days after the ",
+   "new_line": "(removed)Incidence and severity of TEAEs/adverse events of special interest (AESIs)/serious adverse events (SAEs) and ≥ grade 3 laboratory abnormalities during the treatment period and up to 90 days a",
+   "description": "Removed the endpoint text of secondary objective 'To characterize the safety profile of cemiplimab + ISA101b a'",
+   "expected_checks": [
+    "C3"
+   ],
+   "amendment_category": "endpoints",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     29,
+     35
+    ],
+    "texts": [],
+    "titles": [
+     "objective has no endpoint"
+    ]
+   },
+   "error_id": "NCT04646005-s1-04"
+  },
+  {
+   "type": "T12",
+   "name": "Exclusion criterion contradicts an inclusion criterion",
+   "page": 42,
+   "bbox": [
+    108.0,
+    70.9,
+    435.1,
+    87.1
+   ],
+   "original": "Prior treatment with an agent that blocks the PD-1/PD-L1 pathway. ",
+   "new": "Hemoglobin at or above 6 g/dL.",
+   "context": "1. Prior treatment with an agent that blocks the PD-1/PD-L1 pathway.",
+   "new_line": "1. Hemoglobin at or above 6 g/dL.",
+   "description": "Exclusion criterion rewritten to contradict inclusion on Hemoglobin",
+   "expected_checks": [
+    "C8"
+   ],
+   "amendment_category": "eligibility",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     41,
+     42
+    ],
+    "texts": [
+     "1. Hemoglobin at or above 6 g/dL."
+    ]
+   },
+   "error_id": "NCT04646005-s1-05"
+  },
+  {
+   "type": "T14",
+   "name": "Cross-reference to a nonexistent section",
+   "page": 23,
+   "bbox": [
+    342.3,
+    182.9,
+    357.3,
+    199.1
+   ],
+   "original": "1.2",
+   "new": "99.2",
+   "context": "efficacy against cervical cancer, as described in Section 1.2.",
+   "new_line": "efficacy against cervical cancer, as described in Section 99.2.",
+   "description": "Reference to Section 1.2 changed to nonexistent Section 99.2",
+   "expected_checks": [
+    "C9"
+   ],
+   "amendment_category": "clerical",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     23
+    ],
+    "texts": [
+     "ed in Section 99.2."
+    ]
+   },
+   "error_id": "NCT04646005-s1-06"
+  },
+  {
+   "type": "T13",
+   "name": "Lab threshold value conflicts between mentions",
+   "page": 41,
+   "bbox": [
+    195.5,
+    280.7,
+    201.5,
+    296.9
+   ],
+   "original": "8",
+   "new": "16",
+   "context": "a. Hemoglobin ≥8 g/dL",
+   "new_line": "a. Hemoglobin ≥16 g/dL",
+   "description": "Lab threshold 8 changed to 16 in one place only",
+   "expected_checks": [
+    "C8"
+   ],
+   "amendment_category": "eligibility",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     41
+    ],
+    "texts": [
+     ". Hemoglobin ≥16 g/dL"
+    ]
+   },
+   "error_id": "NCT04646005-s1-07"
+  },
+  {
+   "type": "T07",
+   "name": "Dose changed in one place",
+   "page": 18,
+   "bbox": [
+    321.5,
+    511.6,
+    336.5,
+    525.0
+   ],
+   "original": "350",
+   "new": "437",
+   "context": "Cemiplimab 350 mg given by intravenous (IV) infusion over 30",
+   "new_line": "Cemiplimab 437 mg given by intravenous (IV) infusion over 30",
+   "description": "Dose 350 changed to 437 in one place only",
+   "expected_checks": [
+    "C4"
+   ],
+   "amendment_category": "intervention",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     18,
+     19,
+     31,
+     38,
+     46
+    ],
+    "texts": [
+     "Cemiplimab 437 mg given by i"
+    ]
+   },
+   "error_id": "NCT04646005-s1-08"
+  },
+  {
+   "type": "T17",
+   "name": "Treatment/follow-up duration no longer adds up",
+   "page": 19,
+   "bbox": [
+    285.3,
+    232.5,
+    295.3,
+    246.0
+   ],
+   "original": "48",
+   "new": "60",
+   "context": "minimum of 48 weeks of treatment may elect to discontinue treatment and",
+   "new_line": "minimum of 60 weeks of treatment may elect to discontinue treatment and",
+   "description": "Duration 48 changed to 60 in one place; total no longer adds up",
+   "expected_checks": [
+    "C6"
+   ],
+   "amendment_category": "design",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     19
+    ],
+    "texts": [
+     "minimum of 60 weeks of trea"
+    ]
+   },
+   "error_id": "NCT04646005-s1-09"
+  },
+  {
+   "type": "T15",
+   "name": "Required M11 section removed",
+   "page": 76,
+   "bbox": [
+    72.0,
+    290.5,
+    103.9,
+    310.6
+   ],
+   "original": "11.2 Justification of Sample Size",
+   "new": "(removed)",
+   "context": "11.2.",
+   "new_line": "(removed)11.2.",
+   "description": "Removed M11 10.11 11.2 Justification of Sample Size (36 lines)",
+   "expected_checks": [
+    "B1",
+    "B3"
+   ],
+   "amendment_category": "completeness",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     76
+    ],
+    "texts": [],
+    "titles": [
+     "M11 10.11 "
+    ]
+   },
+   "m11_id": "10.11",
+   "error_id": "NCT04646005-s1-10"
+  }
+ ],
+ "skipped": [
+  {
+   "type": "T01",
+   "reason": "endpoint timepoints are not extracted (timepoints_weeks is empty on the dev protocols), so the endpoint visit is unknown"
+  },
+  {
+   "type": "T03",
+   "reason": "needs a synthesised SoA row with matching ruling lines; not implemented"
+  },
+  {
+   "type": "T18",
+   "reason": "protocol age mentions do not all equal the registry value 18"
+  },
+  {
+   "type": "T11",
+   "reason": "protocol is not double-blind"
+  },
+  {
+   "type": "T09",
+   "reason": "no stated power"
+  },
+  {
+   "type": "T06",
+   "reason": "minimum age is stated only once, so a change cannot create an inconsistency"
+  },
+  {
+   "type": "T10",
+   "reason": "no randomisation ratio is stated twice"
+  },
+  {
+   "type": "T16",
+   "reason": "no row of at least 3 visit windows found"
+  }
+ ],
+ "touched": [
+  [
+   18,
+   "Cemiplimab 350 mg given by intravenous (IV) infusion over 30"
+  ],
+  [
+   19,
+   "Patients will be assessed for response at cycle 1 day 50 (week 7), then once"
+  ],
+  [
+   19,
+   "Approximately 105 patients are planned to be enrolled in the study."
+  ],
+  [
+   19,
+   "minimum of 48 weeks of treatment may elect to discontinue treatment and"
+  ],
+  [
+   23,
+   "efficacy against cervical cancer, as described in Section 1.2."
+  ],
+  [
+   29,
+   "• To assess preliminary efficacy of cemiplimab + ISA101b as measured by DOR,"
+  ],
+  [
+   29,
+   "progression-free survival (PFS), and OS"
+  ],
+  [
+   29,
+   "progression-free survival (PFS), and OS"
+  ],
+  [
+   35,
+   "• Incidence and severity of TEAEs/adverse events of special interest (AESIs)/serious"
+  ],
+  [
+   41,
+   "a. Hemoglobin ≥8 g/dL"
+  ],
+  [
+   42,
+   "1. Prior treatment with an agent that blocks the PD-1/PD-L1 pathway."
+  ],
+  [
+   76,
+   "11.2."
+  ],
+  [
+   76,
+   "Justification of Sample Size"
+  ],
+  [
+   76,
+   "The planned total sample size for this study is 105 patients."
+  ],
+  [
+   76,
+   "The primary objective of the study is to estimate the clinical benefit of cemiplimab + ISA101b"
+  ],
+  [
+   76,
+   "after progression on first line chemotherapy, as assessed by objective response rate (ORR). With"
+  ],
+  [
+   76,
+   "105 patients, Table 3 below presents various response rates and associated 2-sided 95% CIs using"
+  ],
+  [
+   76,
+   "a normal approximation of the binomial distribution, and precision of estimation defined as"
+  ],
+  [
+   76,
+   "distance from the boundary to the center. If observed ORR ranges from 20.0% to 34.3%, the"
+  ],
+  [
+   76,
+   "precision estimation using 105 patients ranges from 7.7% to 9.1%."
+  ],
+  [
+   76,
+   "Table 3:"
+  ],
+  [
+   76,
+   "The 2-sided 95% Confidence Intervals for Observed ORR Based on a"
+  ],
+  [
+   76,
+   "Sample Size of 105 Patients"
+  ],
+  [
+   76,
+   "Number of Responders"
+  ],
+  [
+   76,
+   "Observed ORR"
+  ],
+  [
+   76,
+   "95% CI"
+  ],
+  [
+   76,
+   "Precision"
+  ],
+  [
+   76,
+   "21"
+  ],
+  [
+   76,
+   "20.0%"
+  ],
+  [
+   76,
+   "(12.4, 27.7)"
+  ],
+  [
+   76,
+   "7.7%"
+  ],
+  [
+   76,
+   "24"
+  ],
+  [
+   76,
+   "22.9%"
+  ],
+  [
+   76,
+   "(14.8, 30.9)"
+  ],
+  [
+   76,
+   "8.0%"
+  ],
+  [
+   76,
+   "27"
+  ],
+  [
+   76,
+   "25.7%"
+  ],
+  [
+   76,
+   "(17.4, 34.1)"
+  ],
+  [
+   76,
+   "8.4%"
+  ],
+  [
+   76,
+   "31"
+  ],
+  [
+   76,
+   "29.5%"
+  ],
+  [
+   76,
+   "(20.8, 38.3)"
+  ],
+  [
+   76,
+   "8.8%"
+  ],
+  [
+   76,
+   "36"
+  ],
+  [
+   76,
+   "34.3%"
+  ],
+  [
+   76,
+   "(25.2, 43.4)"
+  ],
+  [
+   76,
+   "9.1%"
+  ],
+  [
+   78,
+   "The secondary efficacy endpoints as measured by DOR, PFS, and OS will be summarized by"
+  ]
+ ]
+}
