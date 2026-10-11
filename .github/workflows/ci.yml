@@ -23,13 +23,35 @@ jobs:
       - run: uv run pytest -q
       # Add with B once `preflight bench` lands: uv run preflight bench --set test --quick
 
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci --no-audit --no-fund
+      - run: npm test
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run build
+
   docker:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: docker build -f backend/Dockerfile -t preflight-backend .
-      - name: Smoke test the image
+      - name: Build and start backend + frontend
+        run: docker compose up -d --build --wait
+      - name: Smoke test both services
         run: |
-          docker run -d --name api -p 8000:8000 preflight-backend
-          for i in $(seq 1 30); do curl -sf localhost:8000/api/health && exit 0; sleep 1; done
-          docker logs api; exit 1
+          curl -sf localhost:8000/api/health
+          curl -sf -o /dev/null localhost:3000/ && echo "frontend ok"
+          curl -sf -o /dev/null -H "Origin: http://localhost:3000" localhost:8000/api/protocols && echo "api from frontend origin ok"
+      - name: Logs on failure
+        if: failure()
+        run: docker compose logs

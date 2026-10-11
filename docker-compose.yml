@@ -18,18 +18,18 @@ services:
       interval: 10s
       retries: 5
 
-  # Placeholder until C adds frontend/Dockerfile; then replace with a build: frontend
   frontend:
-    image: node:22-alpine
-    working_dir: /app
-    command: ["sh", "-c", "echo frontend placeholder until Next.js app lands; sleep infinity"]
+    build:
+      context: frontend
+      args:
+        # The browser calls the backend directly, so this is the host-side address.
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8000}
+        NEXT_PUBLIC_USE_MOCKS: ${NEXT_PUBLIC_USE_MOCKS:-false}
     ports:
       - "3000:3000"
-    environment:
-      NEXT_PUBLIC_API_URL: http://localhost:8000
-      NEXT_PUBLIC_USE_MOCKS: "true"
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
 
 volumes:
   backend-var:
