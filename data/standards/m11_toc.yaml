@@ -33,7 +33,10 @@ items:
   container: true
   min_words: 0
   required_subelements: []
-  synonyms: []
+  synonyms:
+  - summary of trial
+  - summary of the trial
+  - trial summary
   sub_elements: []
   word_floor: 0
 - id: '1.1'
@@ -914,6 +917,9 @@ items:
   - investigational product
   - treatments administered
   - study drug
+  - treatment of patients
+  - treatment of participants
+  - trial treatment
   sub_elements:
   - name: investigational
     patterns:
@@ -1516,6 +1522,9 @@ items:
   - study procedures
   - assessments
   - efficacy and safety assessments
+  - assessments and follow-up
+  - assessments & follow-up
+  - follow-up and assessments
   sub_elements: []
   word_floor: 0
 - id: '8.1'

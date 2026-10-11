@@ -92,3 +92,10 @@ def test_content_in_the_chapter_makes_a_missing_subsection_thin_not_missing():
 def test_a_chapter_with_no_such_content_still_reports_the_item_missing():
     text = "Visits and procedures are listed in the schedule. " * 10
     assert m11_status(text, title="4 STUDY LOGISTICS").status == "missing"
+
+
+# ---- fix 5: the trial's own NCT number ---------------------------------------------------------------------------
+def test_nct_comes_from_the_cover_not_from_reference_links():
+    assert entities._own_nct("Short Title TRUNCATE-TB NCT #: NCT03474198 Version 2.0") == "NCT03474198"
+    assert entities._own_nct("see https://www.clinicaltrials.gov/ct2/show/NCT01994460 and more") is None
+    assert entities._own_nct("Short Title Truncate-Tb Nct #: Version 1.0") is None

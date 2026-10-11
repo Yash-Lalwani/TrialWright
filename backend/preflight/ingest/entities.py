@@ -216,6 +216,18 @@ def _first_label(texts: list[str], options: list[tuple[str, str]]) -> str | None
     return None
 
 
+def _own_nct(head_text: str) -> str | None:
+    """The trial's own NCT number: one on the first pages, and not a link. Searching the whole document picks up the
+    first reference-list URL (clinicaltrials.gov/ct2/show/NCT01994460), a different trial, and every registry
+    comparison after that (C10, peer lookup) then runs against the wrong record. No number on the cover means None,
+    and the user can enter it."""
+    for m in re.finditer(r"\bNCT\d{8}\b", head_text):
+        before = head_text[max(0, m.start() - 12):m.start()]
+        if "/" not in before and "show" not in before.lower():
+            return m.group(0)
+    return None
+
+
 def extract_meta(doc: PdfDoc, sections: list[Section]) -> Meta:
     first = [ln for ln in doc.lines if ln.page <= 3]
     head_text = " ".join(ln.text for ln in first)
@@ -232,8 +244,7 @@ def extract_meta(doc: PdfDoc, sections: list[Section]) -> Meta:
         (r"double[- ]blind", "DOUBLE"), (r"single[- ]blind", "SINGLE"), (r"open[- ]label", "NONE")])
     allocation = _first_label([title, head_text, full], [
         (r"non[- ]?randomi[sz]ed", "NON_RANDOMIZED"), (r"randomi[sz]ed", "RANDOMIZED")])
-    nct = re.search(r"\bNCT\d{8}\b", full)
-    return Meta(title=title, nct_id=nct.group(0) if nct else None, phase=phase, condition=None, sponsor=None,
+    return Meta(title=title, nct_id=_own_nct(head_text), phase=phase, condition=None, sponsor=None,
                 masking=masking, allocation=allocation, n_arms=None, ratio=None)
 
 
