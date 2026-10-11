@@ -5,7 +5,7 @@ import { Download, RotateCcw } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
-import { PrecedentTable } from "@/components/analysis/burden-view";
+import { hasNoSchedule, PrecedentTable } from "@/components/analysis/burden-view";
 import { PageHeader } from "@/components/common/page-header";
 import { RunProgress } from "@/components/common/run-progress";
 import { ErrorState } from "@/components/common/states";
@@ -15,7 +15,7 @@ import { createDraft, draftExportUrl, subscribeDraftEvents, USE_MOCKS } from "@/
 import { Markdown, nctUrl } from "@/lib/markdown";
 import { DRAFT_STEP_LABEL, formatPhase, formatUsd, SEVERITY_META } from "@/lib/presentation";
 import { useDraft } from "@/lib/queries";
-import { DRAFT_STEPS, type Brief, type Draft, type DraftProgressEvent } from "@/lib/types";
+import { DRAFT_STEPS, type Brief, type Draft, type StepEvent } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 import { ScoreCard } from "@/components/workspace/score-card";
@@ -24,7 +24,7 @@ import { BriefForm } from "./brief-form";
 type Phase =
   | { kind: "brief" }
   | { kind: "starting" }
-  | { kind: "running"; draftId: string; events: Partial<Record<string, DraftProgressEvent>> }
+  | { kind: "running"; draftId: string; events: Partial<Record<string, StepEvent>> }
   | { kind: "error"; message: string };
 
 /** Brief, then progress, then the drafted protocol. The draft id lives in the URL so a reload keeps the result. */
@@ -110,6 +110,10 @@ function DraftResult({ draftId }: { draftId: string }) {
   const draft = useDraft(draftId);
   if (draft.isPending) return <Skeleton className="h-96 w-full" />;
   if (draft.isError) return <ErrorState title="Could not load the draft" error={draft.error} onRetry={() => void draft.refetch()} />;
+  if (draft.data.status === "failed") {
+    return <ErrorState title="The draft failed" error={new Error(draft.data.error ?? "The backend could not finish this draft.")} />;
+  }
+  if (draft.data.status !== "complete") return <Skeleton className="h-96 w-full" aria-label="Drafting" />;
   return <DraftBody draft={draft.data} />;
 }
 
@@ -130,6 +134,17 @@ function Panel({ id, title, note, children, actions }: { id: string; title: stri
   );
 }
 
+const INPUT_LABELS: [string, string][] = [
+  ["alpha", "Significance level"],
+  ["power", "Power"],
+  ["control", "Control rate"],
+  ["treatment", "Treatment rate"],
+  ["effect", "Expected effect"],
+  ["event_rate", "Event rate"],
+  ["dropout", "Dropout allowed"],
+  ["ratio", "Allocation"],
+];
+
 function DraftBody({ draft }: { draft: Draft }) {
   const { brief, sample_size: ss } = draft;
   const usdm = draftExportUrl(draft.draft_id, "usdm");
@@ -149,7 +164,7 @@ function DraftBody({ draft }: { draft: Draft }) {
             {formatPhase(brief.phase)} · {brief.condition}
           </p>
           <p className="truncate text-base font-semibold">
-            {brief.intervention} vs {brief.comparator}
+            {brief.comparator ? `${brief.intervention} vs ${brief.comparator}` : brief.intervention}
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
@@ -158,16 +173,20 @@ function DraftBody({ draft }: { draft: Draft }) {
         </div>
       </div>
 
-      <Panel id="ss-heading" title="Sample size" note={ss.method}>
-        <dl className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-6">
-          <Stat label="Total participants" value={ss.n_total} big />
-          <Stat label="Per arm" value={ss.n_per_arm} big />
-          <Stat label="Significance level" value={ss.inputs.alpha} />
-          <Stat label="Power" value={ss.inputs.power} />
-          <Stat label="Control rate" value={ss.inputs.control} />
-          <Stat label="Treatment rate" value={ss.inputs.treatment} />
-          <Stat label="Dropout allowed" value={ss.inputs.dropout} />
-        </dl>
+      <Panel id="ss-heading" title="Sample size" note={ss?.method}>
+        {ss ? (
+          <dl className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-6">
+            <Stat label="Total participants" value={ss.n_total} big />
+            <Stat label="Per arm" value={ss.n_per_arm} big />
+            {INPUT_LABELS.filter(([key]) => ss.inputs[key] != null).map(([key, label]) => (
+              <Stat key={key} label={label} value={ss.inputs[key] as number | string} />
+            ))}
+          </dl>
+        ) : (
+          <p className="text-sm text-muted-foreground" data-no-sample-size>
+            A sample size could not be calculated from this brief. Add the expected effect and try again.
+          </p>
+        )}
       </Panel>
 
       <Panel id="prec-heading" title="Precedent" note="Trials this draft was shaped by. Every section below cites the ones it drew on.">
@@ -230,6 +249,9 @@ function DraftBody({ draft }: { draft: Draft }) {
       </Panel>
 
       <Panel id="draft-burden" title="Participant burden of this design" note="Estimated from the draft's Schedule of Activities.">
+        {hasNoSchedule(draft.burden) ? (
+          <p className="text-sm text-muted-foreground">The draft has no Schedule of Activities yet, so burden is not estimated.</p>
+        ) : (
         <dl className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
           <Stat label="Visits" value={draft.burden.per_patient.visits} />
           <Stat label="Procedures" value={draft.burden.per_patient.procedures_total} />
@@ -238,6 +260,7 @@ function DraftBody({ draft }: { draft: Draft }) {
           <Stat label="Site time" value={`${draft.burden.per_patient.site_hours} h`} />
           <Stat label="Cost per patient" value={formatUsd(draft.burden.per_patient.cost_usd)} />
         </dl>
+        )}
       </Panel>
     </div>
   );

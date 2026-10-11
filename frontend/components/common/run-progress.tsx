@@ -1,7 +1,7 @@
 import { CircleCheck, CircleMinus, CircleX, Loader2 } from "lucide-react";
 
 import { RUN_STEP_LABEL } from "@/lib/presentation";
-import { RUN_STEPS, type ProgressEvent } from "@/lib/types";
+import { RUN_STEPS, type StepEvent } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 /**
@@ -16,7 +16,7 @@ export function RunProgress({
   labels = RUN_STEP_LABEL,
   ariaLabel = "Review progress",
 }: {
-  events: Partial<Record<string, Pick<ProgressEvent, "status" | "pct" | "message">>>;
+  events: Partial<Record<string, StepEvent>>;
   failed?: boolean;
   className?: string;
   /** Defaults to the review pipeline; the draft flow passes its own steps. */
@@ -24,7 +24,9 @@ export function RunProgress({
   labels?: Record<string, string>;
   ariaLabel?: string;
 }) {
-  const pct = Math.max(0, ...Object.values(events).map((e) => e?.pct ?? 0));
+  // Drafts send no pct, so fall back to the share of steps that have reported.
+  const reported = Math.max(0, ...Object.values(events).map((e) => e?.pct ?? 0));
+  const pct = reported || Math.round((steps.filter((s) => events[s]).length / steps.length) * 100);
   const running = steps.find((s) => !events[s]);
 
   return (

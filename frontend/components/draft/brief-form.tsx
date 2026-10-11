@@ -37,22 +37,22 @@ const toForm = (b: Brief): Form => ({
   condition: b.condition,
   phase: b.phase,
   intervention: b.intervention,
-  comparator: b.comparator,
+  comparator: b.comparator ?? "",
   primary_question: b.primary_question,
   population: b.population,
-  duration_weeks: String(b.duration_weeks),
+  duration_weeks: String(b.duration_weeks ?? ""),
   alpha: String(b.alpha),
   power: String(b.power),
-  control: String(b.expected_effect.control),
-  treatment: String(b.expected_effect.treatment),
-  dropout: String(b.dropout),
+  control: String(b.expected_effect.control ?? ""),
+  treatment: String(b.expected_effect.treatment ?? ""),
+  dropout: String(b.dropout ?? ""),
 });
 
 type Errors = Partial<Record<keyof Form, string>>;
 
 function validate(f: Form): Errors {
   const e: Errors = {};
-  for (const k of ["condition", "intervention", "comparator", "primary_question", "population"] as const) {
+  for (const k of ["condition", "intervention", "primary_question", "population"] as const) {
     if (!f[k].trim()) e[k] = "Required";
   }
   const num = (k: keyof Form, lo: number, hi: number, msg: string) => {
@@ -95,7 +95,7 @@ export function BriefForm({ pending, onSubmit }: { pending: boolean; onSubmit: (
       condition: form.condition.trim(),
       phase: form.phase,
       intervention: form.intervention.trim(),
-      comparator: form.comparator.trim(),
+      comparator: form.comparator.trim() || null,
       primary_question: form.primary_question.trim(),
       population: form.population.trim(),
       duration_weeks: Number(form.duration_weeks),
@@ -149,7 +149,7 @@ export function BriefForm({ pending, onSubmit }: { pending: boolean; onSubmit: (
             </select>
           </div>
           {field("intervention", "Intervention", {}, "Drug, dose, route and schedule")}
-          {field("comparator", "Comparator")}
+          {field("comparator", "Comparator", {}, "Leave empty for a single-arm trial")}
           {field("primary_question", "Primary question")}
           {field("population", "Population")}
         </div>

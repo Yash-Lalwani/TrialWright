@@ -80,10 +80,23 @@ function Tile({ label, value, sub, big }: { label: string; value: string; sub?: 
 }
 
 function EvidenceBody({ b }: { b: Benchmark }) {
-  const withVerifier = b.hallucination.ai_findings - b.hallucination.dropped_ungrounded;
-  const beforeRate = b.hallucination.ai_findings ? b.hallucination.dropped_ungrounded / b.hallucination.ai_findings : 0;
-  const afterRate = withVerifier ? b.hallucination.shown_ungrounded / withVerifier : 0;
+  // Every section the benchmark has not measured is null; each one shows only when it has data.
+  const h = b.hallucination;
+  const withVerifier = h ? h.ai_findings - h.dropped_ungrounded : 0;
+  const beforeRate = h && h.ai_findings ? h.dropped_ungrounded / h.ai_findings : 0;
+  const afterRate = h && withVerifier ? h.shown_ungrounded / withVerifier : 0;
   const human = b.human_baseline;
+  const cases = b.case_studies ?? [];
+  const extras = [
+    b.real_findings && { label: "Precision on real protocols", value: formatPercent(b.real_findings.precision), sub: `${b.real_findings.sampled} findings checked by hand` },
+    b.real_findings && { label: "Agreement (kappa)", value: b.real_findings.kappa.toFixed(2), sub: "Between two labelers" },
+    b.soa_extraction && { label: "Schedule extraction", value: formatPercent(b.soa_extraction.cell_accuracy), sub: `Cell accuracy, ${b.soa_extraction.protocols} protocols` },
+    b.speed_cost && {
+      label: "Speed and cost",
+      value: `${b.speed_cost.median_seconds} s`,
+      sub: `Median ${b.speed_cost.median_usd.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 4 })} per protocol`,
+    },
+  ].filter((t): t is { label: string; value: string; sub: string } => !!t);
 
   return (
     <>
@@ -97,7 +110,10 @@ function EvidenceBody({ b }: { b: Benchmark }) {
         </div>
       ) : (
         <p className="text-xs text-muted-foreground">
-          Results from <code>preflight bench</code>, generated {dateFmt.format(new Date(b.generated_at))} with {b.model}.
+          Results from <code>preflight bench</code>
+          {b.set ? ` on the ${b.set} set` : ""}
+          {b.config ? `, configuration ${b.config}` : ""}, generated {dateFmt.format(new Date(b.generated_at))}
+          {b.model ? ` with ${b.model}` : " without a language model"}.
         </p>
       )}
 
@@ -110,16 +126,27 @@ function EvidenceBody({ b }: { b: Benchmark }) {
           <Tile label="Recall" value={formatPercent(b.overall.recall)} sub="Planted errors found" big />
           <Tile label="Precision" value={formatPercent(b.overall.precision)} sub="Findings that were real" big />
           <Tile label="F1" value={b.overall.f1.toFixed(2)} sub="Balance of the two" big />
-          <Tile label="False alarms" value={b.false_alarms_per_clean_protocol.toFixed(1)} sub="Per clean protocol" />
+          {b.false_alarms_per_clean_protocol != null && (
+            <Tile label="False alarms" value={b.false_alarms_per_clean_protocol.toFixed(1)} sub="Per clean protocol" />
+          )}
         </div>
       </Section>
 
       <div className="grid gap-6 lg:grid-cols-2">
         <Section id="type-h" title="Recall by error type" note="Share of planted errors of each type that were found.">
           <div className="space-y-2.5" data-by-type>
-            {b.by_type.map((t) => (
-              <Bar key={t.type} label={`${t.type} ${t.name}`} value={t.recall} detail={`${t.found}/${t.n}`} strong />
-            ))}
+            {b.by_type.map((t) =>
+              t.measurable === false ? (
+                <p key={t.type} className="grid grid-cols-[minmax(0,10rem)_1fr] gap-3 text-xs text-muted-foreground sm:grid-cols-[14rem_1fr]">
+                  <span className="truncate" title={`${t.type} ${t.name}`}>
+                    {t.type} {t.name}
+                  </span>
+                  <span>Not detectable in this configuration</span>
+                </p>
+              ) : (
+                <Bar key={t.type} label={`${t.type} ${t.name}`} value={t.recall} detail={`${t.found}/${t.n}`} strong />
+              ),
+            )}
           </div>
         </Section>
         <Section id="cat-h" title="Recall by amendment area" note="Which kinds of amendment the found errors would have caused.">
@@ -131,6 +158,7 @@ function EvidenceBody({ b }: { b: Benchmark }) {
         </Section>
       </div>
 
+      {b.ablation.length > 0 && (
       <Section id="ablation-h" title="What each part adds" note="The same test set, run with parts switched off. Rules are precise; the model adds coverage; the verifier keeps it honest.">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[32rem] text-sm" data-ablation>
@@ -164,20 +192,25 @@ function EvidenceBody({ b }: { b: Benchmark }) {
           </table>
         </div>
       </Section>
+      )}
 
+      {(h || human) && (
       <div className="grid gap-6 lg:grid-cols-2">
+        {h && (
         <Section id="halluc-h" title="Hallucination control" note="Every AI finding must quote text that exists in the protocol. Ones that do not are dropped.">
           <dl className="grid grid-cols-3 gap-3 text-center">
-            <Tile label="AI findings" value={nf.format(b.hallucination.ai_findings)} />
-            <Tile label="Dropped as ungrounded" value={nf.format(b.hallucination.dropped_ungrounded)} />
-            <Tile label="Shown ungrounded" value={nf.format(b.hallucination.shown_ungrounded)} />
+            <Tile label="AI findings" value={nf.format(h.ai_findings)} />
+            <Tile label="Dropped as ungrounded" value={nf.format(h.dropped_ungrounded)} />
+            <Tile label="Shown ungrounded" value={nf.format(h.shown_ungrounded)} />
           </dl>
           <div className="mt-4 space-y-2.5">
             <Bar label="Ungrounded without the verifier" value={beforeRate} />
             <Bar label="Ungrounded after the verifier" value={afterRate} strong />
           </div>
         </Section>
+        )}
 
+        {human && (
         <Section id="human-h" title="Against human reviewers" note={`${human.protocol}. ${human.total_errors} planted errors.`}>
           <div className="space-y-2.5" data-human-baseline>
             {human.participants.map((p) => (
@@ -186,21 +219,24 @@ function EvidenceBody({ b }: { b: Benchmark }) {
             <Bar label="Pre-Flight" value={human.preflight.found / human.total_errors} detail={`${human.preflight.found}/${human.total_errors} in ${human.preflight.seconds} s`} strong />
           </div>
         </Section>
+        )}
       </div>
+      )}
 
+      {extras.length > 0 && (
       <Section id="real-h" title="Beyond the benchmark">
         <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-          <Tile label="Precision on real protocols" value={formatPercent(b.real_findings.precision)} sub={`${b.real_findings.sampled} findings checked by hand`} />
-          <Tile label="Agreement (kappa)" value={b.real_findings.kappa.toFixed(2)} sub="Between two labelers" />
-          <Tile label="Schedule extraction" value={formatPercent(b.soa_extraction.cell_accuracy)} sub={`Cell accuracy, ${b.soa_extraction.protocols} protocols`} />
-          <Tile label="Speed and cost" value={`${b.speed_cost.median_seconds} s`} sub={`Median ${b.speed_cost.median_usd.toLocaleString("en-US", { style: "currency", currency: "USD" })} per protocol`} />
+          {extras.map((t) => (
+            <Tile key={t.label} {...t} />
+          ))}
         </div>
       </Section>
+      )}
 
-      {b.case_studies.length > 0 && (
+      {cases.length > 0 && (
         <Section id="case-h" title="Retrospective case studies" note="Real changes made to registered trials, and whether an earlier version would have been flagged.">
           <ul className="divide-y rounded-md border" data-case-studies>
-            {b.case_studies.map((c) => (
+            {cases.map((c) => (
               <li key={c.nct_id + c.change} className="px-3 py-2.5 text-sm">
                 <p>
                   <a
@@ -220,6 +256,20 @@ function EvidenceBody({ b }: { b: Benchmark }) {
               </li>
             ))}
           </ul>
+          {b.retrospective && (
+            <details className="mt-3 text-xs" data-retrospective>
+              <summary className="cursor-pointer font-semibold">How this was checked</summary>
+              <p className="mt-1.5 leading-relaxed text-muted-foreground">{b.retrospective.population}</p>
+              <p className="mt-1.5 leading-relaxed text-muted-foreground">{b.retrospective.method}</p>
+              {Array.isArray(b.retrospective.caveats) && (
+                <ul className="mt-1.5 list-disc space-y-0.5 pl-4 text-muted-foreground">
+                  {b.retrospective.caveats.map((c, i) => (
+                    <li key={i}>{String(c)}</li>
+                  ))}
+                </ul>
+              )}
+            </details>
+          )}
         </Section>
       )}
 

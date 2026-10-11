@@ -107,31 +107,7 @@
     "shown_ungrounded": 0
   },
   "false_alarms_per_clean_protocol": 1.4,
-  "human_baseline": {
-    "protocol": "NCT00000000 (injected, 12 errors)",
-    "participants": [
-      {
-        "id": "H1",
-        "found": 4,
-        "minutes": 20
-      },
-      {
-        "id": "H2",
-        "found": 5,
-        "minutes": 20
-      },
-      {
-        "id": "H3",
-        "found": 3,
-        "minutes": 20
-      }
-    ],
-    "preflight": {
-      "found": 11,
-      "seconds": 88
-    },
-    "total_errors": 12
-  },
+  "human_baseline": null,
   "real_findings": {
     "sampled": 30,
     "precision": 0.77,

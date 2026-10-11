@@ -14,6 +14,8 @@ import { Histogram, PercentileBar } from "./charts";
 import { RunPageHeader } from "./run-subnav";
 
 const nf = new Intl.NumberFormat("en-US");
+const NOT_STATED = <span className="font-normal text-muted-foreground">Not stated</span>;
+const num = (n: number | null | undefined) => (n == null ? "-" : nf.format(n));
 
 export function BurdenView({ runId }: { runId: string }) {
   const run = useRun(runId);
@@ -65,7 +67,19 @@ function Card({ title, note, children, id }: { title: string; note?: React.React
 
 // ---------------------------------------------------------------------------
 
+/** The backend answers with zeros when no schedule could be read (or drafted). */
+export const hasNoSchedule = (b: Burden) => b.by_visit.length === 0 && b.per_patient.visits === 0;
+
 function BurdenSection({ burden }: { burden: Burden }) {
+  if (hasNoSchedule(burden)) {
+    return (
+      <Card id="burden-heading" title="Burden per participant">
+        <p className="text-sm text-muted-foreground" data-no-schedule>
+          No Schedule of Activities could be read from this protocol, so burden is not estimated.
+        </p>
+      </Card>
+    );
+  }
   const p = burden.per_patient;
   const tiles = [
     { icon: Hospital, label: "Visits", value: nf.format(p.visits) },
@@ -75,7 +89,7 @@ function BurdenSection({ burden }: { burden: Burden }) {
     { icon: Clock, label: "Site time", value: `${p.site_hours} h` },
     { icon: Wallet, label: "Cost per patient", value: formatUsd(p.cost_usd) },
   ];
-  const visits = [...burden.by_visit].sort((a, b) => a.study_day - b.study_day);
+  const visits = [...burden.by_visit].sort((a, b) => (a.study_day ?? Infinity) - (b.study_day ?? Infinity) || 0);
   const maxMinutes = Math.max(...visits.map((v) => Math.max(v.patient_minutes, v.site_minutes)), 1);
 
   return (
@@ -95,6 +109,14 @@ function BurdenSection({ burden }: { burden: Burden }) {
           </div>
         ))}
       </dl>
+
+      {burden.coverage && burden.coverage.unmatched.length > 0 && (
+        <p className="mt-3 text-xs text-muted-foreground" data-coverage>
+          {burden.coverage.matched} of {burden.coverage.procedures} procedures were priced from the cost table. Not priced:{" "}
+          {burden.coverage.unmatched.slice(0, 6).join(", ")}
+          {burden.coverage.unmatched.length > 6 ? ` and ${burden.coverage.unmatched.length - 6} more` : ""}. Totals understate those.
+        </p>
+      )}
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
         <div>
@@ -116,7 +138,7 @@ function BurdenSection({ burden }: { burden: Burden }) {
               <li key={`${v.visit}-${v.study_day}`} className="grid grid-cols-[7.5rem_1fr_3.5rem] items-center gap-2 text-xs" title={v.procedures.join(", ")}>
                 <span className="min-w-0">
                   <span className="block truncate font-medium">{v.visit}</span>
-                  <span className="block text-[11px] text-muted-foreground tabular">Day {v.study_day}</span>
+                  <span className="block text-[11px] text-muted-foreground tabular">{v.study_day != null ? `Day ${v.study_day}` : "Day not stated"}</span>
                 </span>
                 <span className="space-y-0.5">
                   <span className="block h-2 rounded-full bg-primary" style={{ width: `${(v.patient_minutes / maxMinutes) * 100}%` }} />
@@ -149,12 +171,18 @@ function BurdenSection({ burden }: { burden: Burden }) {
             </>
           )}
 
-          <h3 className="mt-5 text-xs font-semibold">Against {burden.peer_percentiles.n_peers_with_soa} peers with a schedule</h3>
-          <div className="mt-2 space-y-3.5">
-            <PercentileBar label="Patient hours" percentile={burden.peer_percentiles.patient_hours} peers={burden.peer_percentiles.n_peers_with_soa} />
-            <PercentileBar label="Procedures" percentile={burden.peer_percentiles.procedures_total} peers={burden.peer_percentiles.n_peers_with_soa} />
-            <PercentileBar label="Visits" percentile={burden.peer_percentiles.visits} peers={burden.peer_percentiles.n_peers_with_soa} />
-          </div>
+          {burden.peer_percentiles ? (
+            <>
+            <h3 className="mt-5 text-xs font-semibold">Against {burden.peer_percentiles.n_peers_with_soa} peers with a schedule</h3>
+            <div className="mt-2 space-y-3.5">
+              <PercentileBar label="Patient hours" percentile={burden.peer_percentiles.patient_hours} peers={burden.peer_percentiles.n_peers_with_soa} />
+              <PercentileBar label="Procedures" percentile={burden.peer_percentiles.procedures_total} peers={burden.peer_percentiles.n_peers_with_soa} />
+              <PercentileBar label="Visits" percentile={burden.peer_percentiles.visits} peers={burden.peer_percentiles.n_peers_with_soa} />
+            </div>
+            </>
+          ) : (
+            <p className="mt-5 text-sm text-muted-foreground">Too few peer trials have a published schedule to rank this protocol.</p>
+          )}
         </div>
       </div>
     </Card>
@@ -169,7 +197,7 @@ function PeersSection({ peers, issues, runId }: { peers: Peers; issues: Issue[];
     <Card
       id="peers-heading"
       title={`Peer comparison: ${peers.n} trials`}
-      note={`${peers.query.condition}, ${formatPhase(peers.query.phase)}, started ${peers.query.start_year_min} or later. Each chart shows peers; the blue line is this protocol, the dashed line the peer median, the shaded band the middle half.`}
+      note={`${peers.query.condition ?? "Condition not identified"}, ${formatPhase(peers.query.phase)}, started ${peers.query.start_year_min} or later. Each chart shows peers; the blue line is this protocol, the dashed line the peer median, the shaded band the middle half.`}
     >
       <div className="grid gap-x-6 gap-y-5 sm:grid-cols-2 lg:grid-cols-3" data-peer-metrics>
         {peers.metrics.map((m) => (
@@ -232,8 +260,8 @@ function PeersSection({ peers, issues, runId }: { peers: Peers; issues: Issue[];
                     <span className="ml-2">{t.title}</span>
                   </td>
                   <td className="px-3 py-1.5">{t.sponsor}</td>
-                  <td className="px-3 py-1.5 text-right tabular">{nf.format(t.enrollment)}</td>
-                  <td className="px-3 py-1.5 tabular">{t.start_date}</td>
+                  <td className="px-3 py-1.5 text-right tabular">{num(t.enrollment)}</td>
+                  <td className="px-3 py-1.5 tabular">{t.start_date ?? "-"}</td>
                 </tr>
               ))}
             </tbody>
@@ -262,7 +290,8 @@ export function NctLink({ id }: { id: string }) {
 /** 4.10: this protocol on the first row, similar trials beneath it, with differences marked. */
 export function PrecedentTable({ precedent }: { precedent: Precedent }) {
   const me = precedent.this_protocol;
-  const diff = (a: string, b: string) => a.trim().toLowerCase() !== b.trim().toLowerCase();
+  // A draft has not stated these yet; marking every row "differs" against a blank would be noise.
+  const diff = (a: string, b: string) => !!b.trim() && a.trim().toLowerCase() !== b.trim().toLowerCase();
   const Mark = ({ different }: { different: boolean }) =>
     different ? <span className="ml-1 rounded-sm bg-sev-minor-bg px-1 text-[10px] font-semibold text-sev-minor uppercase">differs</span> : null;
 
@@ -283,11 +312,11 @@ export function PrecedentTable({ precedent }: { precedent: Precedent }) {
         <tbody className="divide-y align-top">
           <tr className="bg-accent/60" data-this-protocol>
             <td className="px-3 py-2 font-semibold">This protocol</td>
-            <td className="px-3 py-2 font-medium">{me.primary_endpoint}</td>
-            <td className="px-3 py-2 font-medium">{me.primary_timeframe}</td>
-            <td className="px-3 py-2 font-medium">{me.key_eligibility.join("; ")}</td>
-            <td className="px-3 py-2 text-right font-medium tabular">{nf.format(me.enrollment)}</td>
-            <td className="px-3 py-2 text-right font-medium tabular">{me.n_visits}</td>
+            <td className="px-3 py-2 font-medium">{me.primary_endpoint || NOT_STATED}</td>
+            <td className="px-3 py-2 font-medium">{me.primary_timeframe || NOT_STATED}</td>
+            <td className="px-3 py-2 font-medium">{me.key_eligibility.join("; ") || NOT_STATED}</td>
+            <td className="px-3 py-2 text-right font-medium tabular">{me.enrollment ? num(me.enrollment) : "-"}</td>
+            <td className="px-3 py-2 text-right font-medium tabular">{me.n_visits ?? "-"}</td>
             <td className="px-3 py-2 text-right text-muted-foreground">-</td>
           </tr>
           {precedent.rows.map((r) => (
@@ -303,15 +332,15 @@ export function PrecedentTable({ precedent }: { precedent: Precedent }) {
                 <Mark different={diff(r.primary_endpoint, me.primary_endpoint)} />
               </td>
               <td className="px-3 py-2">
-                {r.primary_timeframe}
+                {r.primary_timeframe || "-"}
                 <Mark different={diff(r.primary_timeframe, me.primary_timeframe)} />
               </td>
               <td className="px-3 py-2">
                 {r.key_eligibility.join("; ")}
                 <Mark different={diff(r.key_eligibility.join(";"), me.key_eligibility.join(";"))} />
               </td>
-              <td className="px-3 py-2 text-right tabular">{nf.format(r.enrollment)}</td>
-              <td className="px-3 py-2 text-right tabular">{r.n_visits}</td>
+              <td className="px-3 py-2 text-right tabular">{num(r.enrollment)}</td>
+              <td className="px-3 py-2 text-right tabular">{r.n_visits ?? "-"}</td>
               <td className="px-3 py-2 text-right tabular">{Math.round(r.similarity * 100)}%</td>
             </tr>
           ))}

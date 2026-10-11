@@ -124,6 +124,9 @@ export interface ProgressEvent {
   message: string;
 }
 
+/** What the progress list needs from either stream; draft events from the backend carry no pct. */
+export type StepEvent = Pick<ProgressEvent, "status" | "message"> & { pct?: number };
+
 export interface CompleteEvent {
   run_id: string;
 }
@@ -310,7 +313,8 @@ export interface Burden {
   };
   by_visit: {
     visit: string;
-    study_day: number;
+    /** null when the schedule gives no day for the column. */
+    study_day: number | null;
     patient_minutes: number;
     site_minutes: number;
     procedures: string[];
@@ -321,13 +325,16 @@ export interface Burden {
     patient_minutes: number;
     cost_usd: number;
   }[];
+  /** null when there are too few peers with a schedule. */
   peer_percentiles: {
     patient_hours: number;
     procedures_total: number;
     visits: number;
     n_peers_with_soa: number;
-  };
+  } | null;
   assumptions: { file: string; version: string };
+  /** Additive: how far the cost table and schedule columns can be trusted. */
+  coverage?: { procedures: number; matched: number; unmatched: string[]; columns: number; recurring_columns: number } | null;
 }
 
 // ---------- 4.9 Peers ----------
@@ -337,12 +344,12 @@ export interface PeerTrial {
   title: string;
   sponsor: string;
   phase: string;
-  enrollment: number;
-  start_date: string;
+  enrollment: number | null;
+  start_date: string | null;
 }
 
 export interface Peers {
-  query: { condition: string; phase: string; start_year_min: number };
+  query: { condition: string | null; phase: string | null; start_year_min: number };
   n: number;
   metrics: {
     metric: string;
@@ -364,8 +371,8 @@ export interface PrecedentProtocolSummary {
   primary_endpoint: string;
   primary_timeframe: string;
   key_eligibility: string[];
-  enrollment: number;
-  n_visits: number;
+  enrollment: number | null;
+  n_visits: number | null;
 }
 
 export interface Precedent {
@@ -385,14 +392,16 @@ export interface Brief {
   condition: string;
   phase: string;
   intervention: string;
-  comparator: string;
+  comparator: string | null;
   primary_question: string;
   population: string;
-  duration_weeks: number;
+  duration_weeks: number | null;
   alpha: number;
   power: number;
-  expected_effect: { type: string; control: number; treatment: number };
-  dropout: number;
+  expected_effect: { type: string; control?: number | null; treatment?: number | null; effect?: number | null; event_rate?: number | null };
+  dropout: number | null;
+  /** Allocation, experimental:control. The backend defaults to "1:1". */
+  ratio?: string;
 }
 
 export interface CreateDraftResponse {
@@ -413,51 +422,65 @@ export type DraftStep = (typeof DRAFT_STEPS)[number];
 export interface DraftProgressEvent {
   step: DraftStep;
   status: StepStatus;
-  pct: number;
+  /** The backend sends no pct for drafts. */
+  pct?: number;
   message: string;
 }
 
+/**
+ * A failed draft carries only draft_id, status, brief and error; the rest is absent.
+ * sample_size is null when the brief does not determine one.
+ */
 export interface Draft {
   draft_id: string;
   status: RunStatus;
   brief: Brief;
+  error?: string;
   precedent: Precedent;
   sample_size: {
     n_total: number;
     n_per_arm: number;
     method: string;
-    inputs: { alpha: number; power: number; control: number; treatment: number; dropout: number };
-  };
-  sections: { m11_id: string; title: string; markdown: string; citations: string[] }[];
+    inputs: Record<string, number | string | null>;
+  } | null;
+  sections: { m11_id: string; title: string; markdown: string; citations: string[]; source?: "llm" | "template" | "calculation" }[];
   burden: Burden;
   self_check: { score: Score; issues: Issue[] };
 }
 
 // ---------- 4.12 Benchmark ----------
 
+/**
+ * Sections the benchmark has not measured come back as null; the page shows only what exists.
+ * set, config and retrospective are additive fields from the backend.
+ */
 export interface Benchmark {
   generated_at: string;
-  model: string;
+  model: string | null;
+  set?: string;
+  config?: string;
   test_set: { protocols: number; injected_errors: number };
   overall: { recall: number; precision: number; f1: number };
-  by_type: { type: string; name: string; n: number; found: number; recall: number }[];
+  /** measurable is false for types a configuration cannot detect (e.g. rules only). */
+  by_type: { type: string; name: string; n: number; found: number; recall: number; measurable?: boolean }[];
   by_category: { amendment_category: AmendmentCategory; n: number; recall: number }[];
   ablation: { config: string; recall: number; precision: number; f1: number }[];
-  hallucination: { ai_findings: number; dropped_ungrounded: number; shown_ungrounded: number };
-  false_alarms_per_clean_protocol: number;
+  hallucination: { ai_findings: number; dropped_ungrounded: number; shown_ungrounded: number } | null;
+  false_alarms_per_clean_protocol: number | null;
   human_baseline: {
     protocol: string;
     participants: { id: string; found: number; minutes: number }[];
     preflight: { found: number; seconds: number };
     total_errors: number;
-  };
-  real_findings: { sampled: number; precision: number; kappa: number };
-  soa_extraction: { protocols: number; cell_accuracy: number };
-  speed_cost: { median_seconds: number; median_usd: number };
+  } | null;
+  real_findings: { sampled: number; precision: number; kappa: number } | null;
+  soa_extraction: { protocols: number; cell_accuracy: number } | null;
+  speed_cost: { median_seconds: number; median_usd: number; measured?: string; protocols?: number } | null;
   case_studies: {
     nct_id: string;
     change: string;
     flagged_in_earlier_version: boolean;
     summary: string;
-  }[];
+  }[] | null;
+  retrospective?: { population: string; method: string; result: unknown; caveats: unknown } | null;
 }

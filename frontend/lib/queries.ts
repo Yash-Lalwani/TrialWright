@@ -106,4 +106,10 @@ export function useDecision(runId: string) {
 }
 
 export const useDraft = (draftId: string | null) =>
-  useQuery({ queryKey: ["draft", draftId] as const, queryFn: () => api.getDraft(draftId!), enabled: !!draftId });
+  useQuery({
+    queryKey: ["draft", draftId] as const,
+    queryFn: () => api.getDraft(draftId!),
+    enabled: !!draftId,
+    // A reload while the backend is still writing: keep asking until it finishes or fails.
+    refetchInterval: (query) => (["queued", "running"].includes(query.state.data?.status ?? "") ? 2000 : false),
+  });
