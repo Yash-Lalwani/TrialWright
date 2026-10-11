@@ -28,7 +28,8 @@ def visit_windows(graph: ProtocolGraph, ctx: CheckContext):
 
 
 STOP = {"of", "the", "a", "an", "after", "before", "from", "to", "for", "and", "or", "in", "on", "at", "up", "last",
-        "first", "follow", "dose", "with", "will", "be"}
+        "first", "follow", "dose", "with", "will", "be", "every", "each", "per", "than", "less", "more", "frequent",
+        "frequently", "least", "most", "within"}
 DURATION = re.compile(r"((?:[A-Za-z]+\s+){0,4})(\d+(?:\.\d+)?)\s*(week|month|year)s?\b((?:\s+[A-Za-z]+){0,4})",
                       re.I)
 
@@ -44,7 +45,10 @@ def durations_agree(graph: ProtocolGraph, ctx: CheckContext):
             continue
         seen.add((f.span.page, f.span.quote))
         for m in DURATION.finditer(f.span.quote):
-            before = [w for w in m.group(1).split() if w.lower() not in ("approximately", "about", "up", "to")]
+            raw_before = m.group(1).split()
+            if raw_before and raw_before[-1].lower() in ("every", "each", "per", "than", "q", "within"):
+                continue  # 'every 3 weeks' is a visit frequency, not a duration
+            before = [w for w in raw_before if w.lower() not in ("approximately", "about", "up", "to")]
             after = m.group(4).split()
             for words, side in ((after, "after"), (before, "before")):
                 content = [w for w in words if w.lower() not in STOP]

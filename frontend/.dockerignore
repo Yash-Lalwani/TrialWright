@@ -1,0 +1,7 @@
+node_modules
+.next
+out
+*.md
+.env
+.env.*
+!.env.example
