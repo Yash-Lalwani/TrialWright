@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 
 import { QueryGate } from "@/components/common/query-gate";
-import { EmptyState } from "@/components/common/states";
+import { EmptyState, ErrorState } from "@/components/common/states";
 import { PageHeader } from "@/components/common/page-header";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatDateTime, protocolName, SEVERITY_META, SUBSCORE_LABEL } from "@/lib/presentation";
@@ -58,6 +58,8 @@ export function CompareView() {
 
       {protocols.isPending ? (
         <Skeleton className="h-16 w-full" />
+      ) : protocols.isError ? (
+        <ErrorState error={protocols.error} onRetry={() => void protocols.refetch()} />
       ) : reviewed.length === 0 ? (
         <div className="rounded-lg border bg-card">
           <EmptyState icon={GitCompare} title="Nothing to compare yet">
