@@ -77,19 +77,26 @@ def render() -> str:
         s = f.get("speed_cost") or {}
         L += ["## 4. Speed and cost (N10)", "", f"Median {s.get('median_seconds')} s and ${s.get('median_usd')} per protocol, {s.get('measured')}" + (f" over {s['protocols']} protocols." if s.get("protocols") else ".")
               + " Cost is the provider-reported charge; the model and price are whatever `PREFLIGHT_MODEL` was at measurement time.", ""]
-    L += ["## 5. Limitations", "",
+    cs = ROOT / "data" / "bench" / "case_studies.json"
+    if cs.exists():
+        d = json.loads(cs.read_text())
+        L += ["## 5. Retrospective check on registry edits (N7)", "", d["population"], "", d["method"], "", "| Metric | Relaxed trials flagged before the edit | Other trials flagged | Odds ratio | One-sided Fisher p |", "|---|---|---|---|---|"]
+        for m, r in d["result"].items():
+            L.append(f"| {m} | {r['flagged_before_edit']}/{r['relaxed_trials']} | {r['other_flagged']}/{r['other_trials']} | {r.get('odds_ratio', 'n/a')} | {r.get('fisher_one_sided_p', 'n/a')} |")
+        L += ["", "Caveats:", *[f"- {c}" for c in d["caveats"]], "", "Examples:", *[f"- {c['nct_id']}: {c['change']}. {c['summary']}" for c in d["case_studies"]], ""]
+    L += ["## 6. Limitations", "",
           "- The corpus has 10 protocols; 3 dev, 7 test. Protocols were kept partly because their Schedule of Activities could be extracted, which favours the tool. Five candidates were dropped for that reason (`data/corpus/soa_assessment.json`).",
           "- Errors are injected by a script, not found in the wild. They test detection, not that real amendments look like them. Real amendment histories are not yet used (N7).",
           "- Absolute burden hours and dollars come from `data/assumptions/procedure_costs.csv`, every row of which is labelled `assumption`. Only relative burden against peers is meaningful. Recurring schedule columns are counted once, so totals are lower bounds.",
           "- Peer schedule percentiles exist only for peer sets we summarised, and only for peers whose schedule extracted plausibly; fewer than 8 such peers means no comparison.",
           "- Drafted protocol text (co-author) can contain general medical statements that are not in the brief. It is a draft for human review, and unsupported sections are left [TBD].",
           "- Pre-Flight assists a reviewer; it does not approve or reject a protocol.", "",
-          "## 6. Not measured", "",
+          "## 7. Not measured", "",
           "- Human baseline (N5): the kit exists; no participants were available.",
           "- Precision of real findings with a second labeller and kappa (N6) and false-alarm adjudication (N2).",
-          "- Retrospective case studies from registry version histories (N7): the registry history endpoint rejects scripts.",
+          "- Whole-pipeline retrospective test on earlier protocol PDFs: not possible, earlier versions of the PDFs are not posted. Section 5 tests only the peer-outlier signal on registry fields.",
           "- Schedule-of-Activities extraction accuracy against hand-labelled cells.", "",
-          "## 7. Reproduce", "", "```", "preflight fetch                      # downloads the PDFs in data/corpus/manifest.csv",
+          "## 8. Reproduce", "", "```", "preflight fetch                      # downloads the PDFs in data/corpus/manifest.csv",
           "python -m preflight.eval.cli bench --set dev --config rules_only --llm-graph",
           "python -m preflight.eval.cli bench --set dev --config full",
           "python -m preflight.eval.cli bench --set dev --config llm_only", "python -m preflight.eval.speed dev      # live timing and cost", "python -m preflight.eval.report", "```", ""]

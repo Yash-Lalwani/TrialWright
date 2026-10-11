@@ -49,6 +49,10 @@ def shape(results: list[dict]) -> dict | None:
             "by_type": top["by_type"], "by_category": top["by_category"], "ablation": ablation,
             "false_alarms_per_clean_protocol": top.get("false_alarms_per_clean_protocol")}
     body.update({k: top.get(k) for k in NULLABLE})
+    studies = RESULTS_DIR.parent / "case_studies.json"      # written from browser-read registry histories (N7)
+    if body["case_studies"] is None and studies.exists():
+        data = json.loads(studies.read_text())
+        body["case_studies"], body["retrospective"] = data["case_studies"], {k: data[k] for k in ("population", "method", "result", "caveats")}
     return body
 
 

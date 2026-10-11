@@ -23,3 +23,10 @@ Steps (about 2 minutes):
     response shape has not been seen by a script yet, so the parser is written against the real shape afterwards.
 
 Nothing here is personal data. These are public registry records.
+
+VERIFIED 2026-10-11 from a logged-out Chrome tab on clinicaltrials.gov (same-origin fetch works; scripts get 403):
+  GET /api/int/studies/{NCT}?history=true      -> {study, topics, history:{changes:[{version,date,status,moduleLabels,...}], originalData, lastUpdateVersions}}
+  GET /api/int/studies/{NCT}/history/{version} -> {studyVersion, study:{protocolSection...}}  (full record at that version)
+eligibilityCriteria in history records is HTML (<p>, <ol><li>), unlike the public v2 API; convert before counting.
+The site answers HTTP 429 above ~4 parallel requests: keep to 1-2 with a delay and retry.
+The aggregated result is in data/bench/case_studies.json.
