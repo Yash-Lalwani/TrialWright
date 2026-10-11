@@ -1,0 +1,8 @@
+{
+  "this_protocol": {"primary_endpoint": "ORR per RECIST 1.1", "primary_timeframe": "Week 24", "key_eligibility": ["ECOG 0", "Age 18-75"], "enrollment": 420, "n_visits": 18},
+  "rows": [
+    {"nct_id": "NCT00000001", "title": "Study of Drug Y in NSCLC", "sponsor": "Sponsor Co", "phase": "PHASE3", "similarity": 0.82,
+     "primary_endpoint": "PFS per RECIST 1.1", "primary_timeframe": "Up to 36 months",
+     "key_eligibility": ["ECOG 0-1", "Age 18+"], "enrollment": 610, "n_visits": 14}
+  ]
+}

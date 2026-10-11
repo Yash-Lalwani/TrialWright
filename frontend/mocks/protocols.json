@@ -1,0 +1,37 @@
+{
+  "items": [
+    {
+      "protocol_id": "prt_8f2a",
+      "filename": "PF-DEMO-001_synthetic_sample.pdf",
+      "title": "A Phase 3, Randomized, Open-Label Study of Drug X Versus Chemotherapy in Advanced NSCLC",
+      "pages": 24,
+      "nct_id": "NCT00000000",
+      "phase": "PHASE3",
+      "condition": "Non-small cell lung cancer",
+      "uploaded_at": "2026-10-11T02:14:00Z",
+      "latest_run": {"run_id": "run_31c9", "score": 62, "status": "complete"}
+    },
+    {
+      "protocol_id": "prt_9c47",
+      "filename": "PF-DEMO-002_synthetic_sample.pdf",
+      "title": "A Phase 2, Single-Arm Study of Drug Y in Relapsed Follicular Lymphoma",
+      "pages": 88,
+      "nct_id": null,
+      "phase": "PHASE2",
+      "condition": "Follicular lymphoma",
+      "uploaded_at": "2026-10-10T21:40:00Z",
+      "latest_run": {"run_id": "run_a802", "score": null, "status": "failed"}
+    },
+    {
+      "protocol_id": "prt_5d10",
+      "filename": "PF-DEMO-003_synthetic_sample.pdf",
+      "title": "A Phase 3, Double-Blind, Placebo-Controlled Study of Drug Z in Moderate to Severe Plaque Psoriasis",
+      "pages": 117,
+      "nct_id": "NCT00000002",
+      "phase": "PHASE3",
+      "condition": "Plaque psoriasis",
+      "uploaded_at": "2026-10-10T18:05:00Z",
+      "latest_run": null
+    }
+  ]
+}

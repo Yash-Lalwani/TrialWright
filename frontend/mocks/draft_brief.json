@@ -1,0 +1,17 @@
+{
+  "condition": "Non-small cell lung cancer",
+  "phase": "PHASE2",
+  "intervention": "Drug X 350 mg IV Q3W",
+  "comparator": "Docetaxel",
+  "primary_question": "Does Drug X improve ORR vs docetaxel?",
+  "population": "Adults with previously treated advanced NSCLC",
+  "duration_weeks": 52,
+  "alpha": 0.05,
+  "power": 0.8,
+  "expected_effect": {
+    "type": "proportions",
+    "control": 0.12,
+    "treatment": 0.27
+  },
+  "dropout": 0.1
+}

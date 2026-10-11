@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-10-11T14:00:00Z",
+  "model": "deepseek/deepseek-v4-flash-20260731",
+  "test_set": {"protocols": 7, "injected_errors": 84},
+  "overall": {"recall": 0.88, "precision": 0.83, "f1": 0.85},
+  "by_type": [{"type": "T01", "name": "Endpoint visit removed from SoA", "n": 6, "found": 6, "recall": 1.0}],
+  "by_category": [{"amendment_category": "eligibility", "n": 14, "recall": 0.86}],
+  "ablation": [
+    {"config": "rules_only", "recall": 0.71, "precision": 0.94, "f1": 0.81},
+    {"config": "llm_only", "recall": 0.52, "precision": 0.41, "f1": 0.46},
+    {"config": "full", "recall": 0.88, "precision": 0.83, "f1": 0.85}
+  ],
+  "hallucination": {"ai_findings": 120, "dropped_ungrounded": 17, "shown_ungrounded": 0},
+  "false_alarms_per_clean_protocol": 1.4,
+  "human_baseline": {
+    "protocol": "NCT00000000 (injected, 12 errors)",
+    "participants": [{"id": "H1", "found": 4, "minutes": 20}, {"id": "H2", "found": 5, "minutes": 20}],
+    "preflight": {"found": 11, "seconds": 88},
+    "total_errors": 12
+  },
+  "real_findings": {"sampled": 30, "precision": 0.77, "kappa": 0.71},
+  "soa_extraction": {"protocols": 3, "cell_accuracy": 0.93},
+  "speed_cost": {"median_seconds": 92, "median_usd": 0.11},
+  "case_studies": [{"nct_id": "NCT00000003", "change": "ECOG 0 relaxed to ECOG 0-1 in version 6", "flagged_in_earlier_version": true, "summary": "Pre-Flight flagged ECOG 0 as stricter than 91% of peers."}]
+}

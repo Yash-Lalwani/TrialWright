@@ -1,0 +1,20 @@
+{
+  "items": [
+    {
+      "run_id": "run_31c9",
+      "protocol_id": "prt_8f2a",
+      "version_label": "v1",
+      "mode": "full",
+      "status": "complete",
+      "started_at": "2026-10-11T02:14:05Z",
+      "finished_at": "2026-10-11T02:15:39Z",
+      "duration_s": 94.2,
+      "llm_cost_usd": 0.12,
+      "score": {
+        "overall": 62, "completeness": 81, "consistency": 44, "burden": 58, "amendment_risk": 70,
+        "weights": {"completeness": 0.25, "consistency": 0.35, "burden": 0.20, "amendment_risk": 0.20}
+      },
+      "counts": {"critical": 3, "major": 7, "minor": 6, "advisory": 4, "open": 17, "accepted": 2, "rejected": 1}
+    }
+  ]
+}
