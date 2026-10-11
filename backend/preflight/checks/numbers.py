@@ -1,7 +1,7 @@
 import re
 from collections import Counter, defaultdict
 
-from preflight.checks.registry import CheckContext, check, issue, where
+from preflight.checks.registry import CheckContext, check, issue, section_title, where
 from preflight.graph.models import NumberFact, ProtocolGraph
 
 LABELS = {"age_min": "Minimum age", "age_max": "Maximum age", "sample_size": "Sample size",
@@ -55,9 +55,11 @@ def numbers_agree(graph: ProtocolGraph, ctx: CheckContext):
     return issues
 
 
-DRUG = re.compile(r"\b([A-Za-z]+(?:mab|nib|tinib|platin|taxel|rubicin|parib|ciclib|lisib|olimod|cept|zomib|tide)"
+DRUG = re.compile(r"(?<![\w-])([A-Za-z]+(?:mab|nib|tinib|platin|taxel|rubicin|parib|ciclib|lisib|olimod|cept|zomib"
+                  r"|tide)"
                   r"|[A-Z]{2,5}[- ]?\d{2,5}[A-Za-z]?)\b")
 NOT_DOSE = re.compile(r"loading|reduc|escalat|level|up to|maximum|max\.|cumulative|starting|step|total|minimum|"
+                      r"lower|higher|alternative|modif|"
                       r"from|to\s*$|or\s*$", re.I)
 NOT_DOSE_LINE = re.compile(r"weight|\bkg\b|adolescent|child|pediatric|paediatric|dose levels?|cohort|tolerated", re.I)
 
@@ -73,7 +75,7 @@ def _dose_key(fact: NumberFact) -> tuple | None:
     doses_in_line = len(re.findall(rf"\d+(?:\.\d+)?\s*{re.escape(fact.unit or 'mg')}\b", q))
     if NOT_DOSE_LINE.search(q) or re.match(r"\s*(to|-|–)\s", after):
         return None
-    if not loading and (NOT_DOSE.search(before[-30:]) or doses_in_line > 2):
+    if not loading and (NOT_DOSE.search(before[-60:]) or doses_in_line > 2):
         return None
     window = before[-70:] if loading else before[-40:]
     drugs = list(DRUG.finditer(window))
@@ -92,6 +94,9 @@ def _dose_key(fact: NumberFact) -> tuple | None:
 def doses_agree(graph: ProtocolGraph, ctx: CheckContext):
     groups: dict[tuple, list[NumberFact]] = defaultdict(list)
     for f in graph.numbers:
+        title = (section_title(graph, f.span.page) or "").lower()
+        if re.search(r"rationale|background|justification|previous|prior|history|pharmacolog", title):
+            continue  # doses discussed for other studies or alternative regimens
         if f.kind == "dose" and (key := _dose_key(f)):
             groups[key].append(f)
     issues = []
