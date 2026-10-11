@@ -1,29 +1,29 @@
 {
- "generated_at": "2026-10-11T02:00:30Z",
+ "generated_at": "2026-10-11T02:34:25Z",
  "set": "dev",
- "config": "rules_only",
+ "config": "full",
  "seeds": [
   1
  ],
- "llm_enabled": false,
+ "llm_enabled": true,
  "llm_extraction": {
   "runs": 6,
-  "with_extraction": 0
+  "with_extraction": 6
  },
  "test_set": {
   "protocols": 3,
   "injected_errors": 27
  },
  "overall": {
-  "recall": 0.667,
-  "precision": 1.0,
-  "f1": 0.8
+  "recall": 0.741,
+  "precision": 0.952,
+  "f1": 0.833
  },
  "overall_measurable": {
-  "recall": 1.0,
-  "precision": 1.0,
-  "f1": 1.0,
-  "n_errors": 16,
+  "recall": 0.741,
+  "precision": 0.952,
+  "f1": 0.833,
+  "n_errors": 27,
   "note": "only error types this config can detect (rules_only cannot see types that need LLM extraction)"
  },
  "by_type": [
@@ -33,7 +33,7 @@
    "n": 1,
    "found": 1,
    "recall": 1.0,
-   "measurable": false
+   "measurable": true
   },
   {
    "type": "T04",
@@ -41,7 +41,7 @@
    "n": 1,
    "found": 0,
    "recall": 0.0,
-   "measurable": false
+   "measurable": true
   },
   {
    "type": "T05",
@@ -49,7 +49,7 @@
    "n": 2,
    "found": 0,
    "recall": 0.0,
-   "measurable": false
+   "measurable": true
   },
   {
    "type": "T06",
@@ -79,9 +79,9 @@
    "type": "T09",
    "name": "Power/effect changed so N not reproducible",
    "n": 2,
-   "found": 0,
-   "recall": 0.0,
-   "measurable": false
+   "found": 1,
+   "recall": 0.5,
+   "measurable": true
   },
   {
    "type": "T10",
@@ -103,9 +103,9 @@
    "type": "T12",
    "name": "Exclusion criterion contradicts an inclusion criterion",
    "n": 2,
-   "found": 0,
-   "recall": 0.0,
-   "measurable": false
+   "found": 1,
+   "recall": 0.5,
+   "measurable": true
   },
   {
    "type": "T13",
@@ -113,7 +113,7 @@
    "n": 3,
    "found": 1,
    "recall": 0.333,
-   "measurable": false
+   "measurable": true
   },
   {
    "type": "T14",
@@ -167,7 +167,7 @@
   {
    "amendment_category": "eligibility",
    "n": 6,
-   "recall": 0.333
+   "recall": 0.5
   },
   {
    "amendment_category": "endpoints",
@@ -182,7 +182,7 @@
   {
    "amendment_category": "statistics",
    "n": 7,
-   "recall": 0.429
+   "recall": 0.571
   },
   {
    "amendment_category": "visit_schedule",
@@ -190,12 +190,14 @@
    "recall": 1.0
   }
  ],
- "false_alarms_per_clean_protocol": 5.0,
+ "false_alarms_per_clean_protocol": 9.33,
  "clean_flags_by_check": {
   "B2:major": 3.0,
+  "C1:major": 2.0,
+  "C3:major": 2.0,
+  "C7:major": 0.7,
   "C4:major": 0.7,
   "B1:major": 0.7,
-  "C6:major": 0.3,
   "C10:major": 0.3
  },
  "per_protocol": [
@@ -205,7 +207,7 @@
    "injected": 11,
    "tp": 7,
    "fn": 4,
-   "fp": 0,
+   "fp": 1,
    "skipped": [
     {
      "type": "T01",
@@ -344,8 +346,8 @@
    "nct_id": "NCT04698187",
    "seed": 1,
    "injected": 8,
-   "tp": 6,
-   "fn": 2,
+   "tp": 8,
+   "fn": 0,
    "fp": 0,
    "skipped": [
     {
@@ -389,30 +391,22 @@
      "reason": "not sampled (target count reached)"
     }
    ],
-   "missed": [
-    {
-     "type": "T12",
-     "description": "Exclusion criterion rewritten to contradict inclusion on neutrophil count",
-     "page": 39,
-     "line": "1. Neutrophil count at or above 1200 /mm3.",
-     "why": "expected check fired elsewhere: p38 Lab threshold disagrees between repeated statement"
-    },
-    {
-     "type": "T09",
-     "description": "Stated power changed 90% -> 80% everywhere, so N is no longer reproducible",
-     "page": 11,
-     "line": "A sample size of 69 subjects achieves at least 80% power to detect a difference of 13% using a",
-     "why": "no C7 flag at all (needs LLM extraction)"
-    }
-   ]
+   "missed": []
   }
  ],
  "speed_cost": {
-  "median_seconds": 3.77,
-  "median_usd": 0.0
+  "median_seconds": 32.4,
+  "median_usd": 0.0072,
+  "measured": "live",
+  "protocols": 3
  },
  "ablation": null,
- "hallucination": null,
+ "hallucination": {
+  "ai_findings": 180,
+  "dropped_ungrounded": 19,
+  "shown": 161,
+  "shown_ungrounded": 0
+ },
  "human_baseline": null,
  "real_findings": null,
  "soa_extraction": null,
