@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-10T23:21:23Z",
+ "generated_at": "2026-10-11T00:47:36Z",
  "set": "dev",
  "config": "rules_only",
  "seeds": [
@@ -15,9 +15,9 @@
   "injected_errors": 25
  },
  "overall": {
-  "recall": 0.68,
+  "recall": 0.76,
   "precision": 1.0,
-  "f1": 0.81
+  "f1": 0.864
  },
  "overall_measurable": {
   "recall": 0.895,
@@ -31,8 +31,8 @@
    "type": "T02",
    "name": "Endpoint timepoint changed in one place",
    "n": 1,
-   "found": 0,
-   "recall": 0.0,
+   "found": 1,
+   "recall": 1.0,
    "measurable": false
   },
   {
@@ -87,8 +87,8 @@
    "type": "T13",
    "name": "Lab threshold value conflicts between mentions",
    "n": 3,
-   "found": 0,
-   "recall": 0.0,
+   "found": 1,
+   "recall": 0.333,
    "measurable": false
   },
   {
@@ -151,12 +151,12 @@
   {
    "amendment_category": "eligibility",
    "n": 5,
-   "recall": 0.0
+   "recall": 0.2
   },
   {
    "amendment_category": "endpoints",
    "n": 1,
-   "recall": 0.0
+   "recall": 1.0
   },
   {
    "amendment_category": "intervention",
@@ -179,10 +179,12 @@
    "recall": 1.0
   }
  ],
- "false_alarms_per_clean_protocol": 4.0,
+ "false_alarms_per_clean_protocol": 5.0,
  "clean_flags_by_check": {
   "B2:major": 3.0,
+  "C4:major": 0.7,
   "B1:major": 0.7,
+  "C6:major": 0.3,
   "C10:major": 0.3
  },
  "per_protocol": [
@@ -190,8 +192,8 @@
    "nct_id": "NCT04303780",
    "seed": 1,
    "injected": 9,
-   "tp": 6,
-   "fn": 3,
+   "tp": 7,
+   "fn": 2,
    "fp": 0,
    "skipped": [
     {
@@ -245,13 +247,6 @@
      "page": 19,
      "line": "mutation. A total of 230 PFS events are required to provide at least 80% power to",
      "why": "no C7 flag at all (needs LLM extraction)"
-    },
-    {
-     "type": "T02",
-     "description": "Endpoint timepoint 12 -> 14 in one place only",
-     "page": 13,
-     "line": "Change from baseline to Week 14 in PRO endpoints between AMG 510 and docetaxel, for",
-     "why": "expected check fired elsewhere: p14 Randomization ratio disagrees across sections: 2:1; p17 Sample size disagrees across sections: 396.0 vs 33"
     }
    ]
   },
@@ -325,8 +320,8 @@
    "nct_id": "NCT04698187",
    "seed": 1,
    "injected": 8,
-   "tp": 5,
-   "fn": 3,
+   "tp": 6,
+   "fn": 2,
    "fp": 0,
    "skipped": [
     {
@@ -384,19 +379,12 @@
      "page": 8,
      "line": "8. Age \u2265 21 years at time of consent.",
      "why": "expected check fired elsewhere: p11 Sample size disagrees across sections: 120.0 vs 10; p10 Nivolumab dose disagrees across sections: 450 mg v (extracted, but the check did not flag it)"
-    },
-    {
-     "type": "T13",
-     "description": "Lab threshold 1500 changed to 3000 in one place only",
-     "page": 7,
-     "line": "neutrophil count \u2265 3000/mm3",
-     "why": "no C8 flag at all (needs LLM extraction)"
     }
    ]
   }
  ],
  "speed_cost": {
-  "median_seconds": 3.56,
+  "median_seconds": 3.72,
   "median_usd": 0.0
  },
  "ablation": null,
