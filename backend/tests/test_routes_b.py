@@ -56,3 +56,33 @@ def test_burden_and_precedent_work_from_stored_graph_and_peers_lists_hotspot_ids
         assert c.get("/api/runs/run_b2/peers").status_code == 404                         # no peers: said plainly
         monkeypatch.setattr(burden, "find_peers", lambda g: burden.PeerSet.model_validate(burden._examples.PEERS))
         assert c.get("/api/runs/run_b2/peers").json()["hotspot_issue_ids"] == ["iss_01"]
+
+
+def test_draft_roundtrip_without_llm_and_exports(monkeypatch):
+    import time
+
+    from preflight import burden
+    from preflight.llm.client import LLMUnavailable
+
+    async def boom(*a, **k):
+        raise LLMUnavailable("no key")
+    monkeypatch.setattr("preflight.llm.client.complete_json", boom)
+    monkeypatch.setattr(burden, "find_peers", lambda g: None)
+    brief = {"condition": "Melanoma", "phase": "PHASE2", "intervention": "Drug X 350 mg IV Q3W", "comparator": "Docetaxel", "primary_question": "Does Drug X improve ORR?",
+             "population": "Adults with advanced melanoma", "duration_weeks": 52, "expected_effect": {"type": "proportions", "control": 0.12, "treatment": 0.27}, "dropout": 0.1}
+    with TestClient(app) as c:
+        r = c.post("/api/drafts", json=brief)
+        assert r.status_code == 202 and r.json()["status"] == "queued"
+        did = r.json()["draft_id"]
+        for _ in range(100):
+            d = c.get(f"/api/drafts/{did}").json()
+            if d["status"] != "queued":
+                break
+            time.sleep(0.1)
+        assert d["status"] == "complete" and d["sample_size"]["n_total"] == 236
+        assert {"precedent", "sections", "burden", "self_check", "brief"} <= set(d)
+        assert "event: complete" in c.get(f"/api/drafts/{did}/events").text
+        assert c.get(f"/api/drafts/{did}/export?format=docx").content[:2] == b"PK"
+        assert c.get(f"/api/drafts/{did}/export?format=usdm").json()
+        assert c.get("/api/drafts/drf_nope").status_code == 404 and c.get(f"/api/drafts/{did}/export?format=zip").status_code == 422
+        assert c.post("/api/drafts", json={"condition": "x"}).status_code == 422
