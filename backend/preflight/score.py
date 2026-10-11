@@ -8,7 +8,8 @@ from preflight.graph.issues import Issue
 CONFIG_PATH = Path(__file__).resolve().parents[2] / "config" / "score.yaml"
 DEFAULTS = {
     "weights": {"completeness": 0.25, "consistency": 0.35, "burden": 0.20, "amendment_risk": 0.20},
-    "points": {"critical": 15, "major": 8, "minor": 3, "advisory": 0},
+    "points": {"critical": 15, "major": 8, "minor": 3, "advisory": 0},             # amendment risk
+    "consistency_points": {"critical": 10, "major": 5, "minor": 2, "advisory": 0},
 }
 
 
@@ -39,10 +40,10 @@ def _penalty(issues: list[Issue], category: str, points: dict) -> float:
 
 def compute(issues: list[Issue], present: int, thin: int, required: int, burden: float) -> Score:
     cfg = load_config()
-    w, pts = cfg["weights"], cfg["points"]
+    w, pts, cpts = cfg["weights"], cfg["points"], cfg["consistency_points"]
     missing = max(0, required - present - thin)
     completeness = 100 * (present + thin + 0.25 * missing) / required if required else 100
-    consistency = max(0.0, 100 - _penalty(issues, "consistency", pts))
+    consistency = max(0.0, 100 - _penalty(issues, "consistency", cpts))
     amendment_risk = max(0.0, 100 - _penalty(issues, "amendment_risk", pts))
     overall = (w["completeness"] * completeness + w["consistency"] * consistency
                + w["burden"] * burden + w["amendment_risk"] * amendment_risk)

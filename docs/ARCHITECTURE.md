@@ -184,9 +184,9 @@ Guardrails, in order:
 
 ```
 Completeness   = 100 * (present + thin + 0.25 * missing) / required_items   (M11 + SPIRIT)
-Consistency    = max(0, 100 - sum(points of open consistency issues))   critical 15, major 8, minor 3
+Consistency    = max(0, 100 - sum(points of open consistency issues))   critical 10, major 5, minor 2
 Burden         = 100 - 0.5 * weighted peer percentile of patient hours (0.5), procedures (0.3), visits (0.2); 50 without peers
-Amendment Risk = max(0, 100 - sum(points of hotspots))
+Amendment Risk = max(0, 100 - sum(points of hotspots))          critical 15, major 8, minor 3
 Pre-Flight     = 0.25*Completeness + 0.35*Consistency + 0.20*Burden + 0.20*Amendment Risk
 ```
 
