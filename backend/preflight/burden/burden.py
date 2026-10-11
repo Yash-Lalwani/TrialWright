@@ -110,11 +110,11 @@ def weights() -> dict[str, float]:
 
 
 def score(report: BurdenReport) -> float:
-    """0-100, higher = lighter burden: 100 minus the weighted peer percentile of patient hours, procedures and visits.
-    Without peer percentiles there is nothing to compare against, so the score is neutral (50), not a guess."""
+    """50-100, higher = lighter burden: 100 minus half the weighted peer percentile of patient hours, procedures and
+    visits. Without peer percentiles there is nothing to compare against, so the score is neutral (50), not a guess."""
     p = report.peer_percentiles
     if p is None:
         return NEUTRAL
     w = weights()
     pct = sum(w[k] * getattr(p, k) for k in w) / sum(w.values())
-    return round(max(0.0, min(100.0, 100 - pct)), 1)
+    return round(max(0.0, min(100.0, 100 - 0.5 * pct)), 1)

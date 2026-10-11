@@ -59,13 +59,15 @@ def test_visit_label_cleaning():
     assert burden.visit_label("End of Treatment") == "End of Treatment"
 
 
-def test_score_is_100_minus_weighted_percentile_and_neutral_without_peers():
+def test_score_is_100_minus_half_the_weighted_percentile_and_neutral_without_peers():
     rep = burden.compute(graph(soa=None))
     assert burden.score(rep) == 50.0
     rep = rep.model_copy(update={"peer_percentiles": PeerPercentiles(patient_hours=80, procedures_total=60, visits=40, n_peers_with_soa=20)})
-    assert burden.score(rep) == pytest.approx(100 - (0.5 * 80 + 0.3 * 60 + 0.2 * 40))
+    assert burden.score(rep) == pytest.approx(100 - 0.5 * (0.5 * 80 + 0.3 * 60 + 0.2 * 40))
     light = rep.model_copy(update={"peer_percentiles": PeerPercentiles(patient_hours=0, procedures_total=0, visits=0, n_peers_with_soa=20)})
     assert burden.score(light) == 100.0
+    heavy = rep.model_copy(update={"peer_percentiles": PeerPercentiles(patient_hours=100, procedures_total=100, visits=100, n_peers_with_soa=20)})
+    assert burden.score(heavy) == 50.0
 
 
 def test_orphans_come_from_a_c2_check():

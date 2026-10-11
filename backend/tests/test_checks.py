@@ -138,9 +138,9 @@ def test_completeness_missing_and_score():
     issues = run("C4", graph(numbers=[NumberFact(kind="ratio", value="1:1", unit=None, span=span(5)),
                                       NumberFact(kind="ratio", value="1:1", unit=None, span=span(6)),
                                       NumberFact(kind="ratio", value="2:1", unit=None, span=span(7))]))
-    s = compute(issues, present=8, thin=2, required=10, burden=50)
-    assert (s.completeness, s.consistency, s.amendment_risk) == (90, 85, 100)
-    assert s.overall == round(0.25 * 90 + 0.35 * 85 + 0.2 * 50 + 0.2 * 100)
+    s = compute(issues, present=6, thin=2, required=10, burden=50)       # 2 missing count a quarter each
+    assert (s.completeness, s.consistency, s.amendment_risk) == (85, 85, 100)
+    assert s.overall == round(0.25 * 85 + 0.35 * 85 + 0.2 * 50 + 0.2 * 100)
 
 
 async def test_check_graph_assigns_ids_and_sorts():
