@@ -21,6 +21,10 @@ SAMPLE = re.compile(
     r"|sample size (?:of|is|will be)\s+(?:approximately\s+)?(\d{2,5})"
     r"|number of (?:subjects|patients|participants)[a-z ]{0,30}? is\s+(?:approximately\s+)?(\d{2,5})", re.I)
 RATIO = re.compile(r"\b(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?\b")
+# A ratio next to randomisation wording: '1:1 ratio', '2:1 randomization allocation', 'randomized (1:1)'.
+RATIO_CONTEXT = re.compile(
+    r"\b(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?\)?\s*(?=(?:\w+\s+){0,1}(?:ratio|randomi|allocation|fashion|manner))"
+    r"|(?:randomi[sz]ed|randomly assigned|allocated|randomization)\s*(?:\w+\s+){0,3}\(?(\d{1,2}):(\d{1,2})\b", re.I)
 ARMS = re.compile(r"\b(one|two|three|four|five|six|\d)[- ](?:treatment )?arms?\b", re.I)
 DOSE = re.compile(r"\b(\d+(?:\.\d+)?)\s*(mg/kg|mg/m2|mg/m²|mg|mcg|µg|μg|g)\b(?!/dL|/L)", re.I)
 DURATION = re.compile(r"\b(\d+(?:\.\d+)?)\s*(week|month|year)s?\b", re.I)
@@ -82,10 +86,7 @@ def extract_numbers(lines: list[Line]) -> list[NumberFact]:
         if sample_context and not re.search(r"\bpk\b|pharmacokinetic|subset|substudy|evaluable|achieves|power",
                                             low) and (m := SAMPLE.search(t)):
             add("sample_size", float(next(g for g in m.groups() if g)), None, ln)
-        if "ratio" in low and re.search(r"random|allocation", low):
-            m = RATIO.search(t)
-        else:
-            m = re.search(r"randomi[sz]ed\s*\(?\s*(\d{1,2}):(\d{1,2})\b", t)
+        m = RATIO_CONTEXT.search(t) if re.search(r"random|allocat|ratio", f"{low} {nxt}") else None
         if m:
             add("ratio", ":".join(g for g in m.groups() if g), None, ln)
         if m := ARMS.search(t):

@@ -31,7 +31,8 @@ def numbers_agree(graph: ProtocolGraph, ctx: CheckContext):
     issues = []
     for kind, facts in by_kind.items():
         if kind == "sample_size" and facts:
-            total = Counter(float(f.value) for f in facts).most_common(1)[0][0]
+            totals = [f for f in facts if not _per_arm(f, -1, None)] or facts  # pick the total from non-arm counts
+            total = Counter(float(f.value) for f in totals).most_common(1)[0][0]
             facts = [f for f in facts if float(f.value) == total or not _per_arm(f, total, graph.meta.n_arms)]
         counts = Counter(str(f.value) for f in facts)
         if len(counts) < 2:
@@ -72,16 +73,18 @@ def _dose_key(fact: NumberFact) -> tuple | None:
     doses_in_line = len(re.findall(rf"\d+(?:\.\d+)?\s*{re.escape(fact.unit or 'mg')}\b", q))
     if NOT_DOSE_LINE.search(q) or re.match(r"\s*(to|-|–)\s", after):
         return None
-    if not loading and (NOT_DOSE.search(before[-30:]) or doses_in_line > 1 and "loading" not in q.lower()):
+    if not loading and (NOT_DOSE.search(before[-30:]) or doses_in_line > 2):
         return None
     window = before[-70:] if loading else before[-40:]
     drugs = list(DRUG.finditer(window))
-    if not drugs:
-        return None
-    gap = window[drugs[-1].end():]
-    if not loading and re.search(r"[,;(]| with ", gap):
+    gap = window[drugs[-1].end():] if drugs else ""
+    if drugs and (loading or not re.search(r"[,;(]| with |\d\s*(mg|g|mcg|µg)\b", gap)):
+        drug = drugs[-1].group(1)  # 'alectinib administered orally at 600 mg'
+    elif m2 := DRUG.match(q[m.end():m.end() + 25].lstrip(" ,")):
+        drug = m2.group(1)  # '400 mg pralsetinib'
+    else:
         return None  # e.g. 'CMP-001, prophylaxis with prednisone 25 mg'
-    return drugs[-1].group(1).lower().replace(" ", ""), (fact.unit or "").lower(), "loading" if loading else "dose"
+    return drug.lower().replace(" ", ""), (fact.unit or "").lower(), "loading" if loading else "dose"
 
 
 @check(id="C4D", category="consistency", amendment_category="intervention",

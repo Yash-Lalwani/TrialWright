@@ -29,7 +29,8 @@ def visit_windows(graph: ProtocolGraph, ctx: CheckContext):
 
 STOP = {"of", "the", "a", "an", "after", "before", "from", "to", "for", "and", "or", "in", "on", "at", "up", "last",
         "first", "follow", "dose", "with", "will", "be"}
-DURATION = re.compile(r"\b(\d+(?:\.\d+)?)\s*(week|month|year)s?\b((?:\s+[A-Za-z]+){1,4})", re.I)
+DURATION = re.compile(r"((?:[A-Za-z]+\s+){0,4})(\d+(?:\.\d+)?)\s*(week|month|year)s?\b((?:\s+[A-Za-z]+){0,4})",
+                      re.I)
 
 
 @check(id="C6D", category="consistency", amendment_category="design",
@@ -43,11 +44,16 @@ def durations_agree(graph: ProtocolGraph, ctx: CheckContext):
             continue
         seen.add((f.span.page, f.span.quote))
         for m in DURATION.finditer(f.span.quote):
-            words = m.group(3).split()
-            content = [w for w in words if w.lower() not in STOP]
-            distinctive = len(content) >= 3 or any(re.fullmatch(r"[A-Z]{2,}", w) for w in words)
-            if distinctive:
-                groups[f"{m.group(2).lower()} {' '.join(words).lower()}"].append((m.group(1), f))
+            before = [w for w in m.group(1).split() if w.lower() not in ("approximately", "about", "up", "to")]
+            after = m.group(4).split()
+            for words, side in ((after, "after"), (before, "before")):
+                content = [w for w in words if w.lower() not in STOP]
+                if len(content) >= 3 or (len(content) >= 2 and side == "before") or any(
+                        re.fullmatch(r"[A-Z]{2,}", w) for w in words):
+                    phrase = " ".join(words).lower()
+                    key = f"{phrase} # {m.group(3).lower()}" if side == "before" else f"{m.group(3).lower()} {phrase}"
+                    groups[key].append((m.group(2), f))
+                    break
     issues = []
     for phrase, items in groups.items():
         counts = Counter(v for v, _ in items)
@@ -57,11 +63,11 @@ def durations_agree(graph: ProtocolGraph, ctx: CheckContext):
         main = next(f for v, f in items if v == main_v)
         for value, n in rest:
             odd = next(f for v, f in items if v == value)
-            unit, words = phrase.split(" ", 1)
+            said = phrase.replace("#", "{}") if "#" in phrase else "{} " + phrase
             issues.append(issue(
-                "C6", f"Duration disagrees across sections: {value} vs {main_v} {unit}s {words}",
+                "C6", f"Duration disagrees across sections: {said.format(value)} vs {main_v}",
                 where(graph, odd.span),
-                f"'{main_v} {unit}s {words}' on page {main.span.page} but '{value} {unit}s {words}' on page "
+                f"'{said.format(main_v)}' on page {main.span.page} but '{said.format(value)}' on page "
                 f"{odd.span.page}. Treatment, follow-up and total durations no longer add up.",
                 fix="Use the same duration everywhere it is stated.", related=[where(graph, main.span)],
                 severity="major" if main_n > n else "minor", confidence=0.8))
