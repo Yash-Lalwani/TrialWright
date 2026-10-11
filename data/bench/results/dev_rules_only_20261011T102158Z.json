@@ -1,29 +1,29 @@
 {
- "generated_at": "2026-10-11T05:24:41Z",
+ "generated_at": "2026-10-11T10:21:58Z",
  "set": "dev",
- "config": "full",
+ "config": "rules_only",
  "seeds": [
   1
  ],
- "llm_enabled": true,
+ "llm_enabled": false,
  "llm_extraction": {
   "runs": 6,
-  "with_extraction": 6
+  "with_extraction": 0
  },
  "test_set": {
   "protocols": 3,
   "injected_errors": 27
  },
  "overall": {
-  "recall": 0.704,
-  "precision": 0.95,
-  "f1": 0.809
+  "recall": 0.667,
+  "precision": 1.0,
+  "f1": 0.8
  },
  "overall_measurable": {
-  "recall": 0.704,
-  "precision": 0.95,
-  "f1": 0.809,
-  "n_errors": 27,
+  "recall": 1.0,
+  "precision": 1.0,
+  "f1": 1.0,
+  "n_errors": 16,
   "note": "only error types this config can detect (rules_only cannot see types that need LLM extraction)"
  },
  "by_type": [
@@ -33,7 +33,7 @@
    "n": 1,
    "found": 1,
    "recall": 1.0,
-   "measurable": true
+   "measurable": false
   },
   {
    "type": "T04",
@@ -41,7 +41,7 @@
    "n": 1,
    "found": 0,
    "recall": 0.0,
-   "measurable": true
+   "measurable": false
   },
   {
    "type": "T05",
@@ -49,7 +49,7 @@
    "n": 2,
    "found": 0,
    "recall": 0.0,
-   "measurable": true
+   "measurable": false
   },
   {
    "type": "T06",
@@ -81,7 +81,7 @@
    "n": 2,
    "found": 0,
    "recall": 0.0,
-   "measurable": true
+   "measurable": false
   },
   {
    "type": "T10",
@@ -103,9 +103,9 @@
    "type": "T12",
    "name": "Exclusion criterion contradicts an inclusion criterion",
    "n": 2,
-   "found": 1,
-   "recall": 0.5,
-   "measurable": true
+   "found": 0,
+   "recall": 0.0,
+   "measurable": false
   },
   {
    "type": "T13",
@@ -113,7 +113,7 @@
    "n": 3,
    "found": 1,
    "recall": 0.333,
-   "measurable": true
+   "measurable": false
   },
   {
    "type": "T14",
@@ -167,7 +167,7 @@
   {
    "amendment_category": "eligibility",
    "n": 6,
-   "recall": 0.5
+   "recall": 0.333
   },
   {
    "amendment_category": "endpoints",
@@ -190,14 +190,11 @@
    "recall": 1.0
   }
  ],
- "false_alarms_per_clean_protocol": 9.0,
+ "false_alarms_per_clean_protocol": 4.33,
  "clean_flags_by_check": {
   "B2:major": 3.0,
-  "C1:major": 2.0,
-  "C3:major": 2.0,
   "C4:major": 1.0,
-  "B1:major": 0.7,
-  "C7:major": 0.3
+  "B1:major": 0.3
  },
  "per_protocol": [
   {
@@ -206,7 +203,7 @@
    "injected": 11,
    "tp": 7,
    "fn": 4,
-   "fp": 1,
+   "fp": 0,
    "skipped": [
     {
      "type": "T01",
@@ -345,8 +342,8 @@
    "nct_id": "NCT04698187",
    "seed": 1,
    "injected": 8,
-   "tp": 7,
-   "fn": 1,
+   "tp": 6,
+   "fn": 2,
    "fp": 0,
    "skipped": [
     {
@@ -392,6 +389,13 @@
    ],
    "missed": [
     {
+     "type": "T12",
+     "description": "Exclusion criterion rewritten to contradict inclusion on neutrophil count",
+     "page": 39,
+     "line": "1. Neutrophil count at or above 1200 /mm3.",
+     "why": "expected check fired elsewhere: p38 Lab threshold disagrees between repeated statement"
+    },
+    {
      "type": "T09",
      "description": "Stated power changed 90% -> 80% everywhere, so N is no longer reproducible",
      "page": 11,
@@ -408,12 +412,7 @@
   "protocols": 3
  },
  "ablation": null,
- "hallucination": {
-  "ai_findings": 180,
-  "dropped_ungrounded": 19,
-  "shown": 161,
-  "shown_ungrounded": 0
- },
+ "hallucination": null,
  "human_baseline": null,
  "real_findings": null,
  "soa_extraction": null,
