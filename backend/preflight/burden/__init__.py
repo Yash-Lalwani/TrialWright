@@ -32,9 +32,8 @@ def compute_burden(graph: ProtocolGraph, peers: PeerSet | None) -> BurdenReport:
     if _examples_on():
         return BurdenReport.model_validate(_examples.BURDEN)
     report = _burden.compute(graph)
-    if peers is not None:
-        report = report.model_copy(update={"peer_percentiles": _peer_soa.percentiles(report, {t.nct_id for t in peers.trials})})
-    return report
+    ncts = {t.nct_id for t in peers.trials} if peers is not None else set()
+    return report.model_copy(update={"peer_percentiles": _peer_soa.percentiles(report, ncts, graph.meta.nct_id)})
 
 
 def hotspots(graph: ProtocolGraph, peers: PeerSet | None) -> list[Issue]:

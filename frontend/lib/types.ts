@@ -327,6 +327,8 @@ export interface Burden {
     procedures_total: number;
     visits: number;
     n_peers_with_soa: number;
+    /** "library": too few similar trials had a readable schedule, so every stored trial was used. */
+    scope?: "condition" | "library";
   } | null;
   assumptions: { file: string; version: string };
 }

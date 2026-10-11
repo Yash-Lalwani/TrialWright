@@ -74,8 +74,10 @@ function BurdenSection({ burden }: { burden: Burden }) {
                 </div>
               ))}
               <p className="text-xs text-muted-foreground">
-                Percentile among {burden.peer_percentiles.n_peers_with_soa} peer protocols whose Schedule of Activities was
-                parsed. Higher means heavier than peers.
+                {burden.peer_percentiles.scope === "library"
+                  ? `Percentile among all ${burden.peer_percentiles.n_peers_with_soa} trials in our library whose Schedule of Activities was parsed (all conditions: too few similar trials had one).`
+                  : `Percentile among ${burden.peer_percentiles.n_peers_with_soa} peer protocols whose Schedule of Activities was parsed.`}{" "}
+                Higher means heavier than peers.
               </p>
             </div>
           ) : (

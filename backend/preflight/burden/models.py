@@ -2,6 +2,8 @@
 """Response models for CONTRACTS.md 4.8 (burden), 4.9 (peers), 4.10 (precedent). Shapes are frozen."""
 from __future__ import annotations
 
+from typing import Literal
+
 from pydantic import BaseModel
 
 
@@ -34,6 +36,7 @@ class PeerPercentiles(BaseModel):
     procedures_total: float
     visits: float
     n_peers_with_soa: int
+    scope: Literal["condition", "library"] = "condition"   # library: too few similar trials, compared with every stored one
 
 
 class Assumptions(BaseModel):
