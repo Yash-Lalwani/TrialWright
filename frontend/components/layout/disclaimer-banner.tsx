@@ -8,7 +8,7 @@ export function DisclaimerBanner() {
     <div
       role="note"
       aria-label="Disclaimer"
-      className="flex shrink-0 items-center gap-2 border-b bg-secondary px-4 py-1.5 text-[13px] text-secondary-foreground"
+      className="flex shrink-0 items-center gap-2 border-b border-primary/15 bg-accent px-4 py-1.5 text-[13px] text-accent-foreground sm:px-5"
     >
       <ShieldAlert className="size-3.5 shrink-0 text-primary" aria-hidden />
       <span>{DISCLAIMER}</span>

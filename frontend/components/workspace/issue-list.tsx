@@ -67,18 +67,26 @@ export function IssueList({
           <section key={severity} aria-labelledby={`group-${severity}`}>
             <h3
               id={`group-${severity}`}
-              className="sticky top-0 z-[1] flex items-center gap-1.5 border-b bg-muted px-3 py-1.5 text-xs font-semibold"
+              className={cn("sticky top-0 z-[2] flex items-center gap-1.5 border-y px-3 py-1.5 text-xs font-semibold", meta.tint, meta.border)}
             >
               <GroupIcon className={cn("size-3.5", meta.text)} aria-hidden />
               <span className={meta.text}>{meta.label}</span>
-              <span className="font-normal text-muted-foreground tabular">{items.length}</span>
+              <span className={cn("ml-auto rounded-full bg-card px-1.5 text-[11px] leading-4 font-semibold tabular", meta.text)}>{items.length}</span>
             </h3>
-            <ul aria-label={`${meta.label} issues`} className="divide-y">
+            <ul aria-label={`${meta.label} issues`} className="divide-y [&>li.relative]:border-transparent [&>li.relative+li]:border-transparent">
               {items.map((issue) => {
                 const selected = issue.id === selectedId;
                 const Icon = meta.icon;
                 return (
-                  <li key={issue.id} data-issue={issue.id} className={cn("scroll-mt-8", selected && "bg-accent/60")}>
+                  <li
+                    key={issue.id}
+                    data-issue={issue.id}
+                    className={cn(
+                      "scroll-mt-8",
+                      // The selected issue lifts off the list as a card.
+                      selected && "relative z-[1] my-1.5 rounded-md bg-card shadow-[0_4px_14px_-4px_rgb(16_24_40/0.18)] ring-1 ring-primary/30 mx-1.5",
+                    )}
+                  >
                     <button
                       type="button"
                       aria-expanded={selected}
@@ -86,7 +94,7 @@ export function IssueList({
                       onClick={() => onSelect(selected ? null : issue.id)}
                       className={cn(
                         "flex w-full items-start gap-2.5 px-3 py-2.5 text-left transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:outline-none focus-visible:ring-inset",
-                        !selected && "hover:bg-muted/70",
+                        selected ? "rounded-t-md bg-accent" : "hover:bg-muted/70",
                       )}
                     >
                       <Icon className={cn("mt-0.5 size-4 shrink-0", meta.text)} aria-label={meta.label} />

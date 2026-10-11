@@ -36,7 +36,7 @@ export function ScoreCard({ score }: { score: Score }) {
           </Tooltip>
         </div>
         <div className="mt-0.5 flex items-baseline gap-1">
-          <span className="text-2xl leading-8 font-semibold tracking-tight tabular">{score.overall}</span>
+          <span className="text-[28px] leading-8 font-semibold tracking-tight text-primary tabular">{score.overall}</span>
           <span className="text-xs text-muted-foreground">/ 100</span>
         </div>
         <Meter value={score.overall} strong />
@@ -67,7 +67,7 @@ export function ScoreCard({ score }: { score: Score }) {
 /** Horizontal meter on a fixed 0–100 scale with ticks at 25/50/75. Decorative: the number is shown beside it. */
 function Meter({ value, strong }: { value: number; strong?: boolean }) {
   return (
-    <span className={cn("relative mt-1 block overflow-hidden rounded-full bg-track", strong ? "h-2" : "h-1.5")} aria-hidden>
+    <span className={cn("relative mt-1 block overflow-hidden rounded-full bg-track", strong ? "h-2.5" : "h-1.5")} aria-hidden>
       <span className="absolute inset-y-0 left-0 rounded-full bg-primary" style={{ width: `${Math.max(0, Math.min(100, value))}%` }} />
       {[25, 50, 75].map((t) => (
         <span key={t} className="absolute inset-y-0 w-px bg-card" style={{ left: `${t}%` }} />
