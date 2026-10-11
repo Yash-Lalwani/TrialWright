@@ -1,29 +1,29 @@
 {
- "generated_at": "2026-10-11T02:35:05Z",
+ "generated_at": "2026-10-11T05:24:03Z",
  "set": "dev",
- "config": "llm_only",
+ "config": "rules_only",
  "seeds": [
   1
  ],
- "llm_enabled": true,
+ "llm_enabled": false,
  "llm_extraction": {
   "runs": 6,
-  "with_extraction": 6
+  "with_extraction": 0
  },
  "test_set": {
   "protocols": 3,
   "injected_errors": 27
  },
  "overall": {
-  "recall": 0.593,
-  "precision": 0.147,
-  "f1": 0.235
+  "recall": 0.667,
+  "precision": 1.0,
+  "f1": 0.8
  },
  "overall_measurable": {
-  "recall": 0.593,
-  "precision": 0.147,
-  "f1": 0.235,
-  "n_errors": 27,
+  "recall": 1.0,
+  "precision": 1.0,
+  "f1": 1.0,
+  "n_errors": 16,
   "note": "only error types this config can detect (rules_only cannot see types that need LLM extraction)"
  },
  "by_type": [
@@ -33,7 +33,7 @@
    "n": 1,
    "found": 1,
    "recall": 1.0,
-   "measurable": true
+   "measurable": false
   },
   {
    "type": "T04",
@@ -41,15 +41,15 @@
    "n": 1,
    "found": 0,
    "recall": 0.0,
-   "measurable": true
+   "measurable": false
   },
   {
    "type": "T05",
    "name": "Endpoint analysis removed from statistics",
    "n": 2,
-   "found": 1,
-   "recall": 0.5,
-   "measurable": true
+   "found": 0,
+   "recall": 0.0,
+   "measurable": false
   },
   {
    "type": "T06",
@@ -63,8 +63,8 @@
    "type": "T07",
    "name": "Dose changed in one place",
    "n": 2,
-   "found": 1,
-   "recall": 0.5,
+   "found": 2,
+   "recall": 1.0,
    "measurable": true
   },
   {
@@ -79,9 +79,9 @@
    "type": "T09",
    "name": "Power/effect changed so N not reproducible",
    "n": 2,
-   "found": 1,
-   "recall": 0.5,
-   "measurable": true
+   "found": 0,
+   "recall": 0.0,
+   "measurable": false
   },
   {
    "type": "T10",
@@ -95,17 +95,17 @@
    "type": "T11",
    "name": "Blinding / unblinding text removed",
    "n": 1,
-   "found": 0,
-   "recall": 0.0,
+   "found": 1,
+   "recall": 1.0,
    "measurable": true
   },
   {
    "type": "T12",
    "name": "Exclusion criterion contradicts an inclusion criterion",
    "n": 2,
-   "found": 1,
-   "recall": 0.5,
-   "measurable": true
+   "found": 0,
+   "recall": 0.0,
+   "measurable": false
   },
   {
    "type": "T13",
@@ -113,7 +113,7 @@
    "n": 3,
    "found": 1,
    "recall": 0.333,
-   "measurable": true
+   "measurable": false
   },
   {
    "type": "T14",
@@ -127,16 +127,16 @@
    "type": "T15",
    "name": "Required M11 section removed",
    "n": 2,
-   "found": 0,
-   "recall": 0.0,
+   "found": 2,
+   "recall": 1.0,
    "measurable": true
   },
   {
    "type": "T16",
    "name": "Visit windows made to overlap",
    "n": 1,
-   "found": 0,
-   "recall": 0.0,
+   "found": 1,
+   "recall": 1.0,
    "measurable": true
   },
   {
@@ -157,17 +157,17 @@
   {
    "amendment_category": "completeness",
    "n": 2,
-   "recall": 0.0
+   "recall": 1.0
   },
   {
    "amendment_category": "design",
    "n": 4,
-   "recall": 0.75
+   "recall": 1.0
   },
   {
    "amendment_category": "eligibility",
    "n": 6,
-   "recall": 0.5
+   "recall": 0.333
   },
   {
    "amendment_category": "endpoints",
@@ -177,32 +177,33 @@
   {
    "amendment_category": "intervention",
    "n": 2,
-   "recall": 0.5
+   "recall": 1.0
   },
   {
    "amendment_category": "statistics",
    "n": 7,
-   "recall": 0.714
+   "recall": 0.429
   },
   {
    "amendment_category": "visit_schedule",
    "n": 1,
-   "recall": 0.0
+   "recall": 1.0
   }
  ],
- "false_alarms_per_clean_protocol": 43.0,
+ "false_alarms_per_clean_protocol": 4.67,
  "clean_flags_by_check": {
-  "LLM:major": 40.3,
-  "LLM:critical": 2.7
+  "B2:major": 3.0,
+  "C4:major": 1.0,
+  "B1:major": 0.7
  },
  "per_protocol": [
   {
    "nct_id": "NCT04303780",
    "seed": 1,
    "injected": 11,
-   "tp": 6,
-   "fn": 5,
-   "fp": 31,
+   "tp": 7,
+   "fn": 4,
+   "fp": 0,
    "skipped": [
     {
      "type": "T01",
@@ -256,13 +257,6 @@
      "why": "no C3 flag at all (needs LLM extraction)"
     },
     {
-     "type": "T15",
-     "description": "Removed M11 10.11 9.2 Sample Size Determination (44 lines)",
-     "page": 103,
-     "line": "(removed)9.2",
-     "why": "no B1/B3 flag at all"
-    },
-    {
      "type": "T09",
      "description": "Stated power changed 90% -> 80% everywhere, so N is no longer reproducible",
      "page": 19,
@@ -275,9 +269,9 @@
    "nct_id": "NCT04417894",
    "seed": 1,
    "injected": 8,
-   "tp": 4,
-   "fn": 4,
-   "fp": 32,
+   "tp": 5,
+   "fn": 3,
+   "fp": 0,
    "skipped": [
     {
      "type": "T01",
@@ -322,20 +316,6 @@
    ],
    "missed": [
     {
-     "type": "T15",
-     "description": "Removed M11 10.11 11.2 Justification of Sample Size (15 lines)",
-     "page": 85,
-     "line": "(removed)11.2.",
-     "why": "no B1/B3 flag at all"
-    },
-    {
-     "type": "T11",
-     "description": "Removed 13 lines about unblinding / randomisation codes",
-     "page": 13,
-     "line": "(removed)Removed description of unblinded",
-     "why": "no C5/B3 flag at all"
-    },
-    {
      "type": "T13",
      "description": "Lab threshold 3 changed to 6 in one place only",
      "page": 24,
@@ -348,6 +328,13 @@
      "page": 50,
      "line": "5. Age at or above 10 years.",
      "why": "no C8 flag at all (needs LLM extraction)"
+    },
+    {
+     "type": "T05",
+     "description": "Removed the analysis of secondary endpoint 'Percent change in mTLSS' (1 line(s))",
+     "page": 88,
+     "line": "(removed)Continuous secondary efficacy endpoints (eg, percent change mTLSS for hand/foot lesions from baseline to week 16) will be analyzed using an analysis of covariance (ANCOVA) model for the FAS w",
+     "why": "no C3 flag at all (needs LLM extraction)"
     }
    ]
   },
@@ -357,7 +344,7 @@
    "injected": 8,
    "tp": 6,
    "fn": 2,
-   "fp": 30,
+   "fp": 0,
    "skipped": [
     {
      "type": "T01",
@@ -402,18 +389,18 @@
    ],
    "missed": [
     {
-     "type": "T07",
-     "description": "Dose 360 changed to 450 in one place only",
-     "page": 10,
-     "line": "Subjects will receive nivolumab 450 mg IV over 30 minutes at W1D1 and Q3W thereafter until the",
-     "why": "no C4 flag at all"
+     "type": "T12",
+     "description": "Exclusion criterion rewritten to contradict inclusion on neutrophil count",
+     "page": 39,
+     "line": "1. Neutrophil count at or above 1200 /mm3.",
+     "why": "expected check fired elsewhere: p38 Lab threshold disagrees between repeated statement"
     },
     {
-     "type": "T16",
-     "description": "Visit windows widened to +/-9 days on three adjacent visits",
-     "page": 13,
-     "line": "\u00b1 9d",
-     "why": "no C6 flag at all"
+     "type": "T09",
+     "description": "Stated power changed 90% -> 80% everywhere, so N is no longer reproducible",
+     "page": 11,
+     "line": "A sample size of 69 subjects achieves at least 80% power to detect a difference of 13% using a",
+     "why": "no C7 flag at all (needs LLM extraction)"
     }
    ]
   }
@@ -425,12 +412,7 @@
   "protocols": 3
  },
  "ablation": null,
- "hallucination": {
-  "ai_findings": 516,
-  "dropped_ungrounded": 0,
-  "shown": 516,
-  "shown_ungrounded": 70
- },
+ "hallucination": null,
  "human_baseline": null,
  "real_findings": null,
  "soa_extraction": null,

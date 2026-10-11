@@ -1,29 +1,29 @@
 {
- "generated_at": "2026-10-11T02:58:57Z",
+ "generated_at": "2026-10-11T05:23:25Z",
  "set": "test",
- "config": "rules_only",
+ "config": "llm_only",
  "seeds": [
   1
  ],
- "llm_enabled": false,
+ "llm_enabled": true,
  "llm_extraction": {
   "runs": 14,
-  "with_extraction": 0
+  "with_extraction": 14
  },
  "test_set": {
   "protocols": 7,
   "injected_errors": 65
  },
  "overall": {
-  "recall": 0.354,
-  "precision": 0.885,
-  "f1": 0.505
+  "recall": 0.4,
+  "precision": 0.095,
+  "f1": 0.154
  },
  "overall_measurable": {
-  "recall": 0.629,
-  "precision": 0.88,
-  "f1": 0.733,
-  "n_errors": 35,
+  "recall": 0.4,
+  "precision": 0.095,
+  "f1": 0.154,
+  "n_errors": 65,
   "note": "only error types this config can detect (rules_only cannot see types that need LLM extraction)"
  },
  "by_type": [
@@ -31,9 +31,9 @@
    "type": "T02",
    "name": "Endpoint timepoint changed in one place",
    "n": 2,
-   "found": 1,
-   "recall": 0.5,
-   "measurable": false
+   "found": 0,
+   "recall": 0.0,
+   "measurable": true
   },
   {
    "type": "T04",
@@ -41,7 +41,7 @@
    "n": 5,
    "found": 0,
    "recall": 0.0,
-   "measurable": false
+   "measurable": true
   },
   {
    "type": "T05",
@@ -49,22 +49,22 @@
    "n": 7,
    "found": 0,
    "recall": 0.0,
-   "measurable": false
+   "measurable": true
   },
   {
    "type": "T06",
    "name": "Age range changed in one place",
    "n": 3,
-   "found": 2,
-   "recall": 0.667,
+   "found": 1,
+   "recall": 0.333,
    "measurable": true
   },
   {
    "type": "T07",
    "name": "Dose changed in one place",
    "n": 6,
-   "found": 3,
-   "recall": 0.5,
+   "found": 2,
+   "recall": 0.333,
    "measurable": true
   },
   {
@@ -79,9 +79,9 @@
    "type": "T09",
    "name": "Power/effect changed so N not reproducible",
    "n": 4,
-   "found": 0,
-   "recall": 0.0,
-   "measurable": false
+   "found": 2,
+   "recall": 0.5,
+   "measurable": true
   },
   {
    "type": "T10",
@@ -95,32 +95,32 @@
    "type": "T12",
    "name": "Exclusion criterion contradicts an inclusion criterion",
    "n": 6,
-   "found": 0,
-   "recall": 0.0,
-   "measurable": false
+   "found": 5,
+   "recall": 0.833,
+   "measurable": true
   },
   {
    "type": "T13",
    "name": "Lab threshold value conflicts between mentions",
    "n": 6,
-   "found": 0,
-   "recall": 0.0,
-   "measurable": false
+   "found": 6,
+   "recall": 1.0,
+   "measurable": true
   },
   {
    "type": "T14",
    "name": "Cross-reference to a nonexistent section",
    "n": 7,
-   "found": 7,
-   "recall": 1.0,
+   "found": 5,
+   "recall": 0.714,
    "measurable": true
   },
   {
    "type": "T15",
    "name": "Required M11 section removed",
    "n": 5,
-   "found": 5,
-   "recall": 1.0,
+   "found": 0,
+   "recall": 0.0,
    "measurable": true
   },
   {
@@ -144,12 +144,12 @@
   {
    "amendment_category": "clerical",
    "n": 7,
-   "recall": 1.0
+   "recall": 0.714
   },
   {
    "amendment_category": "completeness",
    "n": 5,
-   "recall": 1.0
+   "recall": 0.0
   },
   {
    "amendment_category": "design",
@@ -159,22 +159,22 @@
   {
    "amendment_category": "eligibility",
    "n": 15,
-   "recall": 0.133
+   "recall": 0.8
   },
   {
    "amendment_category": "endpoints",
    "n": 7,
-   "recall": 0.143
+   "recall": 0.0
   },
   {
    "amendment_category": "intervention",
    "n": 6,
-   "recall": 0.5
+   "recall": 0.333
   },
   {
    "amendment_category": "statistics",
    "n": 16,
-   "recall": 0.188
+   "recall": 0.312
   },
   {
    "amendment_category": "visit_schedule",
@@ -182,23 +182,19 @@
    "recall": 0.0
   }
  ],
- "false_alarms_per_clean_protocol": 4.57,
+ "false_alarms_per_clean_protocol": 36.71,
  "clean_flags_by_check": {
-  "B2:major": 2.1,
-  "B1:major": 1.1,
-  "C4:critical": 0.7,
-  "C4:major": 0.3,
-  "C5:critical": 0.1,
-  "C6:major": 0.1
+  "LLM:major": 31.7,
+  "LLM:critical": 5.0
  },
  "per_protocol": [
   {
    "nct_id": "NCT03132636",
    "seed": 1,
    "injected": 9,
-   "tp": 1,
-   "fn": 8,
-   "fp": 0,
+   "tp": 5,
+   "fn": 4,
+   "fp": 43,
    "skipped": [
     {
      "type": "T01",
@@ -243,7 +239,7 @@
      "description": "Dose 350 changed to 437 in one place only",
      "page": 5,
      "line": "from 250 mg Q3W to 437 mg Q3W to",
-     "why": "injected value was NOT extracted by ingest (pipeline gap)"
+     "why": "no C4 flag at all"
     },
     {
      "type": "T04",
@@ -253,13 +249,6 @@
      "why": "no C3 flag at all (needs LLM extraction)"
     },
     {
-     "type": "T08",
-     "description": "Sample size 137 changed to 164 in one place only",
-     "page": 23,
-     "line": "and 84 patients for Group 2, for a total of 164 patients.",
-     "why": "injected value was NOT extracted by ingest (pipeline gap)"
-    },
-    {
      "type": "T05",
      "description": "Removed the analysis of secondary endpoint 'ORR' (1 line(s))",
      "page": 86,
@@ -267,32 +256,11 @@
      "why": "no C3 flag at all (needs LLM extraction)"
     },
     {
-     "type": "T09",
-     "description": "Stated power changed 85% -> 95% everywhere, so N is no longer reproducible",
-     "page": 18,
-     "line": "Group 1 Given a Sample Size of 50 Patients (Based on 95% Power) ........................83",
-     "why": "no C7 flag at all (needs LLM extraction)"
-    },
-    {
-     "type": "T13",
-     "description": "Lab threshold 1.5 changed to 3.0 in one place only",
-     "page": 40,
-     "line": "a. Total bilirubin \u22643.0x upper limit of normal (ULN) (or \u22643x ULN, if liver metastases).",
-     "why": "no C8 flag at all (needs LLM extraction)"
-    },
-    {
-     "type": "T12",
-     "description": "Exclusion criterion rewritten to contradict inclusion on age",
-     "page": 42,
-     "line": "2. Age at or above 14 years.",
-     "why": "no C8 flag at all (needs LLM extraction)"
-    },
-    {
      "type": "T10",
      "description": "Ratio 1:1 changed to 2:1 in one place only",
      "page": 89,
      "line": "2:1 or 3:2.",
-     "why": "injected value was NOT extracted by ingest (pipeline gap)"
+     "why": "no C4 flag at all"
     }
    ]
   },
@@ -302,7 +270,7 @@
    "injected": 12,
    "tp": 5,
    "fn": 7,
-   "fp": 0,
+   "fp": 55,
    "skipped": [
     {
      "type": "T01",
@@ -331,25 +299,18 @@
    ],
    "missed": [
     {
-     "type": "T07",
-     "description": "Dose 350 changed to 437 in one place only",
-     "page": 27,
-     "line": "cemiplimab will be administered intravenously (IV) as a flat dose of 437 mg",
-     "why": "expected check fired elsewhere: p27 Sample size disagrees across sections: 708.0 vs 59; p28 Randomization ratio disagrees across sections: 2:1 (extracted, but the check did not flag it)"
-    },
-    {
-     "type": "T13",
-     "description": "Lab threshold 1.5 changed to 3.0 in one place only",
-     "page": 48,
-     "line": "a. Total bilirubin \u22643.0x upper limit of normal (ULN; if liver metastases \u22643x ULN).",
-     "why": "no C8 flag at all (needs LLM extraction)"
-    },
-    {
      "type": "T17",
      "description": "Duration 96 changed to 108 in one place; total no longer adds up",
      "page": 3,
      "line": "All patients currently on cemiplimab may continue treatment up to 108 weeks. All patients",
-     "why": "injected value was NOT extracted by ingest (pipeline gap)"
+     "why": "no C6 flag at all"
+    },
+    {
+     "type": "T15",
+     "description": "Removed M11 10.11 10.2 Justification of Sample Size (27 lines)",
+     "page": 94,
+     "line": "(removed)10.2.",
+     "why": "no B1/B3 flag at all"
     },
     {
      "type": "T09",
@@ -373,6 +334,13 @@
      "why": "no C8 flag at all (needs LLM extraction)"
     },
     {
+     "type": "T06",
+     "description": "Minimum age changed 18 -> 21 in one place only",
+     "page": 28,
+     "line": "The study will enroll women \u226521 years old with recurrent, persistent, and/or",
+     "why": "no C4 flag at all"
+    },
+    {
      "type": "T04",
      "description": "Removed the endpoint text of secondary objective 'To compare progression-free survival (PFS) of cemiplimab ver'",
      "page": 43,
@@ -385,9 +353,9 @@
    "nct_id": "NCT03738423",
    "seed": 1,
    "injected": 8,
-   "tp": 2,
-   "fn": 6,
-   "fp": 0,
+   "tp": 0,
+   "fn": 8,
+   "fp": 7,
    "skipped": [
     {
      "type": "T01",
@@ -443,14 +411,14 @@
      "description": "Minimum age changed 15 -> 18 in one place only",
      "page": 76,
      "line": "investigator copies of CRFs, and drug accountability records for at least 18 years following the",
-     "why": "injected value was NOT extracted by ingest (pipeline gap)"
+     "why": "no C4 flag at all"
     },
     {
      "type": "T17",
      "description": "Duration 41 changed to 53 in one place; total no longer adds up",
      "page": 7,
      "line": "Each patient\u2019s participation in the study will be up to 53 weeks, including an up",
-     "why": "no C6 flag at all (extracted, but the check did not flag it)"
+     "why": "no C6 flag at all"
     },
     {
      "type": "T09",
@@ -460,18 +428,32 @@
      "why": "no C7 flag at all (needs LLM extraction)"
     },
     {
+     "type": "T14",
+     "description": "Reference to Section 6.2 changed to nonexistent Section 99.2",
+     "page": 28,
+     "line": "requirements (see Section 99.2). Patients may be re-screened once if they fail the screening",
+     "why": "no C9 flag at all"
+    },
+    {
+     "type": "T08",
+     "description": "Sample size 300 changed to 360 in one place only",
+     "page": 7,
+     "line": "Approximately 360 patients will be randomized (60 per treatment group).",
+     "why": "no C4 flag at all"
+    },
+    {
      "type": "T02",
      "description": "Endpoint timepoint 16 -> 18 in one place only",
      "page": 7,
      "line": "dose of study drug. The primary endpoint will be evaluated at week 18. The",
-     "why": "expected check fired elsewhere: p7 Sample size disagrees across sections: 360.0 vs 30"
+     "why": "no C1/C4 flag at all (needs LLM extraction)"
     },
     {
      "type": "T07",
      "description": "Dose 300 changed to 375 in one place only",
      "page": 3,
      "line": "the REGN3500 375 mg SC every 4 weeks (Q4W) group,",
-     "why": "injected value was NOT extracted by ingest (pipeline gap)"
+     "why": "no C4 flag at all"
     }
    ]
   },
@@ -479,9 +461,9 @@
    "nct_id": "NCT04154943",
    "seed": 1,
    "injected": 10,
-   "tp": 4,
-   "fn": 6,
-   "fp": 0,
+   "tp": 7,
+   "fn": 3,
+   "fp": 29,
    "skipped": [
     {
      "type": "T01",
@@ -532,32 +514,11 @@
      "why": "no C3 flag at all (needs LLM extraction)"
     },
     {
-     "type": "T09",
-     "description": "Stated power changed 90% -> 80% everywhere, so N is no longer reproducible",
-     "page": 17,
-     "line": "Seventy-two (72) patients will be required to provide 80% power to reject the",
-     "why": "no C7 flag at all (needs LLM extraction)"
-    },
-    {
-     "type": "T17",
-     "description": "Duration 12 changed to 24 in one place; total no longer adds up",
-     "page": 14,
-     "line": "treatment period of up to 24 weeks, and surgery after 12 weeks",
-     "why": "no C6 flag at all (extracted, but the check did not flag it)"
-    },
-    {
-     "type": "T12",
-     "description": "Exclusion criterion rewritten to contradict inclusion on lesion longest diameter",
-     "page": 34,
-     "line": "2. Lesion longest diameter at or above 2.4 cm.",
-     "why": "no C8 flag at all (needs LLM extraction)"
-    },
-    {
-     "type": "T13",
-     "description": "Lab threshold 9.0 changed to 18.0 in one place only",
-     "page": 34,
-     "line": "a. Hemoglobin >18.0 g/dL",
-     "why": "no C8 flag at all (needs LLM extraction)"
+     "type": "T15",
+     "description": "Removed M11 10.11 11.2 Justification of Sample Size (63 lines)",
+     "page": 72,
+     "line": "(removed)11.2.",
+     "why": "no B1/B3 flag at all"
     }
    ]
   },
@@ -565,9 +526,9 @@
    "nct_id": "NCT04639219",
    "seed": 1,
    "injected": 8,
-   "tp": 3,
-   "fn": 5,
-   "fp": 0,
+   "tp": 4,
+   "fn": 4,
+   "fp": 40,
    "skipped": [
     {
      "type": "T01",
@@ -612,13 +573,6 @@
    ],
    "missed": [
     {
-     "type": "T13",
-     "description": "Lab threshold 9 changed to 18 in one place only",
-     "page": 44,
-     "line": "Hemoglobin \u2265 18 g/dL. NOTE: Patients requiring ongoing",
-     "why": "no C8 flag at all (needs LLM extraction)"
-    },
-    {
      "type": "T05",
      "description": "Removed the analysis of secondary endpoint 'DoR, DCR, PFS, Proportion alive and progression-free at 6 and 12 months, Confirmed ORR (Investigator)' (3 line(s))",
      "page": 93,
@@ -630,21 +584,21 @@
      "description": "Visit windows widened to +/-42 days on three adjacent visits",
      "page": 24,
      "line": "\u00b1 42 days",
-     "why": "injected value was NOT extracted by ingest (pipeline gap)"
+     "why": "no C6 flag at all"
+    },
+    {
+     "type": "T15",
+     "description": "Removed M11 10.11 9.2 Sample Size Determination (33 lines)",
+     "page": 90,
+     "line": "(removed)9.2",
+     "why": "no B1/B3 flag at all"
     },
     {
      "type": "T17",
      "description": "Duration 32 changed to 44 in one place; total no longer adds up",
      "page": 11,
      "line": "the opportunity for approximately 44 weeks of follow-up after treatment assignment. This",
-     "why": "expected check fired but only on issues already present in the clean run (extracted, but the check did not flag it)"
-    },
-    {
-     "type": "T12",
-     "description": "Exclusion criterion rewritten to contradict inclusion on LVEF",
-     "page": 48,
-     "line": "10 Lvef at or above 40 %.",
-     "why": "no C8 flag at all (needs LLM extraction)"
+     "why": "no C6 flag at all"
     }
    ]
   },
@@ -652,9 +606,9 @@
    "nct_id": "NCT04646005",
    "seed": 1,
    "injected": 10,
-   "tp": 5,
-   "fn": 5,
-   "fp": 1,
+   "tp": 2,
+   "fn": 8,
+   "fp": 34,
    "skipped": [
     {
      "type": "T01",
@@ -691,6 +645,13 @@
    ],
    "missed": [
     {
+     "type": "T02",
+     "description": "Endpoint timepoint 50 -> 52 in one place only",
+     "page": 19,
+     "line": "Patients will be assessed for response at cycle 1 day 52 (week 7), then once",
+     "why": "no C1/C4 flag at all (needs LLM extraction)"
+    },
+    {
      "type": "T05",
      "description": "Removed the analysis of secondary endpoint 'DOR' (1 line(s))",
      "page": 78,
@@ -702,7 +663,7 @@
      "description": "Sample size 105 changed to 126 in one place only",
      "page": 19,
      "line": "Approximately 126 patients are planned to be enrolled in the study.",
-     "why": "expected check fired elsewhere: p19 Sample size disagrees across sections: 126.0 vs 10; p38 Cemiplimab dose disagrees across sections: 350 mg  (extracted, but the check did not flag it)"
+     "why": "no C4 flag at all"
     },
     {
      "type": "T04",
@@ -712,18 +673,32 @@
      "why": "no C3 flag at all (needs LLM extraction)"
     },
     {
-     "type": "T12",
-     "description": "Exclusion criterion rewritten to contradict inclusion on Hemoglobin",
-     "page": 42,
-     "line": "1. Hemoglobin at or above 6 g/dL.",
-     "why": "no C8 flag at all (needs LLM extraction)"
+     "type": "T14",
+     "description": "Reference to Section 1.2 changed to nonexistent Section 99.2",
+     "page": 23,
+     "line": "efficacy against cervical cancer, as described in Section 99.2.",
+     "why": "no C9 flag at all"
     },
     {
-     "type": "T13",
-     "description": "Lab threshold 8 changed to 16 in one place only",
-     "page": 41,
-     "line": "a. Hemoglobin \u226516 g/dL",
-     "why": "no C8 flag at all (needs LLM extraction)"
+     "type": "T07",
+     "description": "Dose 350 changed to 437 in one place only",
+     "page": 18,
+     "line": "Cemiplimab 437 mg given by intravenous (IV) infusion over 30",
+     "why": "no C4 flag at all"
+    },
+    {
+     "type": "T17",
+     "description": "Duration 48 changed to 60 in one place; total no longer adds up",
+     "page": 19,
+     "line": "minimum of 60 weeks of treatment may elect to discontinue treatment and",
+     "why": "no C6 flag at all"
+    },
+    {
+     "type": "T15",
+     "description": "Removed M11 10.11 11.2 Justification of Sample Size (36 lines)",
+     "page": 76,
+     "line": "(removed)11.2.",
+     "why": "no B1/B3 flag at all"
     }
    ]
   },
@@ -733,7 +708,7 @@
    "injected": 8,
    "tp": 3,
    "fn": 5,
-   "fp": 2,
+   "fp": 39,
    "skipped": [
     {
      "type": "T01",
@@ -778,11 +753,18 @@
    ],
    "missed": [
     {
-     "type": "T13",
-     "description": "Lab threshold 1500 changed to 3000 in one place only",
-     "page": 54,
-     "line": "\u2212 neutrophil count \u2265 3000/mm3",
-     "why": "no C8 flag at all (needs LLM extraction)"
+     "type": "T15",
+     "description": "Removed M11 10.11 8.1 Sample Size Justification (52 lines)",
+     "page": 91,
+     "line": "(removed)8.1.",
+     "why": "no B1/B3 flag at all"
+    },
+    {
+     "type": "T07",
+     "description": "Dose 10 changed to 12 in one place only",
+     "page": 19,
+     "line": "1. Vidutolimod IT 12 mg weekly for 7 doses (W1D1 to W7D1), after which vidutolimod will be",
+     "why": "no C4 flag at all"
     },
     {
      "type": "T05",
@@ -803,25 +785,24 @@
      "description": "Visit windows widened to +/-9 days on three adjacent visits",
      "page": 24,
      "line": "\u00b1 9d",
-     "why": "injected value was NOT extracted by ingest (pipeline gap)"
-    },
-    {
-     "type": "T12",
-     "description": "Exclusion criterion rewritten to contradict inclusion on PD-L1 TPS",
-     "page": 55,
-     "line": "6. Pd-l1 tps at or above 40 %.",
-     "why": "no C8 flag at all (needs LLM extraction)"
+     "why": "no C6 flag at all"
     }
    ]
   }
  ],
  "speed_cost": {
-  "median_seconds": 3.77,
-  "median_usd": 0.0,
-  "measured": "replay (not a real wait)"
+  "median_seconds": 30.5,
+  "median_usd": 0.0065,
+  "measured": "live",
+  "protocols": 7
  },
  "ablation": null,
- "hallucination": null,
+ "hallucination": {
+  "ai_findings": 1159,
+  "dropped_ungrounded": 0,
+  "shown": 1159,
+  "shown_ungrounded": 93
+ },
  "human_baseline": null,
  "real_findings": null,
  "soa_extraction": null,

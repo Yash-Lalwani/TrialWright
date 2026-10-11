@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-11T02:44:02Z",
+ "generated_at": "2026-10-11T05:24:41Z",
  "set": "dev",
  "config": "full",
  "seeds": [
@@ -15,14 +15,14 @@
   "injected_errors": 27
  },
  "overall": {
-  "recall": 0.741,
-  "precision": 0.952,
-  "f1": 0.833
+  "recall": 0.704,
+  "precision": 0.95,
+  "f1": 0.809
  },
  "overall_measurable": {
-  "recall": 0.741,
-  "precision": 0.952,
-  "f1": 0.833,
+  "recall": 0.704,
+  "precision": 0.95,
+  "f1": 0.809,
   "n_errors": 27,
   "note": "only error types this config can detect (rules_only cannot see types that need LLM extraction)"
  },
@@ -79,8 +79,8 @@
    "type": "T09",
    "name": "Power/effect changed so N not reproducible",
    "n": 2,
-   "found": 1,
-   "recall": 0.5,
+   "found": 0,
+   "recall": 0.0,
    "measurable": true
   },
   {
@@ -182,7 +182,7 @@
   {
    "amendment_category": "statistics",
    "n": 7,
-   "recall": 0.571
+   "recall": 0.429
   },
   {
    "amendment_category": "visit_schedule",
@@ -190,14 +190,14 @@
    "recall": 1.0
   }
  ],
- "false_alarms_per_clean_protocol": 9.33,
+ "false_alarms_per_clean_protocol": 9.0,
  "clean_flags_by_check": {
   "B2:major": 3.0,
   "C1:major": 2.0,
   "C3:major": 2.0,
   "C4:major": 1.0,
-  "C7:major": 0.7,
-  "B1:major": 0.7
+  "B1:major": 0.7,
+  "C7:major": 0.3
  },
  "per_protocol": [
   {
@@ -345,8 +345,8 @@
    "nct_id": "NCT04698187",
    "seed": 1,
    "injected": 8,
-   "tp": 8,
-   "fn": 0,
+   "tp": 7,
+   "fn": 1,
    "fp": 0,
    "skipped": [
     {
@@ -390,7 +390,15 @@
      "reason": "not sampled (target count reached)"
     }
    ],
-   "missed": []
+   "missed": [
+    {
+     "type": "T09",
+     "description": "Stated power changed 90% -> 80% everywhere, so N is no longer reproducible",
+     "page": 11,
+     "line": "A sample size of 69 subjects achieves at least 80% power to detect a difference of 13% using a",
+     "why": "no C7 flag at all (needs LLM extraction)"
+    }
+   ]
   }
  ],
  "speed_cost": {
