@@ -1,0 +1,480 @@
+{
+ "nct_id": "NCT04639219",
+ "seed": 1,
+ "source_pdf": "NCT04639219_protocol.pdf",
+ "injected_pdf": "NCT04639219_s1.pdf",
+ "target_errors": 8,
+ "errors": [
+  {
+   "type": "T14",
+   "name": "Cross-reference to a nonexistent section",
+   "page": 11,
+   "bbox": [
+    439.7,
+    584.3,
+    454.8,
+    597.6
+   ],
+   "original": "6.7",
+   "new": "99.7",
+   "context": "assessment. Intervention after the end of the study is described in Section 6.7.",
+   "new_line": "assessment. Intervention after the end of the study is described in Section 99.7.",
+   "description": "Reference to Section 6.7 changed to nonexistent Section 99.7",
+   "expected_checks": [
+    "C9"
+   ],
+   "amendment_category": "clerical",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     11
+    ],
+    "texts": [
+     "ed in Section 99.7."
+    ]
+   },
+   "error_id": "NCT04639219-s1-01"
+  },
+  {
+   "type": "T13",
+   "name": "Lab threshold value conflicts between mentions",
+   "page": 44,
+   "bbox": [
+    350.5,
+    528.1,
+    355.5,
+    539.3
+   ],
+   "original": "9",
+   "new": "18",
+   "context": "Hemoglobin ≥ 9 g/dL. NOTE: Patients requiring ongoing",
+   "new_line": "Hemoglobin ≥ 18 g/dL. NOTE: Patients requiring ongoing",
+   "description": "Lab threshold 9 changed to 18 in one place only",
+   "expected_checks": [
+    "C8"
+   ],
+   "amendment_category": "eligibility",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     44
+    ],
+    "texts": [
+     "Hemoglobin ≥ 18 g/dL. NOTE: P"
+    ]
+   },
+   "error_id": "NCT04639219-s1-02"
+  },
+  {
+   "type": "T05",
+   "name": "Endpoint analysis removed from statistics",
+   "page": 93,
+   "bbox": [
+    243.4,
+    138.1,
+    395.2,
+    149.3
+   ],
+   "original": "Kaplan-Meier median estimates and their ; Number and percentage of patients that a; Kaplan-Meier median estimates and their ",
+   "new": "(removed)",
+   "context": "Kaplan-Meier median estimates and their corresponding two-sided 95% confidence intervals will be reported (ICR and Investigator assessment).",
+   "new_line": "(removed)Kaplan-Meier median estimates and their corresponding two-sided 95% confidence intervals will be reported (ICR and Investigator assessment).",
+   "description": "Removed the analysis of secondary endpoint 'DoR, DCR, PFS, Proportion alive and progression-free at 6 and 12 months, Confirmed ORR (Investigator)' (3 line(s))",
+   "expected_checks": [
+    "C3"
+   ],
+   "amendment_category": "statistics",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     37,
+     93,
+     95
+    ],
+    "texts": [],
+    "titles": [
+     "no analysis method"
+    ]
+   },
+   "error_id": "NCT04639219-s1-03"
+  },
+  {
+   "type": "T16",
+   "name": "Visit windows made to overlap",
+   "page": 24,
+   "bbox": [
+    392.1,
+    164.8,
+    401.2,
+    177.5
+   ],
+   "original": "14",
+   "new": "42",
+   "context": "± 14 days",
+   "new_line": "± 42 days",
+   "description": "Visit windows widened to +/-42 days on three adjacent visits",
+   "expected_checks": [
+    "C6"
+   ],
+   "amendment_category": "visit_schedule",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     24
+    ],
+    "texts": [
+     "± 42 days",
+     "± 42 days",
+     "± 42 days"
+    ]
+   },
+   "error_id": "NCT04639219-s1-04"
+  },
+  {
+   "type": "T15",
+   "name": "Required M11 section removed",
+   "page": 90,
+   "bbox": [
+    85.0,
+    148.3,
+    102.5,
+    167.5
+   ],
+   "original": "9.2 Sample Size Determination",
+   "new": "(removed)",
+   "context": "9.2",
+   "new_line": "(removed)9.2",
+   "description": "Removed M11 10.11 9.2 Sample Size Determination (33 lines)",
+   "expected_checks": [
+    "B1",
+    "B3"
+   ],
+   "amendment_category": "completeness",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     90
+    ],
+    "texts": [],
+    "titles": [
+     "M11 10.11 "
+    ]
+   },
+   "m11_id": "10.11",
+   "error_id": "NCT04639219-s1-05"
+  },
+  {
+   "type": "T17",
+   "name": "Treatment/follow-up duration no longer adds up",
+   "page": 11,
+   "bbox": [
+    249.8,
+    552.5,
+    261.9,
+    565.8
+   ],
+   "original": "32",
+   "new": "44",
+   "context": "the opportunity for approximately 32 weeks of follow-up after treatment assignment. This",
+   "new_line": "the opportunity for approximately 44 weeks of follow-up after treatment assignment. This",
+   "description": "Duration 32 changed to 44 in one place; total no longer adds up",
+   "expected_checks": [
+    "C6"
+   ],
+   "amendment_category": "design",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     11,
+     13
+    ],
+    "texts": [
+     "approximately 44 weeks of foll"
+    ]
+   },
+   "error_id": "NCT04639219-s1-06"
+  },
+  {
+   "type": "T12",
+   "name": "Exclusion criterion contradicts an inclusion criterion",
+   "page": 48,
+   "bbox": [
+    106.3,
+    72.1,
+    538.2,
+    85.4
+   ],
+   "original": "Multiple primary malignancies within 3 years, except adequately resected non-melanoma ",
+   "new": "Lvef at or above 40 %.",
+   "context": "10 Multiple primary malignancies within 3 years, except adequately resected non-melanoma",
+   "new_line": "10 Lvef at or above 40 %.",
+   "description": "Exclusion criterion rewritten to contradict inclusion on LVEF",
+   "expected_checks": [
+    "C8"
+   ],
+   "amendment_category": "eligibility",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     44,
+     48
+    ],
+    "texts": [
+     "10 Lvef at or above 40 %."
+    ]
+   },
+   "error_id": "NCT04639219-s1-07"
+  },
+  {
+   "type": "T06",
+   "name": "Age range changed in one place",
+   "page": 40,
+   "bbox": [
+    193.9,
+    700.4,
+    205.9,
+    713.7
+   ],
+   "original": "18",
+   "new": "21",
+   "context": "All patients must be ≥ 18 years of age (other age restrictions may apply as per local",
+   "new_line": "All patients must be ≥ 21 years of age (other age restrictions may apply as per local",
+   "description": "Minimum age changed 18 -> 21 in one place only",
+   "expected_checks": [
+    "C4"
+   ],
+   "amendment_category": "eligibility",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     40,
+     43
+    ],
+    "texts": [
+     "nts must be ≥ 21 years of age"
+    ]
+   },
+   "error_id": "NCT04639219-s1-08"
+  }
+ ],
+ "skipped": [
+  {
+   "type": "T01",
+   "reason": "endpoint timepoints are not extracted (timepoints_weeks is empty on the dev protocols), so the endpoint visit is unknown"
+  },
+  {
+   "type": "T03",
+   "reason": "needs a synthesised SoA row with matching ruling lines; not implemented"
+  },
+  {
+   "type": "T10",
+   "reason": "no randomisation ratio is stated twice"
+  },
+  {
+   "type": "T18",
+   "reason": "protocol age mentions do not all equal the registry value 18"
+  },
+  {
+   "type": "T09",
+   "reason": "no stated power"
+  },
+  {
+   "type": "T11",
+   "reason": "protocol is not double-blind"
+  },
+  {
+   "type": "T02",
+   "reason": "no endpoint timepoint repeated across sections"
+  },
+  {
+   "type": "T07",
+   "reason": "no dose value is repeated at least 3 times"
+  },
+  {
+   "type": "T08",
+   "reason": "not sampled (target count reached)"
+  },
+  {
+   "type": "T04",
+   "reason": "not sampled (target count reached)"
+  }
+ ],
+ "touched": [
+  [
+   11,
+   "assessment. Intervention after the end of the study is described in Section 6.7."
+  ],
+  [
+   11,
+   "the opportunity for approximately 32 weeks of follow-up after treatment assignment. This"
+  ],
+  [
+   24,
+   "± 14 days"
+  ],
+  [
+   24,
+   "± 14 days"
+  ],
+  [
+   24,
+   "± 14 days"
+  ],
+  [
+   40,
+   "All patients must be ≥ 18 years of age (other age restrictions may apply as per local"
+  ],
+  [
+   44,
+   "Hemoglobin ≥ 9 g/dL. NOTE: Patients requiring ongoing"
+  ],
+  [
+   48,
+   "10 Multiple primary malignancies within 3 years, except adequately resected non-melanoma"
+  ],
+  [
+   90,
+   "9.2"
+  ],
+  [
+   90,
+   "Sample Size Determination"
+  ],
+  [
+   90,
+   "A sample size of 100 patients has been determined to provide sufficient precision for the"
+  ],
+  [
+   90,
+   "estimation of the ORR in this population and to allow wider representation of tumor types"
+  ],
+  [
+   90,
+   "and selected mutations. Table 14 provides the 95% exact CI for a range of possible observed"
+  ],
+  [
+   90,
+   "response rates out of 100 patients."
+  ],
+  [
+   90,
+   "Table 14"
+  ],
+  [
+   90,
+   "Observed ORR and 95% Confidence Interval (CI) out of 100 Patients"
+  ],
+  [
+   90,
+   "Observed ORR (%)"
+  ],
+  [
+   90,
+   "95% exact CI"
+  ],
+  [
+   90,
+   "30"
+  ],
+  [
+   90,
+   "(21.2, 40.0)"
+  ],
+  [
+   90,
+   "40"
+  ],
+  [
+   90,
+   "(30.3, 50.3)"
+  ],
+  [
+   90,
+   "50"
+  ],
+  [
+   90,
+   "(39.8, 60.2)"
+  ],
+  [
+   90,
+   "CI, confidence interval; ORR, objective response rate"
+  ],
+  [
+   90,
+   "The study will also provide an adequate number of patients to robustly assess the safety and"
+  ],
+  [
+   90,
+   "tolerability of T-DXd across various tumor types."
+  ],
+  [
+   90,
+   "Approximately 100 patients will be treated in this study, with a maximum of approximately"
+  ],
+  [
+   90,
+   "20 patients per tumor type to ensure adequate representation across multiple tumor types."
+  ],
+  [
+   90,
+   "Anticipated tumor type enrolment in the study includes breast, colorectal, urothelial,"
+  ],
+  [
+   90,
+   "esophagogastric, hepatobiliary, small cell lung, endometrial, melanoma, ovarian, cervical,"
+  ],
+  [
+   90,
+   "salivary gland, pancreatic and cutaneous squamous-cell carcinoma. These will be treated as"
+  ],
+  [
+   90,
+   "separate specific tumor types for the purposes of patient recruitment caps and interim futility"
+  ],
+  [
+   90,
+   "evaluations. There is no pre-specified requirement for representation of any individual tumor"
+  ],
+  [
+   90,
+   "type that meets the eligibility criteria."
+  ],
+  [
+   90,
+   "Enrolment in a specific tumor type will be paused after 8 patients with Investigator-assessed"
+  ],
+  [
+   90,
+   "measurable disease at baseline have been treated within that tumor type, until a decision has"
+  ],
+  [
+   90,
+   "been made on whether to stop enrolment to that tumor type based on the interim futility"
+  ],
+  [
+   90,
+   "evaluation. If no confirmed objective response (assessed by Investigator per RECIST v1.1) is"
+  ],
+  [
+   90,
+   "observed among the first 8 treated patients in a specific tumor type, enrolment in that tumor"
+  ],
+  [
+   90,
+   "type will be discontinued. See Section 9.5 for further details."
+  ],
+  [
+   93,
+   "confidence intervals will be reported."
+  ],
+  [
+   93,
+   "confidence intervals will be reported."
+  ],
+  [
+   95,
+   "two-sided 95% exact CI."
+  ]
+ ]
+}

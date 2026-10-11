@@ -1,0 +1,7 @@
+{
+ "step": "extract_design",
+ "model": "deepseek/deepseek-v4-flash-0731",
+ "content": "{\n  \"condition\": \"advanced basal cell carcinoma (BCC) who experienced progression of disease on Hedgehog Pathway Inhibitor (HHI) therapy, or were intolerant of prior HHI therapy\",\n  \"sponsor\": \"Regeneron Pharmaceuticals, Inc.\",\n  \"arms\": [\n    {\n      \"name\": \"Cemiplimab\",\n      \"type\": \"experimental\",\n      \"dose\": \"350 mg\",\n      \"route\": \"intravenous (IV)\",\n      \"frequency\": \"every 3 weeks (Q3W)\",\n      \"duration_weeks\": 93\n    }\n  ]\n}",
+ "tokens_in": 3879,
+ "tokens_out": 130
+}

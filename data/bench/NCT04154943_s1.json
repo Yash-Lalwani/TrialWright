@@ -1,0 +1,666 @@
+{
+ "nct_id": "NCT04154943",
+ "seed": 1,
+ "source_pdf": "NCT04154943_protocol.pdf",
+ "injected_pdf": "NCT04154943_s1.pdf",
+ "target_errors": 10,
+ "errors": [
+  {
+   "type": "T14",
+   "name": "Cross-reference to a nonexistent section",
+   "page": 19,
+   "bbox": [
+    340.5,
+    621.4,
+    355.5,
+    637.1
+   ],
+   "original": "1.3",
+   "new": "99.3",
+   "context": "or locally advanced CSCC are provided in Section 1.3. Additional information, including",
+   "new_line": "or locally advanced CSCC are provided in Section 99.3. Additional information, including",
+   "description": "Reference to Section 1.3 changed to nonexistent Section 99.3",
+   "expected_checks": [
+    "C9"
+   ],
+   "amendment_category": "clerical",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     19
+    ],
+    "texts": [
+     "ed in Section 99.3. Additional"
+    ]
+   },
+   "error_id": "NCT04154943-s1-01"
+  },
+  {
+   "type": "T05",
+   "name": "Endpoint analysis removed from statistics",
+   "page": 74,
+   "bbox": [
+    72.0,
+    530.1,
+    543.1,
+    545.9
+   ],
+   "original": "Clopper-Pearson exact CI",
+   "new": "(removed)",
+   "context": "The pCR rate per local pathology review, mPR rate per independent central pathology review, mPR rate per local pathology review, and ORR prior to surgery per investigator assessment, along with 95% ex",
+   "new_line": "(removed)The pCR rate per local pathology review, mPR rate per independent central pathology review, mPR rate per local pathology review, and ORR prior to surgery per investigator assessment, along wi",
+   "description": "Removed the analysis of secondary endpoint 'mPR rate' (1 line(s))",
+   "expected_checks": [
+    "C3"
+   ],
+   "amendment_category": "statistics",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     26,
+     74
+    ],
+    "texts": [],
+    "titles": [
+     "no analysis method"
+    ]
+   },
+   "error_id": "NCT04154943-s1-02"
+  },
+  {
+   "type": "T04",
+   "name": "Secondary objective's endpoint deleted",
+   "page": 26,
+   "bbox": [
+    108.0,
+    279.6,
+    416.7,
+    296.0
+   ],
+   "original": "mPR rate assessed by independent central pathology review; pCR rate and mPR rate assessed by local pathology review; ORR prior to surgery, according to investigator assessment u",
+   "new": "(removed)",
+   "context": "mPR rate assessed by independent central pathology review",
+   "new_line": "(removed)mPR rate assessed by independent central pathology review",
+   "description": "Removed the endpoint text of secondary objective 'To evaluate the efficacy of neoadjuvant cemiplimab on measur'",
+   "expected_checks": [
+    "C3"
+   ],
+   "amendment_category": "endpoints",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     20,
+     26
+    ],
+    "texts": [],
+    "titles": [
+     "objective has no endpoint"
+    ]
+   },
+   "error_id": "NCT04154943-s1-03"
+  },
+  {
+   "type": "T09",
+   "name": "Power/effect changed so N not reproducible",
+   "page": 17,
+   "bbox": [
+    438.0,
+    243.0,
+    448.0,
+    256.1
+   ],
+   "original": "90",
+   "new": "80",
+   "context": "Seventy-two (72) patients will be required to provide 90% power to reject the",
+   "new_line": "Seventy-two (72) patients will be required to provide 80% power to reject the",
+   "description": "Stated power changed 90% -> 80% everywhere, so N is no longer reproducible",
+   "expected_checks": [
+    "C7"
+   ],
+   "amendment_category": "statistics",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     17,
+     72
+    ],
+    "texts": [
+     "ed to provide 80% power to rej"
+    ]
+   },
+   "error_id": "NCT04154943-s1-04"
+  },
+  {
+   "type": "T08",
+   "name": "Sample size changed in one place",
+   "page": 15,
+   "bbox": [
+    284.6,
+    254.7,
+    294.6,
+    267.8
+   ],
+   "original": "76",
+   "new": "91",
+   "context": "Approximately 76 patients will be enrolled.",
+   "new_line": "Approximately 91 patients will be enrolled.",
+   "description": "Sample size 76 changed to 91 in one place only",
+   "expected_checks": [
+    "C4"
+   ],
+   "amendment_category": "statistics",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     15,
+     17,
+     33,
+     72
+    ],
+    "texts": [
+     "Approximately 91 patients will"
+    ]
+   },
+   "error_id": "NCT04154943-s1-05"
+  },
+  {
+   "type": "T15",
+   "name": "Required M11 section removed",
+   "page": 72,
+   "bbox": [
+    72.0,
+    173.6,
+    103.9,
+    193.7
+   ],
+   "original": "11.2 Justification of Sample Size",
+   "new": "(removed)",
+   "context": "11.2.",
+   "new_line": "(removed)11.2.",
+   "description": "Removed M11 10.11 11.2 Justification of Sample Size (63 lines)",
+   "expected_checks": [
+    "B1",
+    "B3"
+   ],
+   "amendment_category": "completeness",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     72
+    ],
+    "texts": [],
+    "titles": [
+     "M11 10.11 "
+    ]
+   },
+   "m11_id": "10.11",
+   "error_id": "NCT04154943-s1-06"
+  },
+  {
+   "type": "T17",
+   "name": "Treatment/follow-up duration no longer adds up",
+   "page": 14,
+   "bbox": [
+    380.6,
+    277.7,
+    390.6,
+    290.7
+   ],
+   "original": "12",
+   "new": "24",
+   "context": "treatment period of up to 12 weeks, and surgery after 12 weeks",
+   "new_line": "treatment period of up to 24 weeks, and surgery after 12 weeks",
+   "description": "Duration 12 changed to 24 in one place; total no longer adds up",
+   "expected_checks": [
+    "C6"
+   ],
+   "amendment_category": "design",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     14,
+     15
+    ],
+    "texts": [
+     "riod of up to 24 weeks, and su"
+    ]
+   },
+   "error_id": "NCT04154943-s1-07"
+  },
+  {
+   "type": "T12",
+   "name": "Exclusion criterion contradicts an inclusion criterion",
+   "page": 34,
+   "bbox": [
+    108.0,
+    542.4,
+    404.4,
+    558.2
+   ],
+   "original": "Distant metastatic disease (M1), visceral and/or distant nodal ",
+   "new": "Lesion longest diameter at or above 2.4 cm.",
+   "context": "2. Distant metastatic disease (M1), visceral and/or distant nodal",
+   "new_line": "2. Lesion longest diameter at or above 2.4 cm.",
+   "description": "Exclusion criterion rewritten to contradict inclusion on lesion longest diameter",
+   "expected_checks": [
+    "C8"
+   ],
+   "amendment_category": "eligibility",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     33,
+     34
+    ],
+    "texts": [
+     "2. Lesion longest diameter at or above 2.4 cm."
+    ]
+   },
+   "error_id": "NCT04154943-s1-08"
+  },
+  {
+   "type": "T07",
+   "name": "Dose changed in one place",
+   "page": 14,
+   "bbox": [
+    404.6,
+    381.3,
+    419.6,
+    394.4
+   ],
+   "original": "350",
+   "new": "437",
+   "context": "the eligibility criteria will receive cemiplimab 350 mg intravenously (IV) every",
+   "new_line": "the eligibility criteria will receive cemiplimab 437 mg intravenously (IV) every",
+   "description": "Dose 350 changed to 437 in one place only",
+   "expected_checks": [
+    "C4"
+   ],
+   "amendment_category": "intervention",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     14,
+     15,
+     19,
+     21,
+     22,
+     31,
+     32,
+     37,
+     46
+    ],
+    "texts": [
+     "ve cemiplimab 437 mg intravenou"
+    ]
+   },
+   "error_id": "NCT04154943-s1-09"
+  },
+  {
+   "type": "T13",
+   "name": "Lab threshold value conflicts between mentions",
+   "page": 34,
+   "bbox": [
+    195.6,
+    91.1,
+    210.6,
+    106.9
+   ],
+   "original": "9.0",
+   "new": "18.0",
+   "context": "a. Hemoglobin >9.0 g/dL",
+   "new_line": "a. Hemoglobin >18.0 g/dL",
+   "description": "Lab threshold 9.0 changed to 18.0 in one place only",
+   "expected_checks": [
+    "C8"
+   ],
+   "amendment_category": "eligibility",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     34
+    ],
+    "texts": [
+     ". Hemoglobin >18.0 g/dL"
+    ]
+   },
+   "error_id": "NCT04154943-s1-10"
+  }
+ ],
+ "skipped": [
+  {
+   "type": "T01",
+   "reason": "endpoint timepoints are not extracted (timepoints_weeks is empty on the dev protocols), so the endpoint visit is unknown"
+  },
+  {
+   "type": "T03",
+   "reason": "needs a synthesised SoA row with matching ruling lines; not implemented"
+  },
+  {
+   "type": "T16",
+   "reason": "no row of at least 3 visit windows found"
+  },
+  {
+   "type": "T11",
+   "reason": "protocol is not double-blind"
+  },
+  {
+   "type": "T18",
+   "reason": "protocol age mentions do not all equal the registry value 18"
+  },
+  {
+   "type": "T10",
+   "reason": "no randomisation ratio is stated twice"
+  },
+  {
+   "type": "T06",
+   "reason": "minimum age is stated only once, so a change cannot create an inconsistency"
+  },
+  {
+   "type": "T02",
+   "reason": "no endpoint timepoint repeated across sections"
+  }
+ ],
+ "touched": [
+  [
+   14,
+   "treatment period of up to 12 weeks, and surgery after 12 weeks"
+  ],
+  [
+   14,
+   "the eligibility criteria will receive cemiplimab 350 mg intravenously (IV) every"
+  ],
+  [
+   15,
+   "Approximately 76 patients will be enrolled."
+  ],
+  [
+   17,
+   "Seventy-two (72) patients will be required to provide 90% power to reject the"
+  ],
+  [
+   19,
+   "or locally advanced CSCC are provided in Section 1.3. Additional information, including"
+  ],
+  [
+   26,
+   " mPR rate assessed by independent central pathology review"
+  ],
+  [
+   26,
+   " pCR rate and mPR rate assessed by local pathology review"
+  ],
+  [
+   26,
+   " ORR prior to surgery, according to investigator assessment using RECIST 1.1"
+  ],
+  [
+   34,
+   "2. Distant metastatic disease (M1), visceral and/or distant nodal"
+  ],
+  [
+   34,
+   "a. Hemoglobin >9.0 g/dL"
+  ],
+  [
+   72,
+   "Seventy-two (72) patients will be required to provide 90% power to reject a null hypothesis of a"
+  ],
+  [
+   72,
+   "11.2."
+  ],
+  [
+   72,
+   "Justification of Sample Size"
+  ],
+  [
+   72,
+   "The sample size will be further increased by 5% to account for patients who prematurely withdraw"
+  ],
+  [
+   72,
+   "from the study. Hence, the total sample size will be approximately 76 patients. Patients who"
+  ],
+  [
+   72,
+   "discontinue treatment early and/or withdraw from the study will not be replaced. Results will be"
+  ],
+  [
+   72,
+   "analyzed according to intention-to-treat. The 95% binomial exact confidences intervals for"
+  ],
+  [
+   72,
+   "observed pCR with 76 patients is provided in Table 6."
+  ],
+  [
+   72,
+   "The non-clinically meaningful pCR rate of 25% will be excluded using the lower limit of 95%"
+  ],
+  [
+   72,
+   "exact CI if the observed pCR rate is 36.8% or more."
+  ],
+  [
+   72,
+   "Table 6:"
+  ],
+  [
+   72,
+   "The 95% Binomial Exact Confidence Intervals for Observed pCR with a"
+  ],
+  [
+   72,
+   "Sample Size of 76 Patients"
+  ],
+  [
+   72,
+   "Number of pCR"
+  ],
+  [
+   72,
+   "patients"
+  ],
+  [
+   72,
+   "Observed pCR rate"
+  ],
+  [
+   72,
+   "95%CI – lower"
+  ],
+  [
+   72,
+   "95% CI – upper"
+  ],
+  [
+   72,
+   "23"
+  ],
+  [
+   72,
+   "0.303"
+  ],
+  [
+   72,
+   "0.202"
+  ],
+  [
+   72,
+   "0.419"
+  ],
+  [
+   72,
+   "24"
+  ],
+  [
+   72,
+   "0.316"
+  ],
+  [
+   72,
+   "0.214"
+  ],
+  [
+   72,
+   "0.433"
+  ],
+  [
+   72,
+   "25"
+  ],
+  [
+   72,
+   "0.329"
+  ],
+  [
+   72,
+   "0.225"
+  ],
+  [
+   72,
+   "0.446"
+  ],
+  [
+   72,
+   "26"
+  ],
+  [
+   72,
+   "0.342"
+  ],
+  [
+   72,
+   "0.237"
+  ],
+  [
+   72,
+   "0.460"
+  ],
+  [
+   72,
+   "27"
+  ],
+  [
+   72,
+   "0.355"
+  ],
+  [
+   72,
+   "0.249"
+  ],
+  [
+   72,
+   "0.473"
+  ],
+  [
+   72,
+   "28"
+  ],
+  [
+   72,
+   "0.368"
+  ],
+  [
+   72,
+   "0.261"
+  ],
+  [
+   72,
+   "0.487"
+  ],
+  [
+   72,
+   "29"
+  ],
+  [
+   72,
+   "0.382"
+  ],
+  [
+   72,
+   "0.272"
+  ],
+  [
+   72,
+   "0.500"
+  ],
+  [
+   72,
+   "30"
+  ],
+  [
+   72,
+   "0.395"
+  ],
+  [
+   72,
+   "0.284"
+  ],
+  [
+   72,
+   "0.514"
+  ],
+  [
+   72,
+   "31"
+  ],
+  [
+   72,
+   "0.408"
+  ],
+  [
+   72,
+   "0.296"
+  ],
+  [
+   72,
+   "0.527"
+  ],
+  [
+   72,
+   "32"
+  ],
+  [
+   72,
+   "0.421"
+  ],
+  [
+   72,
+   "0.309"
+  ],
+  [
+   72,
+   "0.540"
+  ],
+  [
+   72,
+   "33"
+  ],
+  [
+   72,
+   "0.434"
+  ],
+  [
+   72,
+   "0.321"
+  ],
+  [
+   72,
+   "0.553"
+  ],
+  [
+   72,
+   "To ensure meaningful representation of stage III/IV (M0) patients, enrollment of stage II patients"
+  ],
+  [
+   72,
+   "will be capped at 25 patients."
+  ],
+  [
+   74,
+   "The pCR rate per local pathology review, mPR rate per independent central pathology review,"
+  ]
+ ]
+}

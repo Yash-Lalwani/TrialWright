@@ -1,0 +1,7 @@
+{
+ "step": "draft_5.2",
+ "model": "deepseek/deepseek-v4-flash-0731",
+ "content": "{\"markdown\": \"- Age 18\u201375 years (per NCT06739226)\\n- ECOG performance status 0\u20131 (per NCT05561491, NCT06190951, NCT05983237, NCT06081920)\\n- Histologically confirmed advanced or metastatic melanoma (per NCT06727630, NCT05983237)\\n- Measurable disease per RECIST 1.1 (per NCT06190951, NCT06727630)\\n- Adequate organ function (per NCT06739226, NCT05983237)\\n- Life expectancy \u2265 3 months (per NCT05561491)\\n- No prior systemic therapy for advanced disease (per NCT06190951)\\n- No active autoimmune disease requiring systemic immunosuppression (per NCT06081920)\\n- No untreated or symptomatic brain metastases (per NCT05983237)\"}",
+ "tokens_in": 562,
+ "tokens_out": 178
+}

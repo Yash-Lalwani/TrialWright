@@ -1,0 +1,71 @@
+{
+ "set": "test",
+ "mode": "live",
+ "median_seconds": 30.5,
+ "median_usd": 0.0065,
+ "per_protocol": [
+  {
+   "nct_id": "NCT03132636",
+   "seconds": 47.5,
+   "usd": 0.0068,
+   "llm_calls": 10,
+   "cache_hits": 0,
+   "tokens_in": 29778,
+   "tokens_out": 11945
+  },
+  {
+   "nct_id": "NCT03257267",
+   "seconds": 30.5,
+   "usd": 0.0062,
+   "llm_calls": 10,
+   "cache_hits": 0,
+   "tokens_in": 26587,
+   "tokens_out": 11935
+  },
+  {
+   "nct_id": "NCT03738423",
+   "seconds": 28.9,
+   "usd": 0.0061,
+   "llm_calls": 10,
+   "cache_hits": 0,
+   "tokens_in": 26270,
+   "tokens_out": 11127
+  },
+  {
+   "nct_id": "NCT04154943",
+   "seconds": 22.7,
+   "usd": 0.0062,
+   "llm_calls": 10,
+   "cache_hits": 0,
+   "tokens_in": 24559,
+   "tokens_out": 12070
+  },
+  {
+   "nct_id": "NCT04639219",
+   "seconds": 29.2,
+   "usd": 0.0067,
+   "llm_calls": 10,
+   "cache_hits": 0,
+   "tokens_in": 27010,
+   "tokens_out": 12189
+  },
+  {
+   "nct_id": "NCT04646005",
+   "seconds": 60.7,
+   "usd": 0.0065,
+   "llm_calls": 10,
+   "cache_hits": 0,
+   "tokens_in": 25904,
+   "tokens_out": 12319
+  },
+  {
+   "nct_id": "NCT04916002",
+   "seconds": 32.4,
+   "usd": 0.0068,
+   "llm_calls": 10,
+   "cache_hits": 0,
+   "tokens_in": 25048,
+   "tokens_out": 12812
+  }
+ ]
+}

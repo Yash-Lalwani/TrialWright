@@ -1,0 +1,7 @@
+{
+ "step": "map_sections",
+ "model": "deepseek/deepseek-v4-flash-20260731",
+ "content": "{\n  \"mappings\": [\n    {\n      \"section_id\": \"sec_19\",\n      \"m11_id\": \"10.11\"\n    },\n    {\n      \"section_id\": \"sec_32\",\n      \"m11_id\": \"11.3\"\n    },\n    {\n      \"section_id\": \"sec_34\",\n      \"m11_id\": \"6\"\n    },\n    {\n      \"section_id\": \"sec_48\",\n      \"m11_id\": \"6.6\"\n    },\n    {\n      \"section_id\": \"sec_59\",\n      \"m11_id\": \"7\"\n    },\n    {\n      \"section_id\": \"sec_61\",\n      \"m11_id\": \"7.2\"\n    },\n    {\n      \"section_id\": \"sec_119\",\n      \"m11_id\": \"10.4.1.1\"\n    },\n    {\n      \"section_id\": \"sec_151\",\n      \"m11_id\": \"9.1.1\"\n    },\n    {\n      \"section_id\": \"sec_153\",\n      \"m11_id\": \"12.1\"\n    },\n    {\n      \"section_id\": \"sec_155\",\n      \"m11_id\": \"8.3\"\n    },\n    {\n      \"section_id\": \"sec_156\",\n      \"m11_id\": \"8.3\"\n    },\n    {\n      \"section_id\": \"sec_160\",\n      \"m11_id\": \"8.8\"\n    },\n    {\n      \"section_id\": \"sec_161\",\n      \"m11_id\": \"8.8\"\n    },\n    {\n      \"section_id\": \"sec_164\",\n      \"m11_id\": \"8.8\"\n    }\n  ]\n}",
+ "tokens_in": 2334,
+ "tokens_out": 363
+}

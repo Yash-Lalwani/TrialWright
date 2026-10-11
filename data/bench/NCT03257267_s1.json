@@ -1,0 +1,581 @@
+{
+ "nct_id": "NCT03257267",
+ "seed": 1,
+ "source_pdf": "NCT03257267_protocol.pdf",
+ "injected_pdf": "NCT03257267_s1.pdf",
+ "target_errors": 12,
+ "errors": [
+  {
+   "type": "T07",
+   "name": "Dose changed in one place",
+   "page": 27,
+   "bbox": [
+    503.9,
+    602.8,
+    518.8,
+    616.2
+   ],
+   "original": "350",
+   "new": "437",
+   "context": "cemiplimab will be administered intravenously (IV) as a flat dose of 350 mg",
+   "new_line": "cemiplimab will be administered intravenously (IV) as a flat dose of 437 mg",
+   "description": "Dose 350 changed to 437 in one place only",
+   "expected_checks": [
+    "C4"
+   ],
+   "amendment_category": "intervention",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     27,
+     29,
+     40,
+     44,
+     45,
+     58,
+     67,
+     72
+    ],
+    "texts": [
+     "flat dose of 437 mg"
+    ]
+   },
+   "error_id": "NCT03257267-s1-01"
+  },
+  {
+   "type": "T13",
+   "name": "Lab threshold value conflicts between mentions",
+   "page": 48,
+   "bbox": [
+    209.9,
+    473.7,
+    224.9,
+    489.9
+   ],
+   "original": "1.5",
+   "new": "3.0",
+   "context": "a. Total bilirubin ≤1.5x upper limit of normal (ULN; if liver metastases ≤3x ULN).",
+   "new_line": "a. Total bilirubin ≤3.0x upper limit of normal (ULN; if liver metastases ≤3x ULN).",
+   "description": "Lab threshold 1.5 changed to 3.0 in one place only",
+   "expected_checks": [
+    "C8"
+   ],
+   "amendment_category": "eligibility",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     48
+    ],
+    "texts": [
+     "al bilirubin ≤3.0x upper limit"
+    ]
+   },
+   "error_id": "NCT03257267-s1-02"
+  },
+  {
+   "type": "T17",
+   "name": "Treatment/follow-up duration no longer adds up",
+   "page": 3,
+   "bbox": [
+    420.2,
+    265.0,
+    432.2,
+    281.2
+   ],
+   "original": "96",
+   "new": "108",
+   "context": "All patients currently on cemiplimab may continue treatment up to 96 weeks. All patients",
+   "new_line": "All patients currently on cemiplimab may continue treatment up to 108 weeks. All patients",
+   "description": "Duration 96 changed to 108 in one place; total no longer adds up",
+   "expected_checks": [
+    "C6"
+   ],
+   "amendment_category": "design",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     3
+    ],
+    "texts": [
+     "eatment up to 108 weeks. All p"
+    ]
+   },
+   "error_id": "NCT03257267-s1-03"
+  },
+  {
+   "type": "T10",
+   "name": "Randomisation ratio changed in one place",
+   "page": 28,
+   "bbox": [
+    445.8,
+    523.1,
+    458.6,
+    536.5
+   ],
+   "original": "1:1",
+   "new": "2:1",
+   "context": "Approximately 460 SCC patients will be randomized 1:1 (230 per treatment",
+   "new_line": "Approximately 460 SCC patients will be randomized 2:1 (230 per treatment",
+   "description": "Ratio 1:1 changed to 2:1 in one place only",
+   "expected_checks": [
+    "C4"
+   ],
+   "amendment_category": "design",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     28,
+     45,
+     47,
+     85
+    ],
+    "texts": [
+     "be randomized 2:1 (230 per trea"
+    ]
+   },
+   "error_id": "NCT03257267-s1-04"
+  },
+  {
+   "type": "T15",
+   "name": "Required M11 section removed",
+   "page": 94,
+   "bbox": [
+    72.0,
+    96.9,
+    103.9,
+    117.0
+   ],
+   "original": "10.2 Justification of Sample Size",
+   "new": "(removed)",
+   "context": "10.2.",
+   "new_line": "(removed)10.2.",
+   "description": "Removed M11 10.11 10.2 Justification of Sample Size (27 lines)",
+   "expected_checks": [
+    "B1",
+    "B3"
+   ],
+   "amendment_category": "completeness",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     94
+    ],
+    "texts": [],
+    "titles": [
+     "M11 10.11 "
+    ]
+   },
+   "m11_id": "10.11",
+   "error_id": "NCT03257267-s1-05"
+  },
+  {
+   "type": "T09",
+   "name": "Power/effect changed so N not reproducible",
+   "page": 4,
+   "bbox": [
+    83.1,
+    648.9,
+    95.1,
+    665.1
+   ],
+   "original": "90",
+   "new": "80",
+   "context": "90% power with 2 interim analyses.",
+   "new_line": "80% power with 2 interim analyses.",
+   "description": "Stated power changed 90% -> 80% everywhere, so N is no longer reproducible",
+   "expected_checks": [
+    "C7"
+   ],
+   "amendment_category": "statistics",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     4,
+     30
+    ],
+    "texts": [
+     "80% power with 2"
+    ]
+   },
+   "error_id": "NCT03257267-s1-06"
+  },
+  {
+   "type": "T05",
+   "name": "Endpoint analysis removed from statistics",
+   "page": 94,
+   "bbox": [
+    72.0,
+    587.6,
+    228.4,
+    603.8
+   ],
+   "original": "same statistical method as the analysis ",
+   "new": "(removed)",
+   "context": "The PFS will be analyzed using the same statistical method as the analysis of OS.",
+   "new_line": "(removed)The PFS will be analyzed using the same statistical method as the analysis of OS.",
+   "description": "Removed the analysis of secondary endpoint 'Time to progression or death' (1 line(s))",
+   "expected_checks": [
+    "C3"
+   ],
+   "amendment_category": "statistics",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     43,
+     94
+    ],
+    "texts": [],
+    "titles": [
+     "no analysis method"
+    ]
+   },
+   "error_id": "NCT03257267-s1-07"
+  },
+  {
+   "type": "T14",
+   "name": "Cross-reference to a nonexistent section",
+   "page": 15,
+   "bbox": [
+    215.3,
+    229.9,
+    248.3,
+    246.1
+   ],
+   "original": "8.1.2.1",
+   "new": "99.1.2.1",
+   "context": "pemetrexed, as per Section 8.1.2.1 .",
+   "new_line": "pemetrexed, as per Section 99.1.2.1 .",
+   "description": "Reference to Section 8.1.2.1 changed to nonexistent Section 99.1.2.1",
+   "expected_checks": [
+    "C9"
+   ],
+   "amendment_category": "clerical",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     15
+    ],
+    "texts": [
+     "s per Section 99.1.2.1 ."
+    ]
+   },
+   "error_id": "NCT03257267-s1-08"
+  },
+  {
+   "type": "T12",
+   "name": "Exclusion criterion contradicts an inclusion criterion",
+   "page": 49,
+   "bbox": [
+    99.0,
+    559.4,
+    426.1,
+    575.6
+   ],
+   "original": "Prior treatment with an agent that blocks the PD-1/PD-L1 pathway. ",
+   "new": "Lesion size (ct/mri/caliper) at or above 8 mm.",
+   "context": "2. Prior treatment with an agent that blocks the PD-1/PD-L1 pathway.",
+   "new_line": "2. Lesion size (ct/mri/caliper) at or above 8 mm.",
+   "description": "Exclusion criterion rewritten to contradict inclusion on lesion size (CT/MRI/caliper)",
+   "expected_checks": [
+    "C8"
+   ],
+   "amendment_category": "eligibility",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     48,
+     49
+    ],
+    "texts": [
+     "2. Lesion size (ct/mri/caliper) at or above 8 mm."
+    ]
+   },
+   "error_id": "NCT03257267-s1-09"
+  },
+  {
+   "type": "T06",
+   "name": "Age range changed in one place",
+   "page": 28,
+   "bbox": [
+    354.5,
+    633.1,
+    364.5,
+    646.5
+   ],
+   "original": "18",
+   "new": "21",
+   "context": "The study will enroll women ≥18 years old with recurrent, persistent, and/or",
+   "new_line": "The study will enroll women ≥21 years old with recurrent, persistent, and/or",
+   "description": "Minimum age changed 18 -> 21 in one place only",
+   "expected_checks": [
+    "C4"
+   ],
+   "amendment_category": "eligibility",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     28,
+     47,
+     48
+    ],
+    "texts": [
+     "enroll women ≥21 years old wit"
+    ]
+   },
+   "error_id": "NCT03257267-s1-10"
+  },
+  {
+   "type": "T04",
+   "name": "Secondary objective's endpoint deleted",
+   "page": 43,
+   "bbox": [
+    72.0,
+    376.8,
+    542.7,
+    393.0
+   ],
+   "original": "Progression-free survival (PFS), defined as the time from ra",
+   "new": "(removed)",
+   "context": "Progression-free survival will be defined as the time from randomization to the date of the first documented tumor progression using RECIST 1.1, or death due to any cause.",
+   "new_line": "(removed)Progression-free survival will be defined as the time from randomization to the date of the first documented tumor progression using RECIST 1.1, or death due to any cause.",
+   "description": "Removed the endpoint text of secondary objective 'To compare progression-free survival (PFS) of cemiplimab ver'",
+   "expected_checks": [
+    "C3"
+   ],
+   "amendment_category": "endpoints",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     37,
+     43
+    ],
+    "texts": [],
+    "titles": [
+     "objective has no endpoint"
+    ]
+   },
+   "error_id": "NCT03257267-s1-11"
+  },
+  {
+   "type": "T08",
+   "name": "Sample size changed in one place",
+   "page": 27,
+   "bbox": [
+    405.9,
+    560.8,
+    420.9,
+    574.2
+   ],
+   "original": "590",
+   "new": "708",
+   "context": "metastatic cervical cancer. Approximately 590 patients will be randomized",
+   "new_line": "metastatic cervical cancer. Approximately 708 patients will be randomized",
+   "description": "Sample size 590 changed to 708 in one place only",
+   "expected_checks": [
+    "C4"
+   ],
+   "amendment_category": "statistics",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     27,
+     28,
+     30,
+     40,
+     44,
+     47,
+     85,
+     94
+    ],
+    "texts": [
+     "Approximately 708 patients will"
+    ]
+   },
+   "error_id": "NCT03257267-s1-12"
+  }
+ ],
+ "skipped": [
+  {
+   "type": "T01",
+   "reason": "endpoint timepoints are not extracted (timepoints_weeks is empty on the dev protocols), so the endpoint visit is unknown"
+  },
+  {
+   "type": "T03",
+   "reason": "needs a synthesised SoA row with matching ruling lines; not implemented"
+  },
+  {
+   "type": "T18",
+   "reason": "protocol age mentions do not all equal the registry value 18"
+  },
+  {
+   "type": "T16",
+   "reason": "no row of at least 3 visit windows found"
+  },
+  {
+   "type": "T11",
+   "reason": "protocol is not double-blind"
+  },
+  {
+   "type": "T02",
+   "reason": "no endpoint timepoint repeated across sections"
+  }
+ ],
+ "touched": [
+  [
+   3,
+   "All patients currently on cemiplimab may continue treatment up to 96 weeks. All patients"
+  ],
+  [
+   4,
+   "90% power with 2 interim analyses."
+  ],
+  [
+   15,
+   "pemetrexed, as per Section 8.1.2.1 ."
+  ],
+  [
+   27,
+   "cemiplimab will be administered intravenously (IV) as a flat dose of 350 mg"
+  ],
+  [
+   27,
+   "metastatic cervical cancer. Approximately 590 patients will be randomized"
+  ],
+  [
+   28,
+   "Approximately 460 SCC patients will be randomized 1:1 (230 per treatment"
+  ],
+  [
+   28,
+   "The study will enroll women ≥18 years old with recurrent, persistent, and/or"
+  ],
+  [
+   30,
+   "approximately 90% power to detect an HR of 0.7 with an overall type I error"
+  ],
+  [
+   43,
+   "Progression-free survival will be defined as the time from randomization to the date of the first"
+  ],
+  [
+   48,
+   "a. Total bilirubin ≤1.5x upper limit of normal (ULN; if liver metastases ≤3x ULN)."
+  ],
+  [
+   49,
+   "2. Prior treatment with an agent that blocks the PD-1/PD-L1 pathway."
+  ],
+  [
+   94,
+   "10.2."
+  ],
+  [
+   94,
+   "Justification of Sample Size"
+  ],
+  [
+   94,
+   "The primary endpoint will be overall survival among patients treated with cemiplimab versus IC"
+  ],
+  [
+   94,
+   "of chemotherapy. After progression on platinum-taxane based chemotherapy, there is no standard"
+  ],
+  [
+   94,
+   "of care. The median OS has been reported in range of 6.5 months to 8.1 months in the"
+  ],
+  [
+   94,
+   "phase 2 setting (Lorusso 2010) (Miller 2008) (Schilder 2005) (Bookman 2000)."
+  ],
+  [
+   94,
+   "The primary OS endpoint will be tested in patients with SCC first. If the null hypothesis is rejected"
+  ],
+  [
+   94,
+   "in SCC patients, then OS will be tested in the overall population. The sample size and power are"
+  ],
+  [
+   94,
+   "calculated using East® version 6.4.1 statistical software."
+  ],
+  [
+   94,
+   "The sponsor assumes a median OS of 7 months for SCC patients treated with IC chemotherapy"
+  ],
+  [
+   94,
+   "and a median OS of 10 months for SCC patients treated with cemiplimab. The assumptions"
+  ],
+  [
+   94,
+   "correspond to an approximately 42.8% increase in median OS and a hazard ratio (HR) of 0.7 if OS"
+  ],
+  [
+   94,
+   "is distributed exponentially in both treatment groups."
+  ],
+  [
+   94,
+   "Two interim efficacy analyses are planned using Lan-DeMets (O’Brien-Fleming) spending"
+  ],
+  [
+   94,
+   "function at 70% and 85% of the total OS events, respectively. A total of 340 OS events in SCC"
+  ],
+  [
+   94,
+   "patients will yield approximately 90% power to detect an HR of 0.7 with an overall type I error of"
+  ],
+  [
+   94,
+   "0.025 (1-sided). The details of alpha spending at interim and final analyses based on the planned"
+  ],
+  [
+   94,
+   "number of OS events are provided in Section 10.5."
+  ],
+  [
+   94,
+   "Considering the enrollment rate (2 patients/month for months 1 to 5, 9 patients/month for"
+  ],
+  [
+   94,
+   "months 6 to 16, 20 patients/month for months 17 to 23, and 22 patients/month for month 24 and"
+  ],
+  [
+   94,
+   "beyond) and 10% dropout rate per year, enrollment of 460 randomized SCC patients will yield"
+  ],
+  [
+   94,
+   "340 OS events for analysis of OS around 42 months after the first SCC patient is randomized."
+  ],
+  [
+   94,
+   "At the time when 460 SCC patients are enrolled in the study, a total enrollment in the study of"
+  ],
+  [
+   94,
+   "approximately 590 patients is projected (SCC plus non-SCC). The actual number of patients to be"
+  ],
+  [
+   94,
+   "enrolled will depend on the proportion of adenocarcinoma patients in the patient population and"
+  ],
+  [
+   94,
+   "the time when Amendment 5 is implemented at each of the study sites. If the HR is 0.7, the power"
+  ],
+  [
+   94,
+   "for testing OS in the overall population will be higher than 90%."
+  ],
+  [
+   94,
+   "will be analyzed using the FAS."
+  ]
+ ]
+}
