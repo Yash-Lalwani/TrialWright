@@ -1,17 +1,16 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 
-import { Workspace, WorkspaceSkeleton } from "@/components/workspace/workspace";
+import { ReviewPage } from "@/components/analysis/run-pages";
+import { WorkspaceSkeleton } from "@/components/workspace/workspace";
 
 export const metadata: Metadata = { title: "Review" };
 
-/** F1 workspace. Params are resolved inside Suspense so the shell still prerenders (cacheComponents). */
-export default function RunPage({ params }: PageProps<"/runs/[id]">) {
+/** F1 workspace. The run id is read on the client so the review starts loading at once. */
+export default function RunPage() {
   return (
     <Suspense fallback={<WorkspaceSkeleton />}>
-      {params.then(({ id }) => (
-        <Workspace key={id} runId={id} />
-      ))}
+      <ReviewPage />
     </Suspense>
   );
 }

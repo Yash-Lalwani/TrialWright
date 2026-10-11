@@ -175,19 +175,49 @@ export default function PdfViewer({ file, highlights, focus, onSelectIssue }: Pr
     return () => observer.disconnect();
   }, []);
 
+  // The observer ignores width 0 (viewer hidden while the page loads) and is not always
+  // re-triggered when the viewer is revealed, which left the width at 0 and disabled every
+  // jump to an issue. Measure directly once the pages are known and on window resizes.
+  useLayoutEffect(() => {
+    const measure = () => {
+      const el = scrollRef.current;
+      if (!el?.clientWidth) return;
+      lastWidth.current = el.clientWidth;
+      setContainerWidth(el.clientWidth);
+      setViewport({ top: el.scrollTop, height: el.clientHeight });
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [sizes.length]);
+
   // ---- navigation ----
+  const retryFrame = useRef(0);
   const scrollToPage = useCallback(
     (page: number, bbox: BBox | null = null, smooth = true) => {
       const el = scrollRef.current;
       if (!el || !sizes.length) return;
       const i = Math.min(Math.max(page, 1), sizes.length) - 1;
       const raw = bbox ? tops[i] + bbox[1] * scale - el.clientHeight * 0.3 : tops[i] - PAD / 2;
-      const top = Math.min(Math.max(0, raw), el.scrollHeight - el.clientHeight);
+      // Clamp against the computed geometry, not el.scrollHeight: right after the document
+      // loads the page stack may not be laid out yet, which used to clamp every jump to 0.
+      const top = Math.min(Math.max(0, raw), Math.max(0, totalHeight - el.clientHeight));
       const left = bbox ? Math.max(0, pageLeft(i) + bbox[0] * scale - PAD) : el.scrollLeft;
       scrollTarget.current = top;
-      el.scrollTo({ top, left, behavior: smooth && !prefersReducedMotion() ? "smooth" : "auto" });
+      cancelAnimationFrame(retryFrame.current);
+      let tries = 0;
+      const go = () => {
+        if (el.scrollHeight - el.clientHeight + 1 < top && tries++ < 60) {
+          retryFrame.current = requestAnimationFrame(go); // wait until the layout can reach the target
+          return;
+        }
+        el.scrollTo({ top, left, behavior: smooth && !prefersReducedMotion() ? "smooth" : "auto" });
+        // Scrolling does not always fire a scroll event (e.g. no movement); refresh the render window anyway.
+        requestAnimationFrame(() => setViewport({ top: el.scrollTop, height: el.clientHeight }));
+      };
+      go();
     },
-    [sizes, tops, scale, pageLeft],
+    [sizes, tops, scale, pageLeft, totalHeight],
   );
 
   // A focus request stays pending until the scroll reaches its target. If an ancestor
