@@ -447,6 +447,9 @@ items:
   - overall study design
   - description of study design
   - study design
+  - trial design
+  - design of the trial
+  - overall trial design
   sub_elements:
   - name: design
     patterns:

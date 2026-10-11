@@ -34,6 +34,16 @@ DURATION = re.compile(r"((?:[A-Za-z]+\s+){0,4})(\d+(?:\.\d+)?)\s*(week|month|yea
                       re.I)
 
 
+# Words that name a treatment strategy or arm. A trial that compares a 2-month regimen with a 6-month standard
+# regimen states both durations on purpose; they are different arms, not one fact stated twice.
+REGIMEN = re.compile(r"\b(standard|short(?:er|ened)?|boosted|experimental|investigational|control"
+                     r"|arm\s+[A-Z0-9]\b|group\s+[A-Z0-9]\b|stage\s+\d)", re.I)
+
+
+def _regimen_words(items: list[tuple[str, NumberFact]], value: str) -> set[str]:
+    return {m.group(1).lower() for v, f in items if v == value for m in REGIMEN.finditer(f.span.quote)}
+
+
 @check(id="C6D", category="consistency", amendment_category="design",
        standard_ref="ICH M11 4.1, 4.4; SPIRIT 2025 item 13", severity="major")
 def durations_agree(graph: ProtocolGraph, ctx: CheckContext):
@@ -67,6 +77,9 @@ def durations_agree(graph: ProtocolGraph, ctx: CheckContext):
         main = next(f for v, f in items if v == main_v)
         for value, n in rest:
             odd = next(f for v, f in items if v == value)
+            a, b = _regimen_words(items, main_v), _regimen_words(items, value)
+            if a and b and not (a & b):
+                continue      # different named regimens or arms: the durations are meant to differ
             said = phrase.replace("#", "{}") if "#" in phrase else "{} " + phrase
             issues.append(issue(
                 "C6", f"Duration disagrees across sections: {said.format(value)} vs {main_v}",

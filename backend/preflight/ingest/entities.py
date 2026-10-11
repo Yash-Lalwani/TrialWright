@@ -25,15 +25,23 @@ RATIO = re.compile(r"\b(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?\b")
 RATIO_CONTEXT = re.compile(
     r"\b(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?\)?\s*(?=(?:\w+\s+){0,1}(?:ratio|randomi|allocation|fashion|manner))"
     r"|(?:randomi[sz]ed|randomly assigned|allocated|randomization)\s*(?:\w+\s+){0,3}\(?(\d{1,2}):(\d{1,2})\b", re.I)
-ARMS = re.compile(r"\b(one|two|three|four|five|six|\d)[- ](?:treatment )?arms?\b", re.I)
+ARMS = re.compile(r"(?<![\d.])\b(one|two|three|four|five|six|\d)[- ](?:treatment )?arms?\b", re.I)
+ARM_LABEL_AFTER = re.compile(r"\s+[A-Z0-9]\s*[:\-–]")            # 'Arm D:', 'arms B-F': a label, not a count
+# 'the two arms': a comparison inside a larger design
+ARM_COMPARISON_BEFORE = re.compile(r"\b(?:the|these|those|both|between)\s*$", re.I)
 DOSE = re.compile(r"\b(\d+(?:\.\d+)?)\s*(mg/kg|mg/m2|mg/m²|mg|mcg|µg|μg|g)\b(?!/dL|/L)", re.I)
 DURATION = re.compile(r"\b(\d+(?:\.\d+)?)\s*(week|month|year)s?\b", re.I)
 XREF = re.compile(r"\b(?:see|refer to|described in|detailed in|per|in)\s+(Section|Appendix)\s+(\d+(?:\.\d+)*|[A-Z]\b)",
                   re.I)
+# 'Dietze R, Hadad DJ, McGee B,': two or more 'Surname INITIALS,' pairs on a line are an author list.
+AUTHORS = re.compile(r"\b[A-Z][a-z'’\-]+\s+[A-Z]{1,3}\s*[,.]")
 ABBR_DEF = re.compile(r"([A-Za-z][A-Za-z\-]+(?:\s+[A-Za-z\-]+){0,7})\s+\(([A-Z][A-Za-z0-9\-]*[A-Z0-9]s?)\)")
 ABBR_USE = re.compile(r"\b([A-Z][A-Z0-9\-]*[A-Z0-9])\b")
 NOT_ABBR = {"II", "III", "IV", "VI", "VII", "VIII", "IX", "XI", "XII", "USA", "UK", "OR", "AND", "NOT", "NO", "N/A",
-            "AGE", "AT", "ALL", "FOR", "THE", "OF", "TO", "IN", "ON", "BY", "IF", "AS", "IS", "BE", "AN", "A"}
+            "AGE", "AT", "ALL", "FOR", "THE", "OF", "TO", "IN", "ON", "BY", "IF", "AS", "IS", "BE", "AN", "A", "NA"}
+REFERENCE_TITLE = re.compile(r"^(?:\d+(?:\.\d+)*\.?\s+)?(?:references?|bibliography|reference list)\b", re.I)
+# A bibliography line: authors' initials ('Smith AH, Jones DA.') sit next to a year and volume/pages, or 'et al', a DOI.
+CITATION = re.compile(r"\bet al\b|\bdoi\b|\b(?:19|20)\d{2}\s*[;:.]\s*\d|\b\d+\s*\(\d+\)\s*:\s*\d", re.I)
 
 
 def _span(line: Line) -> Span:
@@ -59,6 +67,15 @@ def body_lines(parts: list[tuple[Section, list[Line]]]) -> list[Line]:
             continue
         lines.extend(body)
     return lines
+
+
+def _arm_label_or_comparison(text: str, m: re.Match) -> bool:
+    """True for an 'N arm(s)' match that is not a statement of the design's size: an arm label ('Arm D: 8 weeks ...')
+    or a comparison inside a larger design ('the two arms', 'between the two arms'). Heading numbers ('6.3.5 Arm F')
+    never reach here: the ARMS pattern refuses a digit that follows a digit or a dot."""
+    if ARM_LABEL_AFTER.match(text[m.end():m.end() + 8]):
+        return True
+    return bool(ARM_COMPARISON_BEFORE.search(text[max(0, m.start() - 12):m.start()]))
 
 
 def extract_numbers(lines: list[Line]) -> list[NumberFact]:
@@ -91,7 +108,7 @@ def extract_numbers(lines: list[Line]) -> list[NumberFact]:
         m = RATIO_CONTEXT.search(t) if re.search(r"random|allocat|ratio", f"{low} {nxt}") else None
         if m:
             add("ratio", ":".join(g for g in m.groups() if g), None, ln)
-        if m := ARMS.search(t):
+        if (m := ARMS.search(t)) and not _arm_label_or_comparison(t, m):
             word = m.group(1).lower()
             add("arms", float(WORD_NUMS.get(word) or int(word)), None, ln)
         if re.search(r"\b(dose|dosing|administered|mg)\b", low) and "mg" in low:
@@ -132,6 +149,8 @@ def extract_abbreviations(doc: PdfDoc, sections: list[Section]) -> dict:
         for row in s.text.split("\n"):
             if m := re.match(r"^([A-Z][A-Za-z0-9\-/]*[A-Z0-9])\s+(.{3,})$", row):
                 defined.setdefault(m.group(1), m.group(2).strip())
+    reference_pages = {p for sec in sections if REFERENCE_TITLE.match(sec.title.strip()) or sec.m11_id == "14"
+                       for p in range(sec.page_start, sec.page_end + 1)}
     used: dict[str, int] = {}
     for ln in doc.lines:
         for m in ABBR_DEF.finditer(ln.text):
@@ -141,13 +160,17 @@ def extract_abbreviations(doc: PdfDoc, sections: list[Section]) -> dict:
         letters = [c for c in ln.text if c.isalpha()]
         if not letters or sum(c.isupper() for c in letters) / len(letters) > 0.4:
             continue
+        if ln.page in reference_pages or CITATION.search(ln.text) or len(AUTHORS.findall(ln.text)) >= 2:
+            continue          # author initials in the reference list are not clinical abbreviations
         for m in ABBR_USE.finditer(ln.text):
             a = m.group(1)
             word_like = a.isalpha() and len(a) >= 6
             if (a not in NOT_ABBR and sum(c.isupper() for c in a) >= 2 and len(a) <= 8 and not word_like
                     and len(re.findall(r"\d", a)) <= 2):
                 used[a] = used.get(a, 0) + 1
-    return {"defined": defined, "used": sorted(used)}
+    # 'MDR' alone counts as defined when the protocol defines 'MDR-TB' (the first part of a hyphenated abbreviation).
+    undefined = (a for a in used if not any(d.startswith(a + "-") for d in defined))
+    return {"defined": defined, "used": sorted(undefined)}
 
 
 PHASE = re.compile(r"\bphase\s+(I{1,3}V?|IV|[1-4])(?:\s*/\s*(I{1,3}|[1-4]))?\b", re.I)
