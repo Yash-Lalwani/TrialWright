@@ -19,7 +19,7 @@ def test_verifier_drops_ungrounded_and_keeps_grounded(tmp_path):
     doc.save(path)
     findings = [("clinical_scientist", finding("receive 400 mg pralsetinib once daily")),
                 ("clinical_scientist", finding("this sentence is not in the protocol at all")),
-                ("biostatistician", finding("receive 400 mg pralsetinib once daily", page=2))]
+                ("biostatistician", finding("receive 400 mg pralsetinib once daily", page=40))]
     issues, stats = verify(findings, graph(), path)
     assert stats == {"ai_findings": 3, "dropped_ungrounded": 2, "shown": 1}
     i = issues[0]
@@ -89,3 +89,33 @@ async def test_rules_only_never_touches_llm(tmp_path, monkeypatch):
     make_pdf(path)
     result = await check_graph(await ingest_file(path, use_llm=False), "rules_only", pdf_path=path)
     assert result.verifier is None
+
+
+def test_quote_on_a_nearby_page_is_relocated_and_soa_rows_ground_on_the_name(tmp_path):
+    path = str(tmp_path / "p.pdf")
+    doc = pymupdf.open()
+    doc.new_page().insert_text((72, 100), "Section 5 Eligibility", fontsize=11)
+    doc.new_page().insert_text((72, 100), "Participants with active CNS metastases are excluded.", fontsize=11)
+    doc.new_page().insert_text((72, 100), "Urinalysis", fontsize=11)
+    doc.save(path)
+    from preflight.graph.models import Procedure, SoA, Span
+
+    soa = SoA(visits=[], procedures=[Procedure(id="p1", name="Urinalysis", normalized_name="urinalysis")], cells={},
+              span=Span(page=3, bbox=None, quote="SoA"))
+    issues, stats = verify([("clinical_scientist", finding("Participants with active CNS metastases are excluded", 1)),
+                            ("clinical_ops", finding("Urinalysis | X | X |  | X", page=3)),
+                            ("clinical_ops", finding("excluded", page=2))], graph(soa=soa), path)
+    assert stats["dropped_ungrounded"] == 1  # a one-word quote that is not an SoA procedure
+    assert [i.where.page for i in issues] == [2, 3]
+    assert issues[1].where.quote == "Urinalysis"
+
+
+def test_reused_quote_supports_only_the_first_finding(tmp_path):
+    path = str(tmp_path / "p.pdf")
+    doc = pymupdf.open()
+    doc.new_page().insert_text((72, 100), "The Sponsor has decided to terminate the study early.", fontsize=11)
+    doc.save(path)
+    q = "The Sponsor has decided to terminate the study early"
+    issues, stats = verify([("medical_writer", finding(q, title="Termination not reflected")),
+                            ("medical_writer", finding(q, title="No stopping rules"))], graph(), path)
+    assert [i.title for i in issues] == ["Termination not reflected"] and stats["dropped_ungrounded"] == 1

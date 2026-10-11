@@ -16,7 +16,9 @@ MAX_CHARS = 12000
 RULES = (
     "Return at most 8 findings. Each finding must quote text copied verbatim from the input (one sentence or "
     "phrase under 200 characters) and give the page number shown in the [pN] marker before that text. "
-    "Only report problems you can point to in the text."
+    "Only report problems you can point to in the text. Never quote the list of thin or missing sections or the "
+    "list of rule findings; quote the protocol text itself. When citing the Schedule of Activities, quote only "
+    "the procedure name (for example 'Urinalysis'), not the table row."
 )
 
 
