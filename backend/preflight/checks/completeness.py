@@ -91,6 +91,20 @@ def _found_in(sections: list[Section], item: dict, by_name_only: bool) -> Sectio
     return None
 
 
+def _found_strictly(sections: list[Section], item: dict, phrase_only: bool) -> Section | None:
+    """First section that names the item with a multi-word phrase (its title or a synonym, e.g. 'trial design'), or,
+    unless phrase_only, that contains every required sub-element. One generic word anywhere in a chapter is not
+    evidence that the content is there. Used only to stop 'missing' being reported for content that sits under a
+    different heading."""
+    phrases = [n.lower() for n in [item["title"], *(item.get("synonyms") or [])] if len(n.split()) >= 2]
+    patterns = [] if phrase_only else [pat for _, pat in _patterns(item)]
+    for sec in sections:
+        low = f"{sec.title}\n{sec.text}".lower()
+        if any(p in low for p in phrases) or (patterns and all(re.search(p, low, re.I) for p in patterns)):
+            return sec
+    return None
+
+
 def _m11_items(graph: ProtocolGraph) -> list[CompletenessItem]:
     toc = load_toc()
     has_flags = any("required" in i for i in toc)
@@ -123,7 +137,8 @@ def _m11_items(graph: ProtocolGraph) -> list[CompletenessItem]:
             # Older protocols put this content in the chapter without the M11 sub-heading. Look for it by content before
             # saying it is absent. Never 'present': M11 wants its own heading, so a find is 'thin' (a minor B3 note that
             # names where the content is) and only a real absence stays 'missing' (major for key items).
-            hit = _found_in(scope, item, by_name_only=False) if scope else None
+            # Key items are rated major when missing, so a find must name them explicitly, not just contain their words.
+            hit = _found_strictly(scope, item, phrase_only=item["id"] in KEY_ITEMS) if scope else None
             if hit is None:
                 add("missing")
                 continue
