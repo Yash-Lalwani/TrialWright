@@ -24,7 +24,7 @@ class LLMCacheMiss(LLMUnavailable):
 
 
 def model() -> str:
-    return os.getenv("PREFLIGHT_MODEL", "deepseek/deepseek-v4-flash-20260731")
+    return os.getenv("PREFLIGHT_MODEL", "deepseek/deepseek-v4-flash-0731")
 
 
 def mode() -> str:
