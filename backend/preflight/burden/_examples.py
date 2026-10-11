@@ -10,7 +10,7 @@ BURDEN = {
          "procedures": ["Vitals", "PK sample", "Infusion"]},
     ],
     "orphan_procedures": [{"name": "Exploratory skin biopsy", "occurrences": 3, "patient_minutes": 135, "cost_usd": 2100}],
-    "peer_percentiles": {"patient_hours": 82, "procedures_total": 77, "visits": 64, "n_peers_with_soa": 24},
+    "peer_percentiles": {"patient_hours": 82, "procedures_total": 77, "visits": 64, "n_peers_with_soa": 24, "scope": "condition"},
     "assumptions": {"file": "data/assumptions/procedure_costs.csv", "version": "2026-10-11"},
 }
 

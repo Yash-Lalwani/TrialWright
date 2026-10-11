@@ -33,7 +33,17 @@ def test_percentiles_use_only_usable_peers_in_the_peer_set_and_need_enough(tmp_p
     ids = {f"NCT{i:08d}" for i in range(10)} | {"NCT99999999", "NCT12345678"}
     p = ps.percentiles(rep, ids)
     assert p.n_peers_with_soa == 10 and p.patient_hours == 50.0 and p.visits == 50.0
-    assert ps.percentiles(rep, {f"NCT{i:08d}" for i in range(5)}) is None          # < MIN_PEERS: no comparison, not a guess
+    assert p.scope == "condition"
+    lib = ps.percentiles(rep, {f"NCT{i:08d}" for i in range(5)})                     # < MIN_PEERS similar: the whole library
+    assert lib.scope == "library" and lib.n_peers_with_soa == 11
+    assert ps.percentiles(rep, set(), own_nct="NCT88888888").n_peers_with_soa == 10   # never compared with itself
+
+
+def test_percentiles_none_when_the_library_is_too_small(tmp_path, monkeypatch):
+    monkeypatch.setattr(ps, "DIR", tmp_path)
+    rep = burden.compute(graph(soa=soa(FULL)))
+    ps.save({"nct_id": "NCT1", "usable": True, "patient_hours": 1, "procedures_total": 1, "visits": 1})
+    assert ps.percentiles(rep, set()) is None
 
 
 def test_record_roundtrip(tmp_path, monkeypatch):

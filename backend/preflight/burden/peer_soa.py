@@ -80,15 +80,22 @@ async def build(query: PeerQuery, n_target: int = 30, exclude: set[str] = frozen
     return out
 
 
-def percentiles(report: BurdenReport, peer_ncts: set[str]) -> PeerPercentiles | None:
-    """This protocol's burden against summarised peers that are in its peer set, or None when too few."""
-    recs = [r for n in sorted(peer_ncts) if (r := load(n)) and r.get("usable")]
-    if len(recs) < MIN_PEERS or report.per_patient.visits == 0:
+def percentiles(report: BurdenReport, peer_ncts: set[str], own_nct: str | None = None) -> PeerPercentiles | None:
+    """This protocol's burden against summarised peers in its peer set. With fewer than MIN_PEERS of those, against every
+    usable summary in the library instead (scope 'library'), so a protocol outside the library's conditions still gets
+    a comparison. None only when the schedule is empty or the library itself is too small."""
+    if report.per_patient.visits == 0:
+        return None
+    recs, scope = [r for n in sorted(peer_ncts) if (r := load(n)) and r.get("usable")], "condition"
+    if len(recs) < MIN_PEERS:
+        recs = [r for f in sorted(DIR.glob("*.json")) if (r := json.loads(f.read_text())).get("usable") and r["nct_id"] != own_nct]
+        scope = "library"
+    if len(recs) < MIN_PEERS:
         return None
     p = report.per_patient
     pct = {k: percentile(float(v), [float(r[k]) for r in recs]) for k, v in
            (("patient_hours", p.patient_hours), ("procedures_total", p.procedures_total), ("visits", p.visits))}
-    return PeerPercentiles(**pct, n_peers_with_soa=len(recs))
+    return PeerPercentiles(**pct, n_peers_with_soa=len(recs), scope=scope)
 
 
 if __name__ == "__main__":

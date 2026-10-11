@@ -361,10 +361,12 @@ Accepting removes the issue's points from the score. Rejecting keeps the score u
     {"visit": "C1D1", "study_day": 1, "patient_minutes": 300, "site_minutes": 360, "procedures": ["Vitals", "PK sample", "Infusion"]}
   ],
   "orphan_procedures": [{"name": "Exploratory skin biopsy", "occurrences": 3, "patient_minutes": 135, "cost_usd": 2100}],
-  "peer_percentiles": {"patient_hours": 82, "procedures_total": 77, "visits": 64, "n_peers_with_soa": 24},
+  "peer_percentiles": {"patient_hours": 82, "procedures_total": 77, "visits": 64, "n_peers_with_soa": 24, "scope": "condition"},
   "assumptions": {"file": "data/assumptions/procedure_costs.csv", "version": "2026-10-11"}
 }
 ```
+
+`peer_percentiles.scope` (added after the freeze, optional): `"condition"` compares with similar trials; `"library"` means fewer than 8 similar trials had a readable schedule, so every usable trial in data/peers/soa was used.
 
 ### 4.9 Peers (B)
 `GET /api/runs/{run_id}/peers` →
