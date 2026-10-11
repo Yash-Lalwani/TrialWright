@@ -1,10 +1,167 @@
 {
-  "per_patient": {"visits": 18, "procedures_total": 214, "invasive": 6, "patient_hours": 61.5, "site_hours": 88.0, "cost_usd": 18400},
+  "per_patient": {
+    "visits": 18,
+    "procedures_total": 214,
+    "invasive": 6,
+    "patient_hours": 61.5,
+    "site_hours": 88.0,
+    "cost_usd": 18400
+  },
   "by_visit": [
-    {"visit": "Screening", "study_day": -28, "patient_minutes": 240, "site_minutes": 310, "procedures": ["Informed consent", "CT/MRI", "Hematology", "Chemistry", "ECG"]},
-    {"visit": "C1D1", "study_day": 1, "patient_minutes": 300, "site_minutes": 360, "procedures": ["Vitals", "PK sample", "Infusion"]}
+    {
+      "visit": "Screening",
+      "study_day": -28,
+      "patient_minutes": 240,
+      "site_minutes": 310,
+      "procedures": [
+        "Informed consent",
+        "CT/MRI",
+        "Hematology",
+        "Chemistry",
+        "ECG",
+        "Exploratory skin biopsy"
+      ]
+    },
+    {
+      "visit": "C1D1",
+      "study_day": 1,
+      "patient_minutes": 480,
+      "site_minutes": 420,
+      "procedures": [
+        "Vitals",
+        "PK sample",
+        "Infusion",
+        "8-hour post-infusion observation"
+      ]
+    },
+    {
+      "visit": "C1D8",
+      "study_day": 8,
+      "patient_minutes": 90,
+      "site_minutes": 110,
+      "procedures": [
+        "Vitals",
+        "Hematology",
+        "Chemistry"
+      ]
+    },
+    {
+      "visit": "C2D1",
+      "study_day": 22,
+      "patient_minutes": 300,
+      "site_minutes": 360,
+      "procedures": [
+        "Vitals",
+        "PK sample",
+        "Infusion",
+        "Hematology"
+      ]
+    },
+    {
+      "visit": "C3D1",
+      "study_day": 43,
+      "patient_minutes": 240,
+      "site_minutes": 300,
+      "procedures": [
+        "Vitals",
+        "Infusion",
+        "ECG",
+        "Hematology"
+      ]
+    },
+    {
+      "visit": "Week 12",
+      "study_day": 84,
+      "patient_minutes": 330,
+      "site_minutes": 380,
+      "procedures": [
+        "CT/MRI",
+        "Vitals",
+        "Infusion",
+        "Exploratory skin biopsy"
+      ]
+    },
+    {
+      "visit": "Week 18",
+      "study_day": 126,
+      "patient_minutes": 210,
+      "site_minutes": 260,
+      "procedures": [
+        "Vitals",
+        "Infusion",
+        "Hematology",
+        "Chemistry"
+      ]
+    },
+    {
+      "visit": "Week 24",
+      "study_day": 168,
+      "patient_minutes": 270,
+      "site_minutes": 320,
+      "procedures": [
+        "Vitals",
+        "Infusion",
+        "Chemistry",
+        "ECG"
+      ]
+    },
+    {
+      "visit": "Week 36",
+      "study_day": 252,
+      "patient_minutes": 300,
+      "site_minutes": 340,
+      "procedures": [
+        "CT/MRI",
+        "Vitals",
+        "Exploratory skin biopsy"
+      ]
+    },
+    {
+      "visit": "End of treatment",
+      "study_day": 336,
+      "patient_minutes": 280,
+      "site_minutes": 330,
+      "procedures": [
+        "CT/MRI",
+        "Vitals",
+        "Hematology",
+        "Chemistry",
+        "ECG"
+      ]
+    },
+    {
+      "visit": "Safety follow-up",
+      "study_day": 420,
+      "patient_minutes": 120,
+      "site_minutes": 140,
+      "procedures": [
+        "Vitals",
+        "Adverse event review"
+      ]
+    }
   ],
-  "orphan_procedures": [{"name": "Exploratory skin biopsy", "occurrences": 3, "patient_minutes": 135, "cost_usd": 2100}],
-  "peer_percentiles": {"patient_hours": 82, "procedures_total": 77, "visits": 64, "n_peers_with_soa": 24},
-  "assumptions": {"file": "data/assumptions/procedure_costs.csv", "version": "2026-10-11"}
+  "orphan_procedures": [
+    {
+      "name": "Exploratory skin biopsy",
+      "occurrences": 3,
+      "patient_minutes": 135,
+      "cost_usd": 2100
+    },
+    {
+      "name": "Urine pregnancy test (men enrolled)",
+      "occurrences": 2,
+      "patient_minutes": 20,
+      "cost_usd": 90
+    }
+  ],
+  "peer_percentiles": {
+    "patient_hours": 82,
+    "procedures_total": 77,
+    "visits": 64,
+    "n_peers_with_soa": 24
+  },
+  "assumptions": {
+    "file": "data/assumptions/procedure_costs.csv",
+    "version": "2026-10-11"
+  }
 }

@@ -1,4 +1,5 @@
 import { Info } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { SUBSCORE_LABEL } from "@/lib/presentation";
@@ -36,7 +37,7 @@ export function ScoreCard({ score }: { score: Score }) {
           </Tooltip>
         </div>
         <div className="mt-0.5 flex items-baseline gap-1">
-          <span className="text-[28px] leading-8 font-semibold tracking-tight text-primary tabular">{score.overall}</span>
+          <span className="text-[28px] leading-8 font-semibold tracking-tight text-primary tabular"><CountUp value={score.overall} /></span>
           <span className="text-xs text-muted-foreground">/ 100</span>
         </div>
         <Meter value={score.overall} strong />
@@ -50,7 +51,7 @@ export function ScoreCard({ score }: { score: Score }) {
             <dt className="truncate text-xs text-muted-foreground">{SUBSCORE_LABEL[k]}</dt>
             <dd>
               <span className="flex items-baseline justify-between gap-2">
-                <span className="text-base leading-7 font-semibold tabular">{score[k]}</span>
+                <span className="text-base leading-7 font-semibold tabular"><CountUp value={score[k]} /></span>
                 <span className="text-xs text-muted-foreground tabular" title={`Weight in the overall score: ${score.weights[k]}`}>
                   ×{score.weights[k].toFixed(2)}
                 </span>
@@ -68,10 +69,35 @@ export function ScoreCard({ score }: { score: Score }) {
 function Meter({ value, strong }: { value: number; strong?: boolean }) {
   return (
     <span className={cn("relative mt-1 block overflow-hidden rounded-full bg-track", strong ? "h-2.5" : "h-1.5")} aria-hidden>
-      <span className="absolute inset-y-0 left-0 rounded-full bg-primary" style={{ width: `${Math.max(0, Math.min(100, value))}%` }} />
+      <span className="absolute inset-y-0 left-0 rounded-full bg-primary transition-[width] duration-500 ease-out motion-reduce:transition-none" style={{ width: `${Math.max(0, Math.min(100, value))}%` }} />
       {[25, 50, 75].map((t) => (
         <span key={t} className="absolute inset-y-0 w-px bg-card" style={{ left: `${t}%` }} />
       ))}
     </span>
   );
+}
+
+/** Shows the new number by counting from the old one, so a decision visibly moves the score. */
+function CountUp({ value }: { value: number }) {
+  const [shown, setShown] = useState(value);
+  const from = useRef(value);
+  useEffect(() => {
+    const start = from.current;
+    if (start === value || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      from.current = value;
+      setShown(value);
+      return;
+    }
+    const t0 = performance.now();
+    let frame = 0;
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - t0) / 500);
+      from.current = Math.round(start + (value - start) * t);
+      setShown(from.current);
+      if (t < 1) frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [value]);
+  return <>{shown}</>;
 }

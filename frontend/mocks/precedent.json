@@ -1,8 +1,61 @@
 {
-  "this_protocol": {"primary_endpoint": "ORR per RECIST 1.1", "primary_timeframe": "Week 24", "key_eligibility": ["ECOG 0", "Age 18-75"], "enrollment": 420, "n_visits": 18},
+  "this_protocol": {
+    "primary_endpoint": "ORR per RECIST 1.1",
+    "primary_timeframe": "Week 24",
+    "key_eligibility": [
+      "ECOG 0",
+      "Age 18-75",
+      "Brain metastases only if treated"
+    ],
+    "enrollment": 420,
+    "n_visits": 18
+  },
   "rows": [
-    {"nct_id": "NCT00000001", "title": "Study of Drug Y in NSCLC", "sponsor": "Sponsor Co", "phase": "PHASE3", "similarity": 0.82,
-     "primary_endpoint": "PFS per RECIST 1.1", "primary_timeframe": "Up to 36 months",
-     "key_eligibility": ["ECOG 0-1", "Age 18+"], "enrollment": 610, "n_visits": 14}
+    {
+      "nct_id": "NCT00000001",
+      "title": "Study of Drug Y Versus Docetaxel in Previously Treated NSCLC",
+      "sponsor": "Sponsor Co",
+      "phase": "PHASE3",
+      "similarity": 0.82,
+      "primary_endpoint": "PFS per RECIST 1.1",
+      "primary_timeframe": "Up to 36 months",
+      "key_eligibility": [
+        "ECOG 0-1",
+        "Age 18+"
+      ],
+      "enrollment": 610,
+      "n_visits": 14
+    },
+    {
+      "nct_id": "NCT00000004",
+      "title": "Randomized Trial of Agent Q in Stage IV NSCLC",
+      "sponsor": "Example Pharma",
+      "phase": "PHASE3",
+      "similarity": 0.77,
+      "primary_endpoint": "ORR per RECIST 1.1",
+      "primary_timeframe": "Week 24",
+      "key_eligibility": [
+        "ECOG 0-1",
+        "Age 18-80"
+      ],
+      "enrollment": 480,
+      "n_visits": 15
+    },
+    {
+      "nct_id": "NCT00000005",
+      "title": "Open-Label Study of Compound R Versus Platinum Doublet in NSCLC",
+      "sponsor": "Sample Biotech",
+      "phase": "PHASE3",
+      "similarity": 0.71,
+      "primary_endpoint": "Overall survival",
+      "primary_timeframe": "Up to 48 months",
+      "key_eligibility": [
+        "ECOG 0-2",
+        "Age 18+",
+        "Stable brain metastases allowed"
+      ],
+      "enrollment": 352,
+      "n_visits": 12
+    }
   ]
 }

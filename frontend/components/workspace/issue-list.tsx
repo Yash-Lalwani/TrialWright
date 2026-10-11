@@ -4,6 +4,7 @@ import { ArrowUpRight, ChevronDown, FileSearch, MapPin, Wrench } from "lucide-re
 import { useEffect, useRef } from "react";
 
 import { IssueStatusBadge, SeverityBadge, SourceBadge, VerifiedBadge } from "@/components/common/badges";
+import { DecisionPanel } from "./decision-panel";
 import { AMENDMENT_LABEL, CATEGORY_LABEL, SEVERITY_COLOR, SEVERITY_META, SOURCE_META } from "@/lib/presentation";
 import { SEVERITIES, type Issue, type Severity, type Where } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -13,11 +14,13 @@ import { cn } from "@/lib/utils";
  * Arrow keys (or j/k) move the selection; Enter/Space toggles via the row button.
  */
 export function IssueList({
+  runId,
   issues,
   selectedId,
   onSelect,
   onLocate,
 }: {
+  runId: string;
   issues: Issue[];
   selectedId: string | null;
   onSelect: (id: string | null) => void;
@@ -130,7 +133,7 @@ export function IssueList({
                         aria-hidden
                       />
                     </button>
-                    {selected && <IssueDetail issue={issue} onLocate={onLocate} />}
+                    {selected && <IssueDetail runId={runId} issue={issue} onLocate={onLocate} />}
                   </li>
                 );
               })}
@@ -142,7 +145,7 @@ export function IssueList({
   );
 }
 
-function IssueDetail({ issue, onLocate }: { issue: Issue; onLocate: (where: Where, issueId: string) => void }) {
+function IssueDetail({ runId, issue, onLocate }: { runId: string; issue: Issue; onLocate: (where: Where, issueId: string) => void }) {
   return (
     <div id={`detail-${issue.id}`} data-detail className="space-y-4 px-3 pt-1 pb-4 pl-[38px] text-sm">
       <div className="flex flex-wrap items-center gap-1.5">
@@ -196,6 +199,8 @@ function IssueDetail({ issue, onLocate }: { issue: Issue; onLocate: (where: Wher
           <p className="text-muted-foreground">No fix suggested. Review the evidence and decide.</p>
         )}
       </DetailSection>
+
+      <DecisionPanel runId={runId} issue={issue} />
     </div>
   );
 }

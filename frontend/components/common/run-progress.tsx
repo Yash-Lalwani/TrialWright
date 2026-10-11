@@ -1,7 +1,7 @@
 import { CircleCheck, CircleMinus, CircleX, Loader2 } from "lucide-react";
 
 import { RUN_STEP_LABEL } from "@/lib/presentation";
-import { RUN_STEPS, type ProgressEvent, type RunStep } from "@/lib/types";
+import { RUN_STEPS, type ProgressEvent } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 /**
@@ -12,19 +12,26 @@ export function RunProgress({
   events,
   failed,
   className,
+  steps = RUN_STEPS,
+  labels = RUN_STEP_LABEL,
+  ariaLabel = "Review progress",
 }: {
-  events: Partial<Record<RunStep, ProgressEvent>>;
+  events: Partial<Record<string, Pick<ProgressEvent, "status" | "pct" | "message">>>;
   failed?: boolean;
   className?: string;
+  /** Defaults to the review pipeline; the draft flow passes its own steps. */
+  steps?: readonly string[];
+  labels?: Record<string, string>;
+  ariaLabel?: string;
 }) {
   const pct = Math.max(0, ...Object.values(events).map((e) => e?.pct ?? 0));
-  const running = RUN_STEPS.find((s) => !events[s]);
+  const running = steps.find((s) => !events[s]);
 
   return (
     <div className={cn("space-y-3", className)}>
       <div
         role="progressbar"
-        aria-label="Review progress"
+        aria-label={ariaLabel}
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={pct}
@@ -33,7 +40,7 @@ export function RunProgress({
         <div className="h-full rounded-full bg-primary transition-[width] duration-500 motion-reduce:transition-none" style={{ width: `${pct}%` }} />
       </div>
       <ol className="space-y-1.5" aria-live="polite">
-        {RUN_STEPS.map((step) => {
+        {steps.map((step) => {
           const e = events[step];
           const isRunning = !failed && step === running;
           const isFailed = failed && step === running;
@@ -65,7 +72,7 @@ export function RunProgress({
                 )}
               </span>
               <span className={cn("min-w-0 flex-1", !e && !isRunning && "text-muted-foreground")}>
-                <span className={cn(isRunning && "font-medium")}>{RUN_STEP_LABEL[step]}</span>
+                <span className={cn(isRunning && "font-medium")}>{labels[step]}</span>
                 {e && (
                   <span className={cn("ml-2 text-xs", e.status === "skipped" ? "text-muted-foreground italic" : "text-muted-foreground")}>
                     {e.message}

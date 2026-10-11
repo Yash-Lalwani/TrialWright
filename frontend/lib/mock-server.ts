@@ -44,6 +44,7 @@ const state = {
   issues: null as Issue[] | null,
   runModes: new Map<string, RunMode>(),
   nextAudit: 78,
+  audit: [] as Trace["audit"],
 };
 
 async function allIssues(): Promise<Issue[]> {
@@ -70,10 +71,11 @@ function countIssues(items: Issue[]): IssueCounts {
 }
 
 const KNOWN_RUN = "run_31c9";
+const SECOND_RUN = "run_52aa"; // v2 of the sample protocol; /compare diffs run_31c9 against it
 const FAILED_RUN = "run_a802";
 
 function assertRun(runId: string) {
-  if (runId !== KNOWN_RUN && runId !== FAILED_RUN) throw new MockNotFound(`Run ${runId} not found`);
+  if (runId !== KNOWN_RUN && runId !== SECOND_RUN && runId !== FAILED_RUN) throw new MockNotFound(`Run ${runId} not found`);
 }
 
 export const mock = {
@@ -108,6 +110,10 @@ export const mock = {
     await wait();
     assertRun(runId);
     if (runId === FAILED_RUN) return clone((await import("@/mocks/run_failed.json")).default) as Run;
+    if (runId === SECOND_RUN) {
+      const runs = clone((await import("@/mocks/protocol_runs.json")).default) as RunList;
+      return runs.items.find((r) => r.run_id === SECOND_RUN)!;
+    }
     const run = clone((await import("@/mocks/run.json")).default) as Run;
     run.mode = state.runModes.get(runId) ?? run.mode;
     run.counts = countIssues(await issuesForRun(runId));
@@ -124,6 +130,11 @@ export const mock = {
     await wait();
     assertRun(runId);
     if (runId === FAILED_RUN) return { total: 0, items: [] };
+    if (runId === SECOND_RUN) {
+      // v2 of the sample: what remains after the diff's resolved issues were fixed.
+      const diff = clone((await import("@/mocks/diff.json")).default) as RunDiff;
+      return { total: diff.unchanged.length, items: diff.unchanged };
+    }
     const items = (await issuesForRun(runId)).filter((i) =>
       (Object.keys(filters) as (keyof IssueFilters)[]).every((k) => !filters[k] || i[k] === filters[k]),
     );
@@ -135,12 +146,14 @@ export const mock = {
     const issue = (await allIssues()).find((i) => i.id === issueId);
     if (!issue) throw new MockNotFound(`Issue ${issueId} not found`);
     issue.status = body.decision;
+    const auditId = `aud_${state.nextAudit++}`;
+    state.audit.push({ audit_id: auditId, issue_id: issueId, decision: body.decision, user: body.user, note: body.note, at: new Date().toISOString() });
     const example = clone((await import("@/mocks/decision.json")).default) as DecisionResponse;
     const run = (await import("@/mocks/run.json")).default as Run;
     return {
       issue_id: issueId,
       status: body.decision,
-      audit_id: `aud_${state.nextAudit++}`,
+      audit_id: auditId,
       // Accepting removes the issue's points (contract example score); rejecting keeps the score.
       score: body.decision === "accepted" ? example.score : clone(run.score!),
     };
@@ -160,7 +173,9 @@ export const mock = {
   async getTrace(runId: string): Promise<Trace> {
     await wait();
     assertRun(runId);
-    return clone((await import("@/mocks/trace.json")).default) as Trace;
+    const trace = clone((await import("@/mocks/trace.json")).default) as Trace;
+    trace.audit = [...trace.audit, ...state.audit];
+    return trace;
   },
 
   async getBurden(): Promise<Burden> {

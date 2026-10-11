@@ -1,10 +1,217 @@
 {
-  "query": {"condition": "Non-small cell lung cancer", "phase": "PHASE3", "start_year_min": 2015},
+  "query": {
+    "condition": "Non-small cell lung cancer",
+    "phase": "PHASE3",
+    "start_year_min": 2015
+  },
   "n": 143,
   "metrics": [
-    {"metric": "n_inclusion_criteria", "label": "Inclusion criteria", "value": 14, "percentile": 71, "peer_median": 11, "peer_p25": 8, "peer_p75": 15, "distribution": [6, 8, 9, 11, 11, 12, 15, 19]},
-    {"metric": "n_exclusion_criteria", "label": "Exclusion criteria", "value": 31, "percentile": 88, "peer_median": 19, "peer_p25": 14, "peer_p75": 25, "distribution": [10, 14, 17, 19, 21, 25, 30]}
+    {
+      "metric": "n_inclusion_criteria",
+      "label": "Inclusion criteria",
+      "value": 14,
+      "percentile": 71,
+      "peer_median": 11,
+      "peer_p25": 8,
+      "peer_p75": 15,
+      "distribution": [
+        3,
+        5,
+        6,
+        6,
+        7,
+        8,
+        8,
+        9,
+        9,
+        10,
+        10,
+        11,
+        11,
+        11,
+        12,
+        12,
+        13,
+        14,
+        15,
+        15,
+        16,
+        18,
+        19,
+        22
+      ]
+    },
+    {
+      "metric": "n_exclusion_criteria",
+      "label": "Exclusion criteria",
+      "value": 31,
+      "percentile": 88,
+      "peer_median": 19,
+      "peer_p25": 14,
+      "peer_p75": 25,
+      "distribution": [
+        8,
+        10,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        19,
+        20,
+        21,
+        22,
+        23,
+        25,
+        25,
+        27,
+        29,
+        30,
+        34,
+        38
+      ]
+    },
+    {
+      "metric": "enrollment",
+      "label": "Planned enrollment",
+      "value": 420,
+      "percentile": 38,
+      "peer_median": 480,
+      "peer_p25": 310,
+      "peer_p75": 660,
+      "distribution": [
+        120,
+        180,
+        240,
+        290,
+        310,
+        350,
+        400,
+        430,
+        470,
+        480,
+        520,
+        560,
+        610,
+        660,
+        700,
+        820,
+        980,
+        1200
+      ]
+    },
+    {
+      "metric": "n_visits",
+      "label": "Scheduled visits",
+      "value": 18,
+      "percentile": 64,
+      "peer_median": 15,
+      "peer_p25": 12,
+      "peer_p75": 19,
+      "distribution": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        12,
+        13,
+        14,
+        14,
+        15,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        22,
+        26
+      ]
+    },
+    {
+      "metric": "n_procedures",
+      "label": "Procedures per patient",
+      "value": 214,
+      "percentile": 77,
+      "peer_median": 160,
+      "peer_p25": 120,
+      "peer_p75": 205,
+      "distribution": [
+        70,
+        90,
+        110,
+        120,
+        135,
+        150,
+        158,
+        160,
+        172,
+        190,
+        205,
+        215,
+        230,
+        260,
+        300
+      ]
+    },
+    {
+      "metric": "patient_hours",
+      "label": "Patient hours",
+      "value": 61.5,
+      "percentile": 82,
+      "peer_median": 44,
+      "peer_p25": 33,
+      "peer_p75": 55,
+      "distribution": [
+        18,
+        24,
+        28,
+        33,
+        37,
+        40,
+        44,
+        46,
+        50,
+        55,
+        60,
+        64,
+        72,
+        85
+      ]
+    }
   ],
-  "hotspot_issue_ids": ["iss_19", "iss_20"],
-  "trials": [{"nct_id": "NCT00000001", "title": "Study of Drug Y in NSCLC", "sponsor": "Sponsor Co", "phase": "PHASE3", "enrollment": 610, "start_date": "2019-03"}]
+  "hotspot_issue_ids": [
+    "iss_19",
+    "iss_20"
+  ],
+  "trials": [
+    {
+      "nct_id": "NCT00000001",
+      "title": "Study of Drug Y Versus Docetaxel in Previously Treated NSCLC",
+      "sponsor": "Sponsor Co",
+      "phase": "PHASE3",
+      "enrollment": 610,
+      "start_date": "2019-03"
+    },
+    {
+      "nct_id": "NCT00000004",
+      "title": "Randomized Trial of Agent Q in Stage IV NSCLC",
+      "sponsor": "Example Pharma",
+      "phase": "PHASE3",
+      "enrollment": 480,
+      "start_date": "2018-09"
+    },
+    {
+      "nct_id": "NCT00000005",
+      "title": "Open-Label Study of Compound R Versus Platinum Doublet in NSCLC",
+      "sponsor": "Sample Biotech",
+      "phase": "PHASE3",
+      "enrollment": 352,
+      "start_date": "2021-01"
+    }
+  ]
 }

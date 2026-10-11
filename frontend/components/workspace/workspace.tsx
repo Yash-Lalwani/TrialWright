@@ -17,10 +17,12 @@ import { formatDateTime, formatDuration, formatUsd, MODE_LABEL, protocolName, SE
 import { keys, useIssues, useProtocols, useRun } from "@/lib/queries";
 import type { Issue, ProgressEvent, ProtocolListItem, Run, RunStep, Where } from "@/lib/types";
 
+import { AuditPanel } from "./audit-panel";
 import { CompletenessPanel } from "./completeness-panel";
 import { applyFilters, ClearFilters, EMPTY_FILTERS, IssueFilters, isFiltered, type IssueFilterState } from "./issue-filters";
 import { IssueList } from "./issue-list";
 import type { FocusTarget, Highlight } from "./pdf-viewer";
+import { RunActions } from "./run-actions";
 import { ScoreCard } from "./score-card";
 import { SplitPane } from "./split-pane";
 
@@ -148,7 +150,8 @@ function ReviewWorkspace({ run, protocol }: { run: Run; protocol: ProtocolListIt
                 <TabsTrigger value="issues">
                   Issues <span className="text-xs text-muted-foreground tabular">{issuesQuery.data?.total ?? ""}</span>
                 </TabsTrigger>
-                <TabsTrigger value="completeness">M11 &amp; SPIRIT completeness</TabsTrigger>
+                <TabsTrigger value="completeness">Completeness</TabsTrigger>
+                <TabsTrigger value="audit">Audit</TabsTrigger>
               </TabsList>
             </div>
 
@@ -178,6 +181,7 @@ function ReviewWorkspace({ run, protocol }: { run: Run; protocol: ProtocolListIt
                   <div className="min-h-0 flex-1 overflow-y-auto">
                     {visible.length ? (
                       <IssueList
+                        runId={run.run_id}
                         issues={visible}
                         selectedId={selected?.id ?? null}
                         onSelect={select}
@@ -195,6 +199,9 @@ function ReviewWorkspace({ run, protocol }: { run: Run; protocol: ProtocolListIt
 
             <TabsContent value="completeness" className="min-h-0 overflow-y-auto">
               <CompletenessPanel runId={run.run_id} onGoToPage={(page) => focusOn(page, null)} />
+            </TabsContent>
+            <TabsContent value="audit" className="min-h-0 overflow-y-auto">
+              <AuditPanel runId={run.run_id} onSelectIssue={select} />
             </TabsContent>
           </Tabs>
         </aside>
@@ -238,13 +245,16 @@ function WorkspaceHeader({ run, protocol }: { run: Run; protocol: ProtocolListIt
   return (
     <div className="flex shrink-0 flex-col gap-3 border-b bg-card px-4 py-3 xl:flex-row xl:items-center xl:gap-6">
       <div className="min-w-0 flex-1">
-        <nav aria-label="Breadcrumb" className="flex items-center gap-1 text-xs text-muted-foreground">
-          <Link href="/" className="rounded-sm transition-colors hover:text-foreground hover:underline">
-            Protocols
-          </Link>
-          <ChevronRight className="size-3" aria-hidden />
-          <span className="truncate font-mono">{protocol?.nct_id ?? run.protocol_id}</span>
-        </nav>
+        <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1.5">
+          <nav aria-label="Breadcrumb" className="flex items-center gap-1 text-xs text-muted-foreground">
+            <Link href="/" className="rounded-sm transition-colors hover:text-foreground hover:underline">
+              Protocols
+            </Link>
+            <ChevronRight className="size-3" aria-hidden />
+            <span className="truncate font-mono">{protocol?.nct_id ?? run.protocol_id}</span>
+          </nav>
+          <RunActions runId={run.run_id} protocolId={run.protocol_id} />
+        </div>
         <h1 className="mt-1 truncate text-base leading-6 font-semibold" title={protocolName(protocol, run.protocol_id)}>
           {protocolName(protocol, run.protocol_id)}
         </h1>
