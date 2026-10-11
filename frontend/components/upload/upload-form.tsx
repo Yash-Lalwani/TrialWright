@@ -143,9 +143,6 @@ export function UploadForm() {
         <h2 id="upload-heading" className="text-sm font-semibold">
           New review
         </h2>
-        <p className="mt-0.5 text-[13px] text-muted-foreground">
-          Upload a protocol PDF and choose how it is checked. Findings open next to the document, linked to the exact text.
-        </p>
       </header>
 
       <form onSubmit={submit} noValidate>
