@@ -1,3 +1,4 @@
+# ruff: noqa: E501
 """CONTRACTS 4.12: serve the latest benchmark results (data/bench/results/*.json, written by `preflight bench`).
 
 Headline file: prefer the test set over dev, and the full config over the others; newest wins a tie. The response is

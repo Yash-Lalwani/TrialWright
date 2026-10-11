@@ -1,3 +1,4 @@
+# ruff: noqa: E501
 from fastapi.testclient import TestClient
 
 from preflight.api.main import app
