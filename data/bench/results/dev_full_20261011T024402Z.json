@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-11T02:34:25Z",
+ "generated_at": "2026-10-11T02:44:02Z",
  "set": "dev",
  "config": "full",
  "seeds": [
@@ -195,10 +195,9 @@
   "B2:major": 3.0,
   "C1:major": 2.0,
   "C3:major": 2.0,
+  "C4:major": 1.0,
   "C7:major": 0.7,
-  "C4:major": 0.7,
-  "B1:major": 0.7,
-  "C10:major": 0.3
+  "B1:major": 0.7
  },
  "per_protocol": [
   {

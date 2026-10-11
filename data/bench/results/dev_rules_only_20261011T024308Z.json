@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-11T02:35:31Z",
+ "generated_at": "2026-10-11T02:43:08Z",
  "set": "dev",
  "config": "rules_only",
  "seeds": [
@@ -190,13 +190,11 @@
    "recall": 1.0
   }
  ],
- "false_alarms_per_clean_protocol": 5.0,
+ "false_alarms_per_clean_protocol": 4.67,
  "clean_flags_by_check": {
   "B2:major": 3.0,
-  "C4:major": 0.7,
-  "B1:major": 0.7,
-  "C6:major": 0.3,
-  "C10:major": 0.3
+  "C4:major": 1.0,
+  "B1:major": 0.7
  },
  "per_protocol": [
   {
