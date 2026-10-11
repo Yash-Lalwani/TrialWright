@@ -53,6 +53,13 @@ def render() -> str:
             L.append(f"| {NAMES[c]} | {pct(o['recall'])} | {pct(o['precision'])} | {o['f1']:.2f} | {res[c]['false_alarms_per_clean_protocol']} |")
     L += ["", "Flags on clean protocols are *unadjudicated*: some may be real problems in the original document. Nobody has labelled them yet (see Not measured).",
           "The LLM-only baseline is scored check-agnostically and strictly: a finding counts only if it is on an injected page AND quotes the edited line or names the new value.", ""]
+    dev = latest("dev") if split == "test" else {}
+    if dev:
+        L += ["### Dev vs test (the rules were tuned on dev)", "", "| Configuration | Dev recall | Test recall | Dev precision | Test precision |", "|---|---|---|---|---|"]
+        for c in CONFIG_ORDER:
+            if c in res and c in dev:
+                L.append(f"| {NAMES[c]} | {pct(dev[c]['overall']['recall'])} | {pct(res[c]['overall']['recall'])} | {pct(dev[c]['overall']['precision'])} | {pct(res[c]['overall']['precision'])} |")
+        L += ["", "The drop from dev to test is the honest estimate of how the tool behaves on protocols it was not tuned on.", ""]
     L += ["### By error type", "", "| Type | " + " | ".join(NAMES[c] for c in CONFIG_ORDER if c in res) + " |", "|---|" + "---|" * sum(c in res for c in CONFIG_ORDER)]
     types = sorted({r["type"] for d in res.values() for r in d["by_type"]})
     for t in types:
