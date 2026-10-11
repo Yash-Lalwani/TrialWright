@@ -82,3 +82,10 @@ def test_c10_primary_timeframe_and_no_record():
     out = run10(registry(), min_age=None, endpoints=[ep], objectives=[obj])
     assert [i.severity for i in out] == ["minor"] and "timepoint" in out[0].title
     assert run10(None, min_age=None) == []
+
+
+def test_a_solver_that_does_not_converge_gives_no_result_instead_of_crashing():
+    from preflight.checks.sample_size import calc_sample_size
+
+    # d ~ 0 needs an astronomically large N: the solver fails, and that must be None
+    assert calc_sample_size("mean_diff_sd", 1e-12, 0.05, 0.8, 2, None, None, 1.0) is None

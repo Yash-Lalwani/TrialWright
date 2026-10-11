@@ -1,0 +1,7 @@
+{
+ "step": "llm_only",
+ "model": "deepseek/deepseek-v4-flash-0731",
+ "content": "{\n  \"findings\": [\n    {\n      \"title\": \"Incomplete reference entry for Di Modica et al 2017\",\n      \"page\": 157,\n      \"quote\": \"Di Modica M, Tagliabue E, Triulzi T. Predicting the Efficacy of HER2-Targeted Therapies: A Look at the Host. Dis Markers. 2017;20177849108.\",\n      \"severity\": \"minor\"\n    },\n    {\n      \"title\": \"Incomplete reference entry for Janjigian et al 2015\",\n      \"page\": 158,\n      \"quote\": \"Janjigian YY, Riches JC, Ku GY, Imtiaz T, Capanu M, Chou JF et al. Loss of human epidermal growth factor receptor 2 (HER2) expression in HER2-overexpressing esophagogastric (EG) tumors treated with trastuzumab. J Clin Oncol. 2015;33(3_suppl):63-.\",\n      \"severity\": \"minor\"\n    },\n    {\n      \"title\": \"Incomplete reference entry for Li et al 2020\",\n      \"page\": 158,\n      \"quote\": \"Li BT, Michelini F, Misale S, Cocco E, Baldino L, Cai Y et al. HER2-mediated internalization of cytotoxic agents in ERBB2 amplified or mutant lung cancers. Cancer Discov. 2020.\",\n      \"severity\": \"minor\"\n    },\n    {\n      \"title\": \"Incomplete reference entry for Smyth et al 2019\",\n      \"page\": 161,\n      \"quote\": \"Smyth LM, Piha-Paul SA, Won HH, Schram AM, Saura C, Loi S et al. Efficacy and Determinants of Response to HER Kinase Inhibition in HER2-Mutant Metastatic Breast Cancer. Cancer Discov. 2019.\",\n      \"severity\": \"minor\"\n    }\n  ]\n}",
+ "tokens_in": 4013,
+ "tokens_out": 416
+}

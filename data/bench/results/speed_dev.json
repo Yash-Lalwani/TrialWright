@@ -1,0 +1,35 @@
+{
+ "set": "dev",
+ "mode": "live",
+ "median_seconds": 32.4,
+ "median_usd": 0.0072,
+ "per_protocol": [
+  {
+   "nct_id": "NCT04303780",
+   "seconds": 32.4,
+   "usd": 0.0072,
+   "llm_calls": 10,
+   "cache_hits": 0,
+   "tokens_in": 29343,
+   "tokens_out": 14123
+  },
+  {
+   "nct_id": "NCT04417894",
+   "seconds": 25.2,
+   "usd": 0.0075,
+   "llm_calls": 10,
+   "cache_hits": 0,
+   "tokens_in": 29576,
+   "tokens_out": 13734
+  },
+  {
+   "nct_id": "NCT04698187",
+   "seconds": 33.1,
+   "usd": 0.0062,
+   "llm_calls": 10,
+   "cache_hits": 0,
+   "tokens_in": 26006,
+   "tokens_out": 11912
+  }
+ ]
+}

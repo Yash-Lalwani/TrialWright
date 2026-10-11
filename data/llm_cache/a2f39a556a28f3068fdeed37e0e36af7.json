@@ -1,0 +1,7 @@
+{
+ "step": "llm_only",
+ "model": "deepseek/deepseek-v4-flash-0731",
+ "content": "{\n  \"findings\": [\n    {\n      \"title\": \"Duplicate line in Table 9 for T-NI lesions SD definition\",\n      \"page\": 112,\n      \"quote\": \"SD Not enough growth for PD\\nNot enough growth for PD\",\n      \"severity\": \"minor\"\n    }\n  ]\n}",
+ "tokens_in": 6210,
+ "tokens_out": 67
+}

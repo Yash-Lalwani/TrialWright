@@ -1,0 +1,7 @@
+{
+ "step": "extract_design",
+ "model": "deepseek/deepseek-v4-flash-20260731",
+ "content": "{\n  \"condition\": \"refractory unresectable or metastatic melanoma\",\n  \"sponsor\": \"Checkmate Pharmaceuticals, Inc.\",\n  \"arms\": [\n    {\n      \"name\": \"CMP-001 in combination with nivolumab\",\n      \"type\": \"experimental\",\n      \"dose\": \"CMP-001: not specified; nivolumab: not specified\",\n      \"route\": \"CMP-001: intratumoral; nivolumab: intravenous\",\n      \"frequency\": \"not specified\",\n      \"duration_weeks\": null\n    }\n  ]\n}",
+ "tokens_in": 3751,
+ "tokens_out": 125
+}

@@ -72,6 +72,8 @@ def calc_sample_size(effect_type: str, effect_size: float, alpha: float = 0.05, 
         method = "Log-rank, Schoenfeld events"
     else:
         return None
+    if not math.isfinite(n1) or n1 <= 0:
+        return None  # the solver did not converge (extreme extracted inputs): no calculation, no finding
     total_eval = math.ceil(n1) + math.ceil(n1 * ratio)
     return SampleSize(math.ceil(n1), total_eval, math.ceil(total_eval * inflate), events, method)
 

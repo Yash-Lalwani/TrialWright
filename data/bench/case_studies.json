@@ -1,0 +1,24 @@
+{
+  "source": "ClinicalTrials.gov record histories read in a browser (read-only, public pages) on 2026-10-11; the history endpoint rejects scripts, so this was not run from the repository.",
+  "population": "200 registered Phase 2 melanoma trials started 2015 or later, DRUG or BIOLOGICAL (the demo protocol's peer set). 111 had at least one registry edit to the Eligibility module after the first posting.",
+  "method": "For each trial, the first edit that RELAXED a metric (inclusion or exclusion criteria count down by 2 or more; minimum age lowered; maximum age raised or removed). The pre-edit value was compared with the other 199 trials' latest values using the hotspot rule (>= 85th percentile and above the peer upper quartile). Counts come from the registry's free-text criteria and are approximate. Control: every other trial's latest value on the same metric, same rule.",
+  "result": {
+    "nInc": {"relaxed_trials": 22, "flagged_before_edit": 9, "other_trials": 178, "other_flagged": 24, "odds_ratio": 4.44, "fisher_one_sided_p": 0.003},
+    "nExc": {"relaxed_trials": 9, "flagged_before_edit": 3, "other_trials": 166, "other_flagged": 26, "odds_ratio": 2.69, "fisher_one_sided_p": 0.171},
+    "minAge": {"relaxed_trials": 1, "flagged_before_edit": 0, "other_trials": 198, "other_flagged": 2},
+    "maxAge": {"relaxed_trials": 0, "flagged_before_edit": 0, "other_trials": 31, "other_flagged": 4}
+  },
+  "caveats": [
+    "Exploratory: four metrics were tested and no multiple-comparison correction was applied; only the inclusion-count result is individually significant.",
+    "The peer distribution is each peer's LATEST record, which includes the edits we are testing against.",
+    "A trial can appear under more than one metric, so metrics are not independent and are not pooled.",
+    "Registry criteria text is free text; counts are bullets or non-empty lines and are approximate.",
+    "This tests only the peer-outlier (hotspot) signal on registry fields, not the whole Pre-Flight pipeline, which reads the protocol PDF; earlier PDFs are not available."
+  ],
+  "case_studies": [
+    {"nct_id": "NCT04752826", "change": "Exclusion criteria cut from 28 to 14 in registry version 17 (2026-09)", "flagged_in_earlier_version": true, "summary": "Before the edit the trial's 28 exclusion criteria were at the 91st percentile of 199 melanoma Phase 2 peers."},
+    {"nct_id": "NCT06070012", "change": "Exclusion criteria cut from 35 to 33 in registry version 4 (2024-11)", "flagged_in_earlier_version": true, "summary": "35 exclusion criteria were at the 97th percentile of peers before the edit."},
+    {"nct_id": "NCT02743611", "change": "Inclusion criteria cut from 30 to 11 in registry version 12 (2018-10)", "flagged_in_earlier_version": true, "summary": "30 inclusion criteria were at the 91st percentile of peers before the edit."},
+    {"nct_id": "NCT03915678", "change": "Inclusion criteria cut from 42 to 21 in registry version 2 (2021-02)", "flagged_in_earlier_version": true, "summary": "42 inclusion criteria were at the 95th percentile of peers before the edit."}
+  ]
+}

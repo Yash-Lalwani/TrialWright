@@ -25,7 +25,7 @@ from .types import TYPES
 ROOT = Path(__file__).resolve().parents[3]
 BENCH_DIR = Path(os.environ.get("PREFLIGHT_BENCH_DIR", ROOT / "data" / "bench"))
 RESULTS_DIR = BENCH_DIR / "results"
-CONFIGS = ("rules_only", "full")
+CONFIGS = ("rules_only", "full", "llm_only")
 
 # (path, config, nct_id) -> (issues as dicts, seconds, llm_cost_usd[, facts]); facts = what ingest extracted
 Runner = Callable[[str, str, str], Awaitable[tuple]]
@@ -37,7 +37,7 @@ class LLMUnavailable(RuntimeError):
 
 def require_llm_for(config: str) -> None:
     """A 'full' run without an LLM key or recorded responses would silently degrade to rules-only. Refuse instead."""
-    if config != "full":
+    if config not in ("full", "llm_only"):
         return
     cache = ROOT / "data" / "llm_cache"
     has_cache = cache.exists() and any(p for p in cache.iterdir() if p.name != ".gitkeep")
@@ -59,12 +59,16 @@ def facts_digest(graph) -> dict:
 
 
 async def default_runner(path: str, config: str, nct_id: str) -> tuple:
+    if config == "llm_only":
+        from .ablation import run_llm_only
+
+        return await run_llm_only(path, config, nct_id)
     from preflight.pipeline import check_graph, ingest_file
 
     t0 = time.monotonic()
     graph = await ingest_file(path, nct_id=nct_id, use_llm=config == "full")
     res = await check_graph(graph, config, pdf_path=path)
-    return [i.model_dump() for i in res.issues], time.monotonic() - t0, 0.0, facts_digest(graph)
+    return [i.model_dump() for i in res.issues], time.monotonic() - t0, 0.0, {**facts_digest(graph), "verifier": res.verifier}
 
 
 async def cached_run(runner: Runner, path: str, config: str, nct_id: str, refresh: bool = False) -> dict:
@@ -104,12 +108,14 @@ async def llm_graph(pdf: str, nct: str):
 async def bench(split: str, config: str = "rules_only", seeds: list[int] | None = None, runner: Runner | None = None,
                 refresh: bool = False, corpus_dir: Path | None = None, only: list[str] | None = None,
                 allow_partial: bool = False, use_llm_graph: bool = True) -> dict:
+    if config not in CONFIGS:
+        raise ValueError(f"unknown config {config!r}; choose from {CONFIGS}")
     require_llm_for(config) if runner is None else None
     runner = runner or default_runner
     seeds = seeds or [1]
     corpus = corpus_dir or client.CORPUS_DIR
     rows = [r for r in read_manifest(corpus / "manifest.csv") if r["split"] == split and (not only or r["nct_id"] in only)]
-    scored, per_protocol, clean_runs, secs, costs, llm_ok = [], [], [], [], [], []
+    scored, per_protocol, clean_runs, secs, costs, llm_ok, all_runs = [], [], [], [], [], [], []
     for row in rows:
         nct = row["nct_id"]
         pdf = corpus / f"{nct}_protocol.pdf"
@@ -117,6 +123,7 @@ async def bench(split: str, config: str = "rules_only", seeds: list[int] | None 
             raise FileNotFoundError(f"{pdf} missing; run fetch_corpus first")
         clean = await cached_run(runner, str(pdf), config, nct, refresh)
         clean_runs.append(clean["issues"])
+        all_runs.append((str(pdf), clean))
         llm_ok.append(extracted_with_llm(clean))
         secs.append(clean["seconds"])
         costs.append(clean["llm_cost_usd"])
@@ -132,7 +139,8 @@ async def bench(split: str, config: str = "rules_only", seeds: list[int] | None 
                 raise RuntimeError(f"injection did not land as recorded: {bad}")
             run = await cached_run(runner, str(BENCH_DIR / key["injected_pdf"]), config, nct, refresh)
             llm_ok.append(extracted_with_llm(run))
-            s = metrics.score_run(key["errors"], run["issues"], clean["issues"], run.get("facts"))
+            all_runs.append((str(BENCH_DIR / key["injected_pdf"]), run))
+            s = metrics.score_run(key["errors"], run["issues"], clean["issues"], run.get("facts"), check_agnostic=config == "llm_only")
             scored.append(s)
             secs.append(run["seconds"])
             costs.append(run["llm_cost_usd"])
@@ -148,7 +156,7 @@ async def bench(split: str, config: str = "rules_only", seeds: list[int] | None 
                                  "no key): those runs silently fell back to rules-only. Set OPENROUTER_API_KEY with LLM_MODE=record "
                                  "to record them, or pass --allow-partial to accept a mixed result.")
     agg = metrics.aggregate(scored)
-    measurable = {t for t, spec in TYPES.items() if config == "full" or not spec.needs_llm}
+    measurable = {t for t, spec in TYPES.items() if config != "rules_only" or not spec.needs_llm}
     for r in agg["by_type"]:
         r["measurable"] = r["type"] in measurable
     m_tp = sum(1 for s in scored for e, _ in s.tp if e["type"] in measurable)
@@ -157,7 +165,7 @@ async def bench(split: str, config: str = "rules_only", seeds: list[int] | None 
     return {
         "generated_at": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "set": split, "config": config, "seeds": seeds,
-        "llm_enabled": config == "full",
+        "llm_enabled": config in ("full", "llm_only"),
         "llm_extraction": {"runs": len(llm_ok), "with_extraction": sum(1 for x in llm_ok if x)},
         "test_set": {"protocols": len(rows), **agg["test_set"]},
         "overall": agg["overall"],
@@ -167,11 +175,29 @@ async def bench(split: str, config: str = "rules_only", seeds: list[int] | None 
         "false_alarms_per_clean_protocol": metrics.false_alarms_per_clean(clean_runs),
         "clean_flags_by_check": metrics.clean_flags_by_check(clean_runs),
         "per_protocol": per_protocol,
-        "speed_cost": {"median_seconds": round(sorted(secs)[len(secs) // 2], 2) if secs else None,
-                       "median_usd": round(sorted(costs)[len(costs) // 2], 4) if costs else None},
-        "ablation": None, "hallucination": None, "human_baseline": None, "real_findings": None,
+        "speed_cost": _speed(split, secs, costs),
+        "ablation": None, "hallucination": _hallucination(config, all_runs), "human_baseline": None, "real_findings": None,
         "soa_extraction": None, "case_studies": None,
     }
+
+
+def _speed(split: str, secs: list[float], costs: list[float]) -> dict:
+    """Live measurement (eval.speed) when present; otherwise the replay timings, labelled as such (a replay is not a user's wait)."""
+    from .speed import load
+
+    live = load(split)
+    if live:
+        return {"median_seconds": live["median_seconds"], "median_usd": live["median_usd"], "measured": "live", "protocols": len(live["per_protocol"])}
+    return {"median_seconds": round(sorted(secs)[len(secs) // 2], 2) if secs else None,
+            "median_usd": round(sorted(costs)[len(costs) // 2], 4) if costs else None, "measured": "replay (not a real wait)"}
+
+
+def _hallucination(config: str, runs: list[tuple[str, dict]]) -> dict | None:
+    if config == "rules_only":
+        return None
+    from .ablation import hallucination
+
+    return hallucination(runs)
 
 
 def write_results(result: dict) -> Path:

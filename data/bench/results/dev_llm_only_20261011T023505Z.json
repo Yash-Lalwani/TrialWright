@@ -1,0 +1,438 @@
+{
+ "generated_at": "2026-10-11T02:35:05Z",
+ "set": "dev",
+ "config": "llm_only",
+ "seeds": [
+  1
+ ],
+ "llm_enabled": true,
+ "llm_extraction": {
+  "runs": 6,
+  "with_extraction": 6
+ },
+ "test_set": {
+  "protocols": 3,
+  "injected_errors": 27
+ },
+ "overall": {
+  "recall": 0.593,
+  "precision": 0.147,
+  "f1": 0.235
+ },
+ "overall_measurable": {
+  "recall": 0.593,
+  "precision": 0.147,
+  "f1": 0.235,
+  "n_errors": 27,
+  "note": "only error types this config can detect (rules_only cannot see types that need LLM extraction)"
+ },
+ "by_type": [
+  {
+   "type": "T02",
+   "name": "Endpoint timepoint changed in one place",
+   "n": 1,
+   "found": 1,
+   "recall": 1.0,
+   "measurable": true
+  },
+  {
+   "type": "T04",
+   "name": "Secondary objective's endpoint deleted",
+   "n": 1,
+   "found": 0,
+   "recall": 0.0,
+   "measurable": true
+  },
+  {
+   "type": "T05",
+   "name": "Endpoint analysis removed from statistics",
+   "n": 2,
+   "found": 1,
+   "recall": 0.5,
+   "measurable": true
+  },
+  {
+   "type": "T06",
+   "name": "Age range changed in one place",
+   "n": 1,
+   "found": 1,
+   "recall": 1.0,
+   "measurable": true
+  },
+  {
+   "type": "T07",
+   "name": "Dose changed in one place",
+   "n": 2,
+   "found": 1,
+   "recall": 0.5,
+   "measurable": true
+  },
+  {
+   "type": "T08",
+   "name": "Sample size changed in one place",
+   "n": 3,
+   "found": 3,
+   "recall": 1.0,
+   "measurable": true
+  },
+  {
+   "type": "T09",
+   "name": "Power/effect changed so N not reproducible",
+   "n": 2,
+   "found": 1,
+   "recall": 0.5,
+   "measurable": true
+  },
+  {
+   "type": "T10",
+   "name": "Randomisation ratio changed in one place",
+   "n": 2,
+   "found": 2,
+   "recall": 1.0,
+   "measurable": true
+  },
+  {
+   "type": "T11",
+   "name": "Blinding / unblinding text removed",
+   "n": 1,
+   "found": 0,
+   "recall": 0.0,
+   "measurable": true
+  },
+  {
+   "type": "T12",
+   "name": "Exclusion criterion contradicts an inclusion criterion",
+   "n": 2,
+   "found": 1,
+   "recall": 0.5,
+   "measurable": true
+  },
+  {
+   "type": "T13",
+   "name": "Lab threshold value conflicts between mentions",
+   "n": 3,
+   "found": 1,
+   "recall": 0.333,
+   "measurable": true
+  },
+  {
+   "type": "T14",
+   "name": "Cross-reference to a nonexistent section",
+   "n": 3,
+   "found": 3,
+   "recall": 1.0,
+   "measurable": true
+  },
+  {
+   "type": "T15",
+   "name": "Required M11 section removed",
+   "n": 2,
+   "found": 0,
+   "recall": 0.0,
+   "measurable": true
+  },
+  {
+   "type": "T16",
+   "name": "Visit windows made to overlap",
+   "n": 1,
+   "found": 0,
+   "recall": 0.0,
+   "measurable": true
+  },
+  {
+   "type": "T17",
+   "name": "Treatment/follow-up duration no longer adds up",
+   "n": 1,
+   "found": 1,
+   "recall": 1.0,
+   "measurable": true
+  }
+ ],
+ "by_category": [
+  {
+   "amendment_category": "clerical",
+   "n": 3,
+   "recall": 1.0
+  },
+  {
+   "amendment_category": "completeness",
+   "n": 2,
+   "recall": 0.0
+  },
+  {
+   "amendment_category": "design",
+   "n": 4,
+   "recall": 0.75
+  },
+  {
+   "amendment_category": "eligibility",
+   "n": 6,
+   "recall": 0.5
+  },
+  {
+   "amendment_category": "endpoints",
+   "n": 2,
+   "recall": 0.5
+  },
+  {
+   "amendment_category": "intervention",
+   "n": 2,
+   "recall": 0.5
+  },
+  {
+   "amendment_category": "statistics",
+   "n": 7,
+   "recall": 0.714
+  },
+  {
+   "amendment_category": "visit_schedule",
+   "n": 1,
+   "recall": 0.0
+  }
+ ],
+ "false_alarms_per_clean_protocol": 43.0,
+ "clean_flags_by_check": {
+  "LLM:major": 40.3,
+  "LLM:critical": 2.7
+ },
+ "per_protocol": [
+  {
+   "nct_id": "NCT04303780",
+   "seed": 1,
+   "injected": 11,
+   "tp": 6,
+   "fn": 5,
+   "fp": 31,
+   "skipped": [
+    {
+     "type": "T01",
+     "reason": "endpoint timepoints are not extracted (timepoints_weeks is empty on the dev protocols), so the endpoint visit is unknown"
+    },
+    {
+     "type": "T03",
+     "reason": "needs a synthesised SoA row with matching ruling lines; not implemented"
+    },
+    {
+     "type": "T06",
+     "reason": "minimum age is stated only once, so a change cannot create an inconsistency"
+    },
+    {
+     "type": "T11",
+     "reason": "fewer than 2 blinding/unblinding lines to remove"
+    },
+    {
+     "type": "T18",
+     "reason": "protocol age mentions do not all equal the registry value 18"
+    },
+    {
+     "type": "T16",
+     "reason": "no row of at least 3 visit windows found"
+    },
+    {
+     "type": "T12",
+     "reason": "not sampled (target count reached)"
+    }
+   ],
+   "missed": [
+    {
+     "type": "T13",
+     "description": "Lab threshold 500 changed to 1000 in one place only",
+     "page": 71,
+     "line": "Neutrophils < 1000 cells/mm3 for",
+     "why": "no C8 flag at all (needs LLM extraction)"
+    },
+    {
+     "type": "T04",
+     "description": "Removed the endpoint text of secondary objective 'To compare the efficacy of AMG 510 versus docetaxel as asses'",
+     "page": 39,
+     "line": "(removed)Overall survival - defined as time from randomization until death from any cause.",
+     "why": "no C3 flag at all (needs LLM extraction)"
+    },
+    {
+     "type": "T05",
+     "description": "Removed the analysis of secondary endpoint 'OS' (1 line(s))",
+     "page": 104,
+     "line": "(removed)The OS primary analysis will occur when at least 198 OS events (~60% maturity) have been observed, which is expected to be at approximately 3 months after PFS primary analysis, with the same ",
+     "why": "no C3 flag at all (needs LLM extraction)"
+    },
+    {
+     "type": "T15",
+     "description": "Removed M11 10.11 9.2 Sample Size Determination (44 lines)",
+     "page": 103,
+     "line": "(removed)9.2",
+     "why": "no B1/B3 flag at all"
+    },
+    {
+     "type": "T09",
+     "description": "Stated power changed 90% -> 80% everywhere, so N is no longer reproducible",
+     "page": 19,
+     "line": "mutation. A total of 230 PFS events are required to provide at least 80% power to",
+     "why": "no C7 flag at all (needs LLM extraction)"
+    }
+   ]
+  },
+  {
+   "nct_id": "NCT04417894",
+   "seed": 1,
+   "injected": 8,
+   "tp": 4,
+   "fn": 4,
+   "fp": 32,
+   "skipped": [
+    {
+     "type": "T01",
+     "reason": "endpoint timepoints are not extracted (timepoints_weeks is empty on the dev protocols), so the endpoint visit is unknown"
+    },
+    {
+     "type": "T03",
+     "reason": "needs a synthesised SoA row with matching ruling lines; not implemented"
+    },
+    {
+     "type": "T02",
+     "reason": "no endpoint timepoint repeated across sections"
+    },
+    {
+     "type": "T17",
+     "reason": "durations are not stated at least twice"
+    },
+    {
+     "type": "T16",
+     "reason": "no row of at least 3 visit windows found"
+    },
+    {
+     "type": "T18",
+     "reason": "protocol age mentions do not all equal the registry value 12"
+    },
+    {
+     "type": "T04",
+     "reason": "not sampled (target count reached)"
+    },
+    {
+     "type": "T07",
+     "reason": "not sampled (target count reached)"
+    },
+    {
+     "type": "T06",
+     "reason": "not sampled (target count reached)"
+    },
+    {
+     "type": "T09",
+     "reason": "not sampled (target count reached)"
+    }
+   ],
+   "missed": [
+    {
+     "type": "T15",
+     "description": "Removed M11 10.11 11.2 Justification of Sample Size (15 lines)",
+     "page": 85,
+     "line": "(removed)11.2.",
+     "why": "no B1/B3 flag at all"
+    },
+    {
+     "type": "T11",
+     "description": "Removed 13 lines about unblinding / randomisation codes",
+     "page": 13,
+     "line": "(removed)Removed description of unblinded",
+     "why": "no C5/B3 flag at all"
+    },
+    {
+     "type": "T13",
+     "description": "Lab threshold 3 changed to 6 in one place only",
+     "page": 24,
+     "line": "to ALT or AST >6 times ULN.",
+     "why": "no C8 flag at all (needs LLM extraction)"
+    },
+    {
+     "type": "T12",
+     "description": "Exclusion criterion rewritten to contradict inclusion on age",
+     "page": 50,
+     "line": "5. Age at or above 10 years.",
+     "why": "no C8 flag at all (needs LLM extraction)"
+    }
+   ]
+  },
+  {
+   "nct_id": "NCT04698187",
+   "seed": 1,
+   "injected": 8,
+   "tp": 6,
+   "fn": 2,
+   "fp": 30,
+   "skipped": [
+    {
+     "type": "T01",
+     "reason": "endpoint timepoints are not extracted (timepoints_weeks is empty on the dev protocols), so the endpoint visit is unknown"
+    },
+    {
+     "type": "T03",
+     "reason": "needs a synthesised SoA row with matching ruling lines; not implemented"
+    },
+    {
+     "type": "T11",
+     "reason": "protocol is not double-blind"
+    },
+    {
+     "type": "T02",
+     "reason": "no endpoint timepoint repeated across sections"
+    },
+    {
+     "type": "T17",
+     "reason": "durations are not stated at least twice"
+    },
+    {
+     "type": "T18",
+     "reason": "not sampled (target count reached)"
+    },
+    {
+     "type": "T05",
+     "reason": "not sampled (target count reached)"
+    },
+    {
+     "type": "T10",
+     "reason": "not sampled (target count reached)"
+    },
+    {
+     "type": "T04",
+     "reason": "not sampled (target count reached)"
+    },
+    {
+     "type": "T15",
+     "reason": "not sampled (target count reached)"
+    }
+   ],
+   "missed": [
+    {
+     "type": "T07",
+     "description": "Dose 360 changed to 450 in one place only",
+     "page": 10,
+     "line": "Subjects will receive nivolumab 450 mg IV over 30 minutes at W1D1 and Q3W thereafter until the",
+     "why": "no C4 flag at all"
+    },
+    {
+     "type": "T16",
+     "description": "Visit windows widened to +/-9 days on three adjacent visits",
+     "page": 13,
+     "line": "\u00b1 9d",
+     "why": "no C6 flag at all"
+    }
+   ]
+  }
+ ],
+ "speed_cost": {
+  "median_seconds": 32.4,
+  "median_usd": 0.0072,
+  "measured": "live",
+  "protocols": 3
+ },
+ "ablation": null,
+ "hallucination": {
+  "ai_findings": 516,
+  "dropped_ungrounded": 0,
+  "shown": 516,
+  "shown_ungrounded": 70
+ },
+ "human_baseline": null,
+ "real_findings": null,
+ "soa_extraction": null,
+ "case_studies": null
+}

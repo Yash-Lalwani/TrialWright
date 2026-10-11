@@ -1,0 +1,567 @@
+{
+ "nct_id": "NCT04916002",
+ "seed": 1,
+ "source_pdf": "NCT04916002_protocol.pdf",
+ "injected_pdf": "NCT04916002_s1.pdf",
+ "target_errors": 11,
+ "errors": [
+  {
+   "type": "T13",
+   "name": "Lab threshold value conflicts between mentions",
+   "page": 54,
+   "bbox": [
+    235.6,
+    353.0,
+    259.6,
+    369.1
+   ],
+   "original": "1500",
+   "new": "3000",
+   "context": "− neutrophil count ≥ 1500/mm3",
+   "new_line": "− neutrophil count ≥ 3000/mm3",
+   "description": "Lab threshold 1500 changed to 3000 in one place only",
+   "expected_checks": [
+    "C8"
+   ],
+   "amendment_category": "eligibility",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     54
+    ],
+    "texts": [
+     "ophil count ≥ 3000/mm3"
+    ]
+   },
+   "error_id": "NCT04916002-s1-01"
+  },
+  {
+   "type": "T15",
+   "name": "Required M11 section removed",
+   "page": 91,
+   "bbox": [
+    72.0,
+    174.3,
+    96.9,
+    194.4
+   ],
+   "original": "8.1 Sample Size Justification",
+   "new": "(removed)",
+   "context": "8.1.",
+   "new_line": "(removed)8.1.",
+   "description": "Removed M11 10.11 8.1 Sample Size Justification (52 lines)",
+   "expected_checks": [
+    "B1",
+    "B3"
+   ],
+   "amendment_category": "completeness",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     91
+    ],
+    "texts": [],
+    "titles": [
+     "M11 10.11 "
+    ]
+   },
+   "m11_id": "10.11",
+   "error_id": "NCT04916002-s1-02"
+  },
+  {
+   "type": "T14",
+   "name": "Cross-reference to a nonexistent section",
+   "page": 25,
+   "bbox": [
+    615.3,
+    186.1,
+    626.7,
+    198.2
+   ],
+   "original": "4.3",
+   "new": "99.3",
+   "context": "throughout the study. When cemiplimab treatment is permanently discontinued, vidutolimod must also be permanently discontinued. Refer to Section 4.3 for treatment compliance.",
+   "new_line": "throughout the study. When cemiplimab treatment is permanently discontinued, vidutolimod must also be permanently discontinued. Refer to Section 99.3 for treatment compliance.",
+   "description": "Reference to Section 4.3 changed to nonexistent Section 99.3",
+   "expected_checks": [
+    "C9"
+   ],
+   "amendment_category": "clerical",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     25
+    ],
+    "texts": [
+     "er to Section 99.3 for treatment"
+    ]
+   },
+   "error_id": "NCT04916002-s1-03"
+  },
+  {
+   "type": "T07",
+   "name": "Dose changed in one place",
+   "page": 19,
+   "bbox": [
+    186.2,
+    582.0,
+    197.2,
+    596.9
+   ],
+   "original": "10",
+   "new": "12",
+   "context": "1. Vidutolimod IT 10 mg weekly for 7 doses (W1D1 to W7D1), after which vidutolimod will be",
+   "new_line": "1. Vidutolimod IT 12 mg weekly for 7 doses (W1D1 to W7D1), after which vidutolimod will be",
+   "description": "Dose 10 changed to 12 in one place only",
+   "expected_checks": [
+    "C4"
+   ],
+   "amendment_category": "intervention",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     19,
+     39,
+     43,
+     49,
+     60
+    ],
+    "texts": [
+     "idutolimod IT 12 mg weekly for"
+    ]
+   },
+   "error_id": "NCT04916002-s1-04"
+  },
+  {
+   "type": "T05",
+   "name": "Endpoint analysis removed from statistics",
+   "page": 94,
+   "bbox": [
+    72.0,
+    310.7,
+    433.3,
+    326.9
+   ],
+   "original": "Kaplan-Meier method",
+   "new": "(removed)",
+   "context": "DOR will be analyzed using the Kaplan-Meier method by cohort for responders.",
+   "new_line": "(removed)DOR will be analyzed using the Kaplan-Meier method by cohort for responders.",
+   "description": "Removed the analysis of secondary endpoint 'DOR' (1 line(s))",
+   "expected_checks": [
+    "C3"
+   ],
+   "amendment_category": "statistics",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     46,
+     94
+    ],
+    "texts": [],
+    "titles": [
+     "no analysis method"
+    ]
+   },
+   "error_id": "NCT04916002-s1-05"
+  },
+  {
+   "type": "T04",
+   "name": "Secondary objective's endpoint deleted",
+   "page": 46,
+   "bbox": [
+    108.0,
+    559.5,
+    542.8,
+    575.9
+   ],
+   "original": "AEs, SAEs, and AEs leading to discontinuation or death, and ; DOR, defined as the time from date of first documented respo; Response in injected and noninjected target lesions per RECI; PFS, defined as the time from date of first dose of study tr; Overall survival (OS), defined as the time from date of firs",
+   "new": "(removed)",
+   "context": "AEs, SAEs, and AEs leading to discontinuation or death, and severity of AEs as assessed by the National Cancer Institute Common Terminology Criteria for Adverse Events Version 5.0 (CTCAE v5.0)",
+   "new_line": "(removed)AEs, SAEs, and AEs leading to discontinuation or death, and severity of AEs as assessed by the National Cancer Institute Common Terminology Criteria for Adverse Events Version 5.0 (CTCAE v5.0",
+   "description": "Removed the endpoint text of secondary objective 'To evaluate the safety and tolerability of vidutolimod admin'",
+   "expected_checks": [
+    "C3"
+   ],
+   "amendment_category": "endpoints",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     46,
+     47
+    ],
+    "texts": [],
+    "titles": [
+     "objective has no endpoint"
+    ]
+   },
+   "error_id": "NCT04916002-s1-06"
+  },
+  {
+   "type": "T16",
+   "name": "Visit windows made to overlap",
+   "page": 24,
+   "bbox": [
+    255.9,
+    157.9,
+    260.4,
+    170.4
+   ],
+   "original": "2",
+   "new": "9",
+   "context": "± 2d",
+   "new_line": "± 9d",
+   "description": "Visit windows widened to +/-9 days on three adjacent visits",
+   "expected_checks": [
+    "C6"
+   ],
+   "amendment_category": "visit_schedule",
+   "needs_llm": false,
+   "match": {
+    "pages": [
+     24
+    ],
+    "texts": [
+     "± 9d",
+     "± 9d",
+     "± 9d"
+    ]
+   },
+   "error_id": "NCT04916002-s1-07"
+  },
+  {
+   "type": "T12",
+   "name": "Exclusion criterion contradicts an inclusion criterion",
+   "page": 55,
+   "bbox": [
+    108.0,
+    564.1,
+    505.7,
+    580.2
+   ],
+   "original": "Active pneumonitis or history of noninfectious pneumonitis that required steroids. ",
+   "new": "Pd-l1 tps at or above 40 %.",
+   "context": "6. Active pneumonitis or history of noninfectious pneumonitis that required steroids.",
+   "new_line": "6. Pd-l1 tps at or above 40 %.",
+   "description": "Exclusion criterion rewritten to contradict inclusion on PD-L1 TPS",
+   "expected_checks": [
+    "C8"
+   ],
+   "amendment_category": "eligibility",
+   "needs_llm": true,
+   "match": {
+    "pages": [
+     53,
+     55
+    ],
+    "texts": [
+     "6. Pd-l1 tps at or above 40 %."
+    ]
+   },
+   "error_id": "NCT04916002-s1-08"
+  }
+ ],
+ "skipped": [
+  {
+   "type": "T01",
+   "reason": "endpoint timepoints are not extracted (timepoints_weeks is empty on the dev protocols), so the endpoint visit is unknown"
+  },
+  {
+   "type": "T03",
+   "reason": "needs a synthesised SoA row with matching ruling lines; not implemented"
+  },
+  {
+   "type": "T09",
+   "reason": "no stated power"
+  },
+  {
+   "type": "T06",
+   "reason": "minimum age is stated only once, so a change cannot create an inconsistency"
+  },
+  {
+   "type": "T02",
+   "reason": "no endpoint timepoint repeated across sections"
+  },
+  {
+   "type": "T08",
+   "reason": "no free sample-size mention"
+  },
+  {
+   "type": "T18",
+   "reason": "protocol age mentions do not all equal the registry value 18"
+  },
+  {
+   "type": "T17",
+   "reason": "durations are not stated at least twice"
+  },
+  {
+   "type": "T11",
+   "reason": "fewer than 2 blinding/unblinding lines to remove"
+  },
+  {
+   "type": "T10",
+   "reason": "no randomisation ratio is stated twice"
+  }
+ ],
+ "touched": [
+  [
+   19,
+   "1. Vidutolimod IT 10 mg weekly for 7 doses (W1D1 to W7D1), after which vidutolimod will be"
+  ],
+  [
+   24,
+   "± 2d"
+  ],
+  [
+   24,
+   "± 2d"
+  ],
+  [
+   24,
+   "± 2d"
+  ],
+  [
+   25,
+   "throughout the study. When cemiplimab treatment is permanently discontinued, vidutolimod must also be permanently discontinued. Refer to Section 4.3 for treatment compliance."
+  ],
+  [
+   46,
+   "• AEs, SAEs, and AEs leading to discontinuation or death, and severity of AEs as"
+  ],
+  [
+   46,
+   "• DOR, defined as the time from date of first documented response (CR or PR) to date"
+  ],
+  [
+   46,
+   "noninjected target lesions"
+  ],
+  [
+   46,
+   "• PFS, defined as the time from date of first dose of study treatment to date of"
+  ],
+  [
+   47,
+   "date of death"
+  ],
+  [
+   54,
+   "− neutrophil count ≥ 1500/mm3"
+  ],
+  [
+   55,
+   "6. Active pneumonitis or history of noninfectious pneumonitis that required steroids."
+  ],
+  [
+   91,
+   "8.1."
+  ],
+  [
+   91,
+   "Sample Size Justification"
+  ],
+  [
+   91,
+   "The study is conducted as an exploratory trial. Each cohort of A1, A2, B1, B2, C1, C2, D, E, and"
+  ],
+  [
+   91,
+   "F, will enroll approximately 25 subjects. The total number of subjects to be enrolled into this study"
+  ],
+  [
+   91,
+   "is approximately 225. Based on historical data, the ORR of available treatment for each disease in"
+  ],
+  [
+   91,
+   "Cohort is listed in Table 12. If the observed ORRs in these Cohorts A1, A2, B1, B2, C1, C2, D, E,"
+  ],
+  [
+   91,
+   "and F are as listed in Table 12, then the lower bound of 90% confidence interval of ORR is listed"
+  ],
+  [
+   91,
+   "in the table below."
+  ],
+  [
+   91,
+   "Table 12:"
+  ],
+  [
+   91,
+   "ORR of Available Treatment by Cohort"
+  ],
+  [
+   91,
+   "Cohort"
+  ],
+  [
+   91,
+   "ORR of Available"
+  ],
+  [
+   91,
+   "Treatment"
+  ],
+  [
+   91,
+   "Observed ORR ≥"
+  ],
+  [
+   91,
+   "Lower Bound of 90%"
+  ],
+  [
+   91,
+   "Confidence Interval"
+  ],
+  [
+   91,
+   "A1"
+  ],
+  [
+   91,
+   "50%"
+  ],
+  [
+   91,
+   "72%"
+  ],
+  [
+   91,
+   ">50%"
+  ],
+  [
+   91,
+   "A2"
+  ],
+  [
+   91,
+   "<10%"
+  ],
+  [
+   91,
+   "24%"
+  ],
+  [
+   91,
+   ">10%"
+  ],
+  [
+   91,
+   "B1"
+  ],
+  [
+   91,
+   "50%"
+  ],
+  [
+   91,
+   "72%"
+  ],
+  [
+   91,
+   ">50%"
+  ],
+  [
+   91,
+   "B2"
+  ],
+  [
+   91,
+   "<10%"
+  ],
+  [
+   91,
+   "24%"
+  ],
+  [
+   91,
+   ">10%"
+  ],
+  [
+   91,
+   "C1"
+  ],
+  [
+   91,
+   "21%"
+  ],
+  [
+   91,
+   "40%"
+  ],
+  [
+   91,
+   ">21%"
+  ],
+  [
+   91,
+   "C2"
+  ],
+  [
+   91,
+   "<10%"
+  ],
+  [
+   91,
+   "24%"
+  ],
+  [
+   91,
+   ">10%"
+  ],
+  [
+   91,
+   "D"
+  ],
+  [
+   91,
+   "50%"
+  ],
+  [
+   91,
+   "72%"
+  ],
+  [
+   91,
+   ">50%"
+  ],
+  [
+   91,
+   "E"
+  ],
+  [
+   91,
+   "39%"
+  ],
+  [
+   91,
+   "60%"
+  ],
+  [
+   91,
+   ">39%"
+  ],
+  [
+   91,
+   "F"
+  ],
+  [
+   91,
+   "19%"
+  ],
+  [
+   91,
+   "40%"
+  ],
+  [
+   91,
+   ">21%"
+  ],
+  [
+   94,
+   "will be analyzed using the Kaplan-Meier method by cohort for responders."
+  ]
+ ]
+}

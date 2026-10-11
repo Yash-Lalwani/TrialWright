@@ -1,0 +1,7 @@
+{
+ "step": "llm_only",
+ "model": "deepseek/deepseek-v4-flash-0731",
+ "content": "{\n  \"findings\": [\n    {\n      \"title\": \"Inconsistent KRAS G12C mutation prevalence: 80% at codon 12 vs 13% G12C\",\n      \"page\": 40,\n      \"quote\": \"Of the KRAS mutations, it is estimated that approximately 80% occur at codon 12 (Prior et al, 2012).  The KRAS p.G12C mutation is estimated to occur in approximately 13% of lung adenocarcinoma\",\n      \"severity\": \"minor\"\n    },\n    {\n      \"title\": \"Duplicate text: 'The 5-year survival rate for advanced NSCLC cancer is between 6% and 33%' appears on both pages 39 and 40\",\n      \"page\": 39,\n      \"quote\": \"The 5-year survival rate for advanced NSCLC cancer is between 6% and 33% depending on the stage\",\n      \"severity\": \"minor\"\n    },\n    {\n      \"title\": \"Inconsistent KRAS G12C mutation prevalence: 80% at codon 12 vs 13% G12C\",\n      \"page\": 40,\n      \"quote\": \"Of the KRAS mutations, it is estimated that approximately 80% occur at codon 12 (Prior et al, 2012).  The KRAS p.G12C mutation is estimated to occur in approximately 13% of lung adenocarcinoma\",\n      \"severity\": \"minor\"\n    },\n    {\n      \"title\": \"Duplicate text: 'The 5-year survival rate for advanced NSCLC cancer is between 6% and 33%' appears on both pages 39 and 40\",\n      \"page\": 39,\n      \"quote\": \"The 5-year survival rate for advanced NSCLC cancer is between 6% and 33% depending on the stage\",\n      \"severity\": \"minor\"\n    }\n  ]\n}",
+ "tokens_in": 8728,
+ "tokens_out": 393
+}

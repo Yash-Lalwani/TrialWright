@@ -1,29 +1,29 @@
 {
- "generated_at": "2026-10-11T00:47:36Z",
+ "generated_at": "2026-10-11T02:44:02Z",
  "set": "dev",
- "config": "rules_only",
+ "config": "full",
  "seeds": [
   1
  ],
- "llm_enabled": false,
+ "llm_enabled": true,
  "llm_extraction": {
   "runs": 6,
-  "with_extraction": 0
+  "with_extraction": 6
  },
  "test_set": {
   "protocols": 3,
-  "injected_errors": 25
+  "injected_errors": 27
  },
  "overall": {
-  "recall": 0.76,
-  "precision": 1.0,
-  "f1": 0.864
+  "recall": 0.741,
+  "precision": 0.952,
+  "f1": 0.833
  },
  "overall_measurable": {
-  "recall": 0.895,
-  "precision": 1.0,
-  "f1": 0.944,
-  "n_errors": 19,
+  "recall": 0.741,
+  "precision": 0.952,
+  "f1": 0.833,
+  "n_errors": 27,
   "note": "only error types this config can detect (rules_only cannot see types that need LLM extraction)"
  },
  "by_type": [
@@ -33,21 +33,37 @@
    "n": 1,
    "found": 1,
    "recall": 1.0,
-   "measurable": false
+   "measurable": true
   },
   {
-   "type": "T06",
-   "name": "Age range changed in one place",
+   "type": "T04",
+   "name": "Secondary objective's endpoint deleted",
+   "n": 1,
+   "found": 0,
+   "recall": 0.0,
+   "measurable": true
+  },
+  {
+   "type": "T05",
+   "name": "Endpoint analysis removed from statistics",
    "n": 2,
    "found": 0,
    "recall": 0.0,
    "measurable": true
   },
   {
+   "type": "T06",
+   "name": "Age range changed in one place",
+   "n": 1,
+   "found": 1,
+   "recall": 1.0,
+   "measurable": true
+  },
+  {
    "type": "T07",
    "name": "Dose changed in one place",
-   "n": 3,
-   "found": 3,
+   "n": 2,
+   "found": 2,
    "recall": 1.0,
    "measurable": true
   },
@@ -63,9 +79,9 @@
    "type": "T09",
    "name": "Power/effect changed so N not reproducible",
    "n": 2,
-   "found": 0,
-   "recall": 0.0,
-   "measurable": false
+   "found": 1,
+   "recall": 0.5,
+   "measurable": true
   },
   {
    "type": "T10",
@@ -84,12 +100,20 @@
    "measurable": true
   },
   {
+   "type": "T12",
+   "name": "Exclusion criterion contradicts an inclusion criterion",
+   "n": 2,
+   "found": 1,
+   "recall": 0.5,
+   "measurable": true
+  },
+  {
    "type": "T13",
    "name": "Lab threshold value conflicts between mentions",
    "n": 3,
    "found": 1,
    "recall": 0.333,
-   "measurable": false
+   "measurable": true
   },
   {
    "type": "T14",
@@ -122,14 +146,6 @@
    "found": 1,
    "recall": 1.0,
    "measurable": true
-  },
-  {
-   "type": "T18",
-   "name": "Enrollment differs from registry record",
-   "n": 1,
-   "found": 1,
-   "recall": 1.0,
-   "measurable": true
   }
  ],
  "by_category": [
@@ -150,28 +166,23 @@
   },
   {
    "amendment_category": "eligibility",
-   "n": 5,
-   "recall": 0.2
+   "n": 6,
+   "recall": 0.5
   },
   {
    "amendment_category": "endpoints",
-   "n": 1,
-   "recall": 1.0
+   "n": 2,
+   "recall": 0.5
   },
   {
    "amendment_category": "intervention",
-   "n": 3,
-   "recall": 1.0
-  },
-  {
-   "amendment_category": "registry",
-   "n": 1,
+   "n": 2,
    "recall": 1.0
   },
   {
    "amendment_category": "statistics",
-   "n": 5,
-   "recall": 0.6
+   "n": 7,
+   "recall": 0.571
   },
   {
    "amendment_category": "visit_schedule",
@@ -179,22 +190,23 @@
    "recall": 1.0
   }
  ],
- "false_alarms_per_clean_protocol": 5.0,
+ "false_alarms_per_clean_protocol": 9.33,
  "clean_flags_by_check": {
   "B2:major": 3.0,
-  "C4:major": 0.7,
-  "B1:major": 0.7,
-  "C6:major": 0.3,
-  "C10:major": 0.3
+  "C1:major": 2.0,
+  "C3:major": 2.0,
+  "C4:major": 1.0,
+  "C7:major": 0.7,
+  "B1:major": 0.7
  },
  "per_protocol": [
   {
    "nct_id": "NCT04303780",
    "seed": 1,
-   "injected": 9,
+   "injected": 11,
    "tp": 7,
-   "fn": 2,
-   "fp": 0,
+   "fn": 4,
+   "fp": 1,
    "skipped": [
     {
      "type": "T01",
@@ -207,14 +219,6 @@
     {
      "type": "T06",
      "reason": "minimum age is stated only once, so a change cannot create an inconsistency"
-    },
-    {
-     "type": "T04",
-     "reason": "needs the LLM-extracted objectives and endpoints (no LLM graph available)"
-    },
-    {
-     "type": "T05",
-     "reason": "needs the LLM-extracted endpoint analyses (no LLM graph available)"
     },
     {
      "type": "T11",
@@ -230,7 +234,7 @@
     },
     {
      "type": "T12",
-     "reason": "needs the LLM-extracted eligibility criteria (no LLM graph available)"
+     "reason": "not sampled (target count reached)"
     }
    ],
    "missed": [
@@ -240,6 +244,20 @@
      "page": 71,
      "line": "Neutrophils < 1000 cells/mm3 for",
      "why": "no C8 flag at all (needs LLM extraction)"
+    },
+    {
+     "type": "T04",
+     "description": "Removed the endpoint text of secondary objective 'To compare the efficacy of AMG 510 versus docetaxel as asses'",
+     "page": 39,
+     "line": "(removed)Overall survival - defined as time from randomization until death from any cause.",
+     "why": "no C3 flag at all (needs LLM extraction)"
+    },
+    {
+     "type": "T05",
+     "description": "Removed the analysis of secondary endpoint 'OS' (1 line(s))",
+     "page": 104,
+     "line": "(removed)The OS primary analysis will occur when at least 198 OS events (~60% maturity) have been observed, which is expected to be at approximately 3 months after PFS primary analysis, with the same ",
+     "why": "no C3 flag at all (needs LLM extraction)"
     },
     {
      "type": "T09",
@@ -254,8 +272,8 @@
    "nct_id": "NCT04417894",
    "seed": 1,
    "injected": 8,
-   "tp": 6,
-   "fn": 2,
+   "tp": 5,
+   "fn": 3,
    "fp": 0,
    "skipped": [
     {
@@ -271,10 +289,6 @@
      "reason": "no endpoint timepoint repeated across sections"
     },
     {
-     "type": "T12",
-     "reason": "needs the LLM-extracted eligibility criteria (no LLM graph available)"
-    },
-    {
      "type": "T17",
      "reason": "durations are not stated at least twice"
     },
@@ -283,16 +297,20 @@
      "reason": "no row of at least 3 visit windows found"
     },
     {
-     "type": "T05",
-     "reason": "needs the LLM-extracted endpoint analyses (no LLM graph available)"
-    },
-    {
      "type": "T18",
      "reason": "protocol age mentions do not all equal the registry value 12"
     },
     {
      "type": "T04",
-     "reason": "needs the LLM-extracted objectives and endpoints (no LLM graph available)"
+     "reason": "not sampled (target count reached)"
+    },
+    {
+     "type": "T07",
+     "reason": "not sampled (target count reached)"
+    },
+    {
+     "type": "T06",
+     "reason": "not sampled (target count reached)"
     },
     {
      "type": "T09",
@@ -308,11 +326,18 @@
      "why": "no C8 flag at all (needs LLM extraction)"
     },
     {
-     "type": "T06",
-     "description": "Minimum age changed 18 -> 21 in one place only",
-     "page": 20,
-     "line": "prior to the screening visit for patients \u226521 years old and",
-     "why": "injected value was NOT extracted by ingest (pipeline gap)"
+     "type": "T12",
+     "description": "Exclusion criterion rewritten to contradict inclusion on age",
+     "page": 50,
+     "line": "5. Age at or above 10 years.",
+     "why": "no C8 flag at all (needs LLM extraction)"
+    },
+    {
+     "type": "T05",
+     "description": "Removed the analysis of secondary endpoint 'Percent change in mTLSS' (1 line(s))",
+     "page": 88,
+     "line": "(removed)Continuous secondary efficacy endpoints (eg, percent change mTLSS for hand/foot lesions from baseline to week 16) will be analyzed using an analysis of covariance (ANCOVA) model for the FAS w",
+     "why": "no C3 flag at all (needs LLM extraction)"
     }
    ]
   },
@@ -320,8 +345,8 @@
    "nct_id": "NCT04698187",
    "seed": 1,
    "injected": 8,
-   "tp": 6,
-   "fn": 2,
+   "tp": 8,
+   "fn": 0,
    "fp": 0,
    "skipped": [
     {
@@ -337,16 +362,16 @@
      "reason": "protocol is not double-blind"
     },
     {
-     "type": "T12",
-     "reason": "needs the LLM-extracted eligibility criteria (no LLM graph available)"
-    },
-    {
      "type": "T02",
      "reason": "no endpoint timepoint repeated across sections"
     },
     {
      "type": "T17",
      "reason": "durations are not stated at least twice"
+    },
+    {
+     "type": "T18",
+     "reason": "not sampled (target count reached)"
     },
     {
      "type": "T05",
@@ -365,30 +390,22 @@
      "reason": "not sampled (target count reached)"
     }
    ],
-   "missed": [
-    {
-     "type": "T09",
-     "description": "Stated power changed 90% -> 80% everywhere, so N is no longer reproducible",
-     "page": 11,
-     "line": "A sample size of 69 subjects achieves at least 80% power to detect a difference of 13% using a",
-     "why": "no C7 flag at all (needs LLM extraction)"
-    },
-    {
-     "type": "T06",
-     "description": "Minimum age changed 18 -> 21 in one place only",
-     "page": 8,
-     "line": "8. Age \u2265 21 years at time of consent.",
-     "why": "expected check fired elsewhere: p11 Sample size disagrees across sections: 120.0 vs 10; p10 Nivolumab dose disagrees across sections: 450 mg v (extracted, but the check did not flag it)"
-    }
-   ]
+   "missed": []
   }
  ],
  "speed_cost": {
-  "median_seconds": 3.72,
-  "median_usd": 0.0
+  "median_seconds": 32.4,
+  "median_usd": 0.0072,
+  "measured": "live",
+  "protocols": 3
  },
  "ablation": null,
- "hallucination": null,
+ "hallucination": {
+  "ai_findings": 180,
+  "dropped_ungrounded": 19,
+  "shown": 161,
+  "shown_ungrounded": 0
+ },
  "human_baseline": null,
  "real_findings": null,
  "soa_extraction": null,
