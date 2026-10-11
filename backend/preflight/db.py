@@ -1,7 +1,7 @@
 import os
 from datetime import datetime, UTC
 
-from sqlalchemy import JSON, Column
+from sqlalchemy import JSON, Column, inspect, text
 from sqlmodel import Field, Session, SQLModel, create_engine
 
 
@@ -21,6 +21,7 @@ class Protocol(SQLModel, table=True):
     condition: str | None = None
     graph: dict | None = Field(default=None, sa_column=Column(JSON))
     uploaded_at: str = Field(default_factory=now)
+    workspace: str | None = None  # browser workspace that uploaded it; None = visible to everyone
 
 
 class Run(SQLModel, table=True):
@@ -95,6 +96,9 @@ _ready = False
 def init_db():
     global _ready
     SQLModel.metadata.create_all(engine)
+    with engine.begin() as c:
+        if "workspace" not in {col["name"] for col in inspect(c).get_columns("protocols")}:
+            c.execute(text("ALTER TABLE protocols ADD COLUMN workspace VARCHAR"))
     _ready = True
 
 

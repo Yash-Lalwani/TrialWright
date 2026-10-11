@@ -16,9 +16,12 @@ export function RecentProtocols() {
   return (
     <section aria-labelledby="recent-heading" className="rounded-lg border bg-card">
       <div className="flex items-center justify-between border-b px-5 py-3">
-        <h2 id="recent-heading" className="text-sm font-semibold">
-          Recent protocols
-        </h2>
+        <div>
+          <h2 id="recent-heading" className="text-sm font-semibold">
+            Recent protocols
+          </h2>
+          <p className="text-xs text-muted-foreground">Your uploads from this browser, plus the demo protocols.</p>
+        </div>
         {data && <span className="text-xs text-muted-foreground tabular">{data.items.length} total</span>}
       </div>
 

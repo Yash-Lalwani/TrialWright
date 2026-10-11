@@ -103,15 +103,32 @@ export const getHealth = (): Promise<Health> => (USE_MOCKS ? mocked(mock.health)
 
 // ---------- 4.2 Protocols ----------
 
+let fallbackWorkspace: string | undefined;
+
+/** A random id this browser keeps, so its uploads stay out of other people's lists. Privacy, not authentication. */
+function workspaceHeader(): Record<string, string> {
+  let id: string | null = null;
+  try {
+    id = window.localStorage.getItem("preflight-workspace");
+    if (!id) {
+      id = crypto.randomUUID();
+      window.localStorage.setItem("preflight-workspace", id);
+    }
+  } catch {
+    id = fallbackWorkspace ??= crypto.randomUUID();
+  }
+  return { "X-Workspace": id };
+}
+
 export const listProtocols = (): Promise<ProtocolList> =>
-  USE_MOCKS ? mocked(mock.listProtocols) : request("/protocols");
+  USE_MOCKS ? mocked(mock.listProtocols) : request("/protocols", { headers: workspaceHeader() });
 
 export function uploadProtocol(file: File, nctId?: string): Promise<Protocol> {
   if (USE_MOCKS) return mocked(mock.uploadProtocol);
   const form = new FormData();
   form.append("file", file);
   if (nctId) form.append("nct_id", nctId);
-  return request("/protocols", { method: "POST", body: form });
+  return request("/protocols", { method: "POST", body: form, headers: workspaceHeader() });
 }
 
 export const protocolPdfUrl = (protocolId: string): string =>

@@ -1,12 +1,13 @@
 import asyncio
 import hashlib
+import re
 from pathlib import Path
 from typing import Literal
 
-from fastapi import APIRouter, File, Form, HTTPException, UploadFile
+from fastapi import APIRouter, File, Form, Header, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
-from sqlmodel import select
+from sqlmodel import or_, select
 
 from preflight.api import service
 from preflight.db import Protocol, Run, now, session
@@ -22,6 +23,11 @@ class RunIn(BaseModel):
     version_label: str | None = None
 
 
+def _workspace(value: str | None) -> str | None:
+    """X-Workspace: a random id the browser keeps, so uploads stay out of other people's lists. Not authentication."""
+    return value if value and re.fullmatch(r"[A-Za-z0-9-]{8,64}", value) else None
+
+
 def _quick_meta(path: str) -> dict:
     if path.endswith(".json"):
         m = ProtocolGraph.model_validate_json(Path(path).read_text()).meta
@@ -32,7 +38,10 @@ def _quick_meta(path: str) -> dict:
 
 
 @router.post("/protocols", status_code=201)
-async def upload_protocol(file: UploadFile = File(...), nct_id: str | None = Form(None)):
+async def upload_protocol(
+    file: UploadFile = File(...), nct_id: str | None = Form(None), x_workspace: str | None = Header(None)
+):
+    workspace = _workspace(x_workspace)
     name = file.filename or "protocol.pdf"
     ext = name.rsplit(".", 1)[-1].lower()
     if ext not in ("pdf", "json"):
@@ -40,7 +49,7 @@ async def upload_protocol(file: UploadFile = File(...), nct_id: str | None = For
     data = await file.read()
     if ext == "pdf" and not data.startswith(b"%PDF"):
         raise HTTPException(400, f"{name} is not a PDF")
-    pid = "prt_" + hashlib.sha256(data).hexdigest()[:8]
+    pid = "prt_" + hashlib.sha256(data + (workspace or "").encode()).hexdigest()[:8]
     service.UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
     path = service.UPLOAD_DIR / f"{pid}.{ext}"
     path.write_bytes(data)
@@ -50,7 +59,8 @@ async def upload_protocol(file: UploadFile = File(...), nct_id: str | None = For
         raise HTTPException(400, f"Could not read {name}: {e}") from e
 
     with session() as s:
-        p = s.get(Protocol, pid) or Protocol(id=pid, filename=name, path=str(path), uploaded_at=now())
+        p = s.get(Protocol, pid) or Protocol(id=pid, filename=name, path=str(path), uploaded_at=now(),
+                                             workspace=workspace)
         p.filename, p.path = name, str(path)
         p.title, p.pages, p.phase = meta["title"], meta["pages"], meta["phase"]
         p.nct_id = nct_id or meta["nct_id"]
@@ -61,9 +71,10 @@ async def upload_protocol(file: UploadFile = File(...), nct_id: str | None = For
 
 
 @router.get("/protocols")
-def list_protocols():
+def list_protocols(x_workspace: str | None = Header(None)):
+    visible = or_(Protocol.workspace.is_(None), Protocol.workspace == _workspace(x_workspace))
     with session() as s:
-        rows = s.exec(select(Protocol).order_by(Protocol.uploaded_at.desc())).all()
+        rows = s.exec(select(Protocol).where(visible).order_by(Protocol.uploaded_at.desc())).all()
         return {"items": [service.protocol_dict(p, s) for p in rows]}
 
 
