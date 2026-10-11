@@ -1,0 +1,7 @@
+{
+ "step": "draft_4.1",
+ "model": "deepseek/deepseek-v4-flash-0731",
+ "content": "{\n  \"markdown\": \"This is a Phase 2, multicenter, randomized, open-label, active-controlled trial. Eligible adults with unresectable or metastatic melanoma that has progressed on prior anti-PD-1 therapy will be randomized in a 1:1 ratio to receive either Drug X 350 mg IV every 3 weeks (Q3W) in combination with nivolumab (experimental arm) or nivolumab alone (control arm). The trial will assess whether the addition of Drug X improves the objective response rate (ORR) compared with nivolumab alone. The planned total study duration is 52 weeks, including treatment and follow-up. Randomization will be stratified by [TBD: stratification factors, e.g., lactate dehydrogenase level, number of prior lines of therapy]. The trial is open-label; no masking is planned. The primary endpoint is ORR, with an expected control rate of 12% and an expected treatment rate of 30%, corresponding to a target difference of 18 percentage points. Assuming a two-sided alpha of 0.05 and 80% power, and accounting for a 10% dropout rate, the required sample size is [TBD: calculated sample size]. The trial design is informed by similar studies in melanoma (e.g., NCT06739226, NCT03743766, NCT04091750, NCT04464759, NCT06848088, NCT04401995, NCT05561491, NCT06190951).\"\n}",
+ "tokens_in": 917,
+ "tokens_out": 305
+}

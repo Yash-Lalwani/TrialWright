@@ -1,29 +1,29 @@
 {
- "generated_at": "2026-10-11T03:14:49Z",
+ "generated_at": "2026-10-11T05:21:42Z",
  "set": "test",
- "config": "full",
+ "config": "rules_only",
  "seeds": [
   1
  ],
- "llm_enabled": true,
+ "llm_enabled": false,
  "llm_extraction": {
   "runs": 14,
-  "with_extraction": 14
+  "with_extraction": 0
  },
  "test_set": {
   "protocols": 7,
   "injected_errors": 65
  },
  "overall": {
-  "recall": 0.462,
-  "precision": 0.882,
-  "f1": 0.606
+  "recall": 0.354,
+  "precision": 0.885,
+  "f1": 0.505
  },
  "overall_measurable": {
-  "recall": 0.462,
-  "precision": 0.882,
-  "f1": 0.606,
-  "n_errors": 65,
+  "recall": 0.629,
+  "precision": 0.88,
+  "f1": 0.733,
+  "n_errors": 35,
   "note": "only error types this config can detect (rules_only cannot see types that need LLM extraction)"
  },
  "by_type": [
@@ -33,7 +33,7 @@
    "n": 2,
    "found": 1,
    "recall": 0.5,
-   "measurable": true
+   "measurable": false
   },
   {
    "type": "T04",
@@ -41,15 +41,15 @@
    "n": 5,
    "found": 0,
    "recall": 0.0,
-   "measurable": true
+   "measurable": false
   },
   {
    "type": "T05",
    "name": "Endpoint analysis removed from statistics",
    "n": 7,
-   "found": 1,
-   "recall": 0.143,
-   "measurable": true
+   "found": 0,
+   "recall": 0.0,
+   "measurable": false
   },
   {
    "type": "T06",
@@ -79,9 +79,9 @@
    "type": "T09",
    "name": "Power/effect changed so N not reproducible",
    "n": 4,
-   "found": 2,
-   "recall": 0.5,
-   "measurable": true
+   "found": 0,
+   "recall": 0.0,
+   "measurable": false
   },
   {
    "type": "T10",
@@ -95,9 +95,9 @@
    "type": "T12",
    "name": "Exclusion criterion contradicts an inclusion criterion",
    "n": 6,
-   "found": 4,
-   "recall": 0.667,
-   "measurable": true
+   "found": 0,
+   "recall": 0.0,
+   "measurable": false
   },
   {
    "type": "T13",
@@ -105,7 +105,7 @@
    "n": 6,
    "found": 0,
    "recall": 0.0,
-   "measurable": true
+   "measurable": false
   },
   {
    "type": "T14",
@@ -159,7 +159,7 @@
   {
    "amendment_category": "eligibility",
    "n": 15,
-   "recall": 0.4
+   "recall": 0.133
   },
   {
    "amendment_category": "endpoints",
@@ -174,7 +174,7 @@
   {
    "amendment_category": "statistics",
    "n": 16,
-   "recall": 0.375
+   "recall": 0.188
   },
   {
    "amendment_category": "visit_schedule",
@@ -182,18 +182,13 @@
    "recall": 0.0
   }
  ],
- "false_alarms_per_clean_protocol": 6.57,
+ "false_alarms_per_clean_protocol": 4.57,
  "clean_flags_by_check": {
   "B2:major": 2.1,
   "B1:major": 1.1,
-  "C1:major": 1.0,
   "C4:critical": 0.7,
-  "C3:major": 0.4,
-  "C7:major": 0.3,
   "C4:major": 0.3,
   "C5:critical": 0.1,
-  "D3:major": 0.1,
-  "C1:critical": 0.1,
   "C6:major": 0.1
  },
  "per_protocol": [
@@ -201,9 +196,9 @@
    "nct_id": "NCT03132636",
    "seed": 1,
    "injected": 9,
-   "tp": 3,
-   "fn": 6,
-   "fp": 1,
+   "tp": 1,
+   "fn": 8,
+   "fp": 0,
    "skipped": [
     {
      "type": "T01",
@@ -272,11 +267,25 @@
      "why": "no C3 flag at all (needs LLM extraction)"
     },
     {
+     "type": "T09",
+     "description": "Stated power changed 85% -> 95% everywhere, so N is no longer reproducible",
+     "page": 18,
+     "line": "Group 1 Given a Sample Size of 50 Patients (Based on 95% Power) ........................83",
+     "why": "no C7 flag at all (needs LLM extraction)"
+    },
+    {
      "type": "T13",
      "description": "Lab threshold 1.5 changed to 3.0 in one place only",
      "page": 40,
      "line": "a. Total bilirubin \u22643.0x upper limit of normal (ULN) (or \u22643x ULN, if liver metastases).",
-     "why": "expected check fired elsewhere: p40 Inclusion and exclusion criteria conflict on age"
+     "why": "no C8 flag at all (needs LLM extraction)"
+    },
+    {
+     "type": "T12",
+     "description": "Exclusion criterion rewritten to contradict inclusion on age",
+     "page": 42,
+     "line": "2. Age at or above 14 years.",
+     "why": "no C8 flag at all (needs LLM extraction)"
     },
     {
      "type": "T10",
@@ -291,8 +300,8 @@
    "nct_id": "NCT03257267",
    "seed": 1,
    "injected": 12,
-   "tp": 6,
-   "fn": 6,
+   "tp": 5,
+   "fn": 7,
    "fp": 0,
    "skipped": [
     {
@@ -350,6 +359,13 @@
      "why": "no C7 flag at all (needs LLM extraction)"
     },
     {
+     "type": "T05",
+     "description": "Removed the analysis of secondary endpoint 'Time to progression or death' (1 line(s))",
+     "page": 94,
+     "line": "(removed)The PFS will be analyzed using the same statistical method as the analysis of OS.",
+     "why": "no C3 flag at all (needs LLM extraction)"
+    },
+    {
      "type": "T12",
      "description": "Exclusion criterion rewritten to contradict inclusion on lesion size (CT/MRI/caliper)",
      "page": 49,
@@ -361,7 +377,7 @@
      "description": "Removed the endpoint text of secondary objective 'To compare progression-free survival (PFS) of cemiplimab ver'",
      "page": 43,
      "line": "(removed)Progression-free survival will be defined as the time from randomization to the date of the first documented tumor progression using RECIST 1.1, or death due to any cause.",
-     "why": "expected check fired elsewhere: p43 Endpoint 'Quality of life' has no analysis method "
+     "why": "no C3 flag at all (needs LLM extraction)"
     }
    ]
   },
@@ -420,7 +436,7 @@
      "description": "Removed the analysis of secondary endpoint 'Incidence of TEAEs' (1 line(s))",
      "page": 66,
      "line": "(removed)For categorical or ordinal data, frequencies and percentages will be displayed for each category.",
-     "why": "expected check fired but only on issues already present in the clean run"
+     "why": "no C3 flag at all (needs LLM extraction)"
     },
     {
      "type": "T06",
@@ -463,8 +479,8 @@
    "nct_id": "NCT04154943",
    "seed": 1,
    "injected": 10,
-   "tp": 6,
-   "fn": 4,
+   "tp": 4,
+   "fn": 6,
    "fp": 0,
    "skipped": [
     {
@@ -516,6 +532,13 @@
      "why": "no C3 flag at all (needs LLM extraction)"
     },
     {
+     "type": "T09",
+     "description": "Stated power changed 90% -> 80% everywhere, so N is no longer reproducible",
+     "page": 17,
+     "line": "Seventy-two (72) patients will be required to provide 80% power to reject the",
+     "why": "no C7 flag at all (needs LLM extraction)"
+    },
+    {
      "type": "T17",
      "description": "Duration 12 changed to 24 in one place; total no longer adds up",
      "page": 14,
@@ -523,11 +546,18 @@
      "why": "no C6 flag at all (extracted, but the check did not flag it)"
     },
     {
+     "type": "T12",
+     "description": "Exclusion criterion rewritten to contradict inclusion on lesion longest diameter",
+     "page": 34,
+     "line": "2. Lesion longest diameter at or above 2.4 cm.",
+     "why": "no C8 flag at all (needs LLM extraction)"
+    },
+    {
      "type": "T13",
      "description": "Lab threshold 9.0 changed to 18.0 in one place only",
      "page": 34,
      "line": "a. Hemoglobin >18.0 g/dL",
-     "why": "expected check fired elsewhere: p33 Inclusion and exclusion criteria conflict on lesio"
+     "why": "no C8 flag at all (needs LLM extraction)"
     }
    ]
   },
@@ -535,8 +565,8 @@
    "nct_id": "NCT04639219",
    "seed": 1,
    "injected": 8,
-   "tp": 4,
-   "fn": 4,
+   "tp": 3,
+   "fn": 5,
    "fp": 0,
    "skipped": [
     {
@@ -586,7 +616,7 @@
      "description": "Lab threshold 9 changed to 18 in one place only",
      "page": 44,
      "line": "Hemoglobin \u2265 18 g/dL. NOTE: Patients requiring ongoing",
-     "why": "expected check fired elsewhere: p44 Inclusion and exclusion criteria conflict on LVEF"
+     "why": "no C8 flag at all (needs LLM extraction)"
     },
     {
      "type": "T05",
@@ -608,6 +638,13 @@
      "page": 11,
      "line": "the opportunity for approximately 44 weeks of follow-up after treatment assignment. This",
      "why": "expected check fired but only on issues already present in the clean run (extracted, but the check did not flag it)"
+    },
+    {
+     "type": "T12",
+     "description": "Exclusion criterion rewritten to contradict inclusion on LVEF",
+     "page": 48,
+     "line": "10 Lvef at or above 40 %.",
+     "why": "no C8 flag at all (needs LLM extraction)"
     }
    ]
   },
@@ -615,8 +652,8 @@
    "nct_id": "NCT04646005",
    "seed": 1,
    "injected": 10,
-   "tp": 6,
-   "fn": 4,
+   "tp": 5,
+   "fn": 5,
    "fp": 1,
    "skipped": [
     {
@@ -675,11 +712,18 @@
      "why": "no C3 flag at all (needs LLM extraction)"
     },
     {
+     "type": "T12",
+     "description": "Exclusion criterion rewritten to contradict inclusion on Hemoglobin",
+     "page": 42,
+     "line": "1. Hemoglobin at or above 6 g/dL.",
+     "why": "no C8 flag at all (needs LLM extraction)"
+    },
+    {
      "type": "T13",
      "description": "Lab threshold 8 changed to 16 in one place only",
      "page": 41,
      "line": "a. Hemoglobin \u226516 g/dL",
-     "why": "expected check fired elsewhere: p41 Inclusion and exclusion criteria conflict on Hemog"
+     "why": "no C8 flag at all (needs LLM extraction)"
     }
    ]
   },
@@ -778,12 +822,7 @@
   "protocols": 7
  },
  "ablation": null,
- "hallucination": {
-  "ai_findings": 446,
-  "dropped_ungrounded": 60,
-  "shown": 386,
-  "shown_ungrounded": 0
- },
+ "hallucination": null,
  "human_baseline": null,
  "real_findings": null,
  "soa_extraction": null,

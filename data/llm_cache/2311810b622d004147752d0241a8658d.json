@@ -1,0 +1,7 @@
+{
+ "step": "draft_6.1",
+ "model": "deepseek/deepseek-v4-flash-0731",
+ "content": "{\n  \"markdown\": \"### 6.1 Trial Intervention\\n\\n**Intervention (Arm A):** Drug X 350 mg administered intravenously (IV) every 3 weeks (Q3W) in combination with nivolumab. The dose, schedule, and administration details for nivolumab are [TBD: specify nivolumab dose, schedule, and administration per local label or protocol]. Treatment continues for a total duration of 52 weeks, or until disease progression, unacceptable toxicity, or withdrawal of consent, whichever occurs first.\\n\\n**Comparator (Arm B):** Nivolumab alone. The dose, schedule, and administration details for nivolumab are [TBD: specify nivolumab dose, schedule, and administration per local label or protocol]. Treatment continues for a total duration of 52 weeks, or until disease progression, unacceptable toxicity, or withdrawal of consent, whichever occurs first.\\n\\nBoth arms are administered in a 1:1 randomization ratio. The treatment schedule is every 3 weeks (Q3W) for both arms. [TBD: specify any premedication, infusion rate, or dose modification rules for Drug X and nivolumab, if applicable, based on the product labels and local guidelines.]\"\n}",
+ "tokens_in": 924,
+ "tokens_out": 260
+}

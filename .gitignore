@@ -1,9 +1,8 @@
-# --- Markdown: never pushed ---
+# --- Markdown: only the README and the design docs are published ---
 *.md
-docs/
-# README.md is also ignored for now. Judges need a README on GitHub,
-# so uncomment the next line before submission (BUILD_PLAN.md section 6):
-# !README.md
+!README.md
+!docs/*.md
+docs/team/
 
 # --- Secrets ---
 .env
