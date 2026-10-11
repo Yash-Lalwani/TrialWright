@@ -116,19 +116,8 @@ def _m11_items(graph: ProtocolGraph) -> list[CompletenessItem]:
         # Chapters and sections need their own heading, unless the chapter is one undivided block (e.g. objectives
         # in a single table). Sub-items rarely have headings in pre-M11 protocols, so their content is searched.
         undivided = scope is not None and len(scope) == 1
-        if len(parts) == 1:
+        if len(parts) == 1 or (len(parts) == 2 and not undivided):
             add("missing")
-            continue
-        if len(parts) == 2 and not undivided:
-            # Older protocols put this content in the chapter without the M11 sub-heading. Look for it by content before
-            # saying it is absent. Never 'present': M11 wants its own heading, so a find is 'thin' (a minor B3 note that
-            # names where the content is) and only a real absence stays 'missing' (major for key items).
-            hit = _found_in(scope, item, by_name_only=False) if scope else None
-            if hit is None:
-                add("missing")
-                continue
-            add("thin", range(hit.page_start, hit.page_end + 1),
-                f"No own section; content found in {hit.title}. Add the M11 heading {item['id']} {item['title']}")
             continue
         hit = _found_in(scope, item, by_name_only=False) if scope else None
         if hit is None:

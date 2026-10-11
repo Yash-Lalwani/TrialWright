@@ -2,7 +2,6 @@
 Each test pins one fix and also checks that the genuine finding is still reported."""
 from types import SimpleNamespace
 
-from preflight.checks.completeness import _m11_items
 from preflight.graph.models import NumberFact, Section
 from preflight.ingest import entities
 from preflight.ingest.pdf import Line
@@ -75,26 +74,7 @@ def test_a_short_form_of_a_defined_hyphenated_abbreviation_counts_as_defined():
     assert "MDR" not in abbreviations(lines)
 
 
-# ---- fix 4: M11 sub-items without their own heading --------------------------------------------------------------
-def m11_status(chapter_text, title="4 TRIAL DESIGN"):
-    chapter = Section(id="s4", m11_id="4", title=title, level=1, page_start=10, page_end=14, text=chapter_text)
-    child = Section(id="s41", m11_id=None, title="4.1 Visits", level=2, page_start=11, page_end=11,
-                    text="visit text " * 30)
-    items = _m11_items(graph(sections=[chapter, child]))
-    return next(i for i in items if i.item_id == "4.1")
-
-
-def test_content_in_the_chapter_makes_a_missing_subsection_thin_not_missing():
-    item = m11_status("The trial design is a randomised, open-label, multi-arm trial. " * 10)
-    assert item.status == "thin" and "No own section" in item.note
-
-
-def test_a_chapter_with_no_such_content_still_reports_the_item_missing():
-    text = "Visits and procedures are listed in the schedule. " * 10
-    assert m11_status(text, title="4 STUDY LOGISTICS").status == "missing"
-
-
-# ---- fix 5: the trial's own NCT number ---------------------------------------------------------------------------
+# ---- the trial's own NCT number ---------------------------------------------------------------------------
 def test_nct_comes_from_the_cover_not_from_reference_links():
     assert entities._own_nct("Short Title TRUNCATE-TB NCT #: NCT03474198 Version 2.0") == "NCT03474198"
     assert entities._own_nct("see https://www.clinicaltrials.gov/ct2/show/NCT01994460 and more") is None
