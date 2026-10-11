@@ -50,7 +50,7 @@ def health():
     return {
         "status": "ok",
         "llm_mode": os.getenv("LLM_MODE", "replay"),
-        "model": os.getenv("PREFLIGHT_MODEL", "deepseek/deepseek-v4-flash-20260731"),
+        "model": os.getenv("PREFLIGHT_MODEL", "deepseek/deepseek-v4-flash-0731"),
     }
 
 
