@@ -14,7 +14,7 @@ planted errors.
 | 1:20-1:45 | Burden & peers | "Participant burden: 14 visits, 44 hours, $16k per patient, heavier than 80% of 34 peer trials. Each metric is compared with 200 similar melanoma trials; the outliers are amendment-risk hotspots, with precedent from the closest trials." |
 | 1:45-2:05 | Compare versions: earlier draft → final protocol | "Upload a revision and see what changed: 25 issues resolved, including a sample size that disagreed between sections, a nivolumab dose mismatch and overlapping visit windows. Score 49 → 72." |
 | 2:05-2:25 | Draft | Show the brief and a generated draft (pre-generate one before recording): "From a short brief, Pre-Flight drafts M11 sections citing precedent trials, computes the sample size with a calculator rather than the model, and runs its own checks on the draft." |
-| 2:25-2:50 | Evidence | "We measure ourselves. On 65 errors injected into 7 held-out protocols, the full system has 90% precision and beats both rules alone and an LLM alone, which gets only 10% precision. Zero ungrounded AI findings shown." Move the ROI sliders: "About $63k expected savings per Phase III protocol." |
+| 2:25-2:50 | Evidence | "We measure ourselves. On 65 errors injected into 7 held-out protocols, the full system has 90% precision and beats both rules alone and an LLM alone, which gets only 10% precision. Zero ungrounded AI findings shown." Move the ROI sliders: "At our measured catch rate, about $59k expected savings per Phase III protocol." |
 | 2:50-3:00 | Export menu, then the banner | "USDM JSON, M11 Word document, and an issue report. Open source, MIT, runs from a clean clone. Pre-Flight assists protocol authors; it doesn't approve protocols." |
 
 ## Before recording
