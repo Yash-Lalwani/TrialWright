@@ -10,17 +10,18 @@ MEASURE_PROCEDURES = {
     r"\b(orr|response|pfs|progression|recist|tumou?r|dor|dcr|cbr)\b": r"tumou?r|imaging|ct|mri|scan|recist|assessment",
     r"\b(os|overall survival|survival)\b": r"survival|follow",
     r"quality of life|qol|pro\b|questionnaire|eortc|fact-|sf-36|eq-5d": r"quality|qol|pro\b|questionnaire|eortc|eq-5d",
-    r"\b(pk|pharmacokinetic|concentration|cmax|auc)\b": r"\bpk\b|pharmacokinetic|plasma|serum.*sample",
+    r"\b(pk|pharmacokinetics?|concentrations?|cmax|auc)\b": r"\bpk\b|pharmacokinetic|plasma|serum.*sample",
     r"blood pressure|\bbp\b": r"vital|blood pressure",
     r"hba1c": r"hba1c|chemistry|lab",
-    r"immunogenicity|ada\b|anti-drug": r"immunogenicity|ada\b|anti-drug",
+    r"immunogenicity|ada\b|anti-drug|antibod": r"immunogenicity|ada\b|anti-drug|antibod",
+    r"biomarker|exploratory": r"biomarker|tissue|biopsy|exploratory",
 }
 SAFETY = re.compile(
     r"vital|ecg|electrocardio|hematology|haematology|chemistry|biochem|urinalysis|coagulation|physical|adverse|\bae\b|"
     r"pregnan|concomitant|ecog|performance status|weight|height|lab|blood test|thyroid|hepat|hbv|hcv|hiv|serology|"
     r"troponin|cardiac|echocardiogram|muga|lvef|ophthalm|safety", re.I)
 ADMIN = re.compile(
-    r"consent|icf|eligib|inclusion|exclusion|demograph|medical history|prior|randomi[sz]|registration|"
+    r"consent|icf|eligib|inclusion|exclusion|demograph|history|prior|randomi[sz]|registration|"
     r"dispens|administ|infusion|dosing|study drug|treatment|compliance|diary|subsequent|survival|contact", re.I)
 
 

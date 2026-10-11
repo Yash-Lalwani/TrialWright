@@ -1,227 +1,2762 @@
 {
-  "total": 7,
+  "total": 97,
   "items": [
     {
-      "id": "iss_01",
-      "check_id": "C1",
+      "id": "iss_49947401",
+      "check_id": "B1",
       "source": "rule",
-      "category": "consistency",
-      "severity": "critical",
-      "title": "Primary endpoint timepoint has no matching assessment in the Schedule of Activities",
+      "category": "completeness",
+      "severity": "major",
+      "title": "M11 6.1 Description of Investigational Trial Intervention is missing",
       "where": {
-        "section": "1.3 SCHEDULE OF ACTIVITIES AND SAMPLE COLLECTION SCHEDULES Table 1 Schedule of Activities for Participants Randomized to Arm A and Participants Randomized to Arm B Who Did Not Crossover",
-        "page": 18,
-        "bbox": [
-          335.8,
-          165.4,
-          489.7,
-          176.5
-        ],
-        "quote": "Treatment Period (3-Week Cycles)"
+        "section": "6.1 Description of Investigational Trial Intervention",
+        "page": null,
+        "bbox": null,
+        "quote": null
       },
       "related": [],
       "why": {
-        "explanation": "Mock issue anchored to real text in 1.3 SCHEDULE OF ACTIVITIES AND SAMPLE COLLECTION SCHEDULES Table 1 Schedule of Activities for Participants Randomized to Arm A and Participants Randomized to Arm B Who Did Not Crossover.",
-        "standard_ref": "ICH M11 1.3, 3; SPIRIT 2025 item 13",
-        "amendment_category": "visit_schedule"
+        "explanation": "The protocol has no section or content for M11 item 6.1 (Description of Investigational Trial Intervention).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
       },
       "fix": {
-        "suggestion": "Add the endpoint assessment to the matching SoA visit.",
+        "suggestion": "Add Description of Investigational Trial Intervention.",
         "patch": null
       },
-      "confidence": 0.9,
+      "confidence": 1.0,
       "verified": true,
       "status": "open"
     },
     {
-      "id": "iss_02",
+      "id": "iss_49947402",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "major",
+      "title": "M11 10.4 Analyses Associated with the Primary Objective(s) is missing",
+      "where": {
+        "section": "10.4 Analyses Associated with the Primary Objective(s)",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 10.4 (Analyses Associated with the Primary Objective(s)).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Analyses Associated with the Primary Objective(s).",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947403",
+      "check_id": "B2",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "major",
+      "title": "SPIRIT 4 Trial registration is missing",
+      "where": {
+        "section": "4 Trial registration",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for SPIRIT item 4 (Trial registration).",
+        "standard_ref": "SPIRIT 2025",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Trial registration.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947404",
+      "check_id": "B2",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "major",
+      "title": "SPIRIT 6 Data sharing is missing",
+      "where": {
+        "section": "6 Data sharing",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for SPIRIT item 6 (Data sharing).",
+        "standard_ref": "SPIRIT 2025",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Data sharing.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947405",
+      "check_id": "B2",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "major",
+      "title": "SPIRIT 11 Patient and public involvement is missing",
+      "where": {
+        "section": "11 Patient and public involvement",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for SPIRIT item 11 (Patient and public involvement).",
+        "standard_ref": "SPIRIT 2025",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Patient and public involvement.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947406",
+      "check_id": "B2",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "major",
+      "title": "SPIRIT 34 Ancillary and post-trial care is missing",
+      "where": {
+        "section": "34 Ancillary and post-trial care",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for SPIRIT item 34 (Ancillary and post-trial care).",
+        "standard_ref": "SPIRIT 2025",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Ancillary and post-trial care.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947407",
       "check_id": "C3",
       "source": "rule",
       "category": "consistency",
       "severity": "major",
-      "title": "Secondary objective has no endpoint with an analysis method",
+      "title": "Endpoint 'Anti-Qb antibodies' has no analysis method in the statistics section",
       "where": {
-        "section": "3 OBJECTIVES AND ENDPOINTS",
-        "page": 35,
+        "section": "2.2.3 Exploratory Endpoints",
+        "page": 34,
         "bbox": [
           108.0,
-          239.2,
-          440.8,
-          251.5
+          223.2,
+          296.8,
+          239.6
         ],
-        "quote": "This study will evaluate the efficacy, safety, and pharmacokinetics of"
+        "quote": "Development of anti-Qb antibodies"
       },
       "related": [],
       "why": {
-        "explanation": "Mock issue anchored to real text in 3 OBJECTIVES AND ENDPOINTS.",
-        "standard_ref": "ICH M11 3; SPIRIT 2025 item 7",
+        "explanation": "The endpoint 'Development of anti-Qb antibodies.' is not analysed in the statistical considerations section.",
+        "standard_ref": "ICH M11 3, 10; SPIRIT 2025 items 7, 12, 20",
         "amendment_category": "endpoints"
       },
       "fix": {
-        "suggestion": "Add an endpoint and name its analysis in the statistics section.",
+        "suggestion": "Describe the analysis method, population and handling of missing data for Anti-Qb antibodies.",
         "patch": null
       },
-      "confidence": 0.9,
+      "confidence": 1.0,
       "verified": true,
       "status": "open"
     },
     {
-      "id": "iss_03",
-      "check_id": "C8",
+      "id": "iss_49947408",
+      "check_id": "B1",
       "source": "rule",
-      "category": "consistency",
-      "severity": "major",
-      "title": "Inclusion and exclusion criteria use conflicting thresholds for the same lab test",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 1.2 Trial Schema is missing",
       "where": {
-        "section": "5.1 INCLUSION CRITERIA FOR ALL PARTICIPANTS",
-        "page": 45,
-        "bbox": [
-          108.0,
-          240.1,
-          474.9,
-          252.5
-        ],
-        "quote": "Participants are eligible to be included in the study only if all of the following"
+        "section": "1.2 Trial Schema",
+        "page": null,
+        "bbox": null,
+        "quote": null
       },
       "related": [],
       "why": {
-        "explanation": "Mock issue anchored to real text in 5.1 INCLUSION CRITERIA FOR ALL PARTICIPANTS.",
-        "standard_ref": "ICH M11 5.1, 5.2",
-        "amendment_category": "eligibility"
+        "explanation": "The protocol has no section or content for M11 item 1.2 (Trial Schema).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
       },
       "fix": {
-        "suggestion": "Use one threshold and unit for the lab test in both lists.",
+        "suggestion": "Add Trial Schema.",
         "patch": null
       },
-      "confidence": 0.9,
+      "confidence": 1.0,
       "verified": true,
       "status": "open"
     },
     {
-      "id": "iss_04",
+      "id": "iss_49947409",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 4.2 Rationale for Trial Design is missing",
+      "where": {
+        "section": "4.2 Rationale for Trial Design",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 4.2 (Rationale for Trial Design).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Rationale for Trial Design.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947410",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 4.3 Trial Stopping Rules is missing",
+      "where": {
+        "section": "4.3 Trial Stopping Rules",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 4.3 (Trial Stopping Rules).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Trial Stopping Rules.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947411",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 4.4 Start of Trial and End of Trial is missing",
+      "where": {
+        "section": "4.4 Start of Trial and End of Trial",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 4.4 (Start of Trial and End of Trial).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Start of Trial and End of Trial.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947412",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 4.5 Access to Trial Intervention After End of Trial is missing",
+      "where": {
+        "section": "4.5 Access to Trial Intervention After End of Trial",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 4.5 (Access to Trial Intervention After End of Trial).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Access to Trial Intervention After End of Trial.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947413",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 5.4 Contraception is missing",
+      "where": {
+        "section": "5.4 Contraception",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 5.4 (Contraception).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Contraception.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947414",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 5.5 Lifestyle Restrictions is missing",
+      "where": {
+        "section": "5.5 Lifestyle Restrictions",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 5.5 (Lifestyle Restrictions).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Lifestyle Restrictions.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947415",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 5.6 Screen Failure and Rescreening is missing",
+      "where": {
+        "section": "5.6 Screen Failure and Rescreening",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 5.6 (Screen Failure and Rescreening).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Screen Failure and Rescreening.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947416",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 6.3 Investigational Trial Intervention Administration is missing",
+      "where": {
+        "section": "6.3 Investigational Trial Intervention Administration",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 6.3 (Investigational Trial Intervention Administration).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Investigational Trial Intervention Administration.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947417",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 6.5 Management of Investigational Trial Intervention Overdose is missing",
+      "where": {
+        "section": "6.5 Management of Investigational Trial Intervention Overdose",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 6.5 (Management of Investigational Trial Intervention Overdose).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Management of Investigational Trial Intervention Overdose.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947418",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 6.6 Preparation, Storage, Handling and Accountability of Investigational Trial Intervention is missing",
+      "where": {
+        "section": "6.6 Preparation, Storage, Handling and Accountability of Investigational Trial Intervention",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 6.6 (Preparation, Storage, Handling and Accountability of Investigational Trial Intervention).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Preparation, Storage, Handling and Accountability of Investigational Trial Intervention.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947419",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 6.7 Investigational Trial Intervention Assignment, Randomisation and Blinding is missing",
+      "where": {
+        "section": "6.7 Investigational Trial Intervention Assignment, Randomisation and Blinding",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 6.7 (Investigational Trial Intervention Assignment, Randomisation and Blinding).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Investigational Trial Intervention Assignment, Randomisation and Blinding.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947420",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 6.9 Description of Noninvestigational Trial Intervention is missing",
+      "where": {
+        "section": "6.9 Description of Noninvestigational Trial Intervention",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 6.9 (Description of Noninvestigational Trial Intervention).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Description of Noninvestigational Trial Intervention.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947421",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 7.1.2 Temporary Discontinuation of Trial Intervention is missing",
+      "where": {
+        "section": "7.1.2 Temporary Discontinuation of Trial Intervention",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 7.1.2 (Temporary Discontinuation of Trial Intervention).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Temporary Discontinuation of Trial Intervention.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947422",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 8.1 Trial Assessments and Procedures Considerations is missing",
+      "where": {
+        "section": "8.1 Trial Assessments and Procedures Considerations",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 8.1 (Trial Assessments and Procedures Considerations).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Trial Assessments and Procedures Considerations.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947423",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 8.3 Efficacy Assessments and Procedures is missing",
+      "where": {
+        "section": "8.3 Efficacy Assessments and Procedures",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 8.3 (Efficacy Assessments and Procedures).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Efficacy Assessments and Procedures.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947424",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 8.6 Biomarkers is missing",
+      "where": {
+        "section": "8.6 Biomarkers",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 8.6 (Biomarkers).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Biomarkers.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947425",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 9.1.3 Definitions of Product Complaints is missing",
+      "where": {
+        "section": "9.1.3 Definitions of Product Complaints",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 9.1.3 (Definitions of Product Complaints).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Definitions of Product Complaints.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947426",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 9.2 Timing and Procedures for Collection and Reporting is missing",
+      "where": {
+        "section": "9.2 Timing and Procedures for Collection and Reporting",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 9.2 (Timing and Procedures for Collection and Reporting).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Timing and Procedures for Collection and Reporting.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947427",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 9.4 Special Safety Situations is missing",
+      "where": {
+        "section": "9.4 Special Safety Situations",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 9.4 (Special Safety Situations).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Special Safety Situations.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947428",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 10.1 General Considerations is missing",
+      "where": {
+        "section": "10.1 General Considerations",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 10.1 (General Considerations).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add General Considerations.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947429",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 10.3 Analyses of Demographics and Other Baseline Variables is missing",
+      "where": {
+        "section": "10.3 Analyses of Demographics and Other Baseline Variables",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 10.3 (Analyses of Demographics and Other Baseline Variables).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Analyses of Demographics and Other Baseline Variables.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947430",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 10.5 Analyses Associated with the Secondary Objective(s) is missing",
+      "where": {
+        "section": "10.5 Analyses Associated with the Secondary Objective(s)",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 10.5 (Analyses Associated with the Secondary Objective(s)).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Analyses Associated with the Secondary Objective(s).",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947431",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 10.8 Other Analyses is missing",
+      "where": {
+        "section": "10.8 Other Analyses",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 10.8 (Other Analyses).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Other Analyses.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947432",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 10.9 Interim Analyses is missing",
+      "where": {
+        "section": "10.9 Interim Analyses",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 10.9 (Interim Analyses).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Interim Analyses.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947433",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 10.10 Multiplicity Adjustments is missing",
+      "where": {
+        "section": "10.10 Multiplicity Adjustments",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 10.10 (Multiplicity Adjustments).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Multiplicity Adjustments.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947434",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 11.2 Trial Oversight is missing",
+      "where": {
+        "section": "11.2 Trial Oversight",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 11.2 (Trial Oversight).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Trial Oversight.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947435",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 11.4 Committees is missing",
+      "where": {
+        "section": "11.4 Committees",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 11.4 (Committees).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Committees.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947436",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 11.5 Insurance and Indemnity is missing",
+      "where": {
+        "section": "11.5 Insurance and Indemnity",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 11.5 (Insurance and Indemnity).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Insurance and Indemnity.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947437",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 11.7 Data Governance is missing",
+      "where": {
+        "section": "11.7 Data Governance",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 11.7 (Data Governance).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Data Governance.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947438",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 11.8 Data Protection is missing",
+      "where": {
+        "section": "11.8 Data Protection",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 11.8 (Data Protection).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Data Protection.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947439",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 11.11 Early Site Closure is missing",
+      "where": {
+        "section": "11.11 Early Site Closure",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 11.11 (Early Site Closure).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Early Site Closure.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947440",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 12.1 Clinical Laboratory Tests is missing",
+      "where": {
+        "section": "12.1 Clinical Laboratory Tests",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 12.1 (Clinical Laboratory Tests).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Clinical Laboratory Tests.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947441",
+      "check_id": "B1",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 12.3 Prior Protocol Amendment(s) is missing",
+      "where": {
+        "section": "12.3 Prior Protocol Amendment(s)",
+        "page": null,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol has no section or content for M11 item 12.3 (Prior Protocol Amendment(s)).",
+        "standard_ref": "ICH M11 template",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add Prior Protocol Amendment(s).",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947442",
+      "check_id": "B3",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "SPIRIT 7 Funding and conflicts of interest is thin",
+      "where": {
+        "section": "7 Funding and conflicts of interest",
+        "page": 1,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "Funding and conflicts of interest is present but incomplete. Missing: conflict of interest.",
+        "standard_ref": "ICH M11 template; SPIRIT 2025",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Complete Funding and conflicts of interest: Missing: conflict of interest.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947443",
+      "check_id": "B3",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "SPIRIT 28 Data monitoring committee is thin",
+      "where": {
+        "section": "28 Data monitoring committee",
+        "page": 5,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "Data monitoring committee is present but incomplete. Missing: interim.",
+        "standard_ref": "ICH M11 template; SPIRIT 2025",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Complete Data monitoring committee: Missing: interim.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947444",
+      "check_id": "B3",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "SPIRIT 9 Background and rationale is thin",
+      "where": {
+        "section": "9 Background and rationale",
+        "page": 28,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "Background and rationale is present but incomplete. Missing: comparator.",
+        "standard_ref": "ICH M11 template; SPIRIT 2025",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Complete Background and rationale: Missing: comparator.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947445",
+      "check_id": "B3",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 2.2 Assessment of Risks and Benefits is thin",
+      "where": {
+        "section": "2.2 Assessment of Risks and Benefits",
+        "page": 30,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "Assessment of Risks and Benefits is present but incomplete. Missing: risk, benefit.",
+        "standard_ref": "ICH M11 template; SPIRIT 2025",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Complete Assessment of Risks and Benefits: Missing: risk, benefit.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947446",
+      "check_id": "B3",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 3.1 Primary Objective(s) and Associated Estimand(s) is thin",
+      "where": {
+        "section": "3.1 Primary Objective(s) and Associated Estimand(s)",
+        "page": 33,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "Primary Objective(s) and Associated Estimand(s) is present but incomplete. Missing: population, treatment, summary measure, intercurrent event.",
+        "standard_ref": "ICH M11 template; SPIRIT 2025",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Complete Primary Objective(s) and Associated Estimand(s): Missing: population, treatment, summary measure, intercurrent event.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947447",
+      "check_id": "B3",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 4.1 Description of Trial Design is thin",
+      "where": {
+        "section": "4.1 Description of Trial Design",
+        "page": 35,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "Description of Trial Design is present but incomplete. Missing: design, number of participants, control, duration.",
+        "standard_ref": "ICH M11 template; SPIRIT 2025",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Complete Description of Trial Design: Missing: design, number of participants, control, duration.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947448",
+      "check_id": "B3",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 5.3 Exclusion Criteria is thin",
+      "where": {
+        "section": "5.3 Exclusion Criteria",
+        "page": 39,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "Exclusion Criteria is present but incomplete. Missing: exclusion.",
+        "standard_ref": "ICH M11 template; SPIRIT 2025",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Complete Exclusion Criteria: Missing: exclusion.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947449",
       "check_id": "D3",
       "source": "rule",
       "category": "amendment_risk",
       "severity": "minor",
-      "title": "Exclusion list is longer than 88% of peer trials",
+      "title": "25 exclusion criteria: 85% of similar trials have fewer",
       "where": {
-        "section": "5.2 EXCLUSION CRITERIA FOR ALL PARTICIPANTS",
-        "page": 47,
+        "section": "4.2 Exclusion Criteria",
+        "page": 39,
         "bbox": [
-          108.0,
-          573.2,
-          446.1,
-          585.5
+          90.0,
+          600.4,
+          281.9,
+          616.7
         ],
-        "quote": "Participants are excluded from the study if any of the following criteria"
+        "quote": "Uveal, acral, or mucosal melanoma."
       },
       "related": [],
       "why": {
-        "explanation": "Mock issue anchored to real text in 5.2 EXCLUSION CRITERIA FOR ALL PARTICIPANTS.",
-        "standard_ref": "Getz 2016 amendment drivers",
+        "explanation": "This protocol has 25 exclusion criteria; the peer median is 15 (middle half 10 to 22) across 200 registered PHASE2 trials in 'Melanoma' (started 2015 or later). An outlier is not an error, but it is a choice reviewers will ask about. Less restrictive peers: NCT02275416 (15), NCT02743611 (15), NCT03033576 (15).",
+        "standard_ref": "ICH M11 5.3",
         "amendment_category": "eligibility"
       },
       "fix": {
-        "suggestion": "Review exclusions that peers do not use.",
+        "suggestion": "Review each exclusion criterion for a safety or scientific rationale and drop those without one.",
         "patch": null
       },
-      "confidence": 0.9,
+      "confidence": 0.7,
       "verified": true,
       "status": "open"
     },
     {
-      "id": "iss_05",
-      "check_id": "C7",
-      "source": "rule",
-      "category": "consistency",
-      "severity": "critical",
-      "title": "Stated sample size does not match the recomputed value from alpha, power and effect size",
-      "where": {
-        "section": "9.1 STATISTICAL HYPOTHESES",
-        "page": 81,
-        "bbox": [
-          108.0,
-          411.6,
-          476.8,
-          424.0
-        ],
-        "quote": "The primary objective of the study is to assess whether pralsetinib improves"
-      },
-      "related": [],
-      "why": {
-        "explanation": "Mock issue anchored to real text in 9.1 STATISTICAL HYPOTHESES.",
-        "standard_ref": "ICH E9; SPIRIT 2025 item 18",
-        "amendment_category": "statistics"
-      },
-      "fix": {
-        "suggestion": "Recheck the sample size inputs or update the stated N.",
-        "patch": null
-      },
-      "confidence": 0.9,
-      "verified": true,
-      "status": "open"
-    },
-    {
-      "id": "iss_06",
-      "check_id": "C9",
+      "id": "iss_49947450",
+      "check_id": "B3",
       "source": "rule",
       "category": "completeness",
       "severity": "minor",
-      "title": "Abbreviation used but never defined",
+      "title": "M11 5.1 Description of Trial Population and Rationale is thin",
       "where": {
-        "section": "Appendix 14 Abbreviations",
-        "page": 180,
-        "bbox": [
-          145.7,
-          102.2,
-          238.9,
-          113.4
-        ],
-        "quote": "Abbreviation or Term"
+        "section": "5.1 Description of Trial Population and Rationale",
+        "page": 44,
+        "bbox": null,
+        "quote": null
       },
       "related": [],
       "why": {
-        "explanation": "Mock issue anchored to real text in Appendix 14 Abbreviations.",
-        "standard_ref": "ICH M11 general",
-        "amendment_category": "clerical"
+        "explanation": "Description of Trial Population and Rationale is present but incomplete. Missing: population, age, rationale.",
+        "standard_ref": "ICH M11 template; SPIRIT 2025",
+        "amendment_category": "completeness"
       },
       "fix": {
-        "suggestion": "Add the abbreviation to the list of abbreviations.",
+        "suggestion": "Complete Description of Trial Population and Rationale: Missing: population, age, rationale.",
         "patch": null
       },
-      "confidence": 0.9,
+      "confidence": 1.0,
       "verified": true,
       "status": "open"
     },
     {
-      "id": "iss_07",
-      "check_id": "C4",
+      "id": "iss_49947451",
+      "check_id": "B3",
       "source": "rule",
-      "category": "consistency",
-      "severity": "major",
-      "title": "Age range in the synopsis differs from the eligibility criteria",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 6.8 Investigational Trial Intervention Adherence is thin",
       "where": {
-        "section": "1.1 SYNOPSIS",
-        "page": 12,
-        "bbox": [
-          231.4,
-          201.5,
-          302.4,
-          212.6
-        ],
-        "quote": "EU CT Number:"
+        "section": "6.8 Investigational Trial Intervention Adherence",
+        "page": 58,
+        "bbox": null,
+        "quote": null
       },
       "related": [],
       "why": {
-        "explanation": "Mock issue anchored to real text in 1.1 SYNOPSIS.",
-        "standard_ref": "ICH M11 1.1, 5.1",
-        "amendment_category": "design"
+        "explanation": "Investigational Trial Intervention Adherence is present but incomplete. Missing: adherence.",
+        "standard_ref": "ICH M11 template; SPIRIT 2025",
+        "amendment_category": "completeness"
       },
       "fix": {
-        "suggestion": "Make the synopsis age range match the inclusion criteria.",
+        "suggestion": "Complete Investigational Trial Intervention Adherence: Missing: adherence.",
         "patch": null
       },
-      "confidence": 0.9,
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947452",
+      "check_id": "B3",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 8.5 Pharmacokinetics is thin",
+      "where": {
+        "section": "8.5 Pharmacokinetics",
+        "page": 68,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "Pharmacokinetics is present but incomplete. Missing: parameter.",
+        "standard_ref": "ICH M11 template; SPIRIT 2025",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Complete Pharmacokinetics: Missing: parameter.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947453",
+      "check_id": "B3",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 9.2.3 Reporting is thin",
+      "where": {
+        "section": "9.2.3 Reporting",
+        "page": 70,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "Reporting is present but incomplete. No own section; covered in 7.6.1 Adverse Events. Missing: 24 hours, sponsor.",
+        "standard_ref": "ICH M11 template; SPIRIT 2025",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Complete Reporting: No own section; covered in 7.6.1 Adverse Events. Missing: 24 hours, sponsor.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947454",
+      "check_id": "B3",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 10.11 Sample Size Determination is thin",
+      "where": {
+        "section": "10.11 Sample Size Determination",
+        "page": 80,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "Sample Size Determination is present but incomplete. Missing: dropout.",
+        "standard_ref": "ICH M11 template; SPIRIT 2025",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Complete Sample Size Determination: Missing: dropout.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947455",
+      "check_id": "B3",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 11.12 Data Dissemination is thin",
+      "where": {
+        "section": "11.12 Data Dissemination",
+        "page": 91,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "Data Dissemination is present but incomplete. Missing: register.",
+        "standard_ref": "ICH M11 template; SPIRIT 2025",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Complete Data Dissemination: Missing: register.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947456",
+      "check_id": "B3",
+      "source": "rule",
+      "category": "completeness",
+      "severity": "minor",
+      "title": "M11 12.2 Country/Region-Specific Differences is thin",
+      "where": {
+        "section": "12.2 Country/Region-Specific Differences",
+        "page": 128,
+        "bbox": null,
+        "quote": null
+      },
+      "related": [],
+      "why": {
+        "explanation": "Country/Region-Specific Differences is present but incomplete. Missing: countr.",
+        "standard_ref": "ICH M11 template; SPIRIT 2025",
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Complete Country/Region-Specific Differences: Missing: countr.",
+        "patch": null
+      },
+      "confidence": 1.0,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947457",
+      "check_id": "C9",
+      "source": "rule",
+      "category": "consistency",
+      "severity": "advisory",
+      "title": "Abbreviation 'CMP' is used 264 times but never defined",
+      "where": {
+        "section": "Investigator’S Agreement A Multicenter, Open-Label, Phase 2 Study Of Intratumoral Cmp- 001 In Combination With Intravenous Nivolumab In Subjects With Refractory Unresectable Or Metastatic Melanoma",
+        "page": 2,
+        "bbox": null,
+        "quote": "Protocol Number: CMP-001-010"
+      },
+      "related": [],
+      "why": {
+        "explanation": "'CMP' appears 264 times but is not in the list of abbreviations and is never spelled out.",
+        "standard_ref": "ICH M11 general; SPIRIT 2025 item 1",
+        "amendment_category": "clerical"
+      },
+      "fix": {
+        "suggestion": "Define 'CMP' at first use and add it to the list of abbreviations.",
+        "patch": null
+      },
+      "confidence": 0.8,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947458",
+      "check_id": "C9",
+      "source": "rule",
+      "category": "consistency",
+      "severity": "advisory",
+      "title": "Abbreviation 'IQVIA' is used 18 times but never defined",
+      "where": {
+        "section": "Procedures In Case Of Emergency",
+        "page": 4,
+        "bbox": null,
+        "quote": "IQVIA Biotech Medical Monitor IQVIA Biotech"
+      },
+      "related": [],
+      "why": {
+        "explanation": "'IQVIA' appears 18 times but is not in the list of abbreviations and is never spelled out.",
+        "standard_ref": "ICH M11 general; SPIRIT 2025 item 1",
+        "amendment_category": "clerical"
+      },
+      "fix": {
+        "suggestion": "Define 'IQVIA' at first use and add it to the list of abbreviations.",
+        "patch": null
+      },
+      "confidence": 0.8,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947459",
+      "check_id": "C9",
+      "source": "rule",
+      "category": "consistency",
+      "severity": "advisory",
+      "title": "Abbreviation 'NOTE' is used 25 times but never defined",
+      "where": {
+        "section": "Synopsis",
+        "page": 5,
+        "bbox": null,
+        "quote": "NOTE: in subjects with histologically confirmed recurrence on or after adjuvant"
+      },
+      "related": [],
+      "why": {
+        "explanation": "'NOTE' appears 25 times but is not in the list of abbreviations and is never spelled out.",
+        "standard_ref": "ICH M11 general; SPIRIT 2025 item 1",
+        "amendment_category": "clerical"
+      },
+      "fix": {
+        "suggestion": "Define 'NOTE' at first use and add it to the list of abbreviations.",
+        "patch": null
+      },
+      "confidence": 0.8,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947460",
+      "check_id": "C9",
+      "source": "rule",
+      "category": "consistency",
+      "severity": "advisory",
+      "title": "Abbreviation 'BRAF' is used 15 times but never defined",
+      "where": {
+        "section": "Synopsis",
+        "page": 5,
+        "bbox": null,
+        "quote": "2. Known BRAF mutation status; if BRAF V600 mutation positive, must have had prior"
+      },
+      "related": [],
+      "why": {
+        "explanation": "'BRAF' appears 15 times but is not in the list of abbreviations and is never spelled out.",
+        "standard_ref": "ICH M11 general; SPIRIT 2025 item 1",
+        "amendment_category": "clerical"
+      },
+      "fix": {
+        "suggestion": "Define 'BRAF' at first use and add it to the list of abbreviations.",
+        "patch": null
+      },
+      "confidence": 0.8,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947461",
+      "check_id": "C9",
+      "source": "rule",
+      "category": "consistency",
+      "severity": "advisory",
+      "title": "Abbreviation 'CD8' is used 13 times but never defined",
+      "where": {
+        "section": "Synopsis",
+        "page": 5,
+        "bbox": null,
+        "quote": "• Analysis of CD3+CD8+ T cell infiltrates or other multi-parameter assessment of the"
+      },
+      "related": [],
+      "why": {
+        "explanation": "'CD8' appears 13 times but is not in the list of abbreviations and is never spelled out.",
+        "standard_ref": "ICH M11 general; SPIRIT 2025 item 1",
+        "amendment_category": "clerical"
+      },
+      "fix": {
+        "suggestion": "Define 'CD8' at first use and add it to the list of abbreviations.",
+        "patch": null
+      },
+      "confidence": 0.8,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947462",
+      "check_id": "C9",
+      "source": "rule",
+      "category": "consistency",
+      "severity": "advisory",
+      "title": "Abbreviation 'W6D1' is used 10 times but never defined",
+      "where": {
+        "section": "Synopsis",
+        "page": 5,
+        "bbox": null,
+        "quote": "Assessment to Day -1) W1D1 W2D1 W3D1 W4D1 W5D1 W6D1 W6D2 W7D1 (W10, W13, etc.) (EOT)a (100DFU)b (Q3mo) (Q3mo)"
+      },
+      "related": [],
+      "why": {
+        "explanation": "'W6D1' appears 10 times but is not in the list of abbreviations and is never spelled out.",
+        "standard_ref": "ICH M11 general; SPIRIT 2025 item 1",
+        "amendment_category": "clerical"
+      },
+      "fix": {
+        "suggestion": "Define 'W6D1' at first use and add it to the list of abbreviations.",
+        "patch": null
+      },
+      "confidence": 0.8,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947463",
+      "check_id": "C9",
+      "source": "rule",
+      "category": "consistency",
+      "severity": "advisory",
+      "title": "Abbreviation 'W3D1' is used 9 times but never defined",
+      "where": {
+        "section": "Synopsis",
+        "page": 5,
+        "bbox": null,
+        "quote": "Assessment to Day -1) W1D1 W2D1 W3D1 W4D1 W5D1 W6D1 W6D2 W7D1 (W10, W13, etc.) (EOT)a (100DFU)b (Q3mo) (Q3mo)"
+      },
+      "related": [],
+      "why": {
+        "explanation": "'W3D1' appears 9 times but is not in the list of abbreviations and is never spelled out.",
+        "standard_ref": "ICH M11 general; SPIRIT 2025 item 1",
+        "amendment_category": "clerical"
+      },
+      "fix": {
+        "suggestion": "Define 'W3D1' at first use and add it to the list of abbreviations.",
+        "patch": null
+      },
+      "confidence": 0.8,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947464",
+      "check_id": "C9",
+      "source": "rule",
+      "category": "consistency",
+      "severity": "advisory",
+      "title": "Abbreviation 'CI' is used 7 times but never defined",
+      "where": {
+        "section": "Synopsis",
+        "page": 5,
+        "bbox": null,
+        "quote": "of safety. A sample size of 100 subjects with an ORR of 20% produces a 95% Clopper-Pearson CI"
+      },
+      "related": [],
+      "why": {
+        "explanation": "'CI' appears 7 times but is not in the list of abbreviations and is never spelled out.",
+        "standard_ref": "ICH M11 general; SPIRIT 2025 item 1",
+        "amendment_category": "clerical"
+      },
+      "fix": {
+        "suggestion": "Define 'CI' at first use and add it to the list of abbreviations.",
+        "patch": null
+      },
+      "confidence": 0.8,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947465",
+      "check_id": "C9",
+      "source": "rule",
+      "category": "consistency",
+      "severity": "advisory",
+      "title": "Abbreviation 'QT' is used 6 times but never defined",
+      "where": {
+        "section": "Synopsis",
+        "page": 5,
+        "bbox": null,
+        "quote": "k. 12-lead ECGs will be obtained at Screening, before the W1D1, W3D1, and W7D1 CMP-001 injections, and at EOT. Electrocardiogram parameters will include heart rate and PR interval, QRS, QT, and QT"
+      },
+      "related": [],
+      "why": {
+        "explanation": "'QT' appears 6 times but is not in the list of abbreviations and is never spelled out.",
+        "standard_ref": "ICH M11 general; SPIRIT 2025 item 1",
+        "amendment_category": "clerical"
+      },
+      "fix": {
+        "suggestion": "Define 'QT' at first use and add it to the list of abbreviations.",
+        "patch": null
+      },
+      "confidence": 0.8,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947466",
+      "check_id": "C11",
+      "source": "ai:medical_writer",
+      "category": "advisory",
+      "severity": "advisory",
+      "title": "Missing trial stopping rules",
+      "where": {
+        "section": "4.1 Description of Trial Design",
+        "page": 6,
+        "bbox": [
+          384.6,
+          548.1,
+          497.5,
+          562.9
+        ],
+        "quote": "All enrolled subjects will receive CMP-001 IT and nivolumab IV according to the treatment schedule until a reason for treatment discontinuation is reached."
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol mentions 'until a reason for treatment discontinuation is reached' but does not specify any trial-level stopping rules (e.g., for safety, futility, or efficacy). The M11 template requires a dedicated section on trial stopping rules (4.3), which is missing. This is a critical gap for a phase 2 oncology trial.",
+        "standard_ref": null,
+        "amendment_category": "safety"
+      },
+      "fix": {
+        "suggestion": "Add a section on trial stopping rules, including criteria for early termination due to safety (e.g., number of DLTs) or futility (e.g., ORR threshold).",
+        "patch": null
+      },
+      "confidence": 0.4,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947467",
+      "check_id": "C11",
+      "source": "ai:medical_writer",
+      "category": "advisory",
+      "severity": "advisory",
+      "title": "Missing start and end of trial definitions",
+      "where": {
+        "section": "4.1 Description of Trial Design",
+        "page": 6,
+        "bbox": [
+          83.8,
+          494.4,
+          437.5,
+          509.2
+        ],
+        "quote": "This is a multicenter, open-label, Phase 2 clinical study of CMP-001 administered by IT injection in combination with intravenous (IV) nivolumab in subjects with unresectable or metastatic melanoma refractory to prior programmed cell death protein 1 (PD-1) blockade."
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol does not define the start of the trial (e.g., date of first subject's first visit) or the end of the trial (e.g., last subject's last visit or database lock). This is required by M11 4.4 and is important for regulatory and operational clarity.",
+        "standard_ref": null,
+        "amendment_category": "visit_schedule"
+      },
+      "fix": {
+        "suggestion": "Add a statement defining the start of trial (e.g., first subject signed informed consent) and end of trial (e.g., last subject's last protocol-specified assessment or study completion).",
+        "patch": null
+      },
+      "confidence": 0.4,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947468",
+      "check_id": "C11",
+      "source": "ai:medical_writer",
+      "category": "advisory",
+      "severity": "advisory",
+      "title": "Inconsistent inclusion criterion numbering",
+      "where": {
+        "section": "5.2 Inclusion Criteria",
+        "page": 7,
+        "bbox": [
+          101.8,
+          510.3,
+          114.0,
+          526.7
+        ],
+        "quote": "5. Able to provide tissue from a core or excisional/incisional biopsy (fine needle aspirate is not sufficient). A fresh tissue biopsy (within 90 days before the start of study treatment) is preferred but an archival sample is acceptable (as a substitute) if no intervening therapy was received. If the Investigator believes it is unsafe to perform a biopsy, the subject may be considered eligible after discussion with the Medical Monitor if tissue and/or prior assessments are available to determine programmed death-ligand 1 expression.\n6. NOTE: for tissue sampling details, please refer to the laboratory manual."
+      },
+      "related": [],
+      "why": {
+        "explanation": "The inclusion criteria list has a 'NOTE' as item 6, which is not a criterion but a cross-reference. This disrupts the numbering and could cause confusion when referencing criteria (e.g., 'criterion 6' is not a real criterion).",
+        "standard_ref": null,
+        "amendment_category": "eligibility"
+      },
+      "fix": {
+        "suggestion": "Renumber the criteria so that the NOTE is not numbered as a criterion, or move the NOTE to a separate paragraph.",
+        "patch": null
+      },
+      "confidence": 0.7,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947469",
+      "check_id": "C11",
+      "source": "ai:medical_writer",
+      "category": "advisory",
+      "severity": "advisory",
+      "title": "Inconsistent definition of 'refractory' in inclusion criteria",
+      "where": {
+        "section": "5.2 Inclusion Criteria",
+        "page": 7,
+        "bbox": [
+          119.6,
+          224.2,
+          479.3,
+          239.0
+        ],
+        "quote": "Refractory to PD-1 blockade either as monotherapy or in combination with other therapies, as defined by the following criteria:\na. Received treatment with a Food and Drug Administration approved PD-1 blocking antibody for 12 weeks or longer.\nb. Have PD (according to RECIST v1.1) within 12 weeks of the last dose of a PD-1 blocking antibody, either as monotherapy or in combination with other agents."
+      },
+      "related": [],
+      "why": {
+        "explanation": "The inclusion criteria require PD within 12 weeks of last dose, but the protocol does not specify whether this is based on BICR or Investigator assessment. Later, the primary endpoint uses BICR, but the inclusion criteria say 'by Investigator assessment' for the confirmatory assessment. This could lead to inconsistency in determining eligibility.",
+        "standard_ref": null,
+        "amendment_category": "eligibility"
+      },
+      "fix": {
+        "suggestion": "Clarify whether the PD for eligibility is based on Investigator or BICR assessment, and ensure consistency with the primary endpoint assessment.",
+        "patch": null
+      },
+      "confidence": 0.7,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947470",
+      "check_id": "C11",
+      "source": "ai:medical_writer",
+      "category": "advisory",
+      "severity": "advisory",
+      "title": "Contraception section referenced but not provided",
+      "where": {
+        "section": "5.2 Inclusion Criteria",
+        "page": 8,
+        "bbox": [
+          119.6,
+          346.0,
+          490.5,
+          360.8
+        ],
+        "quote": "Women of childbearing potential must have negative serum pregnancy test before dosing at W1D1 and be willing to use an adequate method of contraception (Section 4.3.2.) from the time of consent until at least 150 days after last dose of study treatment."
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol references 'Section 4.3.2' for contraception details, but the provided text does not include that section. The M11 template requires a dedicated 'Contraception' section (5.4) which is missing. This leaves the contraception requirements incomplete.",
+        "standard_ref": null,
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add a detailed contraception section (e.g., M11 5.4) specifying acceptable methods, duration, and male contraception requirements, and update the cross-reference.",
+        "patch": null
+      },
+      "confidence": 0.4,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947471",
+      "check_id": "C11",
+      "source": "ai:medical_writer",
+      "category": "advisory",
+      "severity": "advisory",
+      "title": "Inconsistent exclusion criterion for prior radiation",
+      "where": {
+        "section": "5.3 Exclusion Criteria",
+        "page": 8,
+        "bbox": [
+          119.6,
+          501.1,
+          479.3,
+          515.9
+        ],
+        "quote": "Received radiation therapy (or other nonsystemic therapy) within 2 weeks before first dose of study treatment on W1D1. Subjects should have recovered (ie, Grade ≤1 or at Baseline) from radiation-related toxicities."
+      },
+      "related": [],
+      "why": {
+        "explanation": "The exclusion criterion says radiation within 2 weeks is exclusionary, but the inclusion criterion 4c requires 'Documented disease progression in any lesion that was previously radiated in order to serve as a target lesion.' This is not necessarily contradictory, but the protocol does not clarify whether a previously radiated lesion that has progressed can be used as a target lesion if radiation was within 2 weeks. The wording could be ambiguous.",
+        "standard_ref": null,
+        "amendment_category": "eligibility"
+      },
+      "fix": {
+        "suggestion": "Clarify that progression in a previously radiated lesion is acceptable even if radiation was within 2 weeks, provided the lesion is not the one being irradiated.",
+        "patch": null
+      },
+      "confidence": 0.7,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947472",
+      "check_id": "C11",
+      "source": "ai:medical_writer",
+      "category": "advisory",
+      "severity": "advisory",
+      "title": "Missing lifestyle restrictions",
+      "where": {
+        "section": "5.3 Exclusion Criteria",
+        "page": 8,
+        "bbox": [
+          119.6,
+          548.7,
+          482.8,
+          563.5
+        ],
+        "quote": "Treatment with complementary medications (eg, herbal supplements or traditional Chinese medicines) to treat the disease under study within 2 weeks before start of study treatment. Refer to Section 4.4. for prohibited therapies."
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol mentions prohibited therapies but does not include a dedicated section on lifestyle restrictions (e.g., alcohol, smoking, diet, sexual activity) as required by M11 5.5. This is a minor gap but could be important for a study with an IT injection and immunotherapy.",
+        "standard_ref": null,
+        "amendment_category": "completeness"
+      },
+      "fix": {
+        "suggestion": "Add a section on lifestyle restrictions, including any prohibitions on alcohol, smoking, or other activities that could affect safety or PK.",
+        "patch": null
+      },
+      "confidence": 0.7,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947473",
+      "check_id": "C11",
+      "source": "ai:clinical_ops",
+      "category": "advisory",
+      "severity": "advisory",
+      "title": "High burden of vital signs at every visit",
+      "where": {
+        "section": "Schedule of Activities",
+        "page": 13,
+        "bbox": [
+          77.6,
+          374.8,
+          117.3,
+          386.9
+        ],
+        "quote": "Vital Signsh"
+      },
+      "related": [],
+      "why": {
+        "explanation": "Vital signs are collected at every visit including all weekly visits and Q3W visits, which is excessive and burdensome for patients and staff, especially when many visits are for treatment only.",
+        "standard_ref": null,
+        "amendment_category": "visit_schedule"
+      },
+      "fix": {
+        "suggestion": "Reduce vital sign frequency to visits where clinically indicated, e.g., only on dosing days or when symptoms occur.",
+        "patch": null
+      },
+      "confidence": 0.7,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947474",
+      "check_id": "C11",
+      "source": "ai:clinical_ops",
+      "category": "advisory",
+      "severity": "advisory",
+      "title": "Adverse Event Monitoring and Concomitant Medications collected at every visit including follow-up",
+      "where": {
+        "section": "Schedule of Activities",
+        "page": 13,
+        "bbox": [
+          77.6,
+          421.9,
+          132.2,
+          434.0
+        ],
+        "quote": "Adverse Event Monitoring"
+      },
+      "related": [],
+      "why": {
+        "explanation": "AE and concomitant medication monitoring is required at every visit including long-term survival follow-up phone calls, which is impractical and burdensome for sites and patients over years of follow-up.",
+        "standard_ref": null,
+        "amendment_category": "visit_schedule"
+      },
+      "fix": {
+        "suggestion": "Limit AE and concomitant medication collection to treatment visits and specified follow-up visits, not every LTSFU call.",
+        "patch": null
+      },
+      "confidence": 0.7,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947475",
+      "check_id": "C11",
+      "source": "ai:clinical_ops",
+      "category": "advisory",
+      "severity": "advisory",
+      "title": "Clinical Laboratory Tests at every weekly visit and Q3W visit",
+      "where": {
+        "section": "Schedule of Activities",
+        "page": 14,
+        "bbox": [
+          77.6,
+          247.6,
+          107.6,
+          259.7
+        ],
+        "quote": "Clinical Laboratory Tests (hematology, serum chemistry, urinalysis)l"
+      },
+      "related": [],
+      "why": {
+        "explanation": "Full lab panel (hematology, chemistry, urinalysis) is required at every weekly visit and every Q3W visit, which is excessive and burdensome for patients, especially those with difficult venous access.",
+        "standard_ref": null,
+        "amendment_category": "visit_schedule"
+      },
+      "fix": {
+        "suggestion": "Reduce lab frequency to every other week or only when clinically indicated, and consider point-of-care testing.",
+        "patch": null
+      },
+      "confidence": 0.7,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947476",
+      "check_id": "C11",
+      "source": "ai:clinical_ops",
+      "category": "advisory",
+      "severity": "advisory",
+      "title": "Exploratory Biomarker Sampling at multiple visits including W6D2 and W7D1",
+      "where": {
+        "section": "Schedule of Activities",
+        "page": 14,
+        "bbox": [
+          77.6,
+          406.9,
+          121.8,
+          419.0
+        ],
+        "quote": "Exploratory Biomarker Sampling"
+      },
+      "related": [],
+      "why": {
+        "explanation": "Biomarker sampling is required at W1D1, W5D1, W6D1, W6D2, and W7D1, which is a high frequency of extra blood draws, adding to patient burden and site workload.",
+        "standard_ref": null,
+        "amendment_category": "visit_schedule"
+      },
+      "fix": {
+        "suggestion": "Consolidate biomarker sampling to fewer timepoints, e.g., only at W1D1 and W7D1, or align with PK sampling.",
+        "patch": null
+      },
+      "confidence": 0.7,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947477",
+      "check_id": "C11",
+      "source": "ai:clinical_ops",
+      "category": "advisory",
+      "severity": "advisory",
+      "title": "Pharmacokinetic Sampling at W6D2 and W7D1 may be hard to collect",
+      "where": {
+        "section": "Schedule of Activities",
+        "page": 14,
+        "bbox": [
+          77.6,
+          439.1,
+          138.9,
+          451.3
+        ],
+        "quote": "Pharmacokinetic Sampling"
+      },
+      "related": [],
+      "why": {
+        "explanation": "PK sampling on consecutive days (W6D1, W6D2, W7D1) is burdensome and may be difficult for patients to attend, especially if they travel long distances.",
+        "standard_ref": null,
+        "amendment_category": "clerical"
+      },
+      "fix": {
+        "suggestion": "Reduce PK sampling to a single post-dose timepoint per cycle or use sparse PK sampling.",
+        "patch": null
+      },
+      "confidence": 0.7,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947478",
+      "check_id": "C11",
+      "source": "ai:clinical_ops",
+      "category": "advisory",
+      "severity": "advisory",
+      "title": "Thyroid Function Tests at W3D1 and W7D1 may be unnecessary",
+      "where": {
+        "section": "Schedule of Activities",
+        "page": 14,
+        "bbox": [
+          77.6,
+          321.8,
+          142.0,
+          334.0
+        ],
+        "quote": "Thyroid Function Testsl"
+      },
+      "related": [],
+      "why": {
+        "explanation": "Thyroid function tests are performed at W3D1 and W7D1 in addition to Q3W visits, which may be excessive given that thyroid abnormalities are typically monitored less frequently.",
+        "standard_ref": null,
+        "amendment_category": "visit_schedule"
+      },
+      "fix": {
+        "suggestion": "Align thyroid function testing with Q3W visits only, or reduce to every other cycle.",
+        "patch": null
+      },
+      "confidence": 0.7,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947479",
+      "check_id": "C11",
+      "source": "ai:clinical_ops",
+      "category": "advisory",
+      "severity": "advisory",
+      "title": "Tumor Biopsy at W5D1 may be difficult to schedule and invasive",
+      "where": {
+        "section": "Schedule of Activities",
+        "page": 15,
+        "bbox": [
+          77.6,
+          286.2,
+          129.1,
+          298.3
+        ],
+        "quote": "Tumor Biopsyq"
+      },
+      "related": [],
+      "why": {
+        "explanation": "On-treatment tumor biopsy at W5D1 is invasive and may be challenging for sites to perform, especially if the tumor is not easily accessible, and adds significant patient burden.",
+        "standard_ref": null,
+        "amendment_category": "visit_schedule"
+      },
+      "fix": {
+        "suggestion": "Consider making the on-treatment biopsy optional or allow collection at a more convenient timepoint.",
+        "patch": null
+      },
+      "confidence": 0.7,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947480",
+      "check_id": "C11",
+      "source": "ai:clinical_ops",
+      "category": "advisory",
+      "severity": "advisory",
+      "title": "Disease Assessment (photographic imaging) at W1D1 may be redundant",
+      "where": {
+        "section": "Schedule of Activities",
+        "page": 15,
+        "bbox": [
+          77.6,
+          376.3,
+          107.1,
+          388.4
+        ],
+        "quote": "Disease Assessment (photographic imaging)r"
+      },
+      "related": [],
+      "why": {
+        "explanation": "Photographic imaging at W1D1 (baseline) and again at EOT may be redundant if standard radiographic imaging is already performed; adds time and burden.",
+        "standard_ref": null,
+        "amendment_category": "clerical"
+      },
+      "fix": {
+        "suggestion": "Remove photographic imaging at W1D1 or combine with other imaging assessments.",
+        "patch": null
+      },
+      "confidence": 0.7,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947481",
+      "check_id": "C9",
+      "source": "rule",
+      "category": "consistency",
+      "severity": "advisory",
+      "title": "Abbreviation 'Q2W' is used 22 times but never defined",
+      "where": {
+        "section": "1.4.2 Rationale for Intratumoral Administration of TLR9 Agonists",
+        "page": 32,
+        "bbox": null,
+        "quote": "mg/kg. The benefit-risk profiles of nivolumab 240 mg Q2W, 360 mg Q3W and 480 mg"
+      },
+      "related": [],
+      "why": {
+        "explanation": "'Q2W' appears 22 times but is not in the list of abbreviations and is never spelled out.",
+        "standard_ref": "ICH M11 general; SPIRIT 2025 item 1",
+        "amendment_category": "clerical"
+      },
+      "fix": {
+        "suggestion": "Define 'Q2W' at first use and add it to the list of abbreviations.",
+        "patch": null
+      },
+      "confidence": 0.8,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947482",
+      "check_id": "C9",
+      "source": "rule",
+      "category": "consistency",
+      "severity": "advisory",
+      "title": "Abbreviation 'Q4W' is used 11 times but never defined",
+      "where": {
+        "section": "1.4.2 Rationale for Intratumoral Administration of TLR9 Agonists",
+        "page": 32,
+        "bbox": null,
+        "quote": "Q4W are predicted to be comparable to 3 mg/kg Q2W. This is further discussed in"
+      },
+      "related": [],
+      "why": {
+        "explanation": "'Q4W' appears 11 times but is not in the list of abbreviations and is never spelled out.",
+        "standard_ref": "ICH M11 general; SPIRIT 2025 item 1",
+        "amendment_category": "clerical"
+      },
+      "fix": {
+        "suggestion": "Define 'Q4W' at first use and add it to the list of abbreviations.",
+        "patch": null
+      },
+      "confidence": 0.8,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947483",
+      "check_id": "C11",
+      "source": "ai:clinical_scientist",
+      "category": "advisory",
+      "severity": "advisory",
+      "title": "Primary endpoint ORR may not capture immunotherapeutic response patterns",
+      "where": {
+        "section": "2.2.1",
+        "page": 33,
+        "bbox": [
+          72.0,
+          561.8,
+          460.2,
+          578.0
+        ],
+        "quote": "The primary endpoint of the study is the ORR, defined as the proportion of subjects with a confirmed objective response of CR or PR based on RECIST v1.1 as determined by Blinded Independent Central Review (BICR)."
+      },
+      "related": [],
+      "why": {
+        "explanation": "For immunotherapies, RECIST v1.1 may underestimate responses due to pseudoprogression; iRECIST is often preferred for primary endpoint.",
+        "standard_ref": null,
+        "amendment_category": "endpoints"
+      },
+      "fix": {
+        "suggestion": "Consider using iRECIST or a composite endpoint that includes immune-related response criteria for the primary endpoint.",
+        "patch": null
+      },
+      "confidence": 0.7,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947484",
+      "check_id": "C11",
+      "source": "ai:biostatistician",
+      "category": "advisory",
+      "severity": "advisory",
+      "title": "Secondary endpoint lacks analysis",
+      "where": {
+        "section": "2.2.2",
+        "page": 33,
+        "bbox": [
+          126.0,
+          656.2,
+          515.8,
+          672.3
+        ],
+        "quote": "AEs, serious adverse events (SAEs), and AEs leading to discontinuation or death, and severity of AEs as assessed by the National Cancer Institute (NCI) Common Terminology Criteria for Adverse Events version 5.0 (CTCAE v5.0)"
+      },
+      "related": [],
+      "why": {
+        "explanation": "The safety endpoint is listed but no specific statistical analysis method is described for it in the Statistical Methods section; only general safety assessments are mentioned.",
+        "standard_ref": null,
+        "amendment_category": "safety"
+      },
+      "fix": {
+        "suggestion": "Add a detailed analysis description for safety endpoints (e.g., incidence rates, severity grading, relationship) in Section 9.6.",
+        "patch": null
+      },
+      "confidence": 0.7,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947485",
+      "check_id": "C11",
+      "source": "ai:biostatistician",
+      "category": "advisory",
+      "severity": "advisory",
+      "title": "Secondary endpoint lacks analysis",
+      "where": {
+        "section": "2.2.2",
+        "page": 34,
+        "bbox": [
+          126.0,
+          154.1,
+          521.3,
+          170.2
+        ],
+        "quote": "ORR, DOR, and PFS based on RECIST v1.1 and immune objective response rate, immune duration of response (iDOR), and immune progression-free survival (iPFS) based on iRECIST by Investigator assessment"
+      },
+      "related": [],
+      "why": {
+        "explanation": "Investigator-assessed endpoints are listed but no analysis is described for them in the efficacy analyses section.",
+        "standard_ref": null,
+        "amendment_category": "endpoints"
+      },
+      "fix": {
+        "suggestion": "Specify analysis methods for investigator-assessed ORR, DOR, PFS, and iRECIST endpoints in Section 9.5.",
+        "patch": null
+      },
+      "confidence": 0.7,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947486",
+      "check_id": "C11",
+      "source": "ai:biostatistician",
+      "category": "advisory",
+      "severity": "advisory",
+      "title": "Exploratory endpoint lacks analysis",
+      "where": {
+        "section": "2.2.3",
+        "page": 34,
+        "bbox": [
+          126.0,
+          338.0,
+          476.2,
+          354.2
+        ],
+        "quote": "Baseline, and change from Baseline, in tumor or blood measurements of biomarkers related to TLR9, immune checkpoints, and potential markers of resistance or response to immunotherapy"
+      },
+      "related": [],
+      "why": {
+        "explanation": "Biomarker endpoint is listed but no analysis is described in the statistical methods section.",
+        "standard_ref": null,
+        "amendment_category": "endpoints"
+      },
+      "fix": {
+        "suggestion": "Add a subsection for biomarker analyses (e.g., descriptive statistics, change from baseline) in Section 9.",
+        "patch": null
+      },
+      "confidence": 0.7,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947487",
+      "check_id": "C11",
+      "source": "ai:clinical_scientist",
+      "category": "advisory",
+      "severity": "advisory",
+      "title": "Inclusion criterion for BRAF V600 mutation status may be overly restrictive",
+      "where": {
+        "section": "4.1.2",
+        "page": 38,
+        "bbox": [
+          185.0,
+          236.5,
+          507.7,
+          252.6
+        ],
+        "quote": "Patients with BRAF V600 mutations who refuse a BRAF inhibitor will not be eligible."
+      },
+      "related": [],
+      "why": {
+        "explanation": "This excludes patients who may have contraindications or intolerances to BRAF inhibitors, potentially limiting enrollment and generalizability.",
+        "standard_ref": null,
+        "amendment_category": "eligibility"
+      },
+      "fix": {
+        "suggestion": "Allow enrollment of patients who refuse BRAF inhibitors if they have documented reasons (e.g., contraindication) and discuss with Medical Monitor.",
+        "patch": null
+      },
+      "confidence": 0.7,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947488",
+      "check_id": "C11",
+      "source": "ai:clinical_scientist",
+      "category": "advisory",
+      "severity": "advisory",
+      "title": "Inclusion criterion for prior radiation target lesion may be ambiguous",
+      "where": {
+        "section": "4.1.4c",
+        "page": 38,
+        "bbox": [
+          126.0,
+          535.1,
+          499.7,
+          551.2
+        ],
+        "quote": "Documented disease progression in any lesion that was previously radiated in order to serve as a target lesion."
+      },
+      "related": [],
+      "why": {
+        "explanation": "The wording is unclear: it could mean that a previously radiated lesion must have progressed to be eligible as a target lesion, but it is not specified whether this is required for all target lesions or just one. This ambiguity may lead to inconsistent interpretation and amendments.",
+        "standard_ref": null,
+        "amendment_category": "eligibility"
+      },
+      "fix": {
+        "suggestion": "Clarify that at least one measurable lesion not previously radiated must be present, or specify that previously radiated lesions must have documented progression to be considered measurable.",
+        "patch": null
+      },
+      "confidence": 0.7,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947489",
+      "check_id": "C11",
+      "source": "ai:clinical_scientist",
+      "category": "advisory",
+      "severity": "advisory",
+      "title": "Inclusion criterion for tissue biopsy may be impractical and cause enrollment delays",
+      "where": {
+        "section": "4.1.5",
+        "page": 38,
+        "bbox": [
+          192.7,
+          582.8,
+          491.3,
+          599.0
+        ],
+        "quote": "A fresh tissue biopsy (within 90 days before the start of study treatment) is preferred but an archival sample is acceptable (as a substitute) if no intervening therapy was received."
+      },
+      "related": [],
+      "why": {
+        "explanation": "Requiring a fresh biopsy within 90 days may be burdensome for patients with refractory melanoma, and the archival sample condition (no intervening therapy) may be difficult to meet, potentially delaying enrollment.",
+        "standard_ref": null,
+        "amendment_category": "eligibility"
+      },
+      "fix": {
+        "suggestion": "Extend the biopsy window or allow archival samples regardless of intervening therapy if adequate tissue is available.",
+        "patch": null
+      },
+      "confidence": 0.7,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947490",
+      "check_id": "C11",
+      "source": "ai:clinical_scientist",
+      "category": "advisory",
+      "severity": "advisory",
+      "title": "Exclusion criterion for prior radiation within 2 weeks may be too restrictive for this population",
+      "where": {
+        "section": "4.2.2",
+        "page": 39,
+        "bbox": [
+          107.9,
+          620.3,
+          500.2,
+          636.4
+        ],
+        "quote": "Received radiation therapy (or other nonsystemic therapy) within 2 weeks before first dose of study treatment on W1D1."
+      },
+      "related": [],
+      "why": {
+        "explanation": "Patients with refractory melanoma may have had recent palliative radiation; a 2-week washout may be unnecessarily long and could exclude patients who would otherwise benefit.",
+        "standard_ref": null,
+        "amendment_category": "eligibility"
+      },
+      "fix": {
+        "suggestion": "Consider shortening the washout to 1 week or allowing radiation to non-target lesions with recovery to Grade ≤1.",
+        "patch": null
+      },
+      "confidence": 0.7,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947491",
+      "check_id": "C11",
+      "source": "ai:clinical_scientist",
+      "category": "advisory",
+      "severity": "advisory",
+      "title": "Exclusion criterion for active autoimmune disease may be too broad",
+      "where": {
+        "section": "4.2.11",
+        "page": 40,
+        "bbox": [
+          107.9,
+          556.4,
+          493.0,
+          572.5
+        ],
+        "quote": "Active autoimmune disease that has required systemic treatment in past 2 years; replacement therapy is not considered a form of systemic treatment."
+      },
+      "related": [],
+      "why": {
+        "explanation": "The 2-year window may exclude patients with well-controlled autoimmune conditions (e.g., hypothyroidism on replacement) that are not considered active, but the wording could be misinterpreted. Also, it does not specify which autoimmune diseases are excluded (e.g., vitiligo is often allowed).",
+        "standard_ref": null,
+        "amendment_category": "eligibility"
+      },
+      "fix": {
+        "suggestion": "Specify exceptions for common autoimmune conditions like vitiligo, psoriasis not requiring systemic treatment, and controlled thyroid disease.",
+        "patch": null
+      },
+      "confidence": 0.7,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947492",
+      "check_id": "C11",
+      "source": "ai:clinical_scientist",
+      "category": "advisory",
+      "severity": "advisory",
+      "title": "Safety monitoring for adrenal insufficiency is only in a NOTE, not in the Schedule of Activities",
+      "where": {
+        "section": "4.2.6",
+        "page": 40,
+        "bbox": [
+          146.3,
+          261.2,
+          494.0,
+          277.4
+        ],
+        "quote": "Subjects previously treated with a CTLA-4–blocking antibody, subjects receiving corticosteroids with daily doses > 5 mg and ≤ 10 mg of prednisone equivalent for > 2 weeks, and subjects with clinical symptoms and/or laboratory findings suggesting risk for adrenal insufficiency should undergo diagnostic tests for adrenal insufficiency via local laboratory."
+      },
+      "related": [],
+      "why": {
+        "explanation": "The protocol mentions diagnostic tests for adrenal insufficiency but does not specify which tests (e.g., cortisol, ACTH) or include them in the Schedule of Activities, which may lead to inconsistent monitoring and missing safety data.",
+        "standard_ref": null,
+        "amendment_category": "visit_schedule"
+      },
+      "fix": {
+        "suggestion": "Add specific adrenal function tests (e.g., morning cortisol, ACTH stimulation test) to the Schedule of Activities for at-risk patients.",
+        "patch": null
+      },
+      "confidence": 0.7,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947493",
+      "check_id": "C11",
+      "source": "ai:clinical_scientist",
+      "category": "advisory",
+      "severity": "advisory",
+      "title": "Exclusion criterion for HIV/HBV/HCV is vague and may cause delays",
+      "where": {
+        "section": "4.2.16",
+        "page": 40,
+        "bbox": [
+          107.9,
+          698.2,
+          507.9,
+          714.4
+        ],
+        "quote": "Known or suspected active infection with human immunodeficiency virus, hepatitis B virus, or hepatitis C virus (testing is not required unless suspected)."
+      },
+      "related": [],
+      "why": {
+        "explanation": "The phrase 'suspected' is subjective and may lead to inconsistent screening practices. Also, not requiring testing may miss asymptomatic infections, which could be a safety concern with immunotherapy.",
+        "standard_ref": null,
+        "amendment_category": "eligibility"
+      },
+      "fix": {
+        "suggestion": "Require routine screening for HIV, HBV, and HCV at baseline, and define 'suspected' more objectively (e.g., based on risk factors or symptoms).",
+        "patch": null
+      },
+      "confidence": 0.7,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947494",
+      "check_id": "C9",
+      "source": "rule",
+      "category": "consistency",
+      "severity": "advisory",
+      "title": "Abbreviation 'NE' is used 13 times but never defined",
+      "where": {
+        "section": "Appendix D RESPONSE EVALUATION CRITERIA IN SOLID",
+        "page": 99,
+        "bbox": null,
+        "quote": "Not All Evaluated Non-PD No NE"
+      },
+      "related": [],
+      "why": {
+        "explanation": "'NE' appears 13 times but is not in the list of abbreviations and is never spelled out.",
+        "standard_ref": "ICH M11 general; SPIRIT 2025 item 1",
+        "amendment_category": "clerical"
+      },
+      "fix": {
+        "suggestion": "Define 'NE' at first use and add it to the list of abbreviations.",
+        "patch": null
+      },
+      "confidence": 0.8,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947495",
+      "check_id": "C9",
+      "source": "rule",
+      "category": "consistency",
+      "severity": "advisory",
+      "title": "Abbreviation 'NI' is used 22 times but never defined",
+      "where": {
+        "section": "Baseline Documentation Of Tumor Burden",
+        "page": 110,
+        "bbox": null,
+        "quote": "categorized as target injected (T-I), target noninjected (T-NI), nontarget injected (NT-I), and"
+      },
+      "related": [],
+      "why": {
+        "explanation": "'NI' appears 22 times but is not in the list of abbreviations and is never spelled out.",
+        "standard_ref": "ICH M11 general; SPIRIT 2025 item 1",
+        "amendment_category": "clerical"
+      },
+      "fix": {
+        "suggestion": "Define 'NI' at first use and add it to the list of abbreviations.",
+        "patch": null
+      },
+      "confidence": 0.8,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947496",
+      "check_id": "C9",
+      "source": "rule",
+      "category": "consistency",
+      "severity": "advisory",
+      "title": "Abbreviation 'SOD' is used 18 times but never defined",
+      "where": {
+        "section": "Baseline Documentation Of Tumor Burden",
+        "page": 110,
+        "bbox": null,
+        "quote": "A sum of diameters (SOD; longest diameters for extranodal lesions and short axis for lymph"
+      },
+      "related": [],
+      "why": {
+        "explanation": "'SOD' appears 18 times but is not in the list of abbreviations and is never spelled out.",
+        "standard_ref": "ICH M11 general; SPIRIT 2025 item 1",
+        "amendment_category": "clerical"
+      },
+      "fix": {
+        "suggestion": "Define 'SOD' at first use and add it to the list of abbreviations.",
+        "patch": null
+      },
+      "confidence": 0.8,
+      "verified": true,
+      "status": "open"
+    },
+    {
+      "id": "iss_49947497",
+      "check_id": "C9",
+      "source": "rule",
+      "category": "consistency",
+      "severity": "advisory",
+      "title": "Abbreviation 'CDT' is used 12 times but never defined",
+      "where": {
+        "section": "Appendix J WOMEN OF CHILDBEARING POTENTIAL",
+        "page": 129,
+        "bbox": null,
+        "quote": "Date and Time of Signature: 29 Sep 2021 14:27 CDT"
+      },
+      "related": [],
+      "why": {
+        "explanation": "'CDT' appears 12 times but is not in the list of abbreviations and is never spelled out.",
+        "standard_ref": "ICH M11 general; SPIRIT 2025 item 1",
+        "amendment_category": "clerical"
+      },
+      "fix": {
+        "suggestion": "Define 'CDT' at first use and add it to the list of abbreviations.",
+        "patch": null
+      },
+      "confidence": 0.8,
       "verified": true,
       "status": "open"
     }

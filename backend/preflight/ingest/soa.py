@@ -82,6 +82,8 @@ def _strip_footnote(text: str, procedure: bool = False) -> str:
     text = re.sub(r"(\s+[a-z](,\s*[a-z])*)+$", "", text.strip())
     text = re.sub(r"\s+[a-z](?:,\s*[a-z])*(?=\s*\()", "", text)
     text = re.sub(r"(?<=[a-z)])\d{1,2}$", "", text)
+    text = re.sub(r"(?<=ing|ion|ory|ics|ics|ent|nts)[a-z]$", "", text)  # glued footnote letter: 'Samplingn'
+
     if procedure:
         text = re.sub(r"(?<=[A-Z])\d{1,2}$", "", text) if len(text) > 4 else text
     return text.strip(" ,")

@@ -84,6 +84,8 @@ def sample_size_reproducible(graph: ProtocolGraph, ctx: CheckContext):
     s = graph.stats
     if not (s.sample_size and s.power and s.effect_type and s.effect_size is not None):
         return []
+    if graph.meta.allocation == "NON_RANDOMIZED" or graph.meta.n_arms == 1 or not graph.meta.ratio:
+        return []  # single-arm designs compare against a historical rate, which a two-group calculation cannot judge
     assumed_alpha = s.alpha is None
     calc = calc_sample_size(s.effect_type, s.effect_size, s.alpha or 0.05, s.power, s.sided or 2, s.control_rate, s.dropout,
                             parse_ratio(graph.meta.ratio))
