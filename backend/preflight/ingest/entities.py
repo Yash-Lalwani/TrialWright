@@ -72,7 +72,8 @@ def extract_numbers(lines: list[Line]) -> list[NumberFact]:
         low = t.lower()
         nxt = lines[k + 1].text.lower() if k + 1 < len(lines) else ""
         if re.search(r"\bage\b|\baged\b|years of age|years old", low) and not re.search(
-                r"amenorrh|menopaus|childbearing|female|women|median|mean age|clearance|covariate|range", low):
+                r"amenorrh|menopaus|childbearing|median|mean age|clearance|covariate|range|minor|adolescent|guardian",
+                low):
             if m := AGE_RANGE.search(t):
                 add("age_min", float(m.group(1)), "years", ln)
                 add("age_max", float(m.group(2)), "years", ln)
@@ -83,8 +84,9 @@ def extract_numbers(lines: list[Line]) -> list[NumberFact]:
                     add("age_max", float(m.group(1)), "years", ln)
         sample_context = re.search(r"enrol|randomi|planned|sample size|number of (subjects|patients|participants)",
                                    f"{low} {nxt}")
-        if sample_context and not re.search(r"\bpk\b|pharmacokinetic|subset|substudy|evaluable|achieves|power",
-                                            low) and (m := SAMPLE.search(t)):
+        historical = re.search(r"\bwas planned|were planned|originally|initially|previously|prior to amendment", low)
+        if sample_context and not historical and not re.search(
+                r"\bpk\b|pharmacokinetic|subset|substudy|evaluable|achieves|power", low) and (m := SAMPLE.search(t)):
             add("sample_size", float(next(g for g in m.groups() if g)), None, ln)
         m = RATIO_CONTEXT.search(t) if re.search(r"random|allocat|ratio", f"{low} {nxt}") else None
         if m:
