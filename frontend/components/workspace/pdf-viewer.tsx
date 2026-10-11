@@ -9,6 +9,10 @@
 //
 // Load this module with next/dynamic and ssr: false (pdf.js needs the browser).
 
+// Must load before react-pdf: Safari 17 lacks ReadableStream async iteration, which
+// pdf.js uses for text content (see the polyfill for details).
+import "@/lib/polyfills/readable-stream-async-iterator";
+
 import { ChevronLeft, ChevronRight, Maximize2, Minus, Plus } from "lucide-react";
 import { Suspense, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
