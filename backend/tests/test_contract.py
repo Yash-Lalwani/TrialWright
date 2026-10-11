@@ -127,3 +127,20 @@ def test_exports_and_errors(run):
     assert r.status_code == 404 and r.json() == {"error": {"code": "not_found", "message": "Run run_missing not found"}}
     r = client.post("/api/protocols", files={"file": ("x.txt", b"hello", "text/plain")})
     assert r.status_code == 400 and r.json()["error"]["code"] == "bad_request"
+
+
+def test_workspaces_keep_uploads_apart(run):
+    client, protocol, _, _ = run
+    pdf = client.get(f"/api/protocols/{protocol['protocol_id']}/pdf").content
+    mine = client.post("/api/protocols", files={"file": ("mine.pdf", pdf, "application/pdf")},
+                       headers={"X-Workspace": "browser-aaaa1111"}).json()
+    assert mine["protocol_id"] != protocol["protocol_id"]
+
+    def listed(ws=None):
+        headers = {"X-Workspace": ws} if ws else {}
+        return {p["protocol_id"] for p in client.get("/api/protocols", headers=headers).json()["items"]}
+
+    assert {mine["protocol_id"], protocol["protocol_id"]} <= listed("browser-aaaa1111")
+    other = listed("browser-bbbb2222")
+    assert mine["protocol_id"] not in other and protocol["protocol_id"] in other
+    assert mine["protocol_id"] not in listed()
