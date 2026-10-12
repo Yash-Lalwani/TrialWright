@@ -53,3 +53,7 @@ data/peers/protocols/*.pdf
 Thumbs.db
 .idea/
 .vscode/
+
+# --- Local tool output ---
+.archify/
+.impeccable/
