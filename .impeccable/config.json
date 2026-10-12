@@ -1,0 +1,35 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "tiny-text",
+        "value": "*",
+        "files": [
+          "diagram-design/trialwright-architecture.html"
+        ],
+        "createdAt": "2026-10-12T18:01:18.753Z",
+        "reason": "Diagram Design specifies compact 7–9px SVG labels for this diagram; prose body text is 14px."
+      },
+      {
+        "rule": "overused-font",
+        "value": "geist mono",
+        "files": [
+          "diagram-design/trialwright-architecture.html"
+        ],
+        "createdAt": "2026-10-12T18:02:21.379Z",
+        "reason": "Diagram Design default style specifies Geist Mono for technical SVG labels."
+      },
+      {
+        "rule": "overused-font",
+        "value": "geist",
+        "files": [
+          "diagram-design/trialwright-architecture.html"
+        ],
+        "createdAt": "2026-10-12T18:02:36.799Z",
+        "reason": "Diagram Design default style specifies Geist for node names; user requested the default style."
+      }
+    ]
+  }
+}

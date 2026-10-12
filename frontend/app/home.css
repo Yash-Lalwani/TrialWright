@@ -1,0 +1,168 @@
+.landing {
+  --landing-ink: #102b55;
+  --landing-blue: #0c2b62;
+  --landing-line: #d9e1eb;
+  background: #f6f7f9;
+  color: #101828;
+}
+
+.landing-shell {
+  width: min(100% - 3rem, 1200px);
+  margin-inline: auto;
+}
+
+.landing-hero {
+  background: #fff;
+  border-bottom: 1px solid var(--landing-line);
+}
+
+.landing-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(310px, .65fr);
+  gap: clamp(3rem, 7vw, 7rem);
+  align-items: center;
+  padding-block: clamp(4.5rem, 8vw, 7.5rem);
+}
+
+.landing-eyebrow,
+.landing-section-kicker,
+.landing-panel-kicker {
+  margin: 0;
+  color: #1546a8;
+  font: 600 .74rem/1.4 var(--font-plex-mono), monospace;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.landing-eyebrow { display: flex; align-items: center; gap: .7rem; }
+.landing-eyebrow span { width: 7px; height: 7px; border-radius: 50%; background: #1546a8; }
+
+.landing h1,
+.landing h2,
+.landing h3,
+.landing p { margin-top: 0; }
+
+.landing h1 {
+  max-width: 12ch;
+  margin-block: 1.2rem 1.35rem;
+  color: var(--landing-ink);
+  font-size: clamp(3rem, 5.3vw, 5.4rem);
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -.055em;
+}
+
+.landing-lede {
+  max-width: 57ch;
+  color: #455367;
+  font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+  line-height: 1.7;
+}
+
+.landing-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; margin-top: 2rem; }
+.landing-actions a,
+.landing-section-heading a,
+.landing-architecture-heading > a,
+.landing-footer a { display: inline-flex; align-items: center; gap: .5rem; font-weight: 600; }
+.landing-actions a { text-decoration: none; }
+.landing-primary {
+  min-height: 48px;
+  padding: .75rem 1.1rem;
+  border-radius: .375rem;
+  background: #1546a8;
+  color: #fff;
+  box-shadow: 0 3px 0 #0c2b62;
+  transition: transform .18s ease, background-color .18s ease, box-shadow .18s ease;
+}
+.landing-primary:hover { background: #0c2b62; transform: translateY(-2px); box-shadow: 0 5px 0 #081e45; }
+.landing-secondary { color: #1546a8; }
+.landing-secondary:hover,
+.landing-section-heading a:hover,
+.landing-architecture-heading > a:hover,
+.landing-footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.landing-hero-note { margin-block: 2.1rem 0; color: #66758a; font-size: .84rem; }
+
+.landing-problem {
+  border: 1px solid #cdd8e8;
+  border-radius: .5rem;
+  background: #f2f6fc;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  box-shadow: 0 10px 24px rgb(16 43 85 / .06);
+}
+.landing-problem-headline { margin-block: 1rem 1.6rem; max-width: 16ch; color: var(--landing-ink); font-size: clamp(1.5rem, 2.2vw, 2rem); font-weight: 600; line-height: 1.2; letter-spacing: -.03em; }
+.landing-problem-stat { display: grid; grid-template-columns: 5.7rem 1fr; align-items: baseline; gap: 1rem; padding-block: 1rem; border-top: 1px solid #ccd8e8; }
+.landing-problem-stat strong { color: #1546a8; font-size: 1.85rem; line-height: 1; letter-spacing: -.05em; }
+.landing-problem-stat span { color: #455367; font-size: .9rem; line-height: 1.5; }
+.landing-problem > a { display: inline-flex; gap: .25rem; align-items: center; margin-top: 1.2rem; color: #46607e; font-size: .74rem; text-underline-offset: 3px; }
+
+.landing-results,
+.landing-architecture { padding-block: clamp(4rem, 7vw, 6rem); }
+.landing-section-heading { max-width: 680px; }
+.landing-section-heading h2 { margin-block: .75rem 1rem; color: var(--landing-ink); font-size: clamp(2rem, 3.2vw, 3.2rem); font-weight: 600; line-height: 1.1; letter-spacing: -.045em; }
+.landing-section-heading > p:not(.landing-section-kicker) { color: #536176; line-height: 1.65; }
+.landing-section-heading a { color: #1546a8; text-underline-offset: 3px; }
+.landing-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 2.5rem; border-top: 1px solid #bdcbdc; border-bottom: 1px solid #bdcbdc; }
+.landing-metric { display: flex; flex-direction: column; padding: 1.6rem 1.3rem 1.6rem 0; }
+.landing-metric + .landing-metric { padding-left: 1.3rem; border-left: 1px solid var(--landing-line); }
+.landing-metric strong { margin-bottom: .65rem; color: #1546a8; font-size: clamp(2.5rem, 4vw, 4rem); font-weight: 600; line-height: 1; letter-spacing: -.06em; }
+.landing-metric span { max-width: 18ch; color: #203550; font-weight: 600; line-height: 1.35; }
+.landing-metric small { margin-top: .55rem; color: #5d697b; font-size: .77rem; line-height: 1.5; }
+.landing-proof { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; margin-top: 2.2rem; }
+.landing-proof p { display: flex; flex-direction: column; gap: .3rem; margin-bottom: 0; }
+.landing-proof strong { color: #203550; font-size: .96rem; }
+.landing-proof span { color: #5d697b; font-size: .8rem; line-height: 1.5; }
+
+.landing-method { background: #eaf0f8; border-block: 1px solid #d8e2ef; }
+.landing-method-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(3rem, 8vw, 8rem); padding-block: clamp(4rem, 7vw, 6rem); }
+.landing-method .landing-section-heading > a { margin-top: 1rem; }
+.landing-steps { display: grid; gap: 0; align-self: center; padding: 0; margin: 0; list-style: none; }
+.landing-steps li { display: grid; grid-template-columns: 2.5rem 1fr; gap: 1rem; padding-block: 1.3rem; border-top: 1px solid #bacbe0; }
+.landing-steps li:last-child { border-bottom: 1px solid #bacbe0; }
+.landing-steps li > span { color: #1546a8; font: 500 .8rem/1.5 var(--font-plex-mono), monospace; }
+.landing-steps h3 { margin-bottom: .4rem; color: var(--landing-ink); font-size: 1.1rem; font-weight: 600; }
+.landing-steps p { margin-bottom: 0; color: #536176; font-size: .9rem; line-height: 1.55; }
+
+.landing-architecture-heading { display: flex; max-width: none; align-items: end; justify-content: space-between; gap: 1rem; }
+.landing-architecture-heading h2 { margin-bottom: 0; }
+.landing-architecture-heading > a { margin-bottom: .35rem; color: #1546a8; white-space: nowrap; }
+.landing-diagram-frame { height: min(72vw, 680px); min-height: 500px; margin-top: 2rem; overflow: hidden; border: 1px solid #cfd8e4; border-radius: .5rem; background: #fff; box-shadow: 0 12px 30px rgb(16 43 85 / .06); }
+.landing-diagram-frame iframe { display: block; width: 100%; height: 100%; border: 0; }
+
+.landing-footer { background: #0c2b62; color: #fff; }
+.landing-footer .landing-shell { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 2rem; }
+.landing-footer p { margin: 0; font-size: .9rem; }
+.landing-footer a { color: #fff; white-space: nowrap; }
+
+.landing a:focus-visible { outline: 3px solid #3567c9; outline-offset: 3px; border-radius: 2px; }
+
+@media (max-width: 900px) {
+  .landing-hero-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .landing-problem { max-width: 630px; }
+  .landing-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .landing-metric:nth-child(3) { padding-left: 0; border-left: 0; border-top: 1px solid var(--landing-line); }
+  .landing-metric:nth-child(4) { border-top: 1px solid var(--landing-line); }
+  .landing-proof { gap: 1rem; }
+  .landing-method-grid { grid-template-columns: 1fr; gap: 2rem; }
+}
+
+@media (max-width: 580px) {
+  .landing-shell { width: min(100% - 2rem, 1200px); }
+  .landing h1 { font-size: clamp(2.9rem, 12vw, 4rem); }
+  .landing-hero-grid { padding-block: 3.5rem; }
+  .landing-problem-stat { grid-template-columns: 5.2rem 1fr; }
+  .landing-metric { padding: 1.2rem .8rem 1.2rem 0; }
+  .landing-metric + .landing-metric { padding-left: .8rem; }
+  .landing-metric:nth-child(3) { padding-left: 0; }
+  .landing-metric strong { font-size: 2.45rem; }
+  .landing-proof { grid-template-columns: 1fr; gap: 1rem; }
+  .landing-proof p { padding-left: .9rem; border-left: 2px solid #b9cbed; }
+  .landing-architecture-heading { display: block; }
+  .landing-architecture-heading > a { margin-top: 1rem; }
+  .landing-diagram-frame { height: 560px; }
+  .landing-footer .landing-shell { align-items: flex-start; flex-direction: column; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-primary { transition: none; }
+  .landing-primary:hover { transform: none; }
+}

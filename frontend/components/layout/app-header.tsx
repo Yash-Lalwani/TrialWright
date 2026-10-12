@@ -11,7 +11,7 @@ import { useHealth } from "@/lib/queries";
 import { cn } from "@/lib/utils";
 
 const NAV = [
-  { href: "/", label: "Protocols", match: (p: string) => p === "/" || p.startsWith("/runs") },
+  { href: "/protocol", label: "Protocols", match: (p: string) => p === "/protocol" || p.startsWith("/runs") },
   { href: "/compare", label: "Compare", match: (p: string) => p.startsWith("/compare") },
   { href: "/draft", label: "Draft", match: (p: string) => p.startsWith("/draft") },
   { href: "/evidence", label: "Evidence", match: (p: string) => p.startsWith("/evidence") },
@@ -19,7 +19,7 @@ const NAV = [
 
 export function AppHeader() {
   return (
-    <header className="flex h-13 shrink-0 items-center gap-3 bg-brand px-3 text-brand-foreground sm:gap-6 sm:px-5">
+    <header className="flex h-13 shrink-0 items-center gap-3 bg-brand px-3 text-brand-foreground max-[600px]:h-auto max-[600px]:flex-wrap max-[600px]:py-2 sm:gap-6 sm:px-5">
       <Link
         href="/"
         className="flex shrink-0 items-center gap-2.5 rounded-sm font-semibold tracking-tight whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
@@ -38,7 +38,7 @@ export function AppHeader() {
         <ActiveNavLinks />
       </Suspense>
 
-      <div className="ml-auto">
+      <div className="ml-auto max-[600px]:order-2">
         <DataSourceIndicator />
       </div>
     </header>
@@ -51,7 +51,7 @@ function ActiveNavLinks() {
 
 function NavLinks({ pathname }: { pathname: string | null }) {
   return (
-    <nav aria-label="Main" className="flex h-full items-stretch gap-0.5 sm:gap-1">
+    <nav aria-label="Main" className="flex h-full items-stretch gap-0.5 max-[600px]:order-3 max-[600px]:h-9 max-[600px]:w-full max-[600px]:justify-between sm:gap-1">
       {NAV.map((item) => {
         const active = pathname !== null && item.match(pathname);
         return (

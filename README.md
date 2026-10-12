@@ -1,16 +1,16 @@
 # Protocol Pre-Flight
 
-**Catch avoidable protocol amendments before a trial starts.** Pre-Flight reviews a clinical trial protocol the way a
-committee of medical writers, clinical scientists, statisticians and operations leads would: it checks completeness
-against ICH M11 and SPIRIT 2025, cross-checks the protocol's internal logic, measures participant burden against similar
-trials on ClinicalTrials.gov, and explains every finding with where it is, why it matters and how to fix it.
+## The problem and the solution
 
-> Pre-Flight assists protocol authors. It does not approve protocols.
+Late changes to clinical trial protocols are expensive: [Tufts CSDD found that 45% of substantial amendments were avoidable, and one Phase III amendment cost a median $535,000](https://pubmed.ncbi.nlm.nih.gov/30227022/). Pre-Flight helps teams catch missing requirements, contradictions and participant-burden risks **before a trial starts**. It checks a protocol against ICH M11 and SPIRIT 2025, compares it with peer trials, and ties each finding to the page that supports it.
 
-57% of protocols have at least one substantial amendment and 45% of those were judged avoidable; a single amendment costs a
-median $141,000 (Phase II) to $535,000 (Phase III) and adds about three months (Getz et al. 2016; Applied Clinical Trials).
+**Live demo:** [trialwright.tech](https://trialwright.tech) · [Start a protocol review](https://trialwright.tech/protocol) · [API health](https://api.trialwright.tech/api/health)
 
-**Live demo:** https://trialwright.tech · API: https://api.trialwright.tech/api/health
+## Architecture at a glance
+
+![Pre-Flight architecture: the Next.js workspace calls FastAPI, which parses protocol files, runs rules and optional verified AI review, compares peers and stores findings](docs/images/trialwright-architecture.svg)
+
+[Open the diagram at full size](docs/images/trialwright-architecture.svg) · [Explore the interactive architecture](https://trialwright.tech/architecture.html) · [Diagram Design source](diagram-design/trialwright-architecture.html)
 
 ![Review workspace: every finding is highlighted on the page it cites](docs/images/review.png)
 
@@ -29,7 +29,7 @@ median $141,000 (Phase II) to $535,000 (Phase III) and adds about three months (
 | Co-author | A short design brief becomes an ICH M11-structured draft that cites precedent trials, with a sample size from a statistical calculator (never the model); Pre-Flight then checks its own draft |
 | Exports | Issue report (PDF/CSV), clean M11 .docx, USDM JSON |
 | Private uploads | No accounts: each browser keeps a random workspace id, so your uploads appear only in your own list (the demo protocol is visible to everyone). Review links can still be shared |
-| Confidential mode | Rules only: no language model is called and nothing leaves the machine |
+| Confidential mode | Rules only: no language model is called. The PDF still goes to the app server for analysis |
 
 | Burden & peers | Compare versions | Evidence |
 |---|---|---|
@@ -47,7 +47,7 @@ cp .env.example .env
 docker compose up --build
 ```
 
-Open http://localhost:3000 and upload a protocol PDF. The demo protocol is **NCT04698187** (CMP-001 + nivolumab in
+Open http://localhost:3000/protocol and upload a protocol PDF. The demo protocol is **NCT04698187** (CMP-001 + nivolumab in
 advanced melanoma, Phase 2, Regeneron):
 
 ```bash
@@ -76,21 +76,17 @@ uv run preflight check file.pdf --dump-graph                               # the
 
 ## How well it works
 
-**PreflightBench** injects documented errors (18 types, from "endpoint visit removed from the SoA" to "lab threshold
-conflicts") into real ClinicalTrials.gov protocols and scores what Pre-Flight finds. The test set (7 protocols, 65 errors)
-was never used for tuning. Full numbers: [docs/RESULTS.md](docs/RESULTS.md).
+On seven held-out ClinicalTrials.gov protocols with 65 injected errors, Pre-Flight found 43% of errors at 90% precision. A bare AI prompt found 40% at 10% precision, making Pre-Flight **9× more precise** in this test. [Full methods and caveats](docs/RESULTS.md).
 
-| Configuration (test set) | Recall | Precision | F1 |
-|---|---|---|---|
-| Rules only (confidential mode) | 35% | 88% | 0.51 |
-| LLM only (one generic prompt) | 40% | 10% | 0.15 |
-| **Pre-Flight (rules + LLM + verifier)** | **43%** | **90%** | **0.58** |
+| Result | Evidence |
+|---|---|
+| **0 ungrounded AI citations shown** | The page-quote verifier rejected 60 of 446 AI findings; independent checking found no ungrounded quotes among the 386 shown. |
+| **31s and <1¢ per review** | Median 30.5 seconds and $0.0065 in provider-reported model cost, measured live across seven protocols. |
+| **25 issues resolved in one revision** | The [demo comparison](docs/DEMO_SCRIPT.md) shows a score change from 70 to 84. |
+| **91% fewer false alarms on a real amended protocol** | Rule fixes reduced approximately 23 incorrect findings to 2 across two TRUNCATE-TB versions. |
+| **4.4× eligibility signal** | Trials that later relaxed inclusion criteria had 4.44× the odds of a prior outlier flag in an exploratory check of 200 melanoma trial registry histories. |
 
-An LLM alone flags far too much; rules alone miss what needs reading comprehension. Grounded AI on top of the rules gives
-the best of both. On the dev set the full system reaches 70% recall at 95% precision; the gap to the test set is the honest
-measure of generalisation. The verifier shows **zero ungrounded AI findings**. A retrospective check on 200 melanoma
-trials' registry histories found that trials later relaxing their inclusion criteria had 4.4 times the odds of having been
-flagged as outliers beforehand (p = 0.003; exploratory, see the caveats in RESULTS).
+Confidential mode runs rules only and makes **no model calls**. The 4.4× result is a peer-outlier signal, not a measured reduction in future amendments.
 
 Reproduce:
 
@@ -101,41 +97,11 @@ uv run preflight inject --set test             # regenerates injected PDFs from 
 uv run preflight bench --set test --config full
 ```
 
-## Tested on a real, amended protocol
+## Real amended protocol
 
-The planted-error benchmark only shows detection of errors we put there. As a harder check we ran the original (v1.0, 2015)
-and amended (v2.0, 2019) protocols of **TRUNCATE-TB** (NCT03474198, a multi-arm, multi-stage tuberculosis trial) in
-confidential mode. None of the checks were tuned on it.
+We also checked the original and amended **TRUNCATE-TB** protocols (NCT03474198) without tuning on them. Fixing rule errors reduced approximately 23 incorrect findings across the two versions to 2, a **91% reduction**. Compare versions tracks changes in findings; it does not identify every text change in an amendment.
 
-- **First run: 13 major findings.** Read against the source PDFs, about 20 findings across the two versions were
-  false: section numbers such as "6.3.5 Arm F" read as "5 arms"; "2 month vs 6 month treatment" flagged although the trial
-  compares exactly those two strategies; author initials in the reference list reported as undefined abbreviations; a
-  comparison with the wrong ClinicalTrials.gov record (an NCT number taken from a reference-list link); and M11 sections
-  reported missing because older protocols use different chapter names.
-- **After fixing those rule bugs:** v1.0 has 6 major findings and v2.0 has 7; the wrong findings fell from about 23 to 2. (The overall score is not a good yardstick here: under the current formula the original code scored 84 and the fixed code 82, because "thin" sections now count in full.) Benchmark recall is unchanged
-  (test set 43%, precision 90%).
-- **What it does not do:** it does not compare the text of two versions. The real amendments (for example an eligibility change
-  from Stage 4 to Stage 3, listed in v2.0's amendment appendices) are not detected, and Compare versions diffs findings, not
-  protocol text.
-- **Still wrong on this protocol:** the document title is read from the contacts page ("Trial Statistician (Singapore)"), and
-  some M11 sections (6.1 treatment, objectives, appendices) are still reported missing.
-
-## Architecture
-
-```
-PDF / JSON ──▶ Ingest ──▶ Protocol Graph ──┬──▶ Rules engine (B1-B3, C1-C10) ──┐
-              (PyMuPDF,    (Pydantic,      ├──▶ AI review committee ──▶ Verifier ├──▶ Merge, score ──▶ Issues + Score
-               pdfplumber)  USDM-aligned)  └──▶ Burden + peers + hotspots ──────┘        │
-                                                (ClinicalTrials.gov API v2)              ▼
-                                   FastAPI (REST + SSE) ◀──▶ Next.js workspace · exports · audit trail
-```
-
-- **Backend:** Python 3.12, FastAPI, Pydantic, SQLite, PyMuPDF, pdfplumber, rapidfuzz, statsmodels, pint, python-docx.
-- **LLM:** `deepseek/deepseek-v4-flash-0731` via OpenRouter with JSON-schema output, a record/replay cache and per-call cost logging. The model extracts and reviews; it never does arithmetic or scoring.
-- **Frontend:** Next.js, TypeScript, Tailwind, react-pdf with highlight overlays.
-- **Packaging:** Docker, docker-compose, GitHub Actions (lint, tests, both containers smoke-tested), Jenkinsfile, MIT license. Deployed on Railway.
-
-Design documents: [PRD](docs/PRD.md) · [Architecture](docs/ARCHITECTURE.md) · [API contracts](docs/CONTRACTS.md) ·
+Design documents: [PRD](docs/PRD.md) · [Technical architecture](docs/ARCHITECTURE.md) · [API contracts](docs/CONTRACTS.md) ·
 [Evaluation plan](docs/EVALUATION.md) · [Results](docs/RESULTS.md) · [Build plan](docs/BUILD_PLAN.md) ·
 [Demo script](docs/DEMO_SCRIPT.md)
 
@@ -151,14 +117,9 @@ All data is public or synthetic.
 
 ## Limitations
 
-- Recall on unseen protocols is about 43%; checks were tuned on three development protocols. Errors that need deep reading (a deleted endpoint, a removed analysis) are mostly missed.
-- Flags on clean protocols have not been adjudicated by clinicians; some may be real issues, some false alarms.
-- On older, pre-M11 protocols expect false "section missing" findings, because the check matches M11 headings. On one real amended protocol the first run had about 20 false findings; the rule bugs behind them were fixed, but that is one protocol, read by us, not a clinician-labelled set.
-- The AI reviewers add advisory observations only; every error found in our benchmark came from the rule checks (the AI reads the protocol to extract the structure those checks use).
-- Burden uses assumed procedure times and costs; peer comparison depends on how complete the ClinicalTrials.gov records are.
-- Uploads other than the demo and benchmark protocols get AI review only with an API key; without one, the rule checks still run.
-- Workspaces are privacy, not security: anyone with a review link can open it, and clearing browser storage starts a new, empty workspace.
-- Not measured in this release: human reviewer baseline, clinician-rated precision on real findings, SoA cell accuracy.
+- Older protocols may predate the ICH M11 template; their different section structure can cause missing-section flags.
+- There is no sign-in. Your browser stores a workspace ID that controls which reviews appear in your list; the protocols and scores are stored on the server, and review links can be shared.
+- Burden estimates use assumed procedure times and costs. Peer comparisons depend on the completeness of ClinicalTrials.gov records.
 
 ## License
 

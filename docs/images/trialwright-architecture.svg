@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="trialwright-architecture-title trialwright-architecture-desc" id="trialwright-architecture-root">
+        <title id="trialwright-architecture-title">TrialWright architecture</title>
+        <desc id="trialwright-architecture-desc">The Next.js review workspace calls FastAPI, which stores uploaded protocols, builds a Protocol Graph, applies rules and optional AI review with ClinicalTrials.gov data, then saves findings and scores in SQLite.</desc>
+        <defs>
+      <style>@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;family=Noto+Serif:ital@0;1&amp;family=Noto+Sans+KR:wght@400;500;600&amp;family=Noto+Serif+KR:wght@400&amp;family=Noto+Sans+TC:wght@400;500;600&amp;family=Noto+Serif+TC:wght@400&amp;display=swap');
+      #trialwright-architecture-root { color: #2d3142; font-family: 'Geist', system-ui, sans-serif; }
+      #trialwright-architecture-root .diagram-container { width: 100%; overflow-x: auto; }
+      #trialwright-architecture-root .node-name { fill: #2d3142; font: 600 12px 'Geist', system-ui, sans-serif; text-anchor: middle; }
+      #trialwright-architecture-root .node-sub { fill: #4f5d75; font: 400 9px 'Geist Mono', ui-monospace, monospace; text-anchor: middle; }
+      #trialwright-architecture-root .node-tag { fill: #5a6580; font: 500 7px 'Geist Mono', ui-monospace, monospace; letter-spacing: .08em; text-anchor: middle; }
+      #trialwright-architecture-root .edge-label { fill: #5a6580; font: 400 8px 'Geist Mono', ui-monospace, monospace; letter-spacing: .06em; text-anchor: middle; }
+      #trialwright-architecture-root .legend { fill: #4f5d75; font: 500 8px 'Geist Mono', ui-monospace, monospace; letter-spacing: .12em; }
+      #trialwright-architecture-root .note { margin: 16px 0 0; color: #4f5d75; font-size: 14px; line-height: 1.5; }
+      #trialwright-architecture-root .diagram-container { overflow-x: visible; }</style>
+          <marker id="trialwright-architecture-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#4f5d75"/></marker>
+          <marker id="trialwright-architecture-arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#bf4520"/></marker>
+          <marker id="trialwright-architecture-arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#2e5aa8"/></marker>
+        </defs>
+        <rect width="1280" height="720" fill="#f5f5f5"/>
+
+        <!-- Connectors: primary path, branches, and optional review. -->
+        <line x1="244" y1="386" x2="316" y2="386" stroke="#2e5aa8" stroke-width="1.3" marker-end="url(#trialwright-architecture-arrow-link)"/>
+        <line x1="480" y1="386" x2="552" y2="386" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#trialwright-architecture-arrow)"/>
+        <line x1="716" y1="386" x2="788" y2="386" stroke="#bf4520" stroke-width="1.4" marker-end="url(#trialwright-architecture-arrow-accent)"/>
+        <line x1="952" y1="386" x2="1024" y2="386" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#trialwright-architecture-arrow)"/>
+
+        <path d="M 400,350 V 180 Q 400,172 408,172 H 552" fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#trialwright-architecture-arrow)"/>
+        <line x1="636" y1="208" x2="636" y2="350" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#trialwright-architecture-arrow)"/>
+        <path d="M 716,366 H 736 Q 744,366 744,358 V 180 Q 744,172 752,172 H 788" fill="none" stroke="#4f5d75" stroke-width="1" stroke-dasharray="5,4" marker-end="url(#trialwright-architecture-arrow)"/>
+        <line x1="868" y1="208" x2="868" y2="350" stroke="#4f5d75" stroke-width="1" stroke-dasharray="5,4" marker-end="url(#trialwright-architecture-arrow)"/>
+        <path d="M 1024,172 H 988 Q 980,172 980,180 V 272 Q 980,280 972,280 H 900 Q 892,280 892,288 V 350" fill="none" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#trialwright-architecture-arrow-link)"/>
+
+        <!-- Labels sit beside their connectors with opaque masks and an 8px gap. -->
+        <rect x="252" y="360" width="56" height="16" rx="2" fill="#f5f5f5"/><text class="edge-label" x="280" y="371">REST / SSE</text>
+        <rect x="488" y="360" width="56" height="16" rx="2" fill="#f5f5f5"/><text class="edge-label" x="516" y="371">START RUN</text>
+        <rect x="728" y="360" width="48" height="16" rx="2" fill="#f5f5f5"/><text class="edge-label" x="752" y="371">GRAPH</text>
+        <rect x="970" y="360" width="36" height="16" rx="2" fill="#f5f5f5"/><text class="edge-label" x="988" y="371">SAVE</text>
+        <rect x="412" y="250" width="48" height="16" rx="2" fill="#f5f5f5"/><text class="edge-label" x="436" y="261">UPLOAD</text>
+        <rect x="648" y="294" width="68" height="16" rx="2" fill="#f5f5f5"/><text class="edge-label" x="682" y="305">PDF / JSON</text>
+        <rect x="664" y="246" width="68" height="16" rx="2" fill="#f5f5f5"/><text class="edge-label" x="698" y="257">FULL MODE</text>
+        <rect x="880" y="230" width="48" height="16" rx="2" fill="#f5f5f5"/><text class="edge-label" x="904" y="241">VERIFY</text>
+        <rect x="992" y="238" width="48" height="16" rx="2" fill="#f5f5f5"/><text class="edge-label" x="1016" y="249">PEERS</text>
+
+        <!-- Nodes are painted after connectors and label masks. -->
+        <g>
+          <rect x="80" y="350" width="164" height="72" rx="6" fill="#f5f5f5"/>
+          <rect x="80" y="350" width="164" height="72" rx="6" fill="#4f5d75" fill-opacity=".10" stroke="#5a6580"/>
+          <rect x="88" y="356" width="52" height="12" rx="2" fill="none" stroke="#5a6580" stroke-opacity=".4"/><text class="node-tag" x="114" y="365">FRONTEND</text>
+          <text class="node-name" x="162" y="390">Review workspace</text><text class="node-sub" x="162" y="406">Next.js · issues + PDF</text>
+        </g>
+        <g>
+          <rect x="316" y="350" width="164" height="72" rx="6" fill="#f5f5f5"/>
+          <rect x="316" y="350" width="164" height="72" rx="6" fill="#fff" stroke="#2d3142"/>
+          <rect x="324" y="356" width="32" height="12" rx="2" fill="none" stroke="#2d3142" stroke-opacity=".4"/><text class="node-tag" x="340" y="365">API</text>
+          <text class="node-name" x="398" y="390">FastAPI</text><text class="node-sub" x="398" y="406">REST · SSE progress</text>
+        </g>
+        <g>
+          <rect x="552" y="136" width="164" height="72" rx="6" fill="#f5f5f5"/>
+          <rect x="552" y="136" width="164" height="72" rx="6" fill="#2d3142" fill-opacity=".05" stroke="#4f5d75"/>
+          <rect x="560" y="142" width="36" height="12" rx="2" fill="none" stroke="#4f5d75" stroke-opacity=".4"/><text class="node-tag" x="578" y="151">FILES</text>
+          <text class="node-name" x="634" y="176">Protocol files</text><text class="node-sub" x="634" y="192">PDF / graph JSON</text>
+        </g>
+        <g>
+          <rect x="552" y="350" width="164" height="72" rx="6" fill="#f5f5f5"/>
+          <rect x="552" y="350" width="164" height="72" rx="6" fill="#fff" stroke="#2d3142"/>
+          <rect x="560" y="356" width="44" height="12" rx="2" fill="none" stroke="#2d3142" stroke-opacity=".4"/><text class="node-tag" x="582" y="365">INGEST</text>
+          <text class="node-name" x="634" y="390">Protocol Graph</text><text class="node-sub" x="634" y="406">sections · SoA · entities</text>
+        </g>
+        <g>
+          <rect x="788" y="136" width="164" height="72" rx="6" fill="#f5f5f5"/>
+          <rect x="788" y="136" width="164" height="72" rx="6" fill="#2d3142" fill-opacity=".02" stroke="#2d3142" stroke-opacity=".3" stroke-dasharray="4,3"/>
+          <rect x="796" y="142" width="28" height="12" rx="2" fill="none" stroke="#5a6580" stroke-opacity=".4"/><text class="node-tag" x="810" y="151">AI</text>
+          <text class="node-name" x="870" y="176">Review committee</text><text class="node-sub" x="870" y="192">4 roles · quote checks</text>
+        </g>
+        <g>
+          <rect x="788" y="350" width="164" height="72" rx="6" fill="#f5f5f5"/>
+          <rect x="788" y="350" width="164" height="72" rx="6" fill="#bf4520" fill-opacity=".08" stroke="#bf4520"/>
+          <rect x="796" y="356" width="44" height="12" rx="2" fill="none" stroke="#bf4520" stroke-opacity=".45"/><text class="node-tag" x="818" y="365">REVIEW</text>
+          <text class="node-name" x="870" y="390">Checks &amp; score</text><text class="node-sub" x="870" y="406">rules · burden · findings</text>
+        </g>
+        <g>
+          <rect x="1024" y="136" width="164" height="72" rx="6" fill="#f5f5f5"/>
+          <rect x="1024" y="136" width="164" height="72" rx="6" fill="#2d3142" fill-opacity=".03" stroke="#2d3142" stroke-opacity=".3"/>
+          <rect x="1032" y="142" width="60" height="12" rx="2" fill="none" stroke="#5a6580" stroke-opacity=".4"/><text class="node-tag" x="1062" y="151">REGISTRY</text>
+          <text class="node-name" x="1106" y="176">ClinicalTrials.gov</text><text class="node-sub" x="1106" y="192">records · peer trials</text>
+        </g>
+        <g>
+          <rect x="1024" y="350" width="164" height="72" rx="6" fill="#f5f5f5"/>
+          <rect x="1024" y="350" width="164" height="72" rx="6" fill="#2d3142" fill-opacity=".05" stroke="#4f5d75"/>
+          <rect x="1032" y="356" width="32" height="12" rx="2" fill="none" stroke="#4f5d75" stroke-opacity=".4"/><text class="node-tag" x="1048" y="365">DATA</text>
+          <text class="node-name" x="1106" y="390">SQLite results</text><text class="node-sub" x="1106" y="406">runs · issues · audit</text>
+        </g>
+
+        <line x1="40" y1="604" x2="1240" y2="604" stroke="#2d3142" stroke-opacity=".12"/>
+        <text class="legend" x="40" y="628">LEGEND</text>
+        <line x1="148" y1="624" x2="176" y2="624" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#trialwright-architecture-arrow)"/><text class="legend" x="188" y="628">INTERNAL FLOW</text>
+        <line x1="364" y1="624" x2="392" y2="624" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#trialwright-architecture-arrow-link)"/><text class="legend" x="404" y="628">API / EXTERNAL</text>
+        <line x1="588" y1="624" x2="616" y2="624" stroke="#4f5d75" stroke-width="1" stroke-dasharray="5,4" marker-end="url(#trialwright-architecture-arrow)"/><text class="legend" x="628" y="628">OPTIONAL AI</text>
+        <rect x="784" y="616" width="20" height="16" rx="3" fill="#bf4520" fill-opacity=".08" stroke="#bf4520"/><text class="legend" x="816" y="628">SCORING CENTER</text>
+      </svg>

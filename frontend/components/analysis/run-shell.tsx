@@ -42,7 +42,7 @@ export function RunShell({
         {notFound ? (
           <div className="rounded-lg border bg-card">
             <EmptyState icon={FileQuestion} title={`Run ${runId} was not found`}>
-              <Link href="/" className="font-medium text-primary hover:underline">Back to protocols</Link>
+              <Link href="/protocol" className="font-medium text-primary hover:underline">Back to protocols</Link>
             </EmptyState>
           </div>
         ) : (
@@ -57,7 +57,7 @@ export function RunShell({
     <div className="flex flex-col">
       <div className="border-b bg-card px-4 py-3">
         <nav aria-label="Breadcrumb" className="flex items-center gap-1 text-xs text-muted-foreground">
-          <Link href="/" className="hover:text-foreground hover:underline">Protocols</Link>
+          <Link href="/protocol" className="hover:text-foreground hover:underline">Protocols</Link>
           <ChevronRight className="size-3" aria-hidden />
           <span className="font-mono">{protocol?.nct_id ?? run.data.protocol_id}</span>
         </nav>

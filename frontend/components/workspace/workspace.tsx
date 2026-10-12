@@ -47,7 +47,7 @@ export function Workspace({ runId }: { runId: string }) {
         {notFound ? (
           <div className="rounded-lg border bg-card">
             <EmptyState icon={FileQuestion} title={`Run ${runId} was not found`}>
-              <Link href="/" className="font-medium text-primary hover:underline">
+              <Link href="/protocol" className="font-medium text-primary hover:underline">
                 Back to protocols
               </Link>
             </EmptyState>
@@ -241,7 +241,7 @@ function WorkspaceHeader({ run, protocol }: { run: Run; protocol: ProtocolListIt
     <div className="flex shrink-0 flex-col gap-3 border-b bg-card px-4 py-3 xl:flex-row xl:items-center xl:gap-6">
       <div className="min-w-0 flex-1">
         <nav aria-label="Breadcrumb" className="flex items-center gap-1 text-xs text-muted-foreground">
-          <Link href="/" className="rounded-sm transition-colors hover:text-foreground hover:underline">
+          <Link href="/protocol" className="rounded-sm transition-colors hover:text-foreground hover:underline">
             Protocols
           </Link>
           <ChevronRight className="size-3" aria-hidden />
@@ -324,7 +324,7 @@ function FailedRun({ run, protocol }: { run: Run; protocol: ProtocolListItem | u
           </p>
           <p className="mt-2">No score or issues were produced. Upload the protocol again to start a new review.</p>
           <Button asChild variant="outline" size="sm" className="mt-3">
-            <Link href="/">Back to protocols</Link>
+            <Link href="/protocol">Back to protocols</Link>
           </Button>
         </EmptyState>
       </div>
