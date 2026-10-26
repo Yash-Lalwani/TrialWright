@@ -57,3 +57,4 @@ Thumbs.db
 # --- Local tool output ---
 .archify/
 .impeccable/
+brag-output/
