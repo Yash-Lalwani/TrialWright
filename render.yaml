@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: trialwright-backend
+    runtime: docker
+    plan: free
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    envVars:
+      - key: LLM_MODE
+        value: replay
+      # Set to the deployed Vercel URL in the Render dashboard.
+      - key: CORS_ORIGINS
+        sync: false
+      # Only needed if LLM_MODE is switched to live.
+      - key: OPENROUTER_API_KEY
+        sync: false
