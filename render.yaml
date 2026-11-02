@@ -10,7 +10,7 @@ services:
       - key: LLM_MODE
         value: replay
       - key: CORS_ORIGINS
-        value: https://trialwright-frontend.vercel.app
+        value: https://trialwright-frontend.vercel.app,https://trialwright.tech,https://www.trialwright.tech
       # Only needed if LLM_MODE is switched to live.
       - key: OPENROUTER_API_KEY
         sync: false
