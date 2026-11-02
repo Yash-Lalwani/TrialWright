@@ -9,9 +9,8 @@ services:
     envVars:
       - key: LLM_MODE
         value: replay
-      # Set to the deployed Vercel URL in the Render dashboard.
       - key: CORS_ORIGINS
-        sync: false
+        value: https://trialwright-frontend.vercel.app
       # Only needed if LLM_MODE is switched to live.
       - key: OPENROUTER_API_KEY
         sync: false
